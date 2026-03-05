@@ -20,11 +20,17 @@ export async function POST(req: NextRequest) {
     })
 
     const data = await res.json()
-    const reply = data.content?.[0]?.text || 'Something went wrong, try again.'
+    console.log('Anthropic response status:', res.status)
+    console.log('Anthropic response:', JSON.stringify(data))
 
+    if (!res.ok) {
+      return NextResponse.json({ reply: 'API error: ' + (data.error?.message || res.status) }, { status: 500 })
+    }
+
+    const reply = data.content?.[0]?.text || 'No response from AI.'
     return NextResponse.json({ reply })
   } catch (error) {
     console.error('AI bio error:', error)
-    return NextResponse.json({ reply: 'Something went wrong. Try again.' }, { status: 500 })
+    return NextResponse.json({ reply: 'Server error: ' + String(error) }, { status: 500 })
   }
 }
