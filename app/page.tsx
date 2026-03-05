@@ -714,6 +714,8 @@ export default function Home() {
   const [aiInput, setAiInput] = useState('')
   const [aiLoading, setAiLoading] = useState(false)
   const [aiMessages, setAiMessages] = useState<{role: string, content: string}[]>([])
+  const [bioStep, setBioStep] = useState(0)
+  const [bioAnswers, setBioAnswers] = useState<Record<string, string>>({})
 
   // Language
   const [lang, setLang] = useState('en')
@@ -801,36 +803,57 @@ export default function Home() {
     setTimeout(() => setProfileSaved(false), 3000)
   }
 
+  const bioQuestions = [
+    { key: 'name', q: lang === 'no' ? 'Hva heter du? (Fullt navn)' : lang === 'sv' ? 'Vad heter du? (Fullständigt namn)' : lang === 'es' ? '¿Cómo te llamas? (Nombre completo)' : lang === 'ru' ? 'Как вас зовут? (Полное имя)' : lang === 'ar' ? 'ما اسمك؟ (الاسم الكامل)' : lang === 'tl' ? 'Ano ang pangalan mo? (Buong pangalan)' : 'What is your name? (Full name)' },
+    { key: 'origin', q: lang === 'no' ? 'Hvor er du fra? (By/land)' : lang === 'sv' ? 'Var kommer du ifrån? (Stad/land)' : lang === 'es' ? '¿De dónde eres? (Ciudad/país)' : lang === 'ru' ? 'Откуда вы? (Город/страна)' : lang === 'ar' ? 'من أين أنت؟ (المدينة/البلد)' : lang === 'tl' ? 'Saan ka galing? (Lungsod/bansa)' : 'Where are you from? (City/country)' },
+    { key: 'background', q: lang === 'no' ? 'Hva er din bakgrunn? (Yrke, erfaring, utdanning)' : lang === 'sv' ? 'Vad är din bakgrund? (Yrke, erfarenhet)' : lang === 'es' ? '¿Cuál es tu experiencia? (Profesión, experiencia)' : lang === 'ru' ? 'Какой у вас опыт? (Профессия, опыт)' : lang === 'ar' ? 'ما خلفيتك؟ (المهنة، الخبرة)' : lang === 'tl' ? 'Ano ang background mo? (Trabaho, karanasan)' : 'What is your background? (Profession, experience)' },
+    { key: 'why', q: lang === 'no' ? 'Hvorfor ble du med i 1Move Academy? Hva motiverer deg?' : lang === 'sv' ? 'Varför gick du med i 1Move Academy? Vad motiverar dig?' : lang === 'es' ? '¿Por qué te uniste a 1Move Academy? ¿Qué te motiva?' : lang === 'ru' ? 'Почему вы присоединились к 1Move Academy? Что вас мотивирует?' : lang === 'ar' ? 'لماذا انضممت إلى 1Move Academy؟ ما الذي يحفزك؟' : lang === 'tl' ? 'Bakit ka sumali sa 1Move Academy? Ano ang motivation mo?' : 'Why did you join 1Move Academy? What motivates you?' },
+    { key: 'promise', q: lang === 'no' ? 'Hva kan dine members forvente av deg?' : lang === 'sv' ? 'Vad kan dina members förvänta sig av dig?' : lang === 'es' ? '¿Qué pueden esperar tus miembros de ti?' : lang === 'ru' ? 'Что могут ожидать от вас ваши участники?' : lang === 'ar' ? 'ماذا يمكن لأعضائك توقعه منك؟' : lang === 'tl' ? 'Ano ang maaasahan ng iyong members sa iyo?' : 'What can your members expect from you?' },
+  ]
+
+  const generateBio = (answers: Record<string, string>): string => {
+    const { name, origin, background, why, promise } = answers
+    const bios = [
+      `${name} fra ${origin} er en dedikert 1Move Academy-representant med bakgrunn innen ${background}. ${why} Med lidenskap og erfaring er målet klart: ${promise} Bli med på reisen mot finansiell frihet — med ${name.split(' ')[0]} som din guide.`,
+      `Møt ${name}, din personlige partner fra ${origin} i 1Move Academy. Med erfaring fra ${background}, brenner ${name.split(' ')[0]} for å gjøre en forskjell. ${why} Som din representant lover ${name.split(' ')[0]} én ting: ${promise}`,
+      `${name} fra ${origin} har funnet sin lidenskap gjennom 1Move Academy. Med bakgrunn innen ${background} og en sterk motivasjon — ${why.toLowerCase()} — er ${name.split(' ')[0]} klar til å hjelpe deg. ${promise}`,
+    ]
+    return bios[Math.floor(Math.random() * bios.length)]
+  }
+
   const startAI = () => {
     setShowAI(true)
-    if (aiMessages.length === 0) {
-      setAiMessages([{ role: 'assistant', content: t.aiGreeting }])
-    }
+    setBioStep(0)
+    setBioAnswers({})
+    setAiMessages([{ role: 'assistant', content: lang === 'no' ? 'Hei! Jeg hjelper deg med å lage en profesjonell bio. La oss starte!' : lang === 'sv' ? 'Hej! Jag hjälper dig skapa en professionell bio. Låt oss börja!' : lang === 'es' ? '¡Hola! Te ayudo a crear una bio profesional. ¡Empecemos!' : lang === 'ru' ? 'Привет! Помогу вам создать профессиональную биографию. Начнём!' : lang === 'ar' ? 'مرحباً! سأساعدك في إنشاء نبذة احترافية. لنبدأ!' : lang === 'tl' ? 'Hi! Tutulungan kita gumawa ng professional bio. Magsimula tayo!' : 'Hi! I\'ll help you create a professional bio. Let\'s get started!' }, { role: 'assistant', content: bioQuestions[0].q }])
   }
 
   const askAI = async () => {
     if (!aiInput.trim()) return
     const userMsg = aiInput.trim()
     setAiInput('')
-    setAiLoading(true)
+
+    const currentKey = bioQuestions[bioStep]?.key
+    const newAnswers = { ...bioAnswers, [currentKey]: userMsg }
+    setBioAnswers(newAnswers)
+
     const newMessages = [...aiMessages, { role: 'user', content: userMsg }]
-    setAiMessages(newMessages)
-    try {
-      const res = await fetch('/api/ai-bio', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages.map(m => ({ role: m.role, content: m.content })) })
-      })
-      const data = await res.json()
-      const reply = data.reply || 'Something went wrong, try again.'
-      const updated = [...newMessages, { role: 'assistant', content: reply }]
-      setAiMessages(updated)
-      const match = reply.match(/Here is your bio:\s*"([\s\S]+?)"/)
-      if (match) setProfileBio(match[1].trim())
-    } catch {
-      setAiMessages([...newMessages, { role: 'assistant', content: 'Something went wrong. Try again.' }])
+    const nextStep = bioStep + 1
+
+    if (nextStep < bioQuestions.length) {
+      setBioStep(nextStep)
+      setAiMessages([...newMessages, { role: 'assistant', content: bioQuestions[nextStep].q }])
+    } else {
+      setAiLoading(true)
+      setBioStep(nextStep)
+      // Small delay to feel natural
+      await new Promise(r => setTimeout(r, 800))
+      const bio = generateBio(newAnswers)
+      setProfileBio(bio)
+      const doneMsg = lang === 'no' ? '✓ Her er din bio! Den er satt inn i bio-feltet. Du kan redigere den fritt før du lagrer.' : lang === 'sv' ? '✓ Här är din bio! Den är insatt i bio-fältet. Du kan redigera den fritt.' : lang === 'es' ? '✓ ¡Aquí está tu bio! Se ha insertado en el campo. Puedes editarla libremente.' : lang === 'ru' ? '✓ Вот ваша биография! Она вставлена в поле. Можете отредактировать.' : lang === 'ar' ? '✓ ها هي نبذتك! تم إدراجها في الحقل. يمكنك تعديلها بحرية.' : lang === 'tl' ? '✓ Heto ang bio mo! Nailagay na sa field. Pwede mo i-edit.' : '✓ Here is your bio! It\'s been inserted into the bio field. Feel free to edit it before saving.'
+      setAiMessages([...newMessages, { role: 'assistant', content: `${doneMsg}\n\n"${bio}"` }])
+      setAiLoading(false)
     }
-    setAiLoading(false)
   }
 
   const handleLogout = async () => {
@@ -1041,7 +1064,7 @@ export default function Home() {
                 <div className="ai-panel">
                   <div className="ai-header">
                     <span className="sparkle">✦</span> {t.aiTitle}
-                    <span className="powered">{t.aiPowered}</span>
+                    <span className="powered">Smart Bio Generator</span>
                   </div>
                   <div className="ai-messages">
                     {aiMessages.map((msg, i) => (
@@ -1060,7 +1083,7 @@ export default function Home() {
                 <div className="ai-placeholder">
                   <div className="sparkle-big">✦</div>
                   <h3>{t.aiTitle}</h3>
-                  <p>{t.aiDescription}</p>
+                  <p>{lang === 'no' ? 'Svar på 5 enkle spørsmål, og vi lager en profesjonell bio for deg.' : lang === 'sv' ? 'Svara på 5 enkla frågor, så skapar vi en professionell bio åt dig.' : lang === 'es' ? 'Responde 5 preguntas simples y crearemos una bio profesional para ti.' : 'Answer 5 simple questions and we\'ll create a professional bio for you.'}</p>
                   <button onClick={startAI} className="gold-btn">{t.startAi}</button>
                 </div>
               )}
