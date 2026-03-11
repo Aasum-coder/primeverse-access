@@ -134,11 +134,20 @@ export default function FactoryPage() {
         setDirection(existing.direction || '')
         setBio(existing.bio || '')
         setProfileImage(existing.profile_image || '')
+        // Patch missing slug if needed
+        if (!existing.slug) {
+          const autoSlug = authEmail.split('@')[0].toLowerCase()
+          await supabase
+            .from('distributors')
+            .update({ slug: autoSlug })
+            .eq('id', existing.id)
+        }
       } else {
         // Fallback: hvis en rad ikke finnes av en eller annen grunn
+        const autoSlug = authEmail.split('@')[0].toLowerCase()
         const { data: created } = await supabase
           .from('distributors')
-          .insert({ name: authEmail.split('@')[0], email: authEmail })
+          .insert({ name: authEmail.split('@')[0], email: authEmail, slug: autoSlug })
           .select()
           .single()
 
