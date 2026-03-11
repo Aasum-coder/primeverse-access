@@ -341,10 +341,18 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const t = T[lang]
   const isRtl = lang === 'ar'
 
+  const [dbError, setDbError] = useState<string | null>(null)
+
   useEffect(() => {
     const fetchDistributor = async () => {
       const { data, error } = await supabase.from('distributors').select('*').eq('slug', slug).single()
-      if (error || !data) { setNotFound(true); setLoading(false); return }
+      if (error || !data) {
+        console.error('[slug page] Supabase error:', error)
+        setDbError(error?.message || 'No data returned')
+        setNotFound(true)
+        setLoading(false)
+        return
+      }
       setDistributor(data)
       setLoading(false)
     }
@@ -397,7 +405,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   }
 
   if (loading) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#c9a84c', fontFamily: 'serif', fontSize: '1.2rem', letterSpacing: '0.2em' }}>Loading…</div></div>
-  if (notFound) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#7a7a72', textAlign: 'center' }}><div style={{ color: '#c9a84c', fontSize: '2rem', marginBottom: '1rem' }}>✦</div><p>Page not found.</p></div></div>
+  if (notFound) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#7a7a72', textAlign: 'center' }}><div style={{ color: '#c9a84c', fontSize: '2rem', marginBottom: '1rem' }}>✦</div><p>Page not found.</p>{dbError && <p style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: '#555', maxWidth: 300 }}>Debug: {dbError}</p>}</div></div>
 
   const dist = distributor
 
