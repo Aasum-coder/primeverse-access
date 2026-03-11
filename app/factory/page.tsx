@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 
@@ -287,6 +287,8 @@ export default function FactoryPage() {
   const [direction, setDirection] = useState('')
   const [bio, setBio] = useState('')
   const [profileImage, setProfileImage] = useState('')
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const init = async () => {
@@ -343,6 +345,19 @@ export default function FactoryPage() {
     () => buildClaudePrompt({ name, email, referralLink, bio, direction, profileImage }),
     [name, email, referralLink, bio, direction, profileImage]
   )
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !distributor?.id) return
+    setUploadingImage(true)
+    const ext = file.name.split('.').pop()
+    const path = `${distributor.id}.${ext}`
+    const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
+    if (uploadError) { alert('Feil ved opplasting: ' + uploadError.message); setUploadingImage(false); return }
+    const { data } = supabase.storage.from('avatars').getPublicUrl(path)
+    setProfileImage(data.publicUrl)
+    setUploadingImage(false)
+  }
 
   const saveProfile = async () => {
     if (!distributor?.id) return
@@ -466,23 +481,41 @@ export default function FactoryPage() {
           </div>
 
           <div style={{ ...S.fieldGroup, marginTop: 16 }}>
-            <label htmlFor="factory-profile-image" style={S.label}>Profilbilde-URL</label>
-            <input
-              id="factory-profile-image"
-              type="url"
-              style={S.input}
-              value={profileImage}
-              onChange={(e) => setProfileImage(e.target.value)}
-              placeholder="https://..."
-            />
-            {profileImage && (
-              <img
-                src={profileImage}
-                alt="Forhåndsvisning av profilbilde"
-                style={S.imagePreview}
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+            <label style={S.label}>Profilbilde</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 6 }}>
+              {profileImage ? (
+                <img
+                  src={profileImage}
+                  alt="Forhåndsvisning av profilbilde"
+                  style={S.imagePreview}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+              ) : (
+                <div style={{ ...S.imagePreview, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1a1a1a', fontSize: 24 }}>
+                  📷
+                </div>
+              )}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingImage}
+                  style={{ ...S.btnSecondary, opacity: uploadingImage ? 0.6 : 1 }}
+                >
+                  {uploadingImage ? 'Laster opp...' : profileImage ? 'Bytt bilde' : 'Last opp bilde'}
+                </button>
+                <p style={S.hint}>JPG, PNG eller WebP · Maks 5MB</p>
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={handleImageUpload}
+                style={{ display: 'none' }}
+                aria-hidden="true"
+                tabIndex={-1}
               />
-            )}
+            </div>
           </div>
 
           <div style={{ ...S.fieldGroup, marginTop: 16 }}>
