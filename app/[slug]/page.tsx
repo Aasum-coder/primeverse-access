@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, use } from 'react'
+import { useEffect, useState, use, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -335,6 +335,8 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const [submitting, setSubmitting] = useState(false)
   const [lang, setLang] = useState<LangKey>('en')
   const [langOpen, setLangOpen] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   const t = T[lang]
   const isRtl = lang === 'ar'
@@ -348,6 +350,35 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
     }
     fetchDistributor()
   }, [slug])
+
+  // Focus the close button when modal opens; restore focus on close
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (modalOpen) {
+      closeButtonRef.current?.focus()
+    }
+  }, [modalOpen])
+
+  // Trap focus inside modal when open
+  useEffect(() => {
+    if (!modalOpen) return
+    const modal = modalRef.current
+    if (!modal) return
+    const focusable = modal.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    const trap = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus() } }
+        else { if (document.activeElement === last) { e.preventDefault(); first.focus() } }
+      }
+      if (e.key === 'Escape') { setModalOpen(false); setStep('register') }
+    }
+    modal.addEventListener('keydown', trap)
+    return () => modal.removeEventListener('keydown', trap)
+  }, [modalOpen])
 
   const handleGetAccess = (e: React.FormEvent) => {
     e.preventDefault()
@@ -476,21 +507,29 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .ftr-divider{height:1px;background:var(--border);margin:1.8rem 0}
         .ftr-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-size:.73rem;color:#3e3e3e}
         @media(max-width:720px){nav{padding:0 1.2rem}.about-grid{grid-template-columns:1fr;gap:2rem}.ftr-grid{grid-template-columns:1fr}.modal,.fcard{padding:1.8rem 1.4rem}}
+        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+        .btn-gold:focus-visible,.btn-nav:focus-visible,.fsubmit:focus-visible,.lang-btn:focus-visible,.lang-drop button:focus-visible,.mclose:focus-visible,.fi:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
       `}</style>
 
       {/* NAV */}
-      <nav dir={isRtl ? 'rtl' : 'ltr'}>
-        <span className="nav-brand-text">1Move <em>×</em> PrimeVerse</span>
+      <nav dir={isRtl ? 'rtl' : 'ltr'} aria-label="Main navigation">
+        <span className="nav-brand-text" aria-label="1Move × PrimeVerse">1Move <em aria-hidden="true">×</em> PrimeVerse</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button className="btn-nav" onClick={() => setModalOpen(true)}>{t.nav_cta}</button>
+          <button ref={triggerRef} className="btn-nav" onClick={() => setModalOpen(true)}>{t.nav_cta}</button>
           <div className="lang-wrap">
-            <button className="lang-btn" onClick={() => setLangOpen(!langOpen)}>
-              <span className="flag-badge">{LANGS[lang].flag}</span> {LANGS[lang].label} <span style={{ opacity: 0.5, fontSize: '0.65rem' }}>▼</span>
+            <button
+              className="lang-btn"
+              onClick={() => setLangOpen(!langOpen)}
+              aria-label={`Select language, current: ${LANGS[lang].label}`}
+              aria-expanded={langOpen}
+              aria-haspopup="listbox"
+            >
+              <span className="flag-badge" aria-hidden="true">{LANGS[lang].flag}</span> {LANGS[lang].label} <span style={{ opacity: 0.5, fontSize: '0.65rem' }} aria-hidden="true">▼</span>
             </button>
-            <div className={`lang-drop${langOpen ? ' open' : ''}`}>
+            <div className={`lang-drop${langOpen ? ' open' : ''}`} role="listbox" aria-label="Select language">
               {(Object.keys(LANGS) as LangKey[]).map(k => (
-                <button key={k} className={lang === k ? 'active' : ''} onClick={() => { setLang(k); setLangOpen(false) }}>
-                  <span className="flag-badge">{LANGS[k].flag}</span> {LANGS[k].label}
+                <button key={k} role="option" aria-selected={lang === k} className={lang === k ? 'active' : ''} onClick={() => { setLang(k); setLangOpen(false) }}>
+                  <span className="flag-badge" aria-hidden="true">{LANGS[k].flag}</span> {LANGS[k].label}
                 </button>
               ))}
             </div>
@@ -499,7 +538,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
       </nav>
 
       {/* HERO */}
-      <section className="hero" id="top" dir={isRtl ? 'rtl' : 'ltr'}>
+      <section className="hero" id="main-content" dir={isRtl ? 'rtl' : 'ltr'}>
         <div className="hero-bg" />
         <div className="hero-line" />
         <p className="hero-tag">{t.hero_tag}</p>
@@ -590,16 +629,16 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
           <p className="sec-p" style={{ marginBottom: '2.4rem' }}>{t.uid_p}</p>
           <div className="fcard">
             {submitted ? (
-              <div className="smsg">✦ &nbsp;{t.uid_success} {dist.name} {t.uid_success2}</div>
+              <div className="smsg" role="status" aria-live="polite"><span aria-hidden="true">✦ &nbsp;</span>{t.uid_success} {dist.name} {t.uid_success2}</div>
             ) : (
               <>
-                <div className="fh">{t.uid_card_h}</div>
+                <h3 className="fh">{t.uid_card_h}</h3>
                 <p className="fsub">{t.uid_card_p}</p>
-                <form onSubmit={handleUidSubmit}>
-                  <div className="fg"><label className="fl">{t.f_name}</label><input className="fi" type="text" placeholder={t.f_name_ph} required value={uidForm.name} onChange={e => setUidForm({ ...uidForm, name: e.target.value })} /></div>
-                  <div className="fg"><label className="fl">{t.f_email}</label><input className="fi" type="email" placeholder={t.f_email_ph} required value={uidForm.email} onChange={e => setUidForm({ ...uidForm, email: e.target.value })} /></div>
-                  <div className="fg"><label className="fl">{t.f_uid}</label><input className="fi" type="text" placeholder={t.f_uid_ph} required value={uidForm.uid} onChange={e => setUidForm({ ...uidForm, uid: e.target.value })} /></div>
-                  <button className="fsubmit" type="submit" disabled={submitting}>{submitting ? '…' : t.uid_btn}</button>
+                <form onSubmit={handleUidSubmit} noValidate>
+                  <div className="fg"><label className="fl" htmlFor="uid-name">{t.f_name}</label><input id="uid-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={uidForm.name} onChange={e => setUidForm({ ...uidForm, name: e.target.value })} /></div>
+                  <div className="fg"><label className="fl" htmlFor="uid-email">{t.f_email}</label><input id="uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => setUidForm({ ...uidForm, email: e.target.value })} /></div>
+                  <div className="fg"><label className="fl" htmlFor="uid-uid">{t.f_uid}</label><input id="uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => setUidForm({ ...uidForm, uid: e.target.value })} /></div>
+                  <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting}>{submitting ? '…' : t.uid_btn}</button>
                 </form>
               </>
             )}
@@ -636,26 +675,44 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
       </footer>
 
       {/* MODAL */}
-      <div className={`moverlay${modalOpen ? ' open' : ''}`} onClick={e => { if (e.target === e.currentTarget) { setModalOpen(false); setStep('register') } }} dir={isRtl ? 'rtl' : 'ltr'}>
-        <div className="modal">
-          <button className="mclose" onClick={() => { setModalOpen(false); setStep('register') }}>✕</button>
-          <div style={{ display: 'flex', gap: '.6rem', marginBottom: '1.8rem', flexWrap: 'wrap' }}>
-            <span className={`step-tab${step === 'register' ? ' active' : ' done'}`}>{t.tab1}</span>
-            <span className={`step-tab${step === 'broker' ? ' active' : step === 'uid' ? ' done' : ''}`}>{t.tab2}</span>
-            <span className={`step-tab${step === 'uid' ? ' active' : ''}`}>{t.tab3}</span>
+      <div
+        className={`moverlay${modalOpen ? ' open' : ''}`}
+        onClick={e => { if (e.target === e.currentTarget) { setModalOpen(false); setStep('register'); triggerRef.current?.focus() } }}
+        dir={isRtl ? 'rtl' : 'ltr'}
+        aria-hidden={!modalOpen}
+      >
+        <div
+          ref={modalRef}
+          className="modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <button
+            ref={closeButtonRef}
+            className="mclose"
+            onClick={() => { setModalOpen(false); setStep('register'); triggerRef.current?.focus() }}
+            aria-label="Close dialog"
+          >
+            <span aria-hidden="true">✕</span>
+          </button>
+          <div style={{ display: 'flex', gap: '.6rem', marginBottom: '1.8rem', flexWrap: 'wrap' }} role="list" aria-label="Steps">
+            <span role="listitem" className={`step-tab${step === 'register' ? ' active' : ' done'}`} aria-current={step === 'register' ? 'step' : undefined}>{t.tab1}</span>
+            <span role="listitem" className={`step-tab${step === 'broker' ? ' active' : step === 'uid' ? ' done' : ''}`} aria-current={step === 'broker' ? 'step' : undefined}>{t.tab2}</span>
+            <span role="listitem" className={`step-tab${step === 'uid' ? ' active' : ''}`} aria-current={step === 'uid' ? 'step' : undefined}>{t.tab3}</span>
           </div>
 
           {step === 'register' && (
             <>
-              <div className="fh">{t.modal_h}</div>
+              <h2 id="modal-title" className="fh">{t.modal_h}</h2>
               <p className="fsub">{t.modal_p}</p>
-              <form onSubmit={handleGetAccess}>
-                <div className="fg"><label className="fl">{t.f_name}</label><input className="fi" type="text" placeholder={t.f_name_ph} required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
-                <div className="fg"><label className="fl">{t.f_email}</label><input className="fi" type="email" placeholder={t.f_email_ph} required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></div>
+              <form onSubmit={handleGetAccess} noValidate>
+                <div className="fg"><label className="fl" htmlFor="modal-name">{t.f_name}</label><input id="modal-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
+                <div className="fg"><label className="fl" htmlFor="modal-email">{t.f_email}</label><input id="modal-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></div>
                 <div style={{ margin: '1.4rem 0 1rem' }}>
-                  <div className="fcheck"><input type="checkbox" id="chk1" required /><label htmlFor="chk1">{t.chk1}</label></div>
-                  <div className="fcheck"><input type="checkbox" id="chk2" required /><label htmlFor="chk2">{t.chk2}</label></div>
-                  <div className="fcheck"><input type="checkbox" id="chk3" required /><label htmlFor="chk3">{t.chk3}</label></div>
+                  <div className="fcheck"><input type="checkbox" id="chk1" required aria-required="true" /><label htmlFor="chk1">{t.chk1}</label></div>
+                  <div className="fcheck"><input type="checkbox" id="chk2" required aria-required="true" /><label htmlFor="chk2">{t.chk2}</label></div>
+                  <div className="fcheck"><input type="checkbox" id="chk3" required aria-required="true" /><label htmlFor="chk3">{t.chk3}</label></div>
                 </div>
                 <button className="fsubmit" type="submit">{t.modal_btn}</button>
               </form>
@@ -664,26 +721,26 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
 
           {step === 'broker' && (
             <div style={{ textAlign: 'center' }}>
-              <div style={{ color: 'var(--gold)', fontSize: '2.5rem', marginBottom: '1rem' }}>✦</div>
-              <div className="fh">{t.broker_h}</div>
+              <div style={{ color: 'var(--gold)', fontSize: '2.5rem', marginBottom: '1rem' }} aria-hidden="true">✦</div>
+              <h2 id="modal-title" className="fh">{t.broker_h}</h2>
               <p className="fsub" style={{ marginTop: '.5rem' }}>{t.broker_p}</p>
               <button className="btn-gold" style={{ marginTop: '1.5rem' }} onClick={() => setStep('uid')}>{t.broker_btn}</button>
-              <p style={{ marginTop: '1rem', fontSize: '.78rem', color: 'var(--grey)' }}>{t.broker_fallback} <a href="https://puvip.co/la-partners/Primesync" target="_blank" rel="noopener noreferrer">Click here</a></p>
+              <p style={{ marginTop: '1rem', fontSize: '.78rem', color: 'var(--grey)' }}>{t.broker_fallback} <a href="https://puvip.co/la-partners/Primesync" target="_blank" rel="noopener noreferrer">Click here<span className="sr-only"> (opens in new tab)</span></a></p>
             </div>
           )}
 
           {step === 'uid' && (
             <>
-              <div className="fh">{t.uid_card_h}</div>
+              <h2 id="modal-title" className="fh">{t.uid_card_h}</h2>
               <p className="fsub">{t.uid_card_p}</p>
               {submitted ? (
-                <div className="smsg">✦ &nbsp;{t.uid_success} {dist.name} {t.uid_success2}</div>
+                <div className="smsg" role="status" aria-live="polite"><span aria-hidden="true">✦ &nbsp;</span>{t.uid_success} {dist.name} {t.uid_success2}</div>
               ) : (
-                <form onSubmit={handleUidSubmit}>
-                  <div className="fg"><label className="fl">{t.f_name}</label><input className="fi" type="text" placeholder={t.f_name_ph} required value={uidForm.name} onChange={e => setUidForm({ ...uidForm, name: e.target.value })} /></div>
-                  <div className="fg"><label className="fl">{t.f_email}</label><input className="fi" type="email" placeholder={t.f_email_ph} required value={uidForm.email} onChange={e => setUidForm({ ...uidForm, email: e.target.value })} /></div>
-                  <div className="fg"><label className="fl">{t.f_uid}</label><input className="fi" type="text" placeholder={t.f_uid_ph} required value={uidForm.uid} onChange={e => setUidForm({ ...uidForm, uid: e.target.value })} /></div>
-                  <button className="fsubmit" type="submit" disabled={submitting}>{submitting ? '…' : t.uid_btn}</button>
+                <form onSubmit={handleUidSubmit} noValidate>
+                  <div className="fg"><label className="fl" htmlFor="modal-uid-name">{t.f_name}</label><input id="modal-uid-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={uidForm.name} onChange={e => setUidForm({ ...uidForm, name: e.target.value })} /></div>
+                  <div className="fg"><label className="fl" htmlFor="modal-uid-email">{t.f_email}</label><input id="modal-uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => setUidForm({ ...uidForm, email: e.target.value })} /></div>
+                  <div className="fg"><label className="fl" htmlFor="modal-uid-uid">{t.f_uid}</label><input id="modal-uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => setUidForm({ ...uidForm, uid: e.target.value })} /></div>
+                  <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting}>{submitting ? '…' : t.uid_btn}</button>
                 </form>
               )}
             </>
