@@ -255,11 +255,13 @@ export default function FactoryPage() {
       const { data: userData } = await supabase.auth.getUser()
       if (!userData.user) { router.push('/login'); return }
 
+      const userId = userData.user.id
       const authEmail = userData.user.email || ''
       setEmail(authEmail)
 
+      // Use user_id (same as main dashboard) to find the correct distributor record
       const { data: existing } = await supabase
-        .from('distributors').select('*').eq('email', authEmail).single()
+        .from('distributors').select('*').eq('user_id', userId).single()
 
       if (existing) {
         setDistributor(existing)
@@ -277,11 +279,12 @@ export default function FactoryPage() {
           await supabase.from('distributors').update({ slug: existingSlug }).eq('id', existing.id)
         }
       } else {
+        // Fallback: create new record with user_id
         const autoSlug = authEmail.split('@')[0].toLowerCase()
         setSlug(autoSlug)
         const { data: created } = await supabase
           .from('distributors')
-          .insert({ name: authEmail.split('@')[0], email: authEmail, slug: autoSlug })
+          .insert({ name: authEmail.split('@')[0], email: authEmail, user_id: userId, slug: autoSlug })
           .select().single()
         setDistributor(created)
         setName(created?.name || '')
