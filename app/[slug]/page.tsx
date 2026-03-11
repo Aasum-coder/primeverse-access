@@ -405,7 +405,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   }
 
   if (loading) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#c9a84c', fontFamily: 'serif', fontSize: '1.2rem', letterSpacing: '0.2em' }}>Loading…</div></div>
-  if (notFound) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#7a7a72', textAlign: 'center' }}><div style={{ color: '#c9a84c', fontSize: '2rem', marginBottom: '1rem' }}>✦</div><p>Page not found.</p>{dbError && <p style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: '#555', maxWidth: 300 }}>Debug: {dbError}</p>}</div></div>
+  if (notFound) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#7a7a72', textAlign: 'center' }}><div style={{ color: '#c9a84c', fontSize: '2rem', marginBottom: '1rem' }}>✦</div><p>Page not found.</p>{dbError && <p style={{ fontSize: '0.875rem', marginTop: '0.75rem', color: '#ff6b6b', background: '#1a0000', padding: '0.5rem 1rem', borderRadius: 4, maxWidth: 360, wordBreak: 'break-all' }}>Debug: {dbError}</p>}<p style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: '#888', maxWidth: 300 }}>Slug: {slug}</p></div></div>
 
   const dist = distributor
 
