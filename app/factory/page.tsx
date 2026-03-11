@@ -93,6 +93,181 @@ Technical requirements:
 - No explanations. Return ONLY the final HTML.`
 }
 
+const S = {
+  page: {
+    minHeight: '100vh',
+    background: '#0a0a0a',
+    color: '#ededed',
+    fontFamily: 'Arial, Helvetica, sans-serif',
+    padding: '0 0 60px',
+  } as React.CSSProperties,
+  header: {
+    background: '#111',
+    borderBottom: '1px solid #2a2a2a',
+    padding: '20px 24px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap' as const,
+    gap: 12,
+  } as React.CSSProperties,
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 700,
+    color: '#d4a537',
+    margin: 0,
+  } as React.CSSProperties,
+  urlBadge: {
+    background: '#1a1a1a',
+    border: '1px solid #d4a537',
+    borderRadius: 8,
+    padding: '6px 14px',
+    fontSize: 13,
+    color: '#d4a537',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+  } as React.CSSProperties,
+  body: {
+    maxWidth: 820,
+    margin: '0 auto',
+    padding: '32px 24px',
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: 24,
+  } as React.CSSProperties,
+  card: {
+    background: '#111',
+    border: '1px solid #222',
+    borderRadius: 12,
+    padding: '28px 28px',
+  } as React.CSSProperties,
+  cardTitle: {
+    fontSize: 15,
+    fontWeight: 600,
+    color: '#d4a537',
+    marginBottom: 20,
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.08em',
+  } as React.CSSProperties,
+  grid2: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: 16,
+  } as React.CSSProperties,
+  fieldGroup: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: 6,
+  } as React.CSSProperties,
+  label: {
+    fontSize: 13,
+    fontWeight: 500,
+    color: '#aaa',
+  } as React.CSSProperties,
+  input: {
+    background: '#1a1a1a',
+    border: '1px solid #333',
+    borderRadius: 8,
+    padding: '12px 14px',
+    color: '#ededed',
+    fontSize: 14,
+    outline: 'none',
+    width: '100%',
+    boxSizing: 'border-box' as const,
+  } as React.CSSProperties,
+  textarea: {
+    background: '#1a1a1a',
+    border: '1px solid #333',
+    borderRadius: 8,
+    padding: '12px 14px',
+    color: '#ededed',
+    fontSize: 14,
+    outline: 'none',
+    width: '100%',
+    minHeight: 100,
+    resize: 'vertical' as const,
+    boxSizing: 'border-box' as const,
+  } as React.CSSProperties,
+  imagePreview: {
+    width: 64,
+    height: 64,
+    borderRadius: '50%',
+    objectFit: 'cover' as const,
+    border: '2px solid #d4a537',
+    marginTop: 8,
+  } as React.CSSProperties,
+  actions: {
+    display: 'flex',
+    gap: 12,
+    flexWrap: 'wrap' as const,
+    alignItems: 'center',
+  } as React.CSSProperties,
+  btnPrimary: {
+    background: '#d4a537',
+    color: '#000',
+    border: 'none',
+    borderRadius: 8,
+    padding: '13px 28px',
+    fontSize: 14,
+    fontWeight: 700,
+    cursor: 'pointer',
+  } as React.CSSProperties,
+  btnSecondary: {
+    background: 'transparent',
+    color: '#d4a537',
+    border: '1px solid #d4a537',
+    borderRadius: 8,
+    padding: '12px 24px',
+    fontSize: 14,
+    fontWeight: 600,
+    cursor: 'pointer',
+  } as React.CSSProperties,
+  btnGhost: {
+    background: 'transparent',
+    color: '#888',
+    border: '1px solid #333',
+    borderRadius: 8,
+    padding: '12px 20px',
+    fontSize: 13,
+    cursor: 'pointer',
+  } as React.CSSProperties,
+  msgOk: {
+    background: '#0d2b1d',
+    border: '1px solid #1a5c36',
+    color: '#4caf80',
+    borderRadius: 8,
+    padding: '12px 16px',
+    fontSize: 13,
+  } as React.CSSProperties,
+  msgErr: {
+    background: '#2b0d0d',
+    border: '1px solid #5c1a1a',
+    color: '#f47c7c',
+    borderRadius: 8,
+    padding: '12px 16px',
+    fontSize: 13,
+  } as React.CSSProperties,
+  promptArea: {
+    background: '#0d0d0d',
+    border: '1px solid #333',
+    borderRadius: 8,
+    padding: '16px',
+    color: '#aaa',
+    fontSize: 12,
+    fontFamily: 'monospace',
+    width: '100%',
+    minHeight: 220,
+    resize: 'vertical' as const,
+    boxSizing: 'border-box' as const,
+  } as React.CSSProperties,
+  hint: {
+    fontSize: 12,
+    color: '#555',
+    marginTop: 4,
+  } as React.CSSProperties,
+}
+
 export default function FactoryPage() {
   const router = useRouter()
 
@@ -100,8 +275,11 @@ export default function FactoryPage() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
   const [isError, setIsError] = useState(false)
+  const [showPrompt, setShowPrompt] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const [distributor, setDistributor] = useState<any>(null)
+  const [slug, setSlug] = useState('')
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -134,17 +312,17 @@ export default function FactoryPage() {
         setDirection(existing.direction || '')
         setBio(existing.bio || '')
         setProfileImage(existing.profile_image || '')
-        // Patch missing slug if needed
+        const existingSlug = existing.slug || authEmail.split('@')[0].toLowerCase()
+        setSlug(existingSlug)
         if (!existing.slug) {
-          const autoSlug = authEmail.split('@')[0].toLowerCase()
           await supabase
             .from('distributors')
-            .update({ slug: autoSlug })
+            .update({ slug: existingSlug })
             .eq('id', existing.id)
         }
       } else {
-        // Fallback: hvis en rad ikke finnes av en eller annen grunn
         const autoSlug = authEmail.split('@')[0].toLowerCase()
+        setSlug(autoSlug)
         const { data: created } = await supabase
           .from('distributors')
           .insert({ name: authEmail.split('@')[0], email: authEmail, slug: autoSlug })
@@ -162,22 +340,14 @@ export default function FactoryPage() {
   }, [router])
 
   const prompt = useMemo(
-    () =>
-      buildClaudePrompt({
-        name,
-        email,
-        referralLink,
-        bio,
-        direction,
-        profileImage,
-      }),
+    () => buildClaudePrompt({ name, email, referralLink, bio, direction, profileImage }),
     [name, email, referralLink, bio, direction, profileImage]
   )
 
   const saveProfile = async () => {
     if (!distributor?.id) return
     if (!name.trim() || !email.trim() || !referralLink.trim()) {
-      setMessage('Please fill in Name, Email, and IB Link.')
+      setMessage('Fyll inn Navn, E-post og IB-link før du lagrer.')
       setIsError(true)
       return
     }
@@ -204,123 +374,186 @@ export default function FactoryPage() {
       setMessage(error.message)
       setIsError(true)
     } else {
-      setMessage('Saved. Your Claude prompt is ready to copy.')
+      setMessage('Profil lagret!')
       setIsError(false)
     }
   }
 
   const copyPrompt = async () => {
     await navigator.clipboard.writeText(prompt)
-    setMessage('Prompt copied.')
-    setIsError(false)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
-  if (loading) return <p style={{ padding: 40 }}>Loading...</p>
+  const landingUrl = slug ? `primeverseaccess.com/${slug}` : ''
+
+  if (loading) {
+    return (
+      <div style={{ ...S.page, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ color: '#d4a537' }}>Laster...</p>
+      </div>
+    )
+  }
 
   return (
-    <main id="main-content" style={{ padding: 24, maxWidth: 900, margin: '0 auto' }}>
-      <h1 style={{ marginBottom: 8 }}>Landing Factory — Step 1</h1>
-      <p style={{ marginTop: 0 }}>
-        Fill in your details → Save → Copy the Claude prompt.
-      </p>
+    <div style={S.page}>
+      <header style={S.header}>
+        <h1 style={S.headerTitle}>Landing Factory</h1>
+        {landingUrl && (
+          <a
+            href={`https://${landingUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ ...S.urlBadge, textDecoration: 'none' }}
+            aria-label={`Se din landingsside: ${landingUrl}`}
+          >
+            <span>🔗</span>
+            <span>{landingUrl}</span>
+          </a>
+        )}
+      </header>
 
-      <div style={{ display: 'grid', gap: 12 }}>
-        <div>
-          <label htmlFor="factory-name" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Full Name <span aria-hidden="true">*</span></label>
-          <input
-            id="factory-name"
-            style={{ padding: 12, width: '100%' }}
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            aria-required="true"
-            aria-invalid={isError && !name.trim() ? 'true' : 'false'}
-          />
-        </div>
-        <div>
-          <label htmlFor="factory-email" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Email <span aria-hidden="true">*</span></label>
-          <input
-            id="factory-email"
-            type="email"
-            style={{ padding: 12, width: '100%' }}
-            placeholder="Email (must match broker email)"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-required="true"
-            aria-invalid={isError && !email.trim() ? 'true' : 'false'}
-          />
-        </div>
-        <div>
-          <label htmlFor="factory-referral" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Broker IB / Referral Link <span aria-hidden="true">*</span></label>
-          <input
-            id="factory-referral"
-            type="url"
-            style={{ padding: 12, width: '100%' }}
-            placeholder="Broker IB / Referral Link"
-            value={referralLink}
-            onChange={(e) => setReferralLink(e.target.value)}
-            aria-required="true"
-            aria-invalid={isError && !referralLink.trim() ? 'true' : 'false'}
-          />
-        </div>
-        <div>
-          <label htmlFor="factory-direction" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Direction / Angle</label>
-          <input
-            id="factory-direction"
-            style={{ padding: 12, width: '100%' }}
-            placeholder="Direction / angle (e.g., beginners, passive income, community, etc.)"
-            value={direction}
-            onChange={(e) => setDirection(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="factory-profile-image" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Profile Image URL</label>
-          <input
-            id="factory-profile-image"
-            type="url"
-            style={{ padding: 12, width: '100%' }}
-            placeholder="Profile image URL (optional)"
-            value={profileImage}
-            onChange={(e) => setProfileImage(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="factory-bio" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Short Personal Bio</label>
-          <textarea
-            id="factory-bio"
-            style={{ padding: 12, minHeight: 120, width: '100%' }}
-            placeholder="Short personal bio (optional)"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-        </div>
+      <main id="main-content" style={S.body}>
 
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+        {/* Profil */}
+        <section style={S.card} aria-labelledby="profile-heading">
+          <h2 id="profile-heading" style={S.cardTitle}>Din profil</h2>
+          <div style={S.grid2}>
+            <div style={S.fieldGroup}>
+              <label htmlFor="factory-name" style={S.label}>Fullt navn *</label>
+              <input
+                id="factory-name"
+                style={S.input}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Richard Aasum"
+                aria-required="true"
+              />
+            </div>
+            <div style={S.fieldGroup}>
+              <label htmlFor="factory-email" style={S.label}>E-post *</label>
+              <input
+                id="factory-email"
+                type="email"
+                style={{ ...S.input, color: '#666' }}
+                value={email}
+                readOnly
+                aria-readonly="true"
+              />
+            </div>
+            <div style={S.fieldGroup}>
+              <label htmlFor="factory-referral" style={S.label}>IB / Referral-link *</label>
+              <input
+                id="factory-referral"
+                type="url"
+                style={S.input}
+                value={referralLink}
+                onChange={(e) => setReferralLink(e.target.value)}
+                placeholder="https://puvip.co/la-partners/..."
+                aria-required="true"
+              />
+            </div>
+            <div style={S.fieldGroup}>
+              <label htmlFor="factory-direction" style={S.label}>Vinkel / Målgruppe</label>
+              <input
+                id="factory-direction"
+                style={S.input}
+                value={direction}
+                onChange={(e) => setDirection(e.target.value)}
+                placeholder="f.eks. nybegynnere, passiv inntekt, trading-community"
+              />
+            </div>
+          </div>
+
+          <div style={{ ...S.fieldGroup, marginTop: 16 }}>
+            <label htmlFor="factory-profile-image" style={S.label}>Profilbilde-URL</label>
+            <input
+              id="factory-profile-image"
+              type="url"
+              style={S.input}
+              value={profileImage}
+              onChange={(e) => setProfileImage(e.target.value)}
+              placeholder="https://..."
+            />
+            {profileImage && (
+              <img
+                src={profileImage}
+                alt="Forhåndsvisning av profilbilde"
+                style={S.imagePreview}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+              />
+            )}
+          </div>
+
+          <div style={{ ...S.fieldGroup, marginTop: 16 }}>
+            <label htmlFor="factory-bio" style={S.label}>Kort personlig bio</label>
+            <textarea
+              id="factory-bio"
+              style={S.textarea}
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              placeholder="Beskriv deg selv og hva du tilbyr..."
+            />
+          </div>
+        </section>
+
+        {/* Actions */}
+        <div style={S.actions}>
           <button
             onClick={saveProfile}
             disabled={saving}
-            style={{ padding: '12px 16px' }}
+            style={{ ...S.btnPrimary, opacity: saving ? 0.6 : 1 }}
             aria-busy={saving}
           >
-            {saving ? 'Saving...' : 'Save Profile'}
+            {saving ? 'Lagrer...' : 'Lagre profil'}
           </button>
-          <button onClick={copyPrompt} style={{ padding: '12px 16px' }} aria-label="Copy Claude prompt to clipboard">
-            Copy Claude Prompt
+
+          <button
+            onClick={() => setShowPrompt(!showPrompt)}
+            style={S.btnSecondary}
+            aria-expanded={showPrompt}
+          >
+            {showPrompt ? 'Skjul Claude-prompt' : 'Vis Claude-prompt'}
           </button>
+
+          {landingUrl && (
+            <a
+              href={`https://${landingUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ ...S.btnGhost, textDecoration: 'none' }}
+            >
+              Se landingsside →
+            </a>
+          )}
         </div>
 
-        {message && isError && <p role="alert" aria-live="assertive">{message}</p>}
-        {message && !isError && <p role="status" aria-live="polite">{message}</p>}
+        {message && (
+          <p role={isError ? 'alert' : 'status'} aria-live="polite" style={isError ? S.msgErr : S.msgOk}>
+            {message}
+          </p>
+        )}
 
-        <h2 style={{ marginTop: 24 }}>Claude Prompt</h2>
-        <textarea
-          id="factory-prompt"
-          aria-label="Generated Claude prompt (read-only)"
-          style={{ width: '100%', minHeight: 320, padding: 12 }}
-          value={prompt}
-          readOnly
-        />
-      </div>
-    </main>
+        {/* Claude-prompt */}
+        {showPrompt && (
+          <section style={S.card} aria-labelledby="prompt-heading">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <h2 id="prompt-heading" style={S.cardTitle}>Claude-prompt</h2>
+              <button onClick={copyPrompt} style={S.btnPrimary} aria-label="Kopier Claude-prompt">
+                {copied ? '✓ Kopiert!' : 'Kopier prompt'}
+              </button>
+            </div>
+            <p style={S.hint}>Kopier denne prompten og lim den inn i Claude for å generere landingssiden din.</p>
+            <textarea
+              aria-label="Generert Claude-prompt (kun lesing)"
+              style={S.promptArea}
+              value={prompt}
+              readOnly
+            />
+          </section>
+        )}
+
+      </main>
+    </div>
   )
 }
