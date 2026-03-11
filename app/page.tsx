@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 
@@ -8,6 +8,19 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
+
+function parseProfileImage(value: string | null) {
+  if (!value) return { url: '', x: 50, y: 50 }
+  try {
+    const p = JSON.parse(value)
+    if (p && typeof p.url === 'string') return { url: p.url, x: p.x ?? 50, y: p.y ?? 50 }
+  } catch {}
+  return { url: value, x: 50, y: 50 }
+}
+
+function serializeProfileImage(url: string, x: number, y: number): string {
+  return JSON.stringify({ url, x, y })
+}
 
 /* ─────────────────────────────────────────────
    TRANSLATIONS
@@ -682,6 +695,82 @@ const styles = `
   }
   @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
+  /* ── Gauge / Speedometer ─────────────────────────────────────────────── */
+  .metrics-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 2rem;
+  }
+  .gauge-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 16px; padding: 1.75rem 1.25rem 1.25rem;
+    backdrop-filter: blur(24px);
+    box-shadow: 0 1px 0 rgba(212,165,55,0.04) inset, 0 12px 40px rgba(0,0,0,0.35);
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .gauge-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.5;
+  }
+  .gauge-label {
+    font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-secondary); margin-bottom: 1rem; font-weight: 500;
+  }
+  .gauge-svg { width: 140px; height: 80px; overflow: visible; }
+  .gauge-track { fill: none; stroke: rgba(212,165,55,0.1); stroke-width: 10; stroke-linecap: round; }
+  .gauge-fill { fill: none; stroke-width: 10; stroke-linecap: round;
+    transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1); }
+  .gauge-value {
+    font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600;
+    color: var(--text-primary); line-height: 1; margin-top: 0.6rem;
+  }
+  .gauge-sublabel { font-size: 0.68rem; color: var(--text-dim); margin-top: 4px; }
+  .gauge-tick { stroke: rgba(212,165,55,0.25); stroke-width: 1; }
+  .gauge-tick-major { stroke: rgba(212,165,55,0.5); stroke-width: 1.5; }
+  .gauge-needle { stroke: var(--gold); stroke-width: 2; stroke-linecap: round;
+    transition: transform 1.2s cubic-bezier(.4,0,.2,1); transform-origin: 70px 70px; }
+  .gauge-center-dot { fill: var(--gold); }
+
+  /* Period selector */
+  .period-row {
+    display: flex; gap: 6px; justify-content: center;
+    margin-top: 1rem; flex-wrap: wrap;
+  }
+  .period-btn {
+    padding: 4px 12px; border-radius: 20px; font-size: 0.68rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+    border: 1px solid var(--card-border); background: transparent;
+    color: var(--text-dim); font-family: 'Outfit', sans-serif; transition: all 0.2s;
+  }
+  .period-btn:hover { color: var(--text-secondary); border-color: rgba(212,165,55,0.3); }
+  .period-btn-active {
+    background: rgba(212,165,55,0.1); border-color: rgba(212,165,55,0.4);
+    color: var(--gold);
+  }
+  .period-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .metrics-summary {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 12px; backdrop-filter: blur(24px); overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  }
+  .metrics-summary-title {
+    padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--card-border);
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600;
+    color: var(--text-primary);
+  }
+  .metrics-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.85rem 1.5rem; border-bottom: 1px solid rgba(212,165,55,0.05);
+    transition: background 0.2s;
+  }
+  .metrics-row:last-child { border-bottom: none; }
+  .metrics-row:hover { background: rgba(212,165,55,0.03); }
+  .metrics-row-label { font-size: 0.82rem; color: var(--text-secondary); }
+  .metrics-row-value { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
+  .metrics-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
   @media (max-width: 640px) {
     .dash-wrap { padding: 1.5rem 1rem 3rem; }
     .dash-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
@@ -732,16 +821,23 @@ export default function Home() {
   const [leads, setLeads] = useState<any[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'profile'>('leads')
+  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics'>('leads')
+  const [metricPeriod, setMetricPeriod] = useState<'day' | 'week' | 'month' | 'all'>('week')
+  const [pageViews, setPageViews] = useState(0)
+  const [metricsLoading, setMetricsLoading] = useState(false)
 
   const [profileName, setProfileName] = useState('')
   const [profileBio, setProfileBio] = useState('')
   const [profileSlug, setProfileSlug] = useState('')
   const [profileImage, setProfileImage] = useState<string | null>(null)
+  const [imgX, setImgX] = useState(50)
+  const [imgY, setImgY] = useState(50)
   const [savingProfile, setSavingProfile] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const isDragging = useRef(false)
+  const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
 
   const [showAI, setShowAI] = useState(false)
   const [aiInput, setAiInput] = useState('')
@@ -781,7 +877,10 @@ export default function Home() {
       setProfileName(dist.name || '')
       setProfileBio(dist.bio || '')
       setProfileSlug(dist.slug || '')
-      setProfileImage(dist.profile_image || null)
+      const pi = parseProfileImage(dist.profile_image)
+      setProfileImage(pi.url || null)
+      setImgX(pi.x)
+      setImgY(pi.y)
       await fetchLeads(dist.id)
       setLoading(false)
     }
@@ -792,6 +891,25 @@ export default function Home() {
     const { data } = await supabase.from('leads').select('*').eq('distributor_id', distributorId).order('created_at', { ascending: false })
     setLeads(data || [])
   }
+
+  const fetchPageViews = async (distributorId: string, period: 'day' | 'week' | 'month' | 'all') => {
+    setMetricsLoading(true)
+    const now = new Date()
+    let from: string | null = null
+    if (period === 'day') { const d = new Date(now); d.setHours(0,0,0,0); from = d.toISOString() }
+    else if (period === 'week') { const d = new Date(now); d.setDate(d.getDate() - 7); from = d.toISOString() }
+    else if (period === 'month') { const d = new Date(now); d.setMonth(d.getMonth() - 1); from = d.toISOString() }
+
+    let q = supabase.from('page_views').select('id', { count: 'exact', head: true }).eq('distributor_id', distributorId)
+    if (from) q = q.gte('created_at', from)
+    const { count } = await q
+    setPageViews(count || 0)
+    setMetricsLoading(false)
+  }
+
+  useEffect(() => {
+    if (distributor?.id && activeTab === 'metrics') fetchPageViews(distributor.id, metricPeriod)
+  }, [distributor?.id, activeTab, metricPeriod])
 
   const addLead = async () => {
     if (!distributor || !leadName || !leadEmail || !leadUid) { alert(t.fillAll); return }
@@ -823,14 +941,32 @@ export default function Home() {
     if (uploadError) { alert('Feil ved opplasting: ' + uploadError.message); setUploadingImage(false); return }
     const { data } = supabase.storage.from('avatars').getPublicUrl(path)
     setProfileImage(data.publicUrl)
+    setImgX(50)
+    setImgY(30)
     setUploadingImage(false)
   }
 
+  const startDrag = useCallback((clientX: number, clientY: number) => {
+    isDragging.current = true
+    dragStart.current = { clientX, clientY, imgX, imgY }
+  }, [imgX, imgY])
+
+  const moveDrag = useCallback((clientX: number, clientY: number) => {
+    if (!isDragging.current) return
+    const dx = clientX - dragStart.current.clientX
+    const dy = clientY - dragStart.current.clientY
+    setImgX(Math.max(0, Math.min(100, dragStart.current.imgX - dx * 0.4)))
+    setImgY(Math.max(0, Math.min(100, dragStart.current.imgY - dy * 0.4)))
+  }, [])
+
+  const endDrag = useCallback(() => { isDragging.current = false }, [])
+
   const saveProfile = async () => {
     setSavingProfile(true)
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImage }).eq('id', distributor.id)
+    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue }).eq('id', distributor.id)
     if (error) { alert('Feil: ' + error.message); setSavingProfile(false); return }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImage })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -916,7 +1052,9 @@ export default function Home() {
         <header className="dash-header">
           <div className="dash-header-left">
             {distributor?.profile_image ? (
-              <img src={distributor.profile_image} className="avatar" alt={distributor.name ? `Profile picture of ${distributor.name}` : 'Profile picture'} />
+              <img src={parseProfileImage(distributor.profile_image).url} className="avatar"
+                style={{ objectPosition: `${parseProfileImage(distributor.profile_image).x}% ${parseProfileImage(distributor.profile_image).y}%` }}
+                alt={distributor.name ? `Profile picture of ${distributor.name}` : 'Profile picture'} />
             ) : (
               <div className="avatar-placeholder" aria-hidden="true">👤</div>
             )}
@@ -990,6 +1128,16 @@ export default function Home() {
             className={`tab-btn${activeTab === 'profile' ? ' tab-btn-active' : ''}`}
           >
             {t.profileTab}
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === 'metrics'}
+            aria-controls="tab-panel-metrics"
+            id="tab-metrics"
+            onClick={() => setActiveTab('metrics')}
+            className={`tab-btn${activeTab === 'metrics' ? ' tab-btn-active' : ''}`}
+          >
+            {lang === 'no' ? 'Målinger' : lang === 'sv' ? 'Mätningar' : lang === 'es' ? 'Métricas' : 'Metrics'}
           </button>
         </div>
 
@@ -1081,22 +1229,42 @@ export default function Home() {
 
               <div className="field-group" style={{ marginBottom: '1.5rem' }}>
                 <label className="field-label" htmlFor="profile-image-upload">{t.profileImage}</label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 6 }}>
-                  <div
-                    className="upload-area"
-                    onClick={() => fileInputRef.current?.click()}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={profileImage ? t.changeImage : t.uploadImage}
-                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click(); } }}
-                  >
-                    {profileImage ? (
-                      <img src={profileImage} alt={profileName ? `Profile picture of ${profileName}` : 'Profile picture'} />
-                    ) : (
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginTop: 6 }}>
+                  {profileImage ? (
+                    <div>
+                      <div
+                        className="upload-area"
+                        style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}
+                        onMouseDown={e => { e.preventDefault(); startDrag(e.clientX, e.clientY) }}
+                        onMouseMove={e => moveDrag(e.clientX, e.clientY)}
+                        onMouseUp={endDrag}
+                        onMouseLeave={endDrag}
+                        onTouchStart={e => startDrag(e.touches[0].clientX, e.touches[0].clientY)}
+                        onTouchMove={e => { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY) }}
+                        onTouchEnd={endDrag}
+                        role="img"
+                        aria-label={`${profileName ? `Profile picture of ${profileName}` : 'Profile picture'}. Drag to reposition.`}
+                      >
+                        <img src={profileImage} alt=""
+                          style={{ objectPosition: `${imgX}% ${imgY}%` }} />
+                      </div>
+                      <p style={{ margin: '5px 0 0', fontSize: '0.68rem', color: 'var(--text-dim)', display: 'flex', alignItems: 'center', gap: 3 }}>
+                        <span aria-hidden="true">↔</span> Drag to reposition
+                      </p>
+                    </div>
+                  ) : (
+                    <div
+                      className="upload-area"
+                      onClick={() => fileInputRef.current?.click()}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={t.uploadImage}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click() } }}
+                    >
                       <span style={{ fontSize: 24, color: 'var(--gold)' }} aria-hidden="true">{uploadingImage ? '⏳' : '📷'}</span>
-                    )}
-                  </div>
-                  <div>
+                    </div>
+                  )}
+                  <div style={{ paddingTop: 4 }}>
                     <button
                       id="profile-image-upload"
                       onClick={() => fileInputRef.current?.click()}
@@ -1107,6 +1275,7 @@ export default function Home() {
                       {uploadingImage ? t.uploading : profileImage ? t.changeImage : t.uploadImage}
                     </button>
                     <p style={{ margin: '6px 0 0', fontSize: '0.72rem', color: 'var(--text-dim)' }}>{t.imageHint}</p>
+                    {profileImage && <p style={{ margin: '4px 0 0', fontSize: '0.68rem', color: 'var(--text-dim)' }}>Remember to save after repositioning</p>}
                   </div>
                   <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageUpload} style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
                 </div>
@@ -1194,7 +1363,206 @@ export default function Home() {
           </div>
         )}
 
+        {/* METRICS TAB */}
+        {activeTab === 'metrics' && (
+          <MetricsTab
+            leads={leads}
+            pageViews={pageViews}
+            period={metricPeriod}
+            setPeriod={setMetricPeriod}
+            loading={metricsLoading}
+          />
+        )}
+
       </div>
     </>
+  )
+}
+
+/* ─── Gauge component ──────────────────────────────────────────────────────── */
+function Gauge({ value, max, label, sublabel, color }: {
+  value: number; max: number; label: string; sublabel?: string; color: string
+}) {
+  const pct = max > 0 ? Math.min(value / max, 1) : 0
+  // Arc: half circle from 180° to 0° (left to right)
+  const cx = 70, cy = 70, r = 52
+  const startAngle = Math.PI         // 180°
+  const endAngle = 0                 // 0°
+  const totalAngle = Math.PI         // 180°
+  const arcLength = Math.PI * r      // half circumference
+
+  // Track path (full half circle)
+  const trackD = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`
+  // Fill path same arc, but dash offset controls fill
+  const fillDash = arcLength * pct
+  const emptyDash = arcLength - fillDash
+
+  // Needle angle: from -180° (left) to 0° (right) mapped to pct
+  const needleAngle = -180 + pct * 180
+  const needleRad = (needleAngle * Math.PI) / 180
+  const needleLen = 38
+  const nx = cx + Math.cos(needleRad) * needleLen
+  const ny = cy + Math.sin(needleRad) * needleLen
+
+  // Tick marks (10 major, 5 minor between each = 50 ticks)
+  const ticks = []
+  for (let i = 0; i <= 20; i++) {
+    const a = Math.PI - (i / 20) * Math.PI
+    const isMajor = i % 4 === 0
+    const r1 = isMajor ? r - 6 : r - 3
+    const r2 = r + 2
+    ticks.push({
+      x1: cx + Math.cos(a) * r1, y1: cy + Math.sin(a) * r1,
+      x2: cx + Math.cos(a) * r2, y2: cy + Math.sin(a) * r2,
+      major: isMajor,
+    })
+  }
+
+  return (
+    <svg className="gauge-svg" viewBox="0 0 140 80" aria-hidden="true">
+      {/* Ticks */}
+      {ticks.map((tk, i) => (
+        <line key={i} x1={tk.x1} y1={tk.y1} x2={tk.x2} y2={tk.y2}
+          className={tk.major ? 'gauge-tick-major' : 'gauge-tick'} />
+      ))}
+      {/* Track */}
+      <path d={trackD} className="gauge-track" />
+      {/* Fill */}
+      <path d={trackD} className="gauge-fill"
+        stroke={color}
+        strokeDasharray={`${arcLength}`}
+        strokeDashoffset={arcLength - fillDash}
+        style={{ filter: `drop-shadow(0 0 4px ${color}60)` }}
+      />
+      {/* Needle */}
+      <line x1={cx} y1={cy} x2={nx} y2={ny} className="gauge-needle" stroke={color} />
+      {/* Center */}
+      <circle cx={cx} cy={cy} r={4} className="gauge-center-dot" fill={color} />
+      <circle cx={cx} cy={cy} r={2} fill="#0a0a0a" />
+    </svg>
+  )
+}
+
+/* ─── Metrics tab ──────────────────────────────────────────────────────────── */
+function MetricsTab({ leads, pageViews, period, setPeriod, loading }: {
+  leads: any[]; pageViews: number; period: string;
+  setPeriod: (p: 'day' | 'week' | 'month' | 'all') => void; loading: boolean
+}) {
+  const now = new Date()
+  const cutoff = (days: number) => { const d = new Date(now); d.setDate(d.getDate() - days); return d }
+  const startOf = (unit: 'day' | 'week' | 'month' | 'all'): Date | null => {
+    if (unit === 'all') return null
+    if (unit === 'day') { const d = new Date(now); d.setHours(0,0,0,0); return d }
+    if (unit === 'week') return cutoff(7)
+    return cutoff(30)
+  }
+  const start = startOf(period as 'day' | 'week' | 'month' | 'all')
+  const filtered = start ? leads.filter(l => new Date(l.created_at) >= start) : leads
+  const registered = filtered.length
+  const approved = filtered.filter(l => l.uid_verified).length
+  const pending = filtered.filter(l => !l.uid_verified).length
+
+  const periods: { key: 'day' | 'week' | 'month' | 'all'; label: string }[] = [
+    { key: 'day', label: 'Daily' }, { key: 'week', label: 'Weekly' },
+    { key: 'month', label: 'Monthly' }, { key: 'all', label: 'All time' },
+  ]
+
+  const maxViews = Math.max(pageViews, 10)
+  const maxRegs = Math.max(registered, 5)
+  const maxAppr = Math.max(approved, 5)
+  const convRate = registered > 0 ? Math.round((approved / registered) * 100) : 0
+
+  return (
+    <div role="tabpanel" id="tab-panel-metrics" aria-labelledby="tab-metrics">
+
+      {/* Period selector */}
+      <div className="period-row" style={{ marginBottom: '1.75rem' }}>
+        {periods.map(p => (
+          <button key={p.key} onClick={() => setPeriod(p.key)}
+            className={`period-btn${period === p.key ? ' period-btn-active' : ''}`}
+            aria-pressed={period === p.key}>
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Gauges */}
+      <div className="metrics-grid">
+
+        {/* Page views */}
+        <div className="gauge-card">
+          <div className="gauge-label">Page Views</div>
+          <Gauge value={pageViews} max={Math.max(pageViews * 1.5, 50)} label="views" color="#d4a537" />
+          <div className="gauge-value">{loading ? '—' : pageViews.toLocaleString()}</div>
+          <div className="gauge-sublabel">visitors</div>
+        </div>
+
+        {/* Registrations */}
+        <div className="gauge-card">
+          <div className="gauge-label">Registrations</div>
+          <Gauge value={registered} max={Math.max(registered * 1.5, 10)} label="regs" color="#c9a84c" />
+          <div className="gauge-value">{registered}</div>
+          <div className="gauge-sublabel">signed up</div>
+        </div>
+
+        {/* Approved members */}
+        <div className="gauge-card">
+          <div className="gauge-label">Approved Members</div>
+          <Gauge value={approved} max={Math.max(registered, 5)} label="members" color="#6dc07f" />
+          <div className="gauge-value">{approved}</div>
+          <div className="gauge-sublabel">verified</div>
+        </div>
+
+        {/* Conversion rate */}
+        <div className="gauge-card">
+          <div className="gauge-label">Conversion Rate</div>
+          <Gauge value={convRate} max={100} label="%" color="#e8c975" />
+          <div className="gauge-value">{convRate}%</div>
+          <div className="gauge-sublabel">reg → approved</div>
+        </div>
+
+      </div>
+
+      {/* Detailed breakdown */}
+      <div className="metrics-summary">
+        <div className="metrics-summary-title">Lead breakdown</div>
+        <div className="metrics-row">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="metrics-dot" style={{ background: '#d4a537' }} />
+            <span className="metrics-row-label">Page views</span>
+          </div>
+          <span className="metrics-row-value">{loading ? '—' : pageViews.toLocaleString()}</span>
+        </div>
+        <div className="metrics-row">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="metrics-dot" style={{ background: '#c9a84c' }} />
+            <span className="metrics-row-label">Registered leads</span>
+          </div>
+          <span className="metrics-row-value">{registered}</span>
+        </div>
+        <div className="metrics-row">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="metrics-dot" style={{ background: '#f4a742' }} />
+            <span className="metrics-row-label">Pending verification</span>
+          </div>
+          <span className="metrics-row-value">{pending}</span>
+        </div>
+        <div className="metrics-row">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="metrics-dot" style={{ background: '#6dc07f' }} />
+            <span className="metrics-row-label">Approved members</span>
+          </div>
+          <span className="metrics-row-value">{approved}</span>
+        </div>
+        <div className="metrics-row">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="metrics-dot" style={{ background: '#e8c975' }} />
+            <span className="metrics-row-label">Conversion rate</span>
+          </div>
+          <span className="metrics-row-value">{convRate}%</span>
+        </div>
+      </div>
+
+    </div>
   )
 }
