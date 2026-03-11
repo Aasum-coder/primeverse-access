@@ -3,6 +3,15 @@
 import { useEffect, useState, use, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
+function parseProfileImage(value: string | null) {
+  if (!value) return { url: '', x: 50, y: 50 }
+  try {
+    const p = JSON.parse(value)
+    if (p && typeof p.url === 'string') return { url: p.url, x: p.x ?? 50, y: p.y ?? 50 }
+  } catch {}
+  return { url: value, x: 50, y: 50 }
+}
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -353,6 +362,9 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         setLoading(false)
         return
       }
+      // Track page view
+      await supabase.from('page_views').insert({ distributor_id: data.id, slug: data.slug })
+        .then(() => {}) // fire-and-forget, ignore errors
       setDistributor(data)
       setLoading(false)
     }
@@ -391,7 +403,8 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const handleGetAccess = (e: React.FormEvent) => {
     e.preventDefault()
     setStep('broker')
-    setTimeout(() => { window.open('https://puvip.co/la-partners/Primesync', '_blank') }, 1200)
+    const referralLink = dist?.referral_link || 'https://puvip.co/la-partners/Primesync'
+    setTimeout(() => { window.open(referralLink, '_blank') }, 1200)
   }
 
   const handleUidSubmit = async (e: React.FormEvent) => {
@@ -576,11 +589,12 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
             </div>
             <div>
               <div className="dist-card">
-                {dist.profile_image ? (
-                  <img className="dist-portrait" src={dist.profile_image} alt={dist.name} />
+                {(() => { const pi = parseProfileImage(dist.profile_image); return pi.url ? (
+                  <img className="dist-portrait" src={pi.url} alt={dist.name}
+                    style={{ objectPosition: `${pi.x}% ${pi.y}%` }} />
                 ) : (
                   <div style={{ width: '100%', maxWidth: 240, aspectRatio: '3/4', background: 'var(--border)', borderRadius: 6, margin: '0 auto 1.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--grey)', fontSize: '3rem' }}>✦</div>
-                )}
+                )})()}
                 <div className="dist-badge">{t.dist_badge}</div>
                 {dist.bio && <p className="dist-quote">{dist.bio}</p>}
                 <div className="dist-author">— {dist.name} · 1Move Academy</div>
