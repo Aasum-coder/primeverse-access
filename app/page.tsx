@@ -1012,10 +1012,10 @@ export default function Home() {
             </div>
 
             <div style={{ marginBottom: '2rem' }}>
-              <div className="section-header">
+              <h3 className="section-header">
                 <span aria-hidden="true">⏳</span> {t.pendingHeader}
                 <span className="badge badge-warning" aria-label={`${pending.length} pending`}>{pending.length}</span>
-              </div>
+              </h3>
               {pending.length === 0 && <p className="empty-text">{t.noPending}</p>}
               <ul aria-label={t.pendingHeader} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {pending.map(lead => (
@@ -1045,10 +1045,10 @@ export default function Home() {
             </div>
 
             <div>
-              <div className="section-header">
+              <h3 className="section-header">
                 <span aria-hidden="true">✅</span> {t.approvedHeader}
                 <span className="badge badge-success" aria-label={`${approved.length} approved`}>{approved.length}</span>
-              </div>
+              </h3>
               {approved.length === 0 && <p className="empty-text">{t.noApproved}</p>}
               <ul aria-label={t.approvedHeader} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {approved.map(lead => (
@@ -1179,7 +1179,7 @@ export default function Home() {
                   <div className="ai-input-row">
                     <label className="sr-only" htmlFor="ai-input">{t.aiPlaceholder}</label>
                     <input id="ai-input" className="ai-input" value={aiInput} onChange={e => setAiInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); askAI() } }} placeholder={t.aiPlaceholder} />
-                    <button onClick={askAI} disabled={aiLoading || !aiInput.trim()} className="ai-send-btn">Send</button>
+                    <button onClick={askAI} disabled={aiLoading || !aiInput.trim()} className="ai-send-btn" aria-label="Send message to AI assistant">Send</button>
                   </div>
                 </div>
               ) : (

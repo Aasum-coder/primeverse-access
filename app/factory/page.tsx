@@ -99,6 +99,7 @@ export default function FactoryPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [isError, setIsError] = useState(false)
 
   const [distributor, setDistributor] = useState<any>(null)
 
@@ -168,11 +169,13 @@ export default function FactoryPage() {
     if (!distributor?.id) return
     if (!name.trim() || !email.trim() || !referralLink.trim()) {
       setMessage('Please fill in Name, Email, and IB Link.')
+      setIsError(true)
       return
     }
 
     setSaving(true)
     setMessage('')
+    setIsError(false)
 
     const { error } = await supabase
       .from('distributors')
@@ -190,14 +193,17 @@ export default function FactoryPage() {
 
     if (error) {
       setMessage(error.message)
+      setIsError(true)
     } else {
       setMessage('Saved. Your Claude prompt is ready to copy.')
+      setIsError(false)
     }
   }
 
   const copyPrompt = async () => {
     await navigator.clipboard.writeText(prompt)
     setMessage('Prompt copied.')
+    setIsError(false)
   }
 
   if (loading) return <p style={{ padding: 40 }}>Loading...</p>
@@ -219,6 +225,7 @@ export default function FactoryPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             aria-required="true"
+            aria-invalid={isError && !name.trim() ? 'true' : 'false'}
           />
         </div>
         <div>
@@ -231,6 +238,7 @@ export default function FactoryPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             aria-required="true"
+            aria-invalid={isError && !email.trim() ? 'true' : 'false'}
           />
         </div>
         <div>
@@ -243,6 +251,7 @@ export default function FactoryPage() {
             value={referralLink}
             onChange={(e) => setReferralLink(e.target.value)}
             aria-required="true"
+            aria-invalid={isError && !referralLink.trim() ? 'true' : 'false'}
           />
         </div>
         <div>
@@ -286,12 +295,13 @@ export default function FactoryPage() {
           >
             {saving ? 'Saving...' : 'Save Profile'}
           </button>
-          <button onClick={copyPrompt} style={{ padding: '12px 16px' }}>
+          <button onClick={copyPrompt} style={{ padding: '12px 16px' }} aria-label="Copy Claude prompt to clipboard">
             Copy Claude Prompt
           </button>
         </div>
 
-        {message && <p role="status" aria-live="polite">{message}</p>}
+        {message && isError && <p role="alert" aria-live="assertive">{message}</p>}
+        {message && !isError && <p role="status" aria-live="polite">{message}</p>}
 
         <h2 style={{ marginTop: 24 }}>Claude Prompt</h2>
         <textarea
