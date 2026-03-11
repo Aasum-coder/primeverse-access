@@ -99,6 +99,7 @@ export default function FactoryPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [isError, setIsError] = useState(false)
 
   const [distributor, setDistributor] = useState<any>(null)
 
@@ -168,11 +169,13 @@ export default function FactoryPage() {
     if (!distributor?.id) return
     if (!name.trim() || !email.trim() || !referralLink.trim()) {
       setMessage('Please fill in Name, Email, and IB Link.')
+      setIsError(true)
       return
     }
 
     setSaving(true)
     setMessage('')
+    setIsError(false)
 
     const { error } = await supabase
       .from('distributors')
@@ -190,80 +193,120 @@ export default function FactoryPage() {
 
     if (error) {
       setMessage(error.message)
+      setIsError(true)
     } else {
       setMessage('Saved. Your Claude prompt is ready to copy.')
+      setIsError(false)
     }
   }
 
   const copyPrompt = async () => {
     await navigator.clipboard.writeText(prompt)
     setMessage('Prompt copied.')
+    setIsError(false)
   }
 
   if (loading) return <p style={{ padding: 40 }}>Loading...</p>
 
   return (
-    <main style={{ padding: 24, maxWidth: 900, margin: '0 auto' }}>
+    <main id="main-content" style={{ padding: 24, maxWidth: 900, margin: '0 auto' }}>
       <h1 style={{ marginBottom: 8 }}>Landing Factory — Step 1</h1>
       <p style={{ marginTop: 0 }}>
         Fill in your details → Save → Copy the Claude prompt.
       </p>
 
       <div style={{ display: 'grid', gap: 12 }}>
-        <input
-          style={{ padding: 12 }}
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          style={{ padding: 12 }}
-          placeholder="Email (must match broker email)"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          style={{ padding: 12 }}
-          placeholder="Broker IB / Referral Link"
-          value={referralLink}
-          onChange={(e) => setReferralLink(e.target.value)}
-        />
-        <input
-          style={{ padding: 12 }}
-          placeholder="Direction / angle (e.g., beginners, passive income, community, etc.)"
-          value={direction}
-          onChange={(e) => setDirection(e.target.value)}
-        />
-        <input
-          style={{ padding: 12 }}
-          placeholder="Profile image URL (optional)"
-          value={profileImage}
-          onChange={(e) => setProfileImage(e.target.value)}
-        />
-        <textarea
-          style={{ padding: 12, minHeight: 120 }}
-          placeholder="Short personal bio (optional)"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-        />
+        <div>
+          <label htmlFor="factory-name" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Full Name <span aria-hidden="true">*</span></label>
+          <input
+            id="factory-name"
+            style={{ padding: 12, width: '100%' }}
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            aria-required="true"
+            aria-invalid={isError && !name.trim() ? 'true' : 'false'}
+          />
+        </div>
+        <div>
+          <label htmlFor="factory-email" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Email <span aria-hidden="true">*</span></label>
+          <input
+            id="factory-email"
+            type="email"
+            style={{ padding: 12, width: '100%' }}
+            placeholder="Email (must match broker email)"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            aria-required="true"
+            aria-invalid={isError && !email.trim() ? 'true' : 'false'}
+          />
+        </div>
+        <div>
+          <label htmlFor="factory-referral" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Broker IB / Referral Link <span aria-hidden="true">*</span></label>
+          <input
+            id="factory-referral"
+            type="url"
+            style={{ padding: 12, width: '100%' }}
+            placeholder="Broker IB / Referral Link"
+            value={referralLink}
+            onChange={(e) => setReferralLink(e.target.value)}
+            aria-required="true"
+            aria-invalid={isError && !referralLink.trim() ? 'true' : 'false'}
+          />
+        </div>
+        <div>
+          <label htmlFor="factory-direction" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Direction / Angle</label>
+          <input
+            id="factory-direction"
+            style={{ padding: 12, width: '100%' }}
+            placeholder="Direction / angle (e.g., beginners, passive income, community, etc.)"
+            value={direction}
+            onChange={(e) => setDirection(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="factory-profile-image" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Profile Image URL</label>
+          <input
+            id="factory-profile-image"
+            type="url"
+            style={{ padding: 12, width: '100%' }}
+            placeholder="Profile image URL (optional)"
+            value={profileImage}
+            onChange={(e) => setProfileImage(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="factory-bio" style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Short Personal Bio</label>
+          <textarea
+            id="factory-bio"
+            style={{ padding: 12, minHeight: 120, width: '100%' }}
+            placeholder="Short personal bio (optional)"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+          />
+        </div>
 
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <button
             onClick={saveProfile}
             disabled={saving}
             style={{ padding: '12px 16px' }}
+            aria-busy={saving}
           >
             {saving ? 'Saving...' : 'Save Profile'}
           </button>
-          <button onClick={copyPrompt} style={{ padding: '12px 16px' }}>
+          <button onClick={copyPrompt} style={{ padding: '12px 16px' }} aria-label="Copy Claude prompt to clipboard">
             Copy Claude Prompt
           </button>
         </div>
 
-        {message && <p>{message}</p>}
+        {message && isError && <p role="alert" aria-live="assertive">{message}</p>}
+        {message && !isError && <p role="status" aria-live="polite">{message}</p>}
 
         <h2 style={{ marginTop: 24 }}>Claude Prompt</h2>
         <textarea
+          id="factory-prompt"
+          aria-label="Generated Claude prompt (read-only)"
           style={{ width: '100%', minHeight: 320, padding: 12 }}
           value={prompt}
           readOnly

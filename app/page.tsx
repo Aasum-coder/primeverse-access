@@ -687,6 +687,39 @@ const styles = `
     .dash-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
     .header-actions { width: 100%; flex-wrap: wrap; }
   }
+
+  /* Accessibility: visually hidden but available to screen readers */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Focus indicators */
+  .gold-btn:focus-visible,
+  .btn-outline:focus-visible,
+  .tab-btn:focus-visible,
+  .lang-btn:focus-visible,
+  .lang-option:focus-visible,
+  .btn-success:focus-visible,
+  .gold-link:focus-visible,
+  .ai-send-btn:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .field-input:focus,
+  .field-textarea:focus,
+  .ai-input:focus {
+    outline: 2px solid var(--gold);
+    outline-offset: 1px;
+  }
 `;
 
 export default function Home() {
@@ -877,15 +910,15 @@ export default function Home() {
       <style dangerouslySetInnerHTML={{ __html: styles }} />
       <div className="marble-bg" />
 
-      <div className="dash-wrap">
+      <div className="dash-wrap" id="main-content">
 
         {/* HEADER */}
-        <div className="dash-header">
+        <header className="dash-header">
           <div className="dash-header-left">
             {distributor?.profile_image ? (
-              <img src={distributor.profile_image} className="avatar" alt="" />
+              <img src={distributor.profile_image} className="avatar" alt={distributor.name ? `Profile picture of ${distributor.name}` : 'Profile picture'} />
             ) : (
-              <div className="avatar-placeholder">👤</div>
+              <div className="avatar-placeholder" aria-hidden="true">👤</div>
             )}
             <div>
               <div className="dash-username">{distributor?.name || 'Dashboard'}</div>
@@ -895,23 +928,36 @@ export default function Home() {
           <div className="header-actions">
             {distributor?.slug && (
               <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-btn gold-btn-sm">
-                {t.viewPage} ↗
+                {t.viewPage} <span aria-hidden="true">↗</span>
+                <span className="sr-only">(opens in new tab)</span>
               </a>
             )}
 
             {/* Language selector */}
             <div className="lang-selector" ref={langRef}>
-              <button className="lang-btn" onClick={() => setLangOpen(!langOpen)}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <button
+                className="lang-btn"
+                onClick={() => setLangOpen(!langOpen)}
+                aria-label={`Select language, current: ${languageLabels[lang]}`}
+                aria-expanded={langOpen}
+                aria-haspopup="listbox"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                   <circle cx="12" cy="12" r="10"/>
                   <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/>
                 </svg>
                 {languageLabels[lang]}
               </button>
               {langOpen && (
-                <div className="lang-dropdown">
+                <div className="lang-dropdown" role="listbox" aria-label="Select language">
                   {Object.entries(languageLabels).map(([code, label]) => (
-                    <button key={code} className={`lang-option${code === lang ? ' lang-option-active' : ''}`} onClick={() => { setLang(code); setLangOpen(false); }}>
+                    <button
+                      key={code}
+                      role="option"
+                      aria-selected={code === lang}
+                      className={`lang-option${code === lang ? ' lang-option-active' : ''}`}
+                      onClick={() => { setLang(code); setLangOpen(false); }}
+                    >
                       {label}
                     </button>
                   ))}
@@ -921,118 +967,171 @@ export default function Home() {
 
             <button onClick={handleLogout} className="btn-outline">{t.logout}</button>
           </div>
-        </div>
+        </header>
 
         {/* TABS */}
-        <div className="tabs">
-          <button onClick={() => setActiveTab('leads')} className={`tab-btn${activeTab === 'leads' ? ' tab-btn-active' : ''}`}>
+        <div className="tabs" role="tablist" aria-label="Dashboard sections">
+          <button
+            role="tab"
+            aria-selected={activeTab === 'leads'}
+            aria-controls="tab-panel-leads"
+            id="tab-leads"
+            onClick={() => setActiveTab('leads')}
+            className={`tab-btn${activeTab === 'leads' ? ' tab-btn-active' : ''}`}
+          >
             {t.leadsTab} ({leads.length})
           </button>
-          <button onClick={() => setActiveTab('profile')} className={`tab-btn${activeTab === 'profile' ? ' tab-btn-active' : ''}`}>
+          <button
+            role="tab"
+            aria-selected={activeTab === 'profile'}
+            aria-controls="tab-panel-profile"
+            id="tab-profile"
+            onClick={() => setActiveTab('profile')}
+            className={`tab-btn${activeTab === 'profile' ? ' tab-btn-active' : ''}`}
+          >
             {t.profileTab}
           </button>
         </div>
 
         {/* LEADS TAB */}
         {activeTab === 'leads' && (
-          <>
+          <div role="tabpanel" id="tab-panel-leads" aria-labelledby="tab-leads">
             <div className="card">
-              <div className="card-title">{t.registerLead}</div>
+              <h2 className="card-title">{t.registerLead}</h2>
               <div style={{ display: 'grid', gap: 10 }}>
-                <input className="field-input" placeholder={t.fullName} value={leadName} onChange={e => setLeadName(e.target.value)} />
-                <input className="field-input" placeholder={t.emailAddress} type="email" value={leadEmail} onChange={e => setLeadEmail(e.target.value)} />
-                <input className="field-input" placeholder={t.uidPlaceholder} value={leadUid} onChange={e => setLeadUid(e.target.value)} />
-                <button onClick={addLead} disabled={submitting} className="gold-btn" style={{ marginTop: 4 }}>
+                <label className="sr-only" htmlFor="lead-name">{t.fullName}</label>
+                <input id="lead-name" className="field-input" placeholder={t.fullName} value={leadName} onChange={e => setLeadName(e.target.value)} aria-required="true" />
+                <label className="sr-only" htmlFor="lead-email">{t.emailAddress}</label>
+                <input id="lead-email" className="field-input" placeholder={t.emailAddress} type="email" value={leadEmail} onChange={e => setLeadEmail(e.target.value)} aria-required="true" />
+                <label className="sr-only" htmlFor="lead-uid">{t.uidPlaceholder}</label>
+                <input id="lead-uid" className="field-input" placeholder={t.uidPlaceholder} value={leadUid} onChange={e => setLeadUid(e.target.value)} />
+                <button onClick={addLead} disabled={submitting} className="gold-btn" style={{ marginTop: 4 }} aria-busy={submitting}>
                   {submitting ? t.sending : t.addLead}
                 </button>
               </div>
             </div>
 
             <div style={{ marginBottom: '2rem' }}>
-              <div className="section-header">
-                ⏳ {t.pendingHeader}
-                <span className="badge badge-warning">{pending.length}</span>
-              </div>
+              <h3 className="section-header">
+                <span aria-hidden="true">⏳</span> {t.pendingHeader}
+                <span className="badge badge-warning" aria-label={`${pending.length} pending`}>{pending.length}</span>
+              </h3>
               {pending.length === 0 && <p className="empty-text">{t.noPending}</p>}
-              {pending.map(lead => (
-                <div key={lead.id} className="lead-item lead-item-pending">
-                  <div>
-                    <div className="lead-name">{lead.name}</div>
-                    <div className="lead-detail">{lead.email}</div>
-                    <div className="lead-uid">UID: <strong>{lead.uid || t.notProvided}</strong></div>
-                    <div className="lead-date">{new Date(lead.created_at).toLocaleDateString('no-NO')}</div>
-                  </div>
-                  <button onClick={() => approveLead(lead)} disabled={approvingId === lead.id} className="btn-success">
-                    {approvingId === lead.id ? t.sending : `✓ ${t.approve}`}
-                  </button>
-                </div>
-              ))}
+              <ul aria-label={t.pendingHeader} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {pending.map(lead => (
+                  <li key={lead.id} className="lead-item lead-item-pending">
+                    <div>
+                      <div className="lead-name">{lead.name}</div>
+                      <div className="lead-detail">{lead.email}</div>
+                      <div className="lead-uid">UID: <strong>{lead.uid || t.notProvided}</strong></div>
+                      <div className="lead-date">
+                        <time dateTime={new Date(lead.created_at).toISOString()}>
+                          {new Date(lead.created_at).toLocaleDateString('no-NO')}
+                        </time>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => approveLead(lead)}
+                      disabled={approvingId === lead.id}
+                      className="btn-success"
+                      aria-label={`${t.approve} ${lead.name}`}
+                      aria-busy={approvingId === lead.id}
+                    >
+                      {approvingId === lead.id ? t.sending : <><span aria-hidden="true">✓ </span>{t.approve}</>}
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div>
-              <div className="section-header">
-                ✅ {t.approvedHeader}
-                <span className="badge badge-success">{approved.length}</span>
-              </div>
+              <h3 className="section-header">
+                <span aria-hidden="true">✅</span> {t.approvedHeader}
+                <span className="badge badge-success" aria-label={`${approved.length} approved`}>{approved.length}</span>
+              </h3>
               {approved.length === 0 && <p className="empty-text">{t.noApproved}</p>}
-              {approved.map(lead => (
-                <div key={lead.id} className="lead-item lead-item-approved">
-                  <div>
-                    <div className="lead-name">{lead.name}</div>
-                    <div className="lead-detail">{lead.email}</div>
-                    <div className="lead-uid">UID: <strong>{lead.uid}</strong></div>
-                    <div className="lead-date">{t.approvedDate}: {lead.uid_verified_at ? new Date(lead.uid_verified_at).toLocaleDateString('no-NO') : '-'}</div>
-                  </div>
-                </div>
-              ))}
+              <ul aria-label={t.approvedHeader} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {approved.map(lead => (
+                  <li key={lead.id} className="lead-item lead-item-approved">
+                    <div>
+                      <div className="lead-name">{lead.name}</div>
+                      <div className="lead-detail">{lead.email}</div>
+                      <div className="lead-uid">UID: <strong>{lead.uid}</strong></div>
+                      <div className="lead-date">
+                        {t.approvedDate}:{' '}
+                        {lead.uid_verified_at ? (
+                          <time dateTime={new Date(lead.uid_verified_at).toISOString()}>
+                            {new Date(lead.uid_verified_at).toLocaleDateString('no-NO')}
+                          </time>
+                        ) : '-'}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </>
+          </div>
         )}
 
         {/* PROFILE TAB */}
         {activeTab === 'profile' && (
-          <div className="profile-grid">
+          <div className="profile-grid" role="tabpanel" id="tab-panel-profile" aria-labelledby="tab-profile">
             <div>
-              <div className="card-title" style={{ marginBottom: '1.25rem' }}>{t.editProfile}</div>
+              <h2 className="card-title" style={{ marginBottom: '1.25rem' }}>{t.editProfile}</h2>
 
               <div className="field-group" style={{ marginBottom: '1.5rem' }}>
-                <label className="field-label">{t.profileImage}</label>
+                <label className="field-label" htmlFor="profile-image-upload">{t.profileImage}</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 6 }}>
-                  <div className="upload-area" onClick={() => fileInputRef.current?.click()}>
+                  <div
+                    className="upload-area"
+                    onClick={() => fileInputRef.current?.click()}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={profileImage ? t.changeImage : t.uploadImage}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click(); } }}
+                  >
                     {profileImage ? (
-                      <img src={profileImage} alt="" />
+                      <img src={profileImage} alt={profileName ? `Profile picture of ${profileName}` : 'Profile picture'} />
                     ) : (
-                      <span style={{ fontSize: 24, color: 'var(--gold)' }}>{uploadingImage ? '⏳' : '📷'}</span>
+                      <span style={{ fontSize: 24, color: 'var(--gold)' }} aria-hidden="true">{uploadingImage ? '⏳' : '📷'}</span>
                     )}
                   </div>
                   <div>
-                    <button onClick={() => fileInputRef.current?.click()} disabled={uploadingImage} className="gold-btn gold-btn-sm">
+                    <button
+                      id="profile-image-upload"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploadingImage}
+                      className="gold-btn gold-btn-sm"
+                      aria-busy={uploadingImage}
+                    >
                       {uploadingImage ? t.uploading : profileImage ? t.changeImage : t.uploadImage}
                     </button>
                     <p style={{ margin: '6px 0 0', fontSize: '0.72rem', color: 'var(--text-dim)' }}>{t.imageHint}</p>
                   </div>
-                  <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageUpload} style={{ display: 'none' }} />
+                  <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageUpload} style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
                 </div>
               </div>
 
               <div className="field-group">
-                <label className="field-label">{t.fullName}</label>
-                <input className="field-input" value={profileName} onChange={e => setProfileName(e.target.value)} />
+                <label className="field-label" htmlFor="profile-name">{t.fullName}</label>
+                <input id="profile-name" className="field-input" value={profileName} onChange={e => setProfileName(e.target.value)} />
               </div>
 
               <div className="field-group">
-                <label className="field-label">{t.yourUrl}</label>
+                <label className="field-label" htmlFor="profile-slug">{t.yourUrl}</label>
                 <div className="url-input-wrap">
-                  <span className="url-prefix">primeverseaccess.com/</span>
-                  <input value={profileSlug} onChange={e => setProfileSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))} placeholder="ditt-navn" />
+                  <span className="url-prefix" aria-hidden="true">primeverseaccess.com/</span>
+                  <input id="profile-slug" value={profileSlug} onChange={e => setProfileSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))} placeholder="ditt-navn" aria-label={`${t.yourUrl}: primeverseaccess.com/`} />
                 </div>
               </div>
 
               <div className="field-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                  <label className="field-label" style={{ marginBottom: 0 }}>{t.bio}</label>
+                  <label className="field-label" htmlFor="profile-bio" style={{ marginBottom: 0 }}>{t.bio}</label>
                   <button
                     onClick={() => { if (!showAI) startAI(); else setShowAI(false); }}
+                    aria-expanded={showAI}
+                    aria-controls="ai-panel"
                     style={{
                       fontSize: '0.72rem', padding: '4px 12px',
                       background: showAI ? 'rgba(212,165,55,0.15)' : 'transparent',
@@ -1042,46 +1141,50 @@ export default function Home() {
                       fontWeight: 500, transition: 'all 0.3s'
                     }}
                   >
-                    ✦ {t.aiHelper}
+                    <span aria-hidden="true">✦ </span>{t.aiHelper}
                   </button>
                 </div>
-                <textarea className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
+                <textarea id="profile-bio" className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
               </div>
 
-              <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%' }}>
-                {savingProfile ? t.saving : profileSaved ? `✓ ${t.saved}` : t.saveProfile}
+              <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%' }} aria-busy={savingProfile}>
+                {savingProfile ? t.saving : profileSaved ? <><span aria-hidden="true">✓ </span>{t.saved}</> : t.saveProfile}
               </button>
 
               {distributor?.slug && (
                 <p className="profile-saved-text">
-                  {t.yourPage}: <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-link">primeverseaccess.com/{distributor.slug}</a>
+                  {t.yourPage}: <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-link">
+                    primeverseaccess.com/{distributor.slug}
+                    <span className="sr-only"> (opens in new tab)</span>
+                  </a>
                 </p>
               )}
             </div>
 
-            <div>
+            <div id="ai-panel">
               {showAI ? (
                 <div className="ai-panel">
                   <div className="ai-header">
-                    <span className="sparkle">✦</span> {t.aiTitle}
+                    <span className="sparkle" aria-hidden="true">✦</span> {t.aiTitle}
                     <span className="powered">Smart Bio Generator</span>
                   </div>
-                  <div className="ai-messages">
+                  <div className="ai-messages" role="log" aria-live="polite" aria-label={t.aiTitle}>
                     {aiMessages.map((msg, i) => (
-                      <div key={i} className={`ai-bubble ${msg.role === 'user' ? 'ai-bubble-user' : 'ai-bubble-ai'}`}>
+                      <div key={i} className={`ai-bubble ${msg.role === 'user' ? 'ai-bubble-user' : 'ai-bubble-ai'}`} aria-label={msg.role === 'user' ? 'You' : 'AI'}>
                         {msg.content}
                       </div>
                     ))}
-                    {aiLoading && <div className="ai-bubble ai-bubble-ai" style={{ color: 'var(--text-dim)' }}>{t.aiTyping}</div>}
+                    {aiLoading && <div className="ai-bubble ai-bubble-ai" style={{ color: 'var(--text-dim)' }} aria-live="polite">{t.aiTyping}</div>}
                   </div>
                   <div className="ai-input-row">
-                    <input className="ai-input" value={aiInput} onChange={e => setAiInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); askAI() } }} placeholder={t.aiPlaceholder} />
-                    <button onClick={askAI} disabled={aiLoading || !aiInput.trim()} className="ai-send-btn">Send</button>
+                    <label className="sr-only" htmlFor="ai-input">{t.aiPlaceholder}</label>
+                    <input id="ai-input" className="ai-input" value={aiInput} onChange={e => setAiInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); askAI() } }} placeholder={t.aiPlaceholder} />
+                    <button onClick={askAI} disabled={aiLoading || !aiInput.trim()} className="ai-send-btn" aria-label="Send message to AI assistant">Send</button>
                   </div>
                 </div>
               ) : (
                 <div className="ai-placeholder">
-                  <div className="sparkle-big">✦</div>
+                  <div className="sparkle-big" aria-hidden="true">✦</div>
                   <h3>{t.aiTitle}</h3>
                   <p>{lang === 'no' ? 'Svar på 5 enkle spørsmål, og vi lager en profesjonell bio for deg.' : lang === 'sv' ? 'Svara på 5 enkla frågor, så skapar vi en professionell bio åt dig.' : lang === 'es' ? 'Responde 5 preguntas simples y crearemos una bio profesional para ti.' : 'Answer 5 simple questions and we\'ll create a professional bio for you.'}</p>
                   <button onClick={startAI} className="gold-btn">{t.startAi}</button>

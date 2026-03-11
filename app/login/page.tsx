@@ -445,6 +445,17 @@ const styles = `
   .field-input:focus {
     border-color: var(--input-focus);
     box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.08);
+    outline: 2px solid var(--gold);
+    outline-offset: 1px;
+  }
+
+  .gold-btn:focus-visible,
+  .text-link:focus-visible,
+  .lang-btn:focus-visible,
+  .lang-option:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   /* ── Brushed Gold Button ── */
@@ -779,9 +790,11 @@ export default function LoginPage() {
           <button
             className="lang-btn"
             onClick={() => setLangOpen(!langOpen)}
-            aria-label="Select language"
+            aria-label={`Select language, current: ${languageLabels[lang]}`}
+            aria-expanded={langOpen}
+            aria-haspopup="listbox"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
               <circle cx="12" cy="12" r="10" />
               <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z" />
             </svg>
@@ -789,10 +802,12 @@ export default function LoginPage() {
           </button>
 
           {langOpen && (
-            <div className="lang-dropdown">
+            <div className="lang-dropdown" role="listbox" aria-label="Select language">
               {Object.entries(languageLabels).map(([code, label]) => (
                 <button
                   key={code}
+                  role="option"
+                  aria-selected={code === lang}
                   className={`lang-option${code === lang ? " active" : ""}`}
                   onClick={() => {
                     setLang(code);
@@ -807,11 +822,11 @@ export default function LoginPage() {
         </div>
 
         {/* Main */}
-        <div className="login-page">
+        <main className="login-page" id="main-content">
           {/* Branding — logo kan legges til her senere */}
           <div className="logo-container">
             {/* <img className="logo-img" src="/images/1move-logo.png" alt="1Move Academy" width={180} /> */}
-            <div className="portal-title">{t.title}</div>
+            <div className="portal-title" role="heading" aria-level={1}>{t.title}</div>
           </div>
 
           {/* Login Card */}
@@ -819,8 +834,8 @@ export default function LoginPage() {
             <h2 className="card-heading">{headingText}</h2>
 
             {/* Messages */}
-            {error && <div className="msg msg-error">{error}</div>}
-            {success && <div className="msg msg-success">{success}</div>}
+            {error && <div className="msg msg-error" role="alert" aria-live="assertive">{error}</div>}
+            {success && <div className="msg msg-success" role="status" aria-live="polite">{success}</div>}
 
             {/* Reset info */}
             {mode === "reset" && !success && (
@@ -829,14 +844,17 @@ export default function LoginPage() {
 
             {/* Email */}
             <div className="field">
-              <label className="field-label">{t.email}</label>
+              <label className="field-label" htmlFor="login-email">{t.email}</label>
               <input
+                id="login-email"
                 className="field-input"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
                 autoComplete="email"
+                aria-required="true"
+                aria-invalid={!!error}
                 onKeyDown={(e) => e.key === "Enter" && onSubmit()}
               />
             </div>
@@ -844,14 +862,17 @@ export default function LoginPage() {
             {/* Password (login + signup) */}
             {mode !== "reset" && (
               <div className="field">
-                <label className="field-label">{t.password}</label>
+                <label className="field-label" htmlFor="login-password">{t.password}</label>
                 <input
+                  id="login-password"
                   className="field-input"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   autoComplete={mode === "login" ? "current-password" : "new-password"}
+                  aria-required="true"
+                  aria-invalid={!!error}
                   onKeyDown={(e) => e.key === "Enter" && onSubmit()}
                 />
               </div>
@@ -860,14 +881,16 @@ export default function LoginPage() {
             {/* Confirm Password (signup) */}
             {mode === "signup" && (
               <div className="field">
-                <label className="field-label">{t.confirmPassword}</label>
+                <label className="field-label" htmlFor="login-confirm-password">{t.confirmPassword}</label>
                 <input
+                  id="login-confirm-password"
                   className="field-input"
                   type="password"
                   value={confirmPw}
                   onChange={(e) => setConfirmPw(e.target.value)}
                   placeholder="••••••••"
                   autoComplete="new-password"
+                  aria-required="true"
                   onKeyDown={(e) => e.key === "Enter" && onSubmit()}
                 />
               </div>
@@ -918,7 +941,7 @@ export default function LoginPage() {
               </div>
             )}
           </div>
-        </div>
+        </main>
       </div>
     </>
   );
