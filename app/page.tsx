@@ -829,6 +829,8 @@ export default function Home() {
   const [profileName, setProfileName] = useState('')
   const [profileBio, setProfileBio] = useState('')
   const [profileSlug, setProfileSlug] = useState('')
+  const [profileReferralLink, setProfileReferralLink] = useState('')
+  const [profileDirection, setProfileDirection] = useState('')
   const [profileImage, setProfileImage] = useState<string | null>(null)
   const [imgX, setImgX] = useState(50)
   const [imgY, setImgY] = useState(50)
@@ -877,6 +879,8 @@ export default function Home() {
       setProfileName(dist.name || '')
       setProfileBio(dist.bio || '')
       setProfileSlug(dist.slug || '')
+      setProfileReferralLink(dist.referral_link || '')
+      setProfileDirection(dist.direction || '')
       const pi = parseProfileImage(dist.profile_image)
       setProfileImage(pi.url || null)
       setImgX(pi.x)
@@ -964,9 +968,9 @@ export default function Home() {
   const saveProfile = async () => {
     setSavingProfile(true)
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection }).eq('id', distributor.id)
     if (error) { alert('Feil: ' + error.message); setSavingProfile(false); return }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -1295,6 +1299,11 @@ export default function Home() {
               </div>
 
               <div className="field-group">
+                <label className="field-label" htmlFor="profile-referral">IB / Referral-link</label>
+                <input id="profile-referral" type="url" className="field-input" value={profileReferralLink} onChange={e => setProfileReferralLink(e.target.value)} placeholder="https://puvip.co/la-partners/..." />
+              </div>
+
+              <div className="field-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <label className="field-label" htmlFor="profile-bio" style={{ marginBottom: 0 }}>{t.bio}</label>
                   <button
@@ -1316,16 +1325,45 @@ export default function Home() {
                 <textarea id="profile-bio" className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
               </div>
 
-              <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%' }} aria-busy={savingProfile}>
-                {savingProfile ? t.saving : profileSaved ? <><span aria-hidden="true">✓ </span>{t.saved}</> : t.saveProfile}
+              <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={savingProfile}>
+                {savingProfile ? '⏳ Genererer siden din...' : profileSaved ? '✓ Siden din er live!' : '🚀 Generate my landing page'}
               </button>
 
-              {distributor?.slug && (
-                <p className="profile-saved-text">
-                  {t.yourPage}: <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-link">
+              {profileSaved && distributor?.slug && (
+                <div style={{
+                  marginTop: '1rem', padding: '1.25rem 1.5rem',
+                  background: 'rgba(212,165,55,0.08)', border: '1px solid var(--gold)',
+                  borderRadius: 12, textAlign: 'center'
+                }}>
+                  <p style={{ margin: '0 0 0.5rem', fontSize: '0.8rem', color: 'var(--text-dim)' }}>Din landingsside er klar og live på:</p>
+                  <a
+                    href={`/${distributor.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: 'var(--gold)', fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: '1.1rem', fontWeight: 600, textDecoration: 'none',
+                      display: 'block', marginBottom: '0.75rem'
+                    }}
+                  >
                     primeverseaccess.com/{distributor.slug}
-                    <span className="sr-only"> (opens in new tab)</span>
+                    <span className="sr-only"> (åpner i ny fane)</span>
                   </a>
+                  <a
+                    href={`/${distributor.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gold-btn"
+                    style={{ display: 'inline-block', textDecoration: 'none', padding: '10px 24px', fontSize: '0.85rem' }}
+                  >
+                    Se landingssiden din →
+                  </a>
+                </div>
+              )}
+
+              {!profileSaved && distributor?.slug && (
+                <p style={{ margin: '0.75rem 0 0', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-dim)' }}>
+                  Din side: <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-link">primeverseaccess.com/{distributor.slug}</a>
                 </p>
               )}
             </div>
