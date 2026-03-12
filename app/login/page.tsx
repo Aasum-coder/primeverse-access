@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 /* ─────────────────────────────────────────────
    TRANSLATIONS
@@ -27,6 +27,8 @@ const translations: Record<string, Record<string, string>> = {
     signupSuccess: "Account created! Check your email to confirm.",
     errorInvalid: "Invalid email or password.",
     errorMismatch: "Passwords do not match.",
+    errorPasswordShort: "Password must be at least 6 characters.",
+    errorEmailInUse: "This email is already registered.",
     errorGeneric: "Something went wrong. Please try again.",
     loading: "Please wait...",
   },
@@ -49,6 +51,8 @@ const translations: Record<string, Record<string, string>> = {
     signupSuccess: "Konto opprettet! Sjekk e-posten din for å bekrefte.",
     errorInvalid: "Ugyldig e-post eller passord.",
     errorMismatch: "Passordene stemmer ikke overens.",
+    errorPasswordShort: "Passordet må være minst 6 tegn.",
+    errorEmailInUse: "Denne e-posten er allerede registrert.",
     errorGeneric: "Noe gikk galt. Vennligst prøv igjen.",
     loading: "Vennligst vent...",
   },
@@ -71,6 +75,8 @@ const translations: Record<string, Record<string, string>> = {
     signupSuccess: "Konto skapat! Kolla din e-post för att bekräfta.",
     errorInvalid: "Ogiltig e-post eller lösenord.",
     errorMismatch: "Lösenorden matchar inte.",
+    errorPasswordShort: "Lösenordet måste vara minst 6 tecken.",
+    errorEmailInUse: "Denna e-post är redan registrerad.",
     errorGeneric: "Något gick fel. Försök igen.",
     loading: "Vänta...",
   },
@@ -93,6 +99,8 @@ const translations: Record<string, Record<string, string>> = {
     signupSuccess: "¡Cuenta creada! Revisa tu correo para confirmar.",
     errorInvalid: "Correo o contraseña inválidos.",
     errorMismatch: "Las contraseñas no coinciden.",
+    errorPasswordShort: "La contraseña debe tener al menos 6 caracteres.",
+    errorEmailInUse: "Este correo ya está registrado.",
     errorGeneric: "Algo salió mal. Inténtalo de nuevo.",
     loading: "Espera...",
   },
@@ -115,6 +123,8 @@ const translations: Record<string, Record<string, string>> = {
     signupSuccess: "Аккаунт создан! Проверьте почту для подтверждения.",
     errorInvalid: "Неверный email или пароль.",
     errorMismatch: "Пароли не совпадают.",
+    errorPasswordShort: "Пароль должен содержать не менее 6 символов.",
+    errorEmailInUse: "Этот email уже зарегистрирован.",
     errorGeneric: "Что-то пошло не так. Попробуйте снова.",
     loading: "Подождите...",
   },
@@ -137,6 +147,8 @@ const translations: Record<string, Record<string, string>> = {
     signupSuccess: "تم إنشاء الحساب! تحقق من بريدك للتأكيد.",
     errorInvalid: "بريد إلكتروني أو كلمة مرور غير صالحة.",
     errorMismatch: "كلمتا المرور غير متطابقتين.",
+    errorPasswordShort: "يجب أن تكون كلمة المرور 6 أحرف على الأقل.",
+    errorEmailInUse: "هذا البريد الإلكتروني مسجل بالفعل.",
     errorGeneric: "حدث خطأ. حاول مرة أخرى.",
     loading: "يرجى الانتظار...",
   },
@@ -159,6 +171,8 @@ const translations: Record<string, Record<string, string>> = {
     signupSuccess: "Nagawa na ang account! Tingnan ang email mo para kumpirmahin.",
     errorInvalid: "Hindi wastong email o password.",
     errorMismatch: "Hindi magkatugma ang mga password.",
+    errorPasswordShort: "Ang password ay dapat may hindi bababa sa 6 na character.",
+    errorEmailInUse: "Ang email na ito ay nakarehistro na.",
     errorGeneric: "May nangyaring mali. Subukan muli.",
     loading: "Sandali lang...",
   },
@@ -662,10 +676,6 @@ const styles = `
    COMPONENT
    ───────────────────────────────────────────── */
 export default function LoginPage() {
-  const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
   const router = useRouter();
 
   const [mode, setMode] = useState<AuthMode>("login");
@@ -726,18 +736,29 @@ export default function LoginPage() {
 
   const handleSignup = async () => {
     clearMessages();
-    if (password !== confirmPw) {
-      setError(t.errorMismatch);
-      return;
-    }
     if (!email || !password) {
       setError(t.errorGeneric);
+      return;
+    }
+    if (password.length < 6) {
+      setError(t.errorPasswordShort);
+      return;
+    }
+    if (password !== confirmPw) {
+      setError(t.errorMismatch);
       return;
     }
     setLoading(true);
     try {
       const { error } = await supabase.auth.signUp({ email, password });
-      if (error) throw error;
+      if (error) {
+        if (error.message.toLowerCase().includes("already registered")) {
+          setError(t.errorEmailInUse);
+        } else {
+          setError(error.message);
+        }
+        return;
+      }
       setSuccess(t.signupSuccess);
     } catch {
       setError(t.errorGeneric);
