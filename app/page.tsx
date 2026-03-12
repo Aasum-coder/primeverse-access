@@ -67,6 +67,7 @@ const translations: Record<string, Record<string, string>> = {
     aiTyping: 'Writing...',
     fillAll: 'Fill in all fields',
     referralRequired: 'This field must be filled in',
+    socialMedia: 'Social media',
     aiGreeting: "Hi! I'm here to help you write a bio that converts. Tell me a little about yourself — where are you from, what is your background, and why did you join 1Move Academy?",
   },
   no: {
@@ -110,6 +111,7 @@ const translations: Record<string, Record<string, string>> = {
     aiTyping: 'Skriver...',
     fillAll: 'Fyll inn alle feltene',
     referralRequired: 'Dette feltet må fylles ut',
+    socialMedia: 'Sosiale medier',
     aiGreeting: "Hei! Jeg er her for å hjelpe deg med å skrive en bio som konverterer. Fortell litt om deg selv — hvor er du fra, hva er bakgrunnen din, og hvorfor ble du med i 1Move Academy?",
   },
   sv: {
@@ -153,6 +155,7 @@ const translations: Record<string, Record<string, string>> = {
     aiTyping: 'Skriver...',
     fillAll: 'Fyll i alla fält',
     referralRequired: 'Detta fält måste fyllas i',
+    socialMedia: 'Sociala medier',
     aiGreeting: "Hej! Jag är här för att hjälpa dig skriva en bio som konverterar. Berätta lite om dig själv — var kommer du ifrån, vad är din bakgrund, och varför gick du med i 1Move Academy?",
   },
   es: {
@@ -196,6 +199,7 @@ const translations: Record<string, Record<string, string>> = {
     aiTyping: 'Escribiendo...',
     fillAll: 'Completa todos los campos',
     referralRequired: 'Este campo debe completarse',
+    socialMedia: 'Redes sociales',
     aiGreeting: "¡Hola! Estoy aquí para ayudarte a escribir una bio que convierte. Cuéntame un poco sobre ti — ¿de dónde eres, cuál es tu experiencia, y por qué te uniste a 1Move Academy?",
   },
   ru: {
@@ -239,6 +243,7 @@ const translations: Record<string, Record<string, string>> = {
     aiTyping: 'Пишет...',
     fillAll: 'Заполните все поля',
     referralRequired: 'Это поле обязательно для заполнения',
+    socialMedia: 'Социальные сети',
     aiGreeting: "Привет! Я здесь, чтобы помочь вам написать биографию, которая конвертирует. Расскажите немного о себе — откуда вы, какой у вас опыт, и почему вы присоединились к 1Move Academy?",
   },
   ar: {
@@ -282,6 +287,7 @@ const translations: Record<string, Record<string, string>> = {
     aiTyping: 'يكتب...',
     fillAll: 'املأ جميع الحقول',
     referralRequired: 'يجب ملء هذا الحقل',
+    socialMedia: 'وسائل التواصل الاجتماعي',
     aiGreeting: "مرحباً! أنا هنا لمساعدتك في كتابة نبذة تحقق التحويل. أخبرني قليلاً عن نفسك — من أين أنت، ما خلفيتك، ولماذا انضممت إلى 1Move Academy؟",
   },
   tl: {
@@ -325,6 +331,7 @@ const translations: Record<string, Record<string, string>> = {
     aiTyping: 'Nagsusulat...',
     fillAll: 'Punan lahat ng fields',
     referralRequired: 'Kailangang punan ang field na ito',
+    socialMedia: 'Social media',
     aiGreeting: "Hi! Nandito ako para tulungan kang sumulat ng bio na nagko-convert. Kwento mo naman tungkol sa sarili mo — saan ka galing, ano ang background mo, at bakit ka sumali sa 1Move Academy?",
   },
 }
@@ -845,6 +852,11 @@ export default function Home() {
   const [uploadingImage, setUploadingImage] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
   const [referralError, setReferralError] = useState(false)
+  const [socialTiktok, setSocialTiktok] = useState('')
+  const [socialInstagram, setSocialInstagram] = useState('')
+  const [socialFacebook, setSocialFacebook] = useState('')
+  const [socialSnapchat, setSocialSnapchat] = useState('')
+  const [socialLinkedin, setSocialLinkedin] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
@@ -889,6 +901,11 @@ export default function Home() {
       setProfileSlug(dist.slug || '')
       setProfileReferralLink(dist.referral_link || '')
       setProfileDirection(dist.direction || '')
+      setSocialTiktok(dist.social_tiktok || '')
+      setSocialInstagram(dist.social_instagram || '')
+      setSocialFacebook(dist.social_facebook || '')
+      setSocialSnapchat(dist.social_snapchat || '')
+      setSocialLinkedin(dist.social_linkedin || '')
       const pi = parseProfileImage(dist.profile_image)
       setProfileImage(pi.url || null)
       setImgX(pi.x)
@@ -986,9 +1003,9 @@ export default function Home() {
     setReferralError(false)
     setSavingProfile(true)
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null }).eq('id', distributor.id)
     if (error) { alert('Feil: ' + error.message); setSavingProfile(false); return }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -1320,6 +1337,17 @@ export default function Home() {
                 <label className="field-label" htmlFor="profile-referral">IB / Referral-link</label>
                 <input id="profile-referral" type="url" className="field-input" value={profileReferralLink} onChange={e => { setProfileReferralLink(e.target.value); setReferralError(false) }} placeholder="https://puvip.co/la-partners/..." style={referralError ? { borderColor: '#d44a37' } : undefined} aria-invalid={referralError} />
                 {referralError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{t.referralRequired}</p>}
+              </div>
+
+              <div className="field-group">
+                <label className="field-label">{t.socialMedia || 'Social media'}</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <input className="field-input" value={socialTiktok} onChange={e => setSocialTiktok(e.target.value)} placeholder="TikTok URL" />
+                  <input className="field-input" value={socialInstagram} onChange={e => setSocialInstagram(e.target.value)} placeholder="Instagram URL" />
+                  <input className="field-input" value={socialFacebook} onChange={e => setSocialFacebook(e.target.value)} placeholder="Facebook URL" />
+                  <input className="field-input" value={socialSnapchat} onChange={e => setSocialSnapchat(e.target.value)} placeholder="Snapchat URL" />
+                  <input className="field-input" value={socialLinkedin} onChange={e => setSocialLinkedin(e.target.value)} placeholder="LinkedIn URL" />
+                </div>
               </div>
 
               <div className="field-group">
