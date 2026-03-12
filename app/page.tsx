@@ -943,11 +943,24 @@ export default function Home() {
       if (!userData.user) { router.push('/login'); return }
       const userId = userData.user.id
       const email = userData.user.email!
-      const { data: existing } = await supabase.from('distributors').select('*').eq('user_id', userId).single()
-      let dist = existing
-      if (!existing) {
+      // 1. Try to find by user_id
+      const { data: byUserId } = await supabase.from('distributors').select('*').eq('user_id', userId).maybeSingle()
+      let dist = byUserId
+
+      if (!dist) {
+        // 2. Fall back to email lookup (rows created by admin without user_id)
+        const { data: byEmail } = await supabase.from('distributors').select('*').eq('email', email).maybeSingle()
+        if (byEmail) {
+          // Claim the row by writing user_id so future logins find it correctly
+          await supabase.from('distributors').update({ user_id: userId }).eq('id', byEmail.id)
+          dist = { ...byEmail, user_id: userId }
+        }
+      }
+
+      if (!dist) {
+        // 3. No row at all — create one
         const autoSlug = email.split('@')[0].toLowerCase().replace(/[^a-z0-9-]/g, '')
-        const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId, slug: autoSlug }).select().single()
+        const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId, slug: autoSlug }).select().maybeSingle()
         if (error) { alert(error.message); return }
         dist = newDist
       }
