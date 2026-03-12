@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback, useMemo } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 
@@ -831,8 +831,6 @@ export default function Home() {
   const [profileSlug, setProfileSlug] = useState('')
   const [profileReferralLink, setProfileReferralLink] = useState('')
   const [profileDirection, setProfileDirection] = useState('')
-  const [showPrompt, setShowPrompt] = useState(false)
-  const [promptCopied, setPromptCopied] = useState(false)
   const [profileImage, setProfileImage] = useState<string | null>(null)
   const [imgX, setImgX] = useState(50)
   const [imgY, setImgY] = useState(50)
@@ -976,18 +974,6 @@ export default function Home() {
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
-  }
-
-  const claudePrompt = useMemo(() => {
-    const referralLink = profileReferralLink || 'https://puvip.co/la-partners/Primesync'
-    const profileImageUrl = profileImage || ''
-    return `You are a professional conversion-focused landing page developer.\n\nCreate ONE complete, production-ready, mobile-responsive landing page.\n\nGoal:\n- Explain who we are and what the visitor can expect.\n- Collect name + email + consent\n- Then redirect to broker registration via the distributor IB link.\n- After registration, the user returns to the same landing page to submit UID.\n\nBrand & Style:\n- Premium, minimal, modern\n- Black / Gold / White palette\n- Clean typography, lots of spacing\n- Mobile-first, fast, clear CTA\n\nDistributor details (must be used):\n- Name: ${profileName || '(not set)'}\n- IB Link: ${referralLink}\n- Profile Image URL: ${profileImageUrl || '(none provided)'}\n- Personal Direction/Angle: ${profileDirection || '(not provided)'}\n- Short Bio: ${profileBio || '(not provided)'}\n\nPage requirements:\n1) Hero with headline "Get Access to PrimeVerse", CTA button "Get Access Now"\n2) Get Access Form (name, email, 3 consent checkboxes) → redirect to IB link\n3) Step-by-step instructions (complete KYC, save UID, return to submit UID)\n4) UID Submit Section (UID + email fields, "Request Verification" button)\n5) Footer with distributor name + contact email`
-  }, [profileName, profileBio, profileDirection, profileReferralLink, profileImage])
-
-  const copyPrompt = async () => {
-    await navigator.clipboard.writeText(claudePrompt)
-    setPromptCopied(true)
-    setTimeout(() => setPromptCopied(false), 2000)
   }
 
   const bioQuestions = [
@@ -1318,11 +1304,6 @@ export default function Home() {
               </div>
 
               <div className="field-group">
-                <label className="field-label" htmlFor="profile-direction">Vinkel / Målgruppe</label>
-                <input id="profile-direction" className="field-input" value={profileDirection} onChange={e => setProfileDirection(e.target.value)} placeholder="f.eks. nybegynnere, passiv inntekt, trading-community" />
-              </div>
-
-              <div className="field-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <label className="field-label" htmlFor="profile-bio" style={{ marginBottom: 0 }}>{t.bio}</label>
                   <button
@@ -1344,63 +1325,47 @@ export default function Home() {
                 <textarea id="profile-bio" className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
               </div>
 
-              <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%' }} aria-busy={savingProfile}>
-                {savingProfile ? t.saving : profileSaved ? <><span aria-hidden="true">✓ </span>{t.saved}</> : t.saveProfile}
+              <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={savingProfile}>
+                {savingProfile ? '⏳ Genererer siden din...' : profileSaved ? '✓ Siden din er live!' : '🚀 Generate my landing page'}
               </button>
 
-              {distributor?.slug && (
-                <p className="profile-saved-text">
-                  {t.yourPage}: <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-link">
+              {profileSaved && distributor?.slug && (
+                <div style={{
+                  marginTop: '1rem', padding: '1.25rem 1.5rem',
+                  background: 'rgba(212,165,55,0.08)', border: '1px solid var(--gold)',
+                  borderRadius: 12, textAlign: 'center'
+                }}>
+                  <p style={{ margin: '0 0 0.5rem', fontSize: '0.8rem', color: 'var(--text-dim)' }}>Din landingsside er klar og live på:</p>
+                  <a
+                    href={`/${distributor.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: 'var(--gold)', fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: '1.1rem', fontWeight: 600, textDecoration: 'none',
+                      display: 'block', marginBottom: '0.75rem'
+                    }}
+                  >
                     primeverseaccess.com/{distributor.slug}
-                    <span className="sr-only"> (opens in new tab)</span>
+                    <span className="sr-only"> (åpner i ny fane)</span>
                   </a>
-                </p>
+                  <a
+                    href={`/${distributor.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gold-btn"
+                    style={{ display: 'inline-block', textDecoration: 'none', padding: '10px 24px', fontSize: '0.85rem' }}
+                  >
+                    Se landingssiden din →
+                  </a>
+                </div>
               )}
 
-              <div style={{ marginTop: '2rem', borderTop: '1px solid var(--card-border)', paddingTop: '1.5rem' }}>
-                <button
-                  onClick={() => setShowPrompt(p => !p)}
-                  aria-expanded={showPrompt}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 8,
-                    background: 'transparent', border: '1px solid var(--card-border)',
-                    borderRadius: 8, padding: '10px 18px', cursor: 'pointer',
-                    color: 'var(--gold)', fontFamily: "'Outfit', sans-serif",
-                    fontSize: '0.85rem', fontWeight: 500, transition: 'all 0.2s',
-                    width: '100%', justifyContent: 'space-between'
-                  }}
-                >
-                  <span><span aria-hidden="true">⚡ </span>Claude Prompt Builder</span>
-                  <span aria-hidden="true" style={{ fontSize: '0.7rem', color: 'var(--text-dim)' }}>{showPrompt ? '▲ Skjul' : '▼ Vis'}</span>
-                </button>
-                {showPrompt && (
-                  <div style={{ marginTop: '1rem' }}>
-                    <p style={{ fontSize: '0.78rem', color: 'var(--text-dim)', marginBottom: '0.75rem' }}>
-                      Kopier denne prompten inn i Claude.ai for å generere en ferdig landingsside for deg.
-                    </p>
-                    <textarea
-                      readOnly
-                      value={claudePrompt}
-                      rows={10}
-                      aria-label="Claude prompt for å generere landingsside"
-                      style={{
-                        width: '100%', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--card-border)',
-                        borderRadius: 8, padding: '12px', color: 'var(--text-secondary)',
-                        fontFamily: 'monospace', fontSize: '0.72rem', resize: 'vertical',
-                        boxSizing: 'border-box'
-                      }}
-                    />
-                    <button
-                      onClick={copyPrompt}
-                      aria-label="Kopier Claude-prompt til utklippstavlen"
-                      className="gold-btn"
-                      style={{ marginTop: '0.75rem', width: '100%' }}
-                    >
-                      {promptCopied ? '✓ Kopiert!' : 'Kopier prompt'}
-                    </button>
-                  </div>
-                )}
-              </div>
+              {!profileSaved && distributor?.slug && (
+                <p style={{ margin: '0.75rem 0 0', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-dim)' }}>
+                  Din side: <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-link">primeverseaccess.com/{distributor.slug}</a>
+                </p>
+              )}
             </div>
 
             <div id="ai-panel">
