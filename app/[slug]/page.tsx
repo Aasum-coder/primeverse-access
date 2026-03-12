@@ -354,8 +354,9 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
 
   useEffect(() => {
     const fetchDistributor = async () => {
-      const { data, error } = await supabase.from('distributors').select('*').eq('slug', slug).single()
-      if (error || !data) {
+      const { data: rows, error } = await supabase.from('distributors').select('*').eq('slug', slug).limit(1)
+      const data = rows?.[0] ?? null
+      if (error || !data || !data.id) {
         console.error('[slug page] Supabase error:', error)
         setDbError(error?.message || 'No data returned')
         setNotFound(true)
