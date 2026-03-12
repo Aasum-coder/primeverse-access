@@ -937,16 +937,21 @@ export default function Home() {
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (!file) return
+    if (!file || !distributor?.id) return
     setUploadingImage(true)
     const ext = file.name.split('.').pop()
     const path = `${distributor.id}.${ext}`
     const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
     if (uploadError) { alert('Feil ved opplasting: ' + uploadError.message); setUploadingImage(false); return }
     const { data } = supabase.storage.from('avatars').getPublicUrl(path)
-    setProfileImage(data.publicUrl)
-    setImgX(50)
-    setImgY(30)
+    const newUrl = data.publicUrl
+    const newX = 50
+    const newY = 30
+    setProfileImage(newUrl)
+    setImgX(newX)
+    setImgY(newY)
+    // Auto-save image immediately to database
+    await supabase.from('distributors').update({ profile_image: serializeProfileImage(newUrl, newX, newY) }).eq('id', distributor.id)
     setUploadingImage(false)
   }
 
