@@ -66,6 +66,7 @@ const translations: Record<string, Record<string, string>> = {
     aiPlaceholder: 'Write here... (Enter to send)',
     aiTyping: 'Writing...',
     fillAll: 'Fill in all fields',
+    referralRequired: 'This field must be filled in',
     aiGreeting: "Hi! I'm here to help you write a bio that converts. Tell me a little about yourself — where are you from, what is your background, and why did you join 1Move Academy?",
   },
   no: {
@@ -108,6 +109,7 @@ const translations: Record<string, Record<string, string>> = {
     aiPlaceholder: 'Skriv her... (Enter for å sende)',
     aiTyping: 'Skriver...',
     fillAll: 'Fyll inn alle feltene',
+    referralRequired: 'Dette feltet må fylles ut',
     aiGreeting: "Hei! Jeg er her for å hjelpe deg med å skrive en bio som konverterer. Fortell litt om deg selv — hvor er du fra, hva er bakgrunnen din, og hvorfor ble du med i 1Move Academy?",
   },
   sv: {
@@ -150,6 +152,7 @@ const translations: Record<string, Record<string, string>> = {
     aiPlaceholder: 'Skriv här... (Enter för att skicka)',
     aiTyping: 'Skriver...',
     fillAll: 'Fyll i alla fält',
+    referralRequired: 'Detta fält måste fyllas i',
     aiGreeting: "Hej! Jag är här för att hjälpa dig skriva en bio som konverterar. Berätta lite om dig själv — var kommer du ifrån, vad är din bakgrund, och varför gick du med i 1Move Academy?",
   },
   es: {
@@ -192,6 +195,7 @@ const translations: Record<string, Record<string, string>> = {
     aiPlaceholder: 'Escribe aquí... (Enter para enviar)',
     aiTyping: 'Escribiendo...',
     fillAll: 'Completa todos los campos',
+    referralRequired: 'Este campo debe completarse',
     aiGreeting: "¡Hola! Estoy aquí para ayudarte a escribir una bio que convierte. Cuéntame un poco sobre ti — ¿de dónde eres, cuál es tu experiencia, y por qué te uniste a 1Move Academy?",
   },
   ru: {
@@ -234,6 +238,7 @@ const translations: Record<string, Record<string, string>> = {
     aiPlaceholder: 'Напишите здесь... (Enter для отправки)',
     aiTyping: 'Пишет...',
     fillAll: 'Заполните все поля',
+    referralRequired: 'Это поле обязательно для заполнения',
     aiGreeting: "Привет! Я здесь, чтобы помочь вам написать биографию, которая конвертирует. Расскажите немного о себе — откуда вы, какой у вас опыт, и почему вы присоединились к 1Move Academy?",
   },
   ar: {
@@ -276,6 +281,7 @@ const translations: Record<string, Record<string, string>> = {
     aiPlaceholder: 'اكتب هنا... (Enter للإرسال)',
     aiTyping: 'يكتب...',
     fillAll: 'املأ جميع الحقول',
+    referralRequired: 'يجب ملء هذا الحقل',
     aiGreeting: "مرحباً! أنا هنا لمساعدتك في كتابة نبذة تحقق التحويل. أخبرني قليلاً عن نفسك — من أين أنت، ما خلفيتك، ولماذا انضممت إلى 1Move Academy؟",
   },
   tl: {
@@ -318,6 +324,7 @@ const translations: Record<string, Record<string, string>> = {
     aiPlaceholder: 'Sumulat dito... (Enter para mag-send)',
     aiTyping: 'Nagsusulat...',
     fillAll: 'Punan lahat ng fields',
+    referralRequired: 'Kailangang punan ang field na ito',
     aiGreeting: "Hi! Nandito ako para tulungan kang sumulat ng bio na nagko-convert. Kwento mo naman tungkol sa sarili mo — saan ka galing, ano ang background mo, at bakit ka sumali sa 1Move Academy?",
   },
 }
@@ -837,6 +844,7 @@ export default function Home() {
   const [savingProfile, setSavingProfile] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
+  const [referralError, setReferralError] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
@@ -971,6 +979,11 @@ export default function Home() {
   const endDrag = useCallback(() => { isDragging.current = false }, [])
 
   const saveProfile = async () => {
+    if (!profileReferralLink.trim()) {
+      setReferralError(true)
+      return
+    }
+    setReferralError(false)
     setSavingProfile(true)
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
     const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection }).eq('id', distributor.id)
@@ -1305,7 +1318,8 @@ export default function Home() {
 
               <div className="field-group">
                 <label className="field-label" htmlFor="profile-referral">IB / Referral-link</label>
-                <input id="profile-referral" type="url" className="field-input" value={profileReferralLink} onChange={e => setProfileReferralLink(e.target.value)} placeholder="https://puvip.co/la-partners/..." />
+                <input id="profile-referral" type="url" className="field-input" value={profileReferralLink} onChange={e => { setProfileReferralLink(e.target.value); setReferralError(false) }} placeholder="https://puvip.co/la-partners/..." style={referralError ? { borderColor: '#d44a37' } : undefined} aria-invalid={referralError} />
+                {referralError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{t.referralRequired}</p>}
               </div>
 
               <div className="field-group">

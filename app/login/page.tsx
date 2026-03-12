@@ -31,6 +31,7 @@ const translations: Record<string, Record<string, string>> = {
     errorEmailInUse: "This email is already registered.",
     errorGeneric: "Something went wrong. Please try again.",
     loading: "Please wait...",
+    passwordHint: "Must contain at least 6 characters",
   },
   no: {
     title: "1Move Academy Tilgangsportal",
@@ -55,6 +56,7 @@ const translations: Record<string, Record<string, string>> = {
     errorEmailInUse: "Denne e-posten er allerede registrert.",
     errorGeneric: "Noe gikk galt. Vennligst prøv igjen.",
     loading: "Vennligst vent...",
+    passwordHint: "Må inneholde minst 6 tegn",
   },
   sv: {
     title: "1Move Academy Åtkomstportal",
@@ -79,6 +81,7 @@ const translations: Record<string, Record<string, string>> = {
     errorEmailInUse: "Denna e-post är redan registrerad.",
     errorGeneric: "Något gick fel. Försök igen.",
     loading: "Vänta...",
+    passwordHint: "Måste innehålla minst 6 tecken",
   },
   es: {
     title: "Portal de Acceso 1Move Academy",
@@ -103,6 +106,7 @@ const translations: Record<string, Record<string, string>> = {
     errorEmailInUse: "Este correo ya está registrado.",
     errorGeneric: "Algo salió mal. Inténtalo de nuevo.",
     loading: "Espera...",
+    passwordHint: "Debe contener al menos 6 caracteres",
   },
   ru: {
     title: "Портал доступа 1Move Academy",
@@ -127,6 +131,7 @@ const translations: Record<string, Record<string, string>> = {
     errorEmailInUse: "Этот email уже зарегистрирован.",
     errorGeneric: "Что-то пошло не так. Попробуйте снова.",
     loading: "Подождите...",
+    passwordHint: "Должен содержать не менее 6 символов",
   },
   ar: {
     title: "بوابة الوصول 1Move Academy",
@@ -151,6 +156,7 @@ const translations: Record<string, Record<string, string>> = {
     errorEmailInUse: "هذا البريد الإلكتروني مسجل بالفعل.",
     errorGeneric: "حدث خطأ. حاول مرة أخرى.",
     loading: "يرجى الانتظار...",
+    passwordHint: "يجب أن تحتوي على 6 أحرف على الأقل",
   },
   tl: {
     title: "1Move Academy Access Portal",
@@ -175,6 +181,7 @@ const translations: Record<string, Record<string, string>> = {
     errorEmailInUse: "Ang email na ito ay nakarehistro na.",
     errorGeneric: "May nangyaring mali. Subukan muli.",
     loading: "Sandali lang...",
+    passwordHint: "Dapat may hindi bababa sa 6 na character",
   },
 };
 
@@ -894,8 +901,12 @@ export default function LoginPage() {
                   autoComplete={mode === "login" ? "current-password" : "new-password"}
                   aria-required="true"
                   aria-invalid={!!error}
+                  aria-describedby={mode === "signup" ? "password-hint" : undefined}
                   onKeyDown={(e) => e.key === "Enter" && onSubmit()}
                 />
+                {mode === "signup" && (
+                  <p id="password-hint" style={{ margin: "0.35rem 0 0", fontSize: "0.75rem", color: "var(--text-secondary)" }}>{t.passwordHint}</p>
+                )}
               </div>
             )}
 
