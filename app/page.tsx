@@ -871,9 +871,16 @@ export default function Home() {
       const { data: existing } = await supabase.from('distributors').select('*').eq('user_id', userId).single()
       let dist = existing
       if (!existing) {
-        const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId }).select().single()
+        const autoSlug = email.split('@')[0].toLowerCase().replace(/[^a-z0-9-]/g, '')
+        const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId, slug: autoSlug }).select().single()
         if (error) { alert(error.message); return }
         dist = newDist
+      }
+      // If existing record has no slug, set one from email
+      if (dist && !dist.slug) {
+        const autoSlug = email.split('@')[0].toLowerCase().replace(/[^a-z0-9-]/g, '')
+        await supabase.from('distributors').update({ slug: autoSlug }).eq('id', dist.id)
+        dist = { ...dist, slug: autoSlug }
       }
       setDistributor(dist)
       setProfileName(dist.name || '')
