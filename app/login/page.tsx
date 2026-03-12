@@ -739,8 +739,8 @@ export default function LoginPage() {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) throw error;
       setSuccess(t.signupSuccess);
-    } catch {
-      setError(t.errorGeneric);
+    } catch (err: any) {
+      setError(err?.message || t.errorGeneric);
     } finally {
       setLoading(false);
     }
