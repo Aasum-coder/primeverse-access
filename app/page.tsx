@@ -964,6 +964,7 @@ export default function Home() {
   const [bioTone, setBioTone] = useState<string | null>(null)
   const [generatedBios, setGeneratedBios] = useState<Record<string, string> | null>(null)
   const [bioLangOpen, setBioLangOpen] = useState(false)
+  const [bioError, setBioError] = useState<string | null>(null)
 
   // Language
   const [lang, setLang] = useState('en')
@@ -1138,6 +1139,7 @@ export default function Home() {
     setBioTone(null)
     setGeneratedBios(null)
     setBioLangOpen(false)
+    setBioError(null)
   }
 
   const bioNextQuestion = () => {
@@ -1151,8 +1153,9 @@ export default function Home() {
 
   const bioSelectTone = async (tone: string) => {
     setBioTone(tone)
-    setBioStep(bioQuestionKeys.length + 1) // move to loading/preview
+    setBioStep(bioQuestionKeys.length + 1)
     setAiLoading(true)
+    setBioError(null)
     try {
       const res = await fetch('/api/generate-bio', {
         method: 'POST',
@@ -1165,9 +1168,11 @@ export default function Home() {
         setProfileBio(data.bios[lang] || Object.values(data.bios)[0] || '')
       } else {
         setGeneratedBios(null)
+        setBioError(data.error || 'Unknown error from API')
       }
-    } catch {
+    } catch (e) {
       setGeneratedBios(null)
+      setBioError('Network error: ' + String(e))
     }
     setAiLoading(false)
   }
@@ -1177,6 +1182,7 @@ export default function Home() {
     setBioStep(bioQuestionKeys.length + 1)
     setAiLoading(true)
     setGeneratedBios(null)
+    setBioError(null)
     try {
       const res = await fetch('/api/generate-bio', {
         method: 'POST',
@@ -1187,8 +1193,12 @@ export default function Home() {
       if (data.bios) {
         setGeneratedBios(data.bios)
         setProfileBio(data.bios[lang] || Object.values(data.bios)[0] || '')
+      } else {
+        setBioError(data.error || 'Unknown error from API')
       }
-    } catch { /* ignore */ }
+    } catch (e) {
+      setBioError('Network error: ' + String(e))
+    }
     setAiLoading(false)
   }
 
@@ -1635,8 +1645,18 @@ export default function Home() {
                     {/* Error state */}
                     {bioStep > bioQuestionKeys.length && !aiLoading && !generatedBios && (
                       <div className="ai-loading">
-                        <div style={{ color: '#d44a37', fontSize: '0.84rem', marginBottom: '1rem' }}>Something went wrong. Please try again.</div>
-                        <button className="ai-btn-secondary" onClick={bioRegenerate}>{t.aiRegenerate}</button>
+                        <div style={{ color: '#d44a37', fontSize: '0.84rem', marginBottom: '0.5rem', fontWeight: 600 }}>
+                          {lang === 'no' ? 'Noe gikk galt' : lang === 'sv' ? 'Något gick fel' : lang === 'es' ? 'Algo salió mal' : 'Something went wrong'}
+                        </div>
+                        {bioError && (
+                          <div style={{ color: 'var(--text-dim)', fontSize: '0.76rem', marginBottom: '1rem', maxWidth: '340px', lineHeight: 1.5, wordBreak: 'break-word' }}>
+                            {bioError}
+                          </div>
+                        )}
+                        <div className="ai-btn-row" style={{ justifyContent: 'center' }}>
+                          <button className="ai-btn-secondary" onClick={bioRegenerate}>{t.aiRegenerate}</button>
+                          <button className="ai-btn-secondary" onClick={startAI}>{t.aiStartOver}</button>
+                        </div>
                       </div>
                     )}
                   </div>
