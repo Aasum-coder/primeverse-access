@@ -60,15 +60,19 @@ const translations: Record<string, Record<string, string>> = {
     loading: 'Loading...',
     aiHelper: 'AI helps you',
     aiTitle: 'AI Bio-assistant',
-    aiDescription: 'Claude asks you some questions and writes a bio that is personal and optimized for conversion.',
     startAi: 'Start AI assistant',
-    aiPowered: 'Powered by Claude',
-    aiPlaceholder: 'Write here... (Enter to send)',
-    aiTyping: 'Writing...',
+    aiGenerating: 'Generating your bio...',
+    aiNext: 'Next',
+    aiChooseTone: 'Choose a tone for your bio:',
+    aiPreview: 'Your generated bio:',
+    aiUseThis: 'Use this bio',
+    aiRegenerate: 'Generate new',
+    aiStartOver: 'Start over',
+    aiOtherLangs: 'View in other languages',
+    aiStepOf: 'of',
     fillAll: 'Fill in all fields',
     referralRequired: 'This field must be filled in',
     socialMedia: 'Social media',
-    aiGreeting: "Hi! I'm here to help you write a bio that converts. Tell me a little about yourself — where are you from, what is your background, and why did you join 1Move Academy?",
   },
   no: {
     leadsTab: 'Leads',
@@ -104,15 +108,19 @@ const translations: Record<string, Record<string, string>> = {
     loading: 'Laster...',
     aiHelper: 'AI hjelper deg',
     aiTitle: 'AI Bio-assistent',
-    aiDescription: 'Claude stiller deg noen spørsmål og skriver en bio som er personlig og optimert for konvertering.',
     startAi: 'Start AI-assistenten',
-    aiPowered: 'Powered by Claude',
-    aiPlaceholder: 'Skriv her... (Enter for å sende)',
-    aiTyping: 'Skriver...',
+    aiGenerating: 'Genererer bioen din...',
+    aiNext: 'Neste',
+    aiChooseTone: 'Velg en tone for bioen din:',
+    aiPreview: 'Din genererte bio:',
+    aiUseThis: 'Bruk denne',
+    aiRegenerate: 'Generer ny',
+    aiStartOver: 'Start på nytt',
+    aiOtherLangs: 'Se på andre språk',
+    aiStepOf: 'av',
     fillAll: 'Fyll inn alle feltene',
     referralRequired: 'Dette feltet må fylles ut',
     socialMedia: 'Sosiale medier',
-    aiGreeting: "Hei! Jeg er her for å hjelpe deg med å skrive en bio som konverterer. Fortell litt om deg selv — hvor er du fra, hva er bakgrunnen din, og hvorfor ble du med i 1Move Academy?",
   },
   sv: {
     leadsTab: 'Leads',
@@ -148,15 +156,19 @@ const translations: Record<string, Record<string, string>> = {
     loading: 'Laddar...',
     aiHelper: 'AI hjälper dig',
     aiTitle: 'AI Bio-assistent',
-    aiDescription: 'Claude ställer dig några frågor och skriver en bio som är personlig och optimerad för konvertering.',
     startAi: 'Starta AI-assistenten',
-    aiPowered: 'Powered by Claude',
-    aiPlaceholder: 'Skriv här... (Enter för att skicka)',
-    aiTyping: 'Skriver...',
+    aiGenerating: 'Genererar din bio...',
+    aiNext: 'Nästa',
+    aiChooseTone: 'Välj en ton för din bio:',
+    aiPreview: 'Din genererade bio:',
+    aiUseThis: 'Använd denna',
+    aiRegenerate: 'Generera ny',
+    aiStartOver: 'Börja om',
+    aiOtherLangs: 'Visa på andra språk',
+    aiStepOf: 'av',
     fillAll: 'Fyll i alla fält',
     referralRequired: 'Detta fält måste fyllas i',
     socialMedia: 'Sociala medier',
-    aiGreeting: "Hej! Jag är här för att hjälpa dig skriva en bio som konverterar. Berätta lite om dig själv — var kommer du ifrån, vad är din bakgrund, och varför gick du med i 1Move Academy?",
   },
   es: {
     leadsTab: 'Leads',
@@ -192,15 +204,19 @@ const translations: Record<string, Record<string, string>> = {
     loading: 'Cargando...',
     aiHelper: 'AI te ayuda',
     aiTitle: 'AI Bio-asistente',
-    aiDescription: 'Claude te hace preguntas y escribe una bio personal y optimizada para conversión.',
     startAi: 'Iniciar asistente AI',
-    aiPowered: 'Powered by Claude',
-    aiPlaceholder: 'Escribe aquí... (Enter para enviar)',
-    aiTyping: 'Escribiendo...',
+    aiGenerating: 'Generando tu bio...',
+    aiNext: 'Siguiente',
+    aiChooseTone: 'Elige un tono para tu bio:',
+    aiPreview: 'Tu bio generada:',
+    aiUseThis: 'Usar esta',
+    aiRegenerate: 'Generar nueva',
+    aiStartOver: 'Empezar de nuevo',
+    aiOtherLangs: 'Ver en otros idiomas',
+    aiStepOf: 'de',
     fillAll: 'Completa todos los campos',
     referralRequired: 'Este campo debe completarse',
     socialMedia: 'Redes sociales',
-    aiGreeting: "¡Hola! Estoy aquí para ayudarte a escribir una bio que convierte. Cuéntame un poco sobre ti — ¿de dónde eres, cuál es tu experiencia, y por qué te uniste a 1Move Academy?",
   },
   ru: {
     leadsTab: 'Лиды',
@@ -236,15 +252,19 @@ const translations: Record<string, Record<string, string>> = {
     loading: 'Загрузка...',
     aiHelper: 'AI помогает',
     aiTitle: 'AI Био-ассистент',
-    aiDescription: 'Claude задаёт вам вопросы и пишет биографию, оптимизированную для конверсии.',
     startAi: 'Запустить AI-ассистента',
-    aiPowered: 'Powered by Claude',
-    aiPlaceholder: 'Напишите здесь... (Enter для отправки)',
-    aiTyping: 'Пишет...',
+    aiGenerating: 'Генерируем вашу биографию...',
+    aiNext: 'Далее',
+    aiChooseTone: 'Выберите тон для биографии:',
+    aiPreview: 'Ваша сгенерированная биография:',
+    aiUseThis: 'Использовать',
+    aiRegenerate: 'Сгенерировать новую',
+    aiStartOver: 'Начать сначала',
+    aiOtherLangs: 'Посмотреть на других языках',
+    aiStepOf: 'из',
     fillAll: 'Заполните все поля',
     referralRequired: 'Это поле обязательно для заполнения',
     socialMedia: 'Социальные сети',
-    aiGreeting: "Привет! Я здесь, чтобы помочь вам написать биографию, которая конвертирует. Расскажите немного о себе — откуда вы, какой у вас опыт, и почему вы присоединились к 1Move Academy?",
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -280,15 +300,19 @@ const translations: Record<string, Record<string, string>> = {
     loading: 'جاري التحميل...',
     aiHelper: 'AI يساعدك',
     aiTitle: 'مساعد AI للنبذة',
-    aiDescription: 'يسألك Claude بعض الأسئلة ويكتب نبذة شخصية محسّنة للتحويل.',
     startAi: 'بدء مساعد AI',
-    aiPowered: 'Powered by Claude',
-    aiPlaceholder: 'اكتب هنا... (Enter للإرسال)',
-    aiTyping: 'يكتب...',
+    aiGenerating: 'جارٍ إنشاء نبذتك...',
+    aiNext: 'التالي',
+    aiChooseTone: 'اختر نغمة لنبذتك:',
+    aiPreview: 'نبذتك المُنشأة:',
+    aiUseThis: 'استخدم هذه',
+    aiRegenerate: 'إنشاء جديدة',
+    aiStartOver: 'البدء من جديد',
+    aiOtherLangs: 'عرض بلغات أخرى',
+    aiStepOf: 'من',
     fillAll: 'املأ جميع الحقول',
     referralRequired: 'يجب ملء هذا الحقل',
     socialMedia: 'وسائل التواصل الاجتماعي',
-    aiGreeting: "مرحباً! أنا هنا لمساعدتك في كتابة نبذة تحقق التحويل. أخبرني قليلاً عن نفسك — من أين أنت، ما خلفيتك، ولماذا انضممت إلى 1Move Academy؟",
   },
   tl: {
     leadsTab: 'Leads',
@@ -324,15 +348,19 @@ const translations: Record<string, Record<string, string>> = {
     loading: 'Naglo-load...',
     aiHelper: 'AI tumutulong',
     aiTitle: 'AI Bio-assistant',
-    aiDescription: 'Magtatanong si Claude at susulat ng bio na personal at optimized para sa conversion.',
     startAi: 'Simulan ang AI assistant',
-    aiPowered: 'Powered by Claude',
-    aiPlaceholder: 'Sumulat dito... (Enter para mag-send)',
-    aiTyping: 'Nagsusulat...',
+    aiGenerating: 'Ginagawa ang iyong bio...',
+    aiNext: 'Susunod',
+    aiChooseTone: 'Pumili ng tono para sa iyong bio:',
+    aiPreview: 'Ang na-generate na bio mo:',
+    aiUseThis: 'Gamitin ito',
+    aiRegenerate: 'Gumawa ng bago',
+    aiStartOver: 'Magsimula ulit',
+    aiOtherLangs: 'Tingnan sa ibang wika',
+    aiStepOf: 'ng',
     fillAll: 'Punan lahat ng fields',
     referralRequired: 'Kailangang punan ang field na ito',
     socialMedia: 'Social media',
-    aiGreeting: "Hi! Nandito ako para tulungan kang sumulat ng bio na nagko-convert. Kwento mo naman tungkol sa sarili mo — saan ka galing, ano ang background mo, at bakit ka sumali sa 1Move Academy?",
   },
 }
 
@@ -635,7 +663,7 @@ const styles = `
   .ai-panel {
     border: 1px solid var(--card-border); border-radius: 12px;
     overflow: hidden; display: flex; flex-direction: column;
-    height: 500px; backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
   }
   .ai-header {
     padding: 0.85rem 1.1rem; background: rgba(15,12,8,0.9);
@@ -645,41 +673,106 @@ const styles = `
   }
   .ai-header .sparkle { color: var(--gold); font-size: 1rem; }
   .ai-header .powered { margin-left: auto; font-size: 0.7rem; color: var(--text-dim); font-weight: 400; }
-  .ai-messages {
-    flex: 1; overflow-y: auto; padding: 1rem;
-    display: flex; flex-direction: column; gap: 0.6rem;
-    background: rgba(8,8,6,0.5);
+  .ai-body {
+    padding: 1.25rem; background: rgba(8,8,6,0.5);
   }
-  .ai-bubble { max-width: 88%; padding: 0.65rem 0.9rem; font-size: 0.82rem; line-height: 1.65; white-space: pre-wrap; }
-  .ai-bubble-user {
-    align-self: flex-end; background: rgba(212,165,55,0.15);
-    color: var(--text-primary); border-radius: 14px 14px 4px 14px;
-    border: 1px solid rgba(212,165,55,0.2);
+  .ai-step-indicator {
+    display: flex; gap: 6px; margin-bottom: 1.2rem;
   }
-  .ai-bubble-ai {
-    align-self: flex-start; background: rgba(20,18,14,0.8);
-    color: var(--text-primary); border-radius: 14px 14px 14px 4px;
-    border: 1px solid var(--card-border);
+  .ai-step-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--card-border); transition: background 0.3s;
   }
-  .ai-input-row {
-    padding: 0.65rem 0.75rem; border-top: 1px solid var(--card-border);
-    display: flex; gap: 8px; background: rgba(10,10,8,0.8);
+  .ai-step-dot.active { background: var(--gold); }
+  .ai-step-dot.done { background: rgba(212,165,55,0.4); }
+  .ai-question {
+    font-size: 0.88rem; color: var(--text-primary); line-height: 1.6;
+    margin-bottom: 1rem; font-weight: 500;
   }
-  .ai-input {
-    flex: 1; padding: 0.55rem 0.9rem; background: var(--input-bg);
-    border: 1px solid var(--input-border); border-radius: 20px;
+  .ai-question-count {
+    font-size: 0.72rem; color: var(--text-dim); margin-bottom: 0.5rem;
+  }
+  .ai-textarea {
+    width: 100%; padding: 0.7rem 0.9rem; background: var(--input-bg);
+    border: 1px solid var(--input-border); border-radius: 10px;
     color: var(--text-primary); font-family: 'Outfit', sans-serif;
-    font-size: 0.82rem; outline: none;
+    font-size: 0.84rem; outline: none; resize: vertical; min-height: 70px;
+    line-height: 1.6; box-sizing: border-box;
   }
-  .ai-input:focus { border-color: var(--input-focus); }
-  .ai-send-btn {
-    padding: 0.55rem 1.1rem; border: none; border-radius: 20px;
-    font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 700;
+  .ai-textarea:focus { border-color: var(--input-focus); }
+  .ai-next-btn {
+    margin-top: 0.8rem; padding: 0.6rem 1.6rem; border: none; border-radius: 8px;
+    font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 600;
     cursor: pointer; color: #0a0804;
     background: linear-gradient(135deg, #c9a227, #e8c975, #d4a537);
     transition: opacity 0.2s;
   }
-  .ai-send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .ai-next-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .ai-tone-grid {
+    display: flex; gap: 0.6rem; flex-wrap: wrap;
+  }
+  .ai-tone-btn {
+    flex: 1; min-width: 100px; padding: 0.9rem 0.6rem; border-radius: 10px;
+    border: 1px solid var(--card-border); background: rgba(15,13,10,0.6);
+    color: var(--text-primary); font-family: 'Outfit', sans-serif;
+    font-size: 0.84rem; font-weight: 500; cursor: pointer;
+    text-align: center; transition: all 0.3s;
+  }
+  .ai-tone-btn:hover { border-color: var(--gold); background: rgba(212,165,55,0.08); }
+  .ai-tone-emoji { font-size: 1.4rem; display: block; margin-bottom: 0.4rem; }
+  .ai-loading {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 2.5rem 1rem; text-align: center;
+  }
+  .ai-spinner {
+    width: 36px; height: 36px; border: 3px solid var(--card-border);
+    border-top-color: var(--gold); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin-bottom: 1rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ai-preview-bio {
+    background: rgba(15,13,10,0.6); border: 1px solid var(--card-border);
+    border-radius: 10px; padding: 1rem 1.1rem; font-size: 0.86rem;
+    line-height: 1.7; color: var(--text-primary); margin-bottom: 1rem;
+    white-space: pre-wrap;
+  }
+  .ai-btn-row {
+    display: flex; gap: 0.6rem; flex-wrap: wrap;
+  }
+  .ai-btn-primary {
+    padding: 0.6rem 1.4rem; border: none; border-radius: 8px;
+    font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; color: #0a0804;
+    background: linear-gradient(135deg, #c9a227, #e8c975, #d4a537);
+    transition: opacity 0.2s;
+  }
+  .ai-btn-secondary {
+    padding: 0.6rem 1.4rem; border: 1px solid var(--card-border); border-radius: 8px;
+    font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 500;
+    cursor: pointer; color: var(--text-secondary); background: transparent;
+    transition: all 0.2s;
+  }
+  .ai-btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .ai-lang-toggle {
+    margin-top: 0.8rem; padding: 0; border: none; background: none;
+    color: var(--text-dim); font-size: 0.78rem; cursor: pointer;
+    font-family: 'Outfit', sans-serif; text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .ai-lang-toggle:hover { color: var(--gold); }
+  .ai-lang-list {
+    margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .ai-lang-item {
+    background: rgba(15,13,10,0.4); border: 1px solid var(--card-border);
+    border-radius: 8px; padding: 0.7rem 0.9rem; font-size: 0.8rem;
+    color: var(--text-secondary); line-height: 1.6;
+  }
+  .ai-lang-item strong {
+    color: var(--gold); font-weight: 600; display: block;
+    margin-bottom: 0.25rem; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 
   .ai-placeholder {
     background: rgba(15,13,10,0.4); border: 1px dashed var(--card-border);
@@ -812,14 +905,16 @@ const styles = `
   .lang-option:focus-visible,
   .btn-success:focus-visible,
   .gold-link:focus-visible,
-  .ai-send-btn:focus-visible {
+  .ai-next-btn:focus-visible,
+  .ai-btn-primary:focus-visible,
+  .ai-btn-secondary:focus-visible {
     outline: 2px solid var(--gold);
     outline-offset: 2px;
   }
 
   .field-input:focus,
   .field-textarea:focus,
-  .ai-input:focus {
+  .ai-textarea:focus {
     outline: 2px solid var(--gold);
     outline-offset: 1px;
   }
@@ -862,11 +957,13 @@ export default function Home() {
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
 
   const [showAI, setShowAI] = useState(false)
-  const [aiInput, setAiInput] = useState('')
   const [aiLoading, setAiLoading] = useState(false)
-  const [aiMessages, setAiMessages] = useState<{role: string, content: string}[]>([])
   const [bioStep, setBioStep] = useState(0)
   const [bioAnswers, setBioAnswers] = useState<Record<string, string>>({})
+  const [bioCurrentAnswer, setBioCurrentAnswer] = useState('')
+  const [bioTone, setBioTone] = useState<string | null>(null)
+  const [generatedBios, setGeneratedBios] = useState<Record<string, string> | null>(null)
+  const [bioLangOpen, setBioLangOpen] = useState(false)
 
   // Language
   const [lang, setLang] = useState('en')
@@ -1015,57 +1112,91 @@ export default function Home() {
     setTimeout(() => setProfileSaved(false), 3000)
   }
 
-  const bioQuestions = [
-    { key: 'name', q: lang === 'no' ? 'Hva heter du? (Fullt navn)' : lang === 'sv' ? 'Vad heter du? (Fullständigt namn)' : lang === 'es' ? '¿Cómo te llamas? (Nombre completo)' : lang === 'ru' ? 'Как вас зовут? (Полное имя)' : lang === 'ar' ? 'ما اسمك؟ (الاسم الكامل)' : lang === 'tl' ? 'Ano ang pangalan mo? (Buong pangalan)' : 'What is your name? (Full name)' },
-    { key: 'origin', q: lang === 'no' ? 'Hvor er du fra? (By/land)' : lang === 'sv' ? 'Var kommer du ifrån? (Stad/land)' : lang === 'es' ? '¿De dónde eres? (Ciudad/país)' : lang === 'ru' ? 'Откуда вы? (Город/страна)' : lang === 'ar' ? 'من أين أنت؟ (المدينة/البلد)' : lang === 'tl' ? 'Saan ka galing? (Lungsod/bansa)' : 'Where are you from? (City/country)' },
-    { key: 'background', q: lang === 'no' ? 'Hva er din bakgrunn? (Yrke, erfaring, utdanning)' : lang === 'sv' ? 'Vad är din bakgrund? (Yrke, erfarenhet)' : lang === 'es' ? '¿Cuál es tu experiencia? (Profesión, experiencia)' : lang === 'ru' ? 'Какой у вас опыт? (Профессия, опыт)' : lang === 'ar' ? 'ما خلفيتك؟ (المهنة، الخبرة)' : lang === 'tl' ? 'Ano ang background mo? (Trabaho, karanasan)' : 'What is your background? (Profession, experience)' },
-    { key: 'why', q: lang === 'no' ? 'Hvorfor ble du med i 1Move Academy? Hva motiverer deg?' : lang === 'sv' ? 'Varför gick du med i 1Move Academy? Vad motiverar dig?' : lang === 'es' ? '¿Por qué te uniste a 1Move Academy? ¿Qué te motiva?' : lang === 'ru' ? 'Почему вы присоединились к 1Move Academy? Что вас мотивирует?' : lang === 'ar' ? 'لماذا انضممت إلى 1Move Academy؟ ما الذي يحفزك؟' : lang === 'tl' ? 'Bakit ka sumali sa 1Move Academy? Ano ang motivation mo?' : 'Why did you join 1Move Academy? What motivates you?' },
-    { key: 'promise', q: lang === 'no' ? 'Hva kan dine members forvente av deg?' : lang === 'sv' ? 'Vad kan dina members förvänta sig av dig?' : lang === 'es' ? '¿Qué pueden esperar tus miembros de ti?' : lang === 'ru' ? 'Что могут ожидать от вас ваши участники?' : lang === 'ar' ? 'ماذا يمكن لأعضائك توقعه منك؟' : lang === 'tl' ? 'Ano ang maaasahan ng iyong members sa iyo?' : 'What can your members expect from you?' },
-  ]
+  const bioQuestionKeys = ['background', 'motivation', 'unique', 'ideal_client', 'expectations'] as const
 
-  const generateBio = (answers: Record<string, string>): string => {
-    const { name, origin, background, why, promise } = answers
-    const bios = [
-      `${name} fra ${origin} er en dedikert 1Move Academy-representant med bakgrunn innen ${background}. ${why} Med lidenskap og erfaring er målet klart: ${promise} Bli med på reisen mot finansiell frihet — med ${name.split(' ')[0]} som din guide.`,
-      `Møt ${name}, din personlige partner fra ${origin} i 1Move Academy. Med erfaring fra ${background}, brenner ${name.split(' ')[0]} for å gjøre en forskjell. ${why} Som din representant lover ${name.split(' ')[0]} én ting: ${promise}`,
-      `${name} fra ${origin} har funnet sin lidenskap gjennom 1Move Academy. Med bakgrunn innen ${background} og en sterk motivasjon — ${why.toLowerCase()} — er ${name.split(' ')[0]} klar til å hjelpe deg. ${promise}`,
-    ]
-    return bios[Math.floor(Math.random() * bios.length)]
+  const bioQuestionTexts: Record<string, Record<string, string>> = {
+    background: { en: 'What is your background in trading/finance?', no: 'Hva er din bakgrunn innen trading/finans?', sv: 'Vad är din bakgrund inom trading/finans?', es: '¿Cuál es tu experiencia en trading/finanzas?', ru: 'Какой у вас опыт в трейдинге/финансах?', ar: 'ما خلفيتك في التداول/المالية؟', tl: 'Ano ang background mo sa trading/finance?' },
+    motivation: { en: 'What motivates you to help others with trading?', no: 'Hva motiverer deg til å hjelpe andre med trading?', sv: 'Vad motiverar dig att hjälpa andra med trading?', es: '¿Qué te motiva a ayudar a otros con el trading?', ru: 'Что мотивирует вас помогать другим с трейдингом?', ar: 'ما الذي يحفزك لمساعدة الآخرين في التداول؟', tl: 'Ano ang motivation mo na tulungan ang iba sa trading?' },
+    unique: { en: 'What makes you unique as a partner/mentor?', no: 'Hva gjør deg unik som partner/mentor?', sv: 'Vad gör dig unik som partner/mentor?', es: '¿Qué te hace único como socio/mentor?', ru: 'Что делает вас уникальным как партнёра/ментора?', ar: 'ما الذي يجعلك فريداً كشريك/مرشد؟', tl: 'Ano ang natatangi sa iyo bilang partner/mentor?' },
+    ideal_client: { en: 'Who is your ideal client?', no: 'Hvem er din ideelle klient?', sv: 'Vem är din ideala klient?', es: '¿Quién es tu cliente ideal?', ru: 'Кто ваш идеальный клиент?', ar: 'من هو عميلك المثالي؟', tl: 'Sino ang ideal mong kliyente?' },
+    expectations: { en: 'What can people expect when working with you?', no: 'Hva kan folk forvente når de jobber med deg?', sv: 'Vad kan folk förvänta sig när de jobbar med dig?', es: '¿Qué pueden esperar las personas al trabajar contigo?', ru: 'Что люди могут ожидать от работы с вами?', ar: 'ماذا يمكن للناس توقعه عند العمل معك؟', tl: 'Ano ang maaasahan ng mga tao kapag nakipagtulungan sa iyo?' },
   }
+
+  const toneLabels: Record<string, Record<string, string>> = {
+    professional: { en: 'Professional', no: 'Profesjonell', sv: 'Professionell', es: 'Profesional', ru: 'Профессиональный', ar: 'احترافي', tl: 'Professional' },
+    casual: { en: 'Casual', no: 'Avslappet', sv: 'Avslappnad', es: 'Casual', ru: 'Непринуждённый', ar: 'عادي', tl: 'Casual' },
+    motivational: { en: 'Motivational', no: 'Motiverende', sv: 'Motiverande', es: 'Motivacional', ru: 'Мотивирующий', ar: 'تحفيزي', tl: 'Motivational' },
+  }
+
+  const langLabels: Record<string, string> = { en: 'English', no: 'Norsk', sv: 'Svenska', es: 'Español', ru: 'Русский', ar: 'العربية', tl: 'Filipino' }
 
   const startAI = () => {
     setShowAI(true)
     setBioStep(0)
     setBioAnswers({})
-    setAiMessages([{ role: 'assistant', content: lang === 'no' ? 'Hei! Jeg hjelper deg med å lage en profesjonell bio. La oss starte!' : lang === 'sv' ? 'Hej! Jag hjälper dig skapa en professionell bio. Låt oss börja!' : lang === 'es' ? '¡Hola! Te ayudo a crear una bio profesional. ¡Empecemos!' : lang === 'ru' ? 'Привет! Помогу вам создать профессиональную биографию. Начнём!' : lang === 'ar' ? 'مرحباً! سأساعدك في إنشاء نبذة احترافية. لنبدأ!' : lang === 'tl' ? 'Hi! Tutulungan kita gumawa ng professional bio. Magsimula tayo!' : 'Hi! I\'ll help you create a professional bio. Let\'s get started!' }, { role: 'assistant', content: bioQuestions[0].q }])
+    setBioCurrentAnswer('')
+    setBioTone(null)
+    setGeneratedBios(null)
+    setBioLangOpen(false)
   }
 
-  const askAI = async () => {
-    if (!aiInput.trim()) return
-    const userMsg = aiInput.trim()
-    setAiInput('')
-
-    const currentKey = bioQuestions[bioStep]?.key
-    const newAnswers = { ...bioAnswers, [currentKey]: userMsg }
+  const bioNextQuestion = () => {
+    if (!bioCurrentAnswer.trim()) return
+    const key = bioQuestionKeys[bioStep]
+    const newAnswers = { ...bioAnswers, [key]: bioCurrentAnswer.trim() }
     setBioAnswers(newAnswers)
+    setBioCurrentAnswer('')
+    setBioStep(bioStep + 1)
+  }
 
-    const newMessages = [...aiMessages, { role: 'user', content: userMsg }]
-    const nextStep = bioStep + 1
-
-    if (nextStep < bioQuestions.length) {
-      setBioStep(nextStep)
-      setAiMessages([...newMessages, { role: 'assistant', content: bioQuestions[nextStep].q }])
-    } else {
-      setAiLoading(true)
-      setBioStep(nextStep)
-      // Small delay to feel natural
-      await new Promise(r => setTimeout(r, 800))
-      const bio = generateBio(newAnswers)
-      setProfileBio(bio)
-      const doneMsg = lang === 'no' ? '✓ Her er din bio! Den er satt inn i bio-feltet. Du kan redigere den fritt før du lagrer.' : lang === 'sv' ? '✓ Här är din bio! Den är insatt i bio-fältet. Du kan redigera den fritt.' : lang === 'es' ? '✓ ¡Aquí está tu bio! Se ha insertado en el campo. Puedes editarla libremente.' : lang === 'ru' ? '✓ Вот ваша биография! Она вставлена в поле. Можете отредактировать.' : lang === 'ar' ? '✓ ها هي نبذتك! تم إدراجها في الحقل. يمكنك تعديلها بحرية.' : lang === 'tl' ? '✓ Heto ang bio mo! Nailagay na sa field. Pwede mo i-edit.' : '✓ Here is your bio! It\'s been inserted into the bio field. Feel free to edit it before saving.'
-      setAiMessages([...newMessages, { role: 'assistant', content: `${doneMsg}\n\n"${bio}"` }])
-      setAiLoading(false)
+  const bioSelectTone = async (tone: string) => {
+    setBioTone(tone)
+    setBioStep(bioQuestionKeys.length + 1) // move to loading/preview
+    setAiLoading(true)
+    try {
+      const res = await fetch('/api/generate-bio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers: bioAnswers, language: lang, tone }),
+      })
+      const data = await res.json()
+      if (data.bios) {
+        setGeneratedBios(data.bios)
+        setProfileBio(data.bios[lang] || Object.values(data.bios)[0] || '')
+      } else {
+        setGeneratedBios(null)
+      }
+    } catch {
+      setGeneratedBios(null)
     }
+    setAiLoading(false)
+  }
+
+  const bioRegenerate = async () => {
+    if (!bioTone) return
+    setBioStep(bioQuestionKeys.length + 1)
+    setAiLoading(true)
+    setGeneratedBios(null)
+    try {
+      const res = await fetch('/api/generate-bio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers: bioAnswers, language: lang, tone: bioTone }),
+      })
+      const data = await res.json()
+      if (data.bios) {
+        setGeneratedBios(data.bios)
+        setProfileBio(data.bios[lang] || Object.values(data.bios)[0] || '')
+      }
+    } catch { /* ignore */ }
+    setAiLoading(false)
+  }
+
+  const bioUseCurrent = () => {
+    if (generatedBios) {
+      setProfileBio(generatedBios[lang] || Object.values(generatedBios)[0] || '')
+    }
+    setShowAI(false)
   }
 
   const handleLogout = async () => {
@@ -1424,27 +1555,97 @@ export default function Home() {
                 <div className="ai-panel">
                   <div className="ai-header">
                     <span className="sparkle" aria-hidden="true">✦</span> {t.aiTitle}
-                    <span className="powered">Smart Bio Generator</span>
+                    <span className="powered">GPT-4</span>
                   </div>
-                  <div className="ai-messages" role="log" aria-live="polite" aria-label={t.aiTitle}>
-                    {aiMessages.map((msg, i) => (
-                      <div key={i} className={`ai-bubble ${msg.role === 'user' ? 'ai-bubble-user' : 'ai-bubble-ai'}`} aria-label={msg.role === 'user' ? 'You' : 'AI'}>
-                        {msg.content}
+                  <div className="ai-body">
+                    {/* Step indicator dots */}
+                    <div className="ai-step-indicator">
+                      {bioQuestionKeys.map((_, i) => (
+                        <div key={i} className={`ai-step-dot${i === bioStep ? ' active' : i < bioStep ? ' done' : ''}`} />
+                      ))}
+                      <div className={`ai-step-dot${bioStep === bioQuestionKeys.length ? ' active' : bioStep > bioQuestionKeys.length ? ' done' : ''}`} />
+                      <div className={`ai-step-dot${bioStep > bioQuestionKeys.length ? ' active' : ''}`} />
+                    </div>
+
+                    {/* Step 1: Questions (one at a time) */}
+                    {bioStep < bioQuestionKeys.length && (
+                      <div>
+                        <div className="ai-question-count">{bioStep + 1} {t.aiStepOf} {bioQuestionKeys.length}</div>
+                        <div className="ai-question">{bioQuestionTexts[bioQuestionKeys[bioStep]][lang] || bioQuestionTexts[bioQuestionKeys[bioStep]].en}</div>
+                        <textarea className="ai-textarea" value={bioCurrentAnswer} onChange={e => setBioCurrentAnswer(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && bioCurrentAnswer.trim()) { e.preventDefault(); bioNextQuestion() } }} rows={3} autoFocus />
+                        <button className="ai-next-btn" onClick={bioNextQuestion} disabled={!bioCurrentAnswer.trim()}>{t.aiNext} →</button>
                       </div>
-                    ))}
-                    {aiLoading && <div className="ai-bubble ai-bubble-ai" style={{ color: 'var(--text-dim)' }} aria-live="polite">{t.aiTyping}</div>}
-                  </div>
-                  <div className="ai-input-row">
-                    <label className="sr-only" htmlFor="ai-input">{t.aiPlaceholder}</label>
-                    <input id="ai-input" className="ai-input" value={aiInput} onChange={e => setAiInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); askAI() } }} placeholder={t.aiPlaceholder} />
-                    <button onClick={askAI} disabled={aiLoading || !aiInput.trim()} className="ai-send-btn" aria-label="Send message to AI assistant">Send</button>
+                    )}
+
+                    {/* Step 2: Choose tone */}
+                    {bioStep === bioQuestionKeys.length && (
+                      <div>
+                        <div className="ai-question">{t.aiChooseTone}</div>
+                        <div className="ai-tone-grid">
+                          <button className="ai-tone-btn" onClick={() => bioSelectTone('professional')}>
+                            <span className="ai-tone-emoji">💼</span>
+                            {toneLabels.professional[lang] || toneLabels.professional.en}
+                          </button>
+                          <button className="ai-tone-btn" onClick={() => bioSelectTone('casual')}>
+                            <span className="ai-tone-emoji">😊</span>
+                            {toneLabels.casual[lang] || toneLabels.casual.en}
+                          </button>
+                          <button className="ai-tone-btn" onClick={() => bioSelectTone('motivational')}>
+                            <span className="ai-tone-emoji">🔥</span>
+                            {toneLabels.motivational[lang] || toneLabels.motivational.en}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Step 3: Loading */}
+                    {bioStep > bioQuestionKeys.length && aiLoading && (
+                      <div className="ai-loading">
+                        <div className="ai-spinner" />
+                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.84rem' }}>{t.aiGenerating}</div>
+                      </div>
+                    )}
+
+                    {/* Step 4: Preview */}
+                    {bioStep > bioQuestionKeys.length && !aiLoading && generatedBios && (
+                      <div>
+                        <div className="ai-question">{t.aiPreview}</div>
+                        <div className="ai-preview-bio">{generatedBios[lang] || Object.values(generatedBios)[0]}</div>
+                        <div className="ai-btn-row">
+                          <button className="ai-btn-primary" onClick={bioUseCurrent}>{t.aiUseThis}</button>
+                          <button className="ai-btn-secondary" onClick={bioRegenerate}>{t.aiRegenerate}</button>
+                          <button className="ai-btn-secondary" onClick={startAI}>{t.aiStartOver}</button>
+                        </div>
+                        <button className="ai-lang-toggle" onClick={() => setBioLangOpen(!bioLangOpen)}>
+                          {bioLangOpen ? '▾' : '▸'} {t.aiOtherLangs}
+                        </button>
+                        {bioLangOpen && (
+                          <div className="ai-lang-list">
+                            {Object.entries(generatedBios).filter(([code]) => code !== lang).map(([code, bio]) => (
+                              <div key={code} className="ai-lang-item">
+                                <strong>{langLabels[code] || code}</strong>
+                                {bio}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Error state */}
+                    {bioStep > bioQuestionKeys.length && !aiLoading && !generatedBios && (
+                      <div className="ai-loading">
+                        <div style={{ color: '#d44a37', fontSize: '0.84rem', marginBottom: '1rem' }}>Something went wrong. Please try again.</div>
+                        <button className="ai-btn-secondary" onClick={bioRegenerate}>{t.aiRegenerate}</button>
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
                 <div className="ai-placeholder">
                   <div className="sparkle-big" aria-hidden="true">✦</div>
                   <h3>{t.aiTitle}</h3>
-                  <p>{lang === 'no' ? 'Svar på 5 enkle spørsmål, og vi lager en profesjonell bio for deg.' : lang === 'sv' ? 'Svara på 5 enkla frågor, så skapar vi en professionell bio åt dig.' : lang === 'es' ? 'Responde 5 preguntas simples y crearemos una bio profesional para ti.' : 'Answer 5 simple questions and we\'ll create a professional bio for you.'}</p>
+                  <p>{lang === 'no' ? 'Svar på 5 spørsmål, velg en tone, og GPT-4 lager en profesjonell bio for deg — på alle språk.' : lang === 'sv' ? 'Svara på 5 frågor, välj en ton, så skapar GPT-4 en professionell bio åt dig — på alla språk.' : lang === 'es' ? 'Responde 5 preguntas, elige un tono, y GPT-4 creará una bio profesional para ti — en todos los idiomas.' : lang === 'ru' ? 'Ответьте на 5 вопросов, выберите тон, и GPT-4 создаст профессиональную биографию — на всех языках.' : lang === 'ar' ? 'أجب على 5 أسئلة، اختر نغمة، وسيقوم GPT-4 بإنشاء نبذة احترافية — بجميع اللغات.' : lang === 'tl' ? 'Sagutin ang 5 tanong, pumili ng tono, at gagawa ang GPT-4 ng professional bio para sa iyo — sa lahat ng wika.' : 'Answer 5 questions, choose a tone, and GPT-4 will create a professional bio for you — in all languages.'}</p>
                   <button onClick={startAI} className="gold-btn">{t.startAi}</button>
                 </div>
               )}
