@@ -106,6 +106,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'Coming soon',
     vipSupport: 'VIP Support',
     vipSupportDesc: 'Direct access to VIP support for IB partners',
+    pvPresentation: 'PV Presentation',
+    pvPresentationDesc: 'View the official PrimeVerse presentation',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Other URL',
     updateInfo: 'Update my information',
@@ -202,6 +204,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'Kommer snart',
     vipSupport: 'VIP-støtte',
     vipSupportDesc: 'Direkte tilgang til VIP-støtte for IB-partnere',
+    pvPresentation: 'PV-presentasjon',
+    pvPresentationDesc: 'Se den offisielle PrimeVerse-presentasjonen',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Annen URL',
     updateInfo: 'Oppdater mine opplysninger',
@@ -298,6 +302,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'Kommer snart',
     vipSupport: 'VIP-support',
     vipSupportDesc: 'Direkt tillgång till VIP-support för IB-partners',
+    pvPresentation: 'PV-presentation',
+    pvPresentationDesc: 'Se den officiella PrimeVerse-presentationen',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Annan URL',
     updateInfo: 'Uppdatera mina uppgifter',
@@ -394,6 +400,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'Próximamente',
     vipSupport: 'Soporte VIP',
     vipSupportDesc: 'Acceso directo a soporte VIP para socios IB',
+    pvPresentation: 'Presentación PV',
+    pvPresentationDesc: 'Ver la presentación oficial de PrimeVerse',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Otra URL',
     updateInfo: 'Actualizar mis datos',
@@ -490,6 +498,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'Скоро',
     vipSupport: 'VIP-поддержка',
     vipSupportDesc: 'Прямой доступ к VIP-поддержке для IB-партнёров',
+    pvPresentation: 'Презентация PV',
+    pvPresentationDesc: 'Посмотреть официальную презентацию PrimeVerse',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Другая URL',
     updateInfo: 'Обновить мои данные',
@@ -586,6 +596,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'قريباً',
     vipSupport: 'دعم VIP',
     vipSupportDesc: 'وصول مباشر إلى دعم VIP لشركاء IB',
+    pvPresentation: 'عرض PV',
+    pvPresentationDesc: 'عرض العرض التقديمي الرسمي لـ PrimeVerse',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'رابط آخر',
     updateInfo: 'تحديث بياناتي',
@@ -682,6 +694,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'Malapit na',
     vipSupport: 'VIP Support',
     vipSupportDesc: 'Direktang access sa VIP support para sa mga IB partner',
+    pvPresentation: 'PV Presentation',
+    pvPresentationDesc: 'Tingnan ang opisyal na PrimeVerse presentation',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Ibang URL',
     updateInfo: 'I-update ang aking impormasyon',
@@ -778,6 +792,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'Em breve',
     vipSupport: 'Suporte VIP',
     vipSupportDesc: 'Acesso direto ao suporte VIP para parceiros IB',
+    pvPresentation: 'Apresentação PV',
+    pvPresentationDesc: 'Ver a apresentação oficial do PrimeVerse',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Outro URL',
     updateInfo: 'Atualizar minhas informações',
@@ -874,6 +890,8 @@ const translations: Record<string, Record<string, string>> = {
     comingSoon: 'เร็วๆ นี้',
     vipSupport: 'ซัพพอร์ต VIP',
     vipSupportDesc: 'เข้าถึงซัพพอร์ต VIP โดยตรงสำหรับพาร์ทเนอร์ IB',
+    pvPresentation: 'งานนำเสนอ PV',
+    pvPresentationDesc: 'ดูงานนำเสนออย่างเป็นทางการของ PrimeVerse',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'URL อื่น',
     updateInfo: 'อัปเดตข้อมูลของฉัน',
@@ -1093,8 +1111,7 @@ const styles = `
   .tab-btn-active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
 
   /* IB Resources */
-  .ib-resources-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
-  @media (max-width: 900px) { .ib-resources-grid { grid-template-columns: 1fr 1fr; } }
+  .ib-resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
   @media (max-width: 640px) { .ib-resources-grid { grid-template-columns: 1fr; } }
   .ib-resource-card {
     position: relative; display: flex; align-items: flex-start; gap: 1rem;
@@ -2505,6 +2522,25 @@ export default function Home() {
                 <div className="ib-resource-text">
                   <div className="ib-resource-title">{t.vipSupport}</div>
                   <div className="ib-resource-desc">{t.vipSupportDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+              <a
+                href="https://www.canva.com/design/DAHCjaOppW8/yeLC5W-gz6d_F6hjfkfOqQ/view"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ib-resource-card"
+              >
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <path d="M8 21h8M12 17v4" />
+                    <polygon points="10,8 10,12 14,10" fill="currentColor" stroke="none" />
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.pvPresentation}</div>
+                  <div className="ib-resource-desc">{t.pvPresentationDesc}</div>
                 </div>
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </a>
