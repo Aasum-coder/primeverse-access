@@ -4,9 +4,10 @@ import { NextResponse } from 'next/server'
 const langNames: Record<string, string> = {
   en: 'English', no: 'Norwegian', sv: 'Swedish',
   es: 'Spanish', ru: 'Russian', ar: 'Arabic', tl: 'Filipino/Tagalog',
+  pt: 'Portuguese', th: 'Thai',
 }
 
-const langCodes = ['en', 'no', 'sv', 'es', 'ru', 'ar', 'tl']
+const langCodes = ['en', 'no', 'sv', 'es', 'ru', 'ar', 'tl', 'pt', 'th']
 
 export async function POST(request: Request) {
   console.log('[generate-bio] Request received')
@@ -56,7 +57,7 @@ Write a bio that is:
 
 Do NOT include generic marketing phrases. Make it feel real and human.
 
-Return a JSON object with the bio translated into all 7 languages. The primary language is ${primaryLang} ("${language}"). Write the primary language version first, then translate it naturally (not literally) into the other languages.
+Return a JSON object with the bio translated into all 9 languages. The primary language is ${primaryLang} ("${language}"). Write the primary language version first, then translate it naturally (not literally) into the other languages.
 
 Return ONLY valid JSON in this exact format, no markdown, no code fences:
 {
