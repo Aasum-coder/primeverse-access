@@ -872,7 +872,7 @@ const styles = `
   }
   .rolex-gauge-number {
     position: absolute;
-    font-family: Georgia, serif; font-size: 13px; font-weight: 700;
+    font-family: Georgia, serif; font-size: 11px; font-weight: 700;
     color: #d4a537; text-shadow: 0 0 6px rgba(212,165,55,0.3);
     transform: translate(-50%, -50%);
     pointer-events: none;
@@ -1856,7 +1856,7 @@ function RolexGauge({ value, max, label }: { value: number; max: number; label: 
 
   // Gold number labels positioned absolutely around the edge
   const numbers = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-  const centerX = 110, centerY = 110, numRadius = 82
+  const centerX = 110, centerY = 110, numRadius = 65
 
   const numberPositions = numbers.map((n, i) => {
     const angleDeg = 220 + (i / (numbers.length - 1)) * 280
