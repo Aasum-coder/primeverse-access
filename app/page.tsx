@@ -809,42 +809,121 @@ const styles = `
   }
   @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-  /* ── Gauge / Speedometer ─────────────────────────────────────────────── */
-  .metrics-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem; margin-bottom: 2rem;
+  /* ── Metrics Redesign ───────────────────────────────────────────────── */
+  .metric-cards-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; margin-bottom: 2rem;
   }
-  .gauge-card {
+  .metric-card {
     background: var(--card-bg); border: 1px solid var(--card-border);
-    border-radius: 16px; padding: 1.75rem 1.25rem 1.25rem;
-    backdrop-filter: blur(24px);
+    border-radius: 16px; padding: 1.5rem;
+    backdrop-filter: blur(24px); position: relative; overflow: hidden;
     box-shadow: 0 1px 0 rgba(212,165,55,0.04) inset, 0 12px 40px rgba(0,0,0,0.35);
-    display: flex; flex-direction: column; align-items: center; text-align: center;
-    position: relative; overflow: hidden;
   }
-  .gauge-card::before {
+  .metric-card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
     background: linear-gradient(to right, transparent, var(--gold), transparent);
-    opacity: 0.5;
+    opacity: 0.4;
   }
-  .gauge-label {
+  .metric-card-label {
     font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--text-secondary); margin-bottom: 1rem; font-weight: 500;
+    color: var(--text-secondary); margin-bottom: 0.75rem; font-weight: 500;
   }
-  .gauge-svg { width: 140px; height: 80px; overflow: visible; }
-  .gauge-track { fill: none; stroke: rgba(212,165,55,0.1); stroke-width: 10; stroke-linecap: round; }
-  .gauge-fill { fill: none; stroke-width: 10; stroke-linecap: round;
-    transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1); }
-  .gauge-value {
-    font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600;
-    color: var(--text-primary); line-height: 1; margin-top: 0.6rem;
+  .metric-card-value {
+    font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 600;
+    color: var(--text-primary); line-height: 1;
   }
-  .gauge-sublabel { font-size: 0.68rem; color: var(--text-dim); margin-top: 4px; }
-  .gauge-tick { stroke: rgba(212,165,55,0.25); stroke-width: 1; }
-  .gauge-tick-major { stroke: rgba(212,165,55,0.5); stroke-width: 1.5; }
-  .gauge-needle { stroke: var(--gold); stroke-width: 2; stroke-linecap: round;
-    transition: transform 1.2s cubic-bezier(.4,0,.2,1); transform-origin: 70px 70px; }
-  .gauge-center-dot { fill: var(--gold); }
+  .metric-card-change {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 0.7rem; font-weight: 600; margin-top: 0.5rem;
+    padding: 2px 8px; border-radius: 12px;
+  }
+  .metric-card-change.up { color: #6dc07f; background: rgba(109,192,127,0.1); }
+  .metric-card-change.down { color: #e85555; background: rgba(232,85,85,0.1); }
+  .metric-card-change.neutral { color: var(--text-dim); background: rgba(255,255,255,0.05); }
+  .metric-card-sub { font-size: 0.68rem; color: var(--text-dim); margin-top: 0.25rem; }
+
+  /* Rolex-inspired gauges */
+  .gauges-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; margin-bottom: 2rem;
+  }
+  .rolex-gauge-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 16px; padding: 1.5rem 1rem 1.25rem;
+    backdrop-filter: blur(24px); display: flex; flex-direction: column;
+    align-items: center; text-align: center; position: relative; overflow: hidden;
+    box-shadow: 0 1px 0 rgba(212,165,55,0.04) inset, 0 12px 40px rgba(0,0,0,0.35);
+  }
+  .rolex-gauge-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+  .rolex-gauge-title {
+    font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-secondary); margin-bottom: 0.75rem; font-weight: 500;
+  }
+  .rolex-gauge-wrap {
+    position: relative; width: 180px; height: 180px;
+  }
+  .rolex-gauge-bg {
+    width: 100%; height: 100%; border-radius: 50%;
+    object-fit: cover; opacity: 0.85;
+  }
+  .rolex-gauge-overlay {
+    position: absolute; inset: 0;
+  }
+  .rolex-gauge-needle {
+    transition: transform 1.2s cubic-bezier(.4,0,.2,1);
+    transform-origin: 50% 50%;
+    filter: drop-shadow(0 0 3px rgba(212,165,55,0.6));
+  }
+  .rolex-gauge-value {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700;
+    color: var(--gold); margin-top: 0.5rem; line-height: 1;
+  }
+  .rolex-gauge-sub { font-size: 0.68rem; color: var(--text-dim); margin-top: 4px; }
+
+  /* Chart section */
+  .chart-section {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 16px; padding: 1.5rem;
+    backdrop-filter: blur(24px); position: relative; overflow: hidden;
+    box-shadow: 0 1px 0 rgba(212,165,55,0.04) inset, 0 12px 40px rgba(0,0,0,0.35);
+  }
+  .chart-section::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+  .chart-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .chart-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600;
+    color: var(--text-primary);
+  }
+  .chart-tabs { display: flex; gap: 4px; }
+  .chart-tab {
+    padding: 4px 12px; border-radius: 20px; font-size: 0.68rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+    border: 1px solid var(--card-border); background: transparent;
+    color: var(--text-dim); font-family: 'Outfit', sans-serif; transition: all 0.2s;
+  }
+  .chart-tab:hover { color: var(--text-secondary); border-color: rgba(212,165,55,0.3); }
+  .chart-tab-active {
+    background: rgba(212,165,55,0.1); border-color: rgba(212,165,55,0.4);
+    color: var(--gold);
+  }
+  .chart-svg { width: 100%; height: 200px; }
+  .chart-grid-line { stroke: rgba(212,165,55,0.06); stroke-width: 1; }
+  .chart-line { fill: none; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .chart-area { fill: url(#chartGradient); }
+  .chart-dot { fill: var(--gold); filter: drop-shadow(0 0 3px rgba(212,165,55,0.5)); }
+  .chart-x-label { font-size: 9px; fill: var(--text-dim); font-family: 'Outfit', sans-serif; }
+  .chart-y-label { font-size: 9px; fill: var(--text-dim); font-family: 'Outfit', sans-serif; }
 
   /* Period selector */
   .period-row {
@@ -867,7 +946,7 @@ const styles = `
   .metrics-summary {
     background: var(--card-bg); border: 1px solid var(--card-border);
     border-radius: 12px; backdrop-filter: blur(24px); overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25); margin-top: 2rem;
   }
   .metrics-summary-title {
     padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--card-border);
@@ -884,6 +963,22 @@ const styles = `
   .metrics-row-label { font-size: 0.82rem; color: var(--text-secondary); }
   .metrics-row-value { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
   .metrics-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Profile strength progress */
+  .strength-items { margin-top: 0.5rem; }
+  .strength-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; color: var(--text-dim); padding: 2px 0;
+  }
+  .strength-check { color: #6dc07f; }
+  .strength-miss { color: rgba(255,255,255,0.2); }
+
+  @media (max-width: 900px) {
+    .metric-cards-row, .gauges-row { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .metric-cards-row, .gauges-row { grid-template-columns: 1fr; }
+  }
 
   @media (max-width: 640px) {
     .dash-wrap { padding: 1.5rem 1rem 3rem; }
@@ -941,6 +1036,8 @@ export default function Home() {
   const [metricPeriod, setMetricPeriod] = useState<'day' | 'week' | 'month' | 'all'>('week')
   const [pageViews, setPageViews] = useState(0)
   const [metricsLoading, setMetricsLoading] = useState(false)
+  const [chartPeriod, setChartPeriod] = useState<'7d' | '30d' | '90d'>('7d')
+  const [pageViewHistory, setPageViewHistory] = useState<{ date: string; count: number }[]>([])
 
   const [profileName, setProfileName] = useState('')
   const [profileBio, setProfileBio] = useState('')
@@ -1044,9 +1141,27 @@ export default function Home() {
     setMetricsLoading(false)
   }
 
+  const fetchPageViewHistory = async (distributorId: string, period: '7d' | '30d' | '90d') => {
+    const days = period === '7d' ? 7 : period === '30d' ? 30 : 90
+    const from = new Date(); from.setDate(from.getDate() - days)
+    const { data } = await supabase.from('page_views').select('created_at').eq('distributor_id', distributorId).gte('created_at', from.toISOString()).order('created_at', { ascending: true })
+    if (!data) { setPageViewHistory([]); return }
+    const grouped: Record<string, number> = {}
+    for (let i = 0; i < days; i++) {
+      const d = new Date(); d.setDate(d.getDate() - (days - 1 - i))
+      grouped[d.toISOString().slice(0, 10)] = 0
+    }
+    data.forEach(r => { const d = r.created_at.slice(0, 10); if (grouped[d] !== undefined) grouped[d]++ })
+    setPageViewHistory(Object.entries(grouped).map(([date, count]) => ({ date, count })))
+  }
+
   useEffect(() => {
     if (distributor?.id && activeTab === 'metrics') fetchPageViews(distributor.id, metricPeriod)
   }, [distributor?.id, activeTab, metricPeriod])
+
+  useEffect(() => {
+    if (distributor?.id && activeTab === 'metrics') fetchPageViewHistory(distributor.id, chartPeriod)
+  }, [distributor?.id, activeTab, chartPeriod])
 
   const addLead = async () => {
     if (!distributor || !leadName || !leadEmail || !leadUid) { alert(t.fillAll); return }
@@ -1702,6 +1817,10 @@ export default function Home() {
             period={metricPeriod}
             setPeriod={setMetricPeriod}
             loading={metricsLoading}
+            distributor={distributor}
+            chartPeriod={chartPeriod}
+            setChartPeriod={setChartPeriod}
+            pageViewHistory={pageViewHistory}
           />
         )}
 
@@ -1710,74 +1829,116 @@ export default function Home() {
   )
 }
 
-/* ─── Gauge component ──────────────────────────────────────────────────────── */
-function Gauge({ value, max, label, sublabel, color }: {
-  value: number; max: number; label: string; sublabel?: string; color: string
-}) {
+/* ─── Rolex Gauge component ────────────────────────────────────────────────── */
+function RolexGauge({ value, max, label }: { value: number; max: number; label: string }) {
   const pct = max > 0 ? Math.min(value / max, 1) : 0
-  // Arc: half circle from 180° to 0° (left to right)
-  const cx = 70, cy = 70, r = 52
-  const startAngle = Math.PI         // 180°
-  const endAngle = 0                 // 0°
-  const totalAngle = Math.PI         // 180°
-  const arcLength = Math.PI * r      // half circumference
+  // Needle rotates from 220° (0%) to 320° (100%) — bottom-left to bottom-right through top
+  const needleAngle = 220 + pct * 100
 
-  // Track path (full half circle)
-  const trackD = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`
-  // Fill path same arc, but dash offset controls fill
-  const fillDash = arcLength * pct
-  const emptyDash = arcLength - fillDash
-
-  // Needle angle: from -180° (left) to 0° (right) mapped to pct
-  const needleAngle = -180 + pct * 180
-  const needleRad = (needleAngle * Math.PI) / 180
-  const needleLen = 38
-  const nx = cx + Math.cos(needleRad) * needleLen
-  const ny = cy + Math.sin(needleRad) * needleLen
-
-  // Tick marks (10 major, 5 minor between each = 50 ticks)
-  const ticks = []
-  for (let i = 0; i <= 20; i++) {
-    const a = Math.PI - (i / 20) * Math.PI
-    const isMajor = i % 4 === 0
-    const r1 = isMajor ? r - 6 : r - 3
-    const r2 = r + 2
-    ticks.push({
-      x1: cx + Math.cos(a) * r1, y1: cy + Math.sin(a) * r1,
-      x2: cx + Math.cos(a) * r2, y2: cy + Math.sin(a) * r2,
-      major: isMajor,
-    })
-  }
+  // Gold number labels around the edge
+  const numbers = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+  const cx = 90, cy = 90, numR = 78
 
   return (
-    <svg className="gauge-svg" viewBox="0 0 140 80" aria-hidden="true">
-      {/* Ticks */}
-      {ticks.map((tk, i) => (
-        <line key={i} x1={tk.x1} y1={tk.y1} x2={tk.x2} y2={tk.y2}
-          className={tk.major ? 'gauge-tick-major' : 'gauge-tick'} />
+    <div className="rolex-gauge-wrap">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/69588ba2-e157-4b31-a8de-2e0016fb9147.png"
+        alt="" className="rolex-gauge-bg" />
+      <svg className="rolex-gauge-overlay" viewBox="0 0 180 180">
+        {/* Number labels around edge */}
+        {numbers.map((n, i) => {
+          const a = ((220 + (i / (numbers.length - 1)) * 100) * Math.PI) / 180
+          const x = cx + Math.cos(a) * numR
+          const y = cy + Math.sin(a) * numR
+          return (
+            <text key={n} x={x} y={y} textAnchor="middle" dominantBaseline="central"
+              style={{ fontSize: '8px', fill: '#d4a537', fontFamily: 'Cormorant Garamond, serif', fontWeight: 600 }}>
+              {n}
+            </text>
+          )
+        })}
+        {/* Needle */}
+        <g className="rolex-gauge-needle" style={{ transform: `rotate(${needleAngle}deg)` }}>
+          <line x1={cx} y1={cy} x2={cx + 58} y2={cy}
+            stroke="#d4a537" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx={cx} cy={cy} r="5" fill="#d4a537" />
+          <circle cx={cx} cy={cy} r="2.5" fill="#0a0a0a" />
+        </g>
+      </svg>
+    </div>
+  )
+}
+
+/* ─── Mini Line Chart ──────────────────────────────────────────────────────── */
+function ViewsChart({ data }: { data: { date: string; count: number }[] }) {
+  if (!data.length) return <div style={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-dim)', fontSize: '0.8rem' }}>No data yet</div>
+
+  const maxVal = Math.max(...data.map(d => d.count), 1)
+  const padL = 36, padR = 16, padT = 12, padB = 28
+  const w = 600, h = 200
+  const chartW = w - padL - padR
+  const chartH = h - padT - padB
+
+  const points = data.map((d, i) => ({
+    x: padL + (i / Math.max(data.length - 1, 1)) * chartW,
+    y: padT + chartH - (d.count / maxVal) * chartH,
+    ...d,
+  }))
+
+  const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')
+  const areaPath = linePath + ` L ${points[points.length - 1].x} ${padT + chartH} L ${points[0].x} ${padT + chartH} Z`
+
+  // Y-axis labels
+  const ySteps = 4
+  const yLabels = Array.from({ length: ySteps + 1 }, (_, i) => Math.round((maxVal / ySteps) * i))
+
+  // X-axis labels (show ~6 evenly spaced)
+  const xLabelCount = Math.min(data.length, 6)
+  const xIndices = Array.from({ length: xLabelCount }, (_, i) => Math.round((i / (xLabelCount - 1)) * (data.length - 1)))
+
+  return (
+    <svg className="chart-svg" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(212,165,55,0.25)" />
+          <stop offset="100%" stopColor="rgba(212,165,55,0)" />
+        </linearGradient>
+      </defs>
+      {/* Grid lines */}
+      {yLabels.map((v, i) => {
+        const y = padT + chartH - (v / maxVal) * chartH
+        return <line key={i} x1={padL} y1={y} x2={w - padR} y2={y} className="chart-grid-line" />
+      })}
+      {/* Y labels */}
+      {yLabels.map((v, i) => {
+        const y = padT + chartH - (v / maxVal) * chartH
+        return <text key={i} x={padL - 6} y={y + 3} className="chart-y-label" textAnchor="end">{v}</text>
+      })}
+      {/* Area */}
+      <path d={areaPath} className="chart-area" />
+      {/* Line */}
+      <path d={linePath} className="chart-line" />
+      {/* Dots on last 3 points */}
+      {points.slice(-3).map((p, i) => (
+        <circle key={i} cx={p.x} cy={p.y} r={3} className="chart-dot" />
       ))}
-      {/* Track */}
-      <path d={trackD} className="gauge-track" />
-      {/* Fill */}
-      <path d={trackD} className="gauge-fill"
-        stroke={color}
-        strokeDasharray={`${arcLength}`}
-        strokeDashoffset={arcLength - fillDash}
-        style={{ filter: `drop-shadow(0 0 4px ${color}60)` }}
-      />
-      {/* Needle */}
-      <line x1={cx} y1={cy} x2={nx} y2={ny} className="gauge-needle" stroke={color} />
-      {/* Center */}
-      <circle cx={cx} cy={cy} r={4} className="gauge-center-dot" fill={color} />
-      <circle cx={cx} cy={cy} r={2} fill="#0a0a0a" />
+      {/* X labels */}
+      {xIndices.map(idx => {
+        const p = points[idx]
+        const label = p.date.slice(5) // MM-DD
+        return <text key={idx} x={p.x} y={h - 6} className="chart-x-label" textAnchor="middle">{label}</text>
+      })}
     </svg>
   )
 }
 
 /* ─── Metrics tab ──────────────────────────────────────────────────────────── */
-function MetricsTab({ leads, pageViews, period, setPeriod, loading }: {
+function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor, chartPeriod, setChartPeriod, pageViewHistory }: {
   leads: any[]; pageViews: number; period: string;
-  setPeriod: (p: 'day' | 'week' | 'month' | 'all') => void; loading: boolean
+  setPeriod: (p: 'day' | 'week' | 'month' | 'all') => void; loading: boolean;
+  distributor: any; chartPeriod: '7d' | '30d' | '90d';
+  setChartPeriod: (p: '7d' | '30d' | '90d') => void;
+  pageViewHistory: { date: string; count: number }[];
 }) {
   const now = new Date()
   const cutoff = (days: number) => { const d = new Date(now); d.setDate(d.getDate() - days); return d }
@@ -1792,16 +1953,26 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading }: {
   const registered = filtered.length
   const approved = filtered.filter(l => l.uid_verified).length
   const pending = filtered.filter(l => !l.uid_verified).length
+  const convRate = registered > 0 ? Math.round((approved / registered) * 100) : 0
+
+  // Profile strength
+  const hasImage = !!distributor?.profile_image
+  const hasBio = !!distributor?.bio
+  const hasSlug = !!distributor?.slug
+  const hasReferral = !!distributor?.referral_link
+  const hasSocial = !!(distributor?.social_tiktok || distributor?.social_instagram || distributor?.social_facebook || distributor?.social_snapchat || distributor?.social_linkedin)
+  const strengthParts = [hasImage, hasBio, hasSlug, hasReferral, hasSocial]
+  const profileStrength = strengthParts.filter(Boolean).length * 20
+
+  // Approval rate
+  const totalLeads = leads.length
+  const totalApproved = leads.filter(l => l.uid_verified).length
+  const approvalRate = totalLeads > 0 ? Math.round((totalApproved / totalLeads) * 100) : 0
 
   const periods: { key: 'day' | 'week' | 'month' | 'all'; label: string }[] = [
     { key: 'day', label: 'Daily' }, { key: 'week', label: 'Weekly' },
     { key: 'month', label: 'Monthly' }, { key: 'all', label: 'All time' },
   ]
-
-  const maxViews = Math.max(pageViews, 10)
-  const maxRegs = Math.max(registered, 5)
-  const maxAppr = Math.max(approved, 5)
-  const convRate = registered > 0 ? Math.round((approved / registered) * 100) : 0
 
   return (
     <div role="tabpanel" id="tab-panel-metrics" aria-labelledby="tab-metrics">
@@ -1817,44 +1988,77 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading }: {
         ))}
       </div>
 
-      {/* Gauges */}
-      <div className="metrics-grid">
-
-        {/* Page views */}
-        <div className="gauge-card">
-          <div className="gauge-label">Page Views</div>
-          <Gauge value={pageViews} max={Math.max(pageViews * 1.5, 50)} label="views" color="#d4a537" />
-          <div className="gauge-value">{loading ? '—' : pageViews.toLocaleString()}</div>
-          <div className="gauge-sublabel">visitors</div>
+      {/* ── Metric Cards ── */}
+      <div className="metric-cards-row">
+        <div className="metric-card">
+          <div className="metric-card-label">Page Views</div>
+          <div className="metric-card-value">{loading ? '—' : pageViews.toLocaleString()}</div>
+          <div className="metric-card-sub">unique visitors</div>
         </div>
-
-        {/* Registrations */}
-        <div className="gauge-card">
-          <div className="gauge-label">Registrations</div>
-          <Gauge value={registered} max={Math.max(registered * 1.5, 10)} label="regs" color="#c9a84c" />
-          <div className="gauge-value">{registered}</div>
-          <div className="gauge-sublabel">signed up</div>
+        <div className="metric-card">
+          <div className="metric-card-label">Leads</div>
+          <div className="metric-card-value">{registered}</div>
+          <div className="metric-card-sub">{pending} pending · {approved} approved</div>
         </div>
-
-        {/* Approved members */}
-        <div className="gauge-card">
-          <div className="gauge-label">Approved Members</div>
-          <Gauge value={approved} max={Math.max(registered, 5)} label="members" color="#6dc07f" />
-          <div className="gauge-value">{approved}</div>
-          <div className="gauge-sublabel">verified</div>
+        <div className="metric-card">
+          <div className="metric-card-label">Conversions</div>
+          <div className="metric-card-value">{approved}</div>
+          <div className="metric-card-change neutral">{convRate}% rate</div>
         </div>
-
-        {/* Conversion rate */}
-        <div className="gauge-card">
-          <div className="gauge-label">Conversion Rate</div>
-          <Gauge value={convRate} max={100} label="%" color="#e8c975" />
-          <div className="gauge-value">{convRate}%</div>
-          <div className="gauge-sublabel">reg → approved</div>
-        </div>
-
       </div>
 
-      {/* Detailed breakdown */}
+      {/* ── Rolex Gauge Instruments ── */}
+      <div className="gauges-row">
+        <div className="rolex-gauge-card">
+          <div className="rolex-gauge-title">Conversion Rate</div>
+          <RolexGauge value={convRate} max={100} label="%" />
+          <div className="rolex-gauge-value">{convRate}%</div>
+          <div className="rolex-gauge-sub">reg → approved</div>
+        </div>
+        <div className="rolex-gauge-card">
+          <div className="rolex-gauge-title">Profile Strength</div>
+          <RolexGauge value={profileStrength} max={100} label="%" />
+          <div className="rolex-gauge-value">{profileStrength}%</div>
+          <div className="strength-items">
+            {[
+              { ok: hasImage, text: 'Profile image' },
+              { ok: hasBio, text: 'Bio' },
+              { ok: hasSlug, text: 'Custom URL' },
+              { ok: hasReferral, text: 'Referral link' },
+              { ok: hasSocial, text: 'Social media' },
+            ].map(s => (
+              <div key={s.text} className="strength-item">
+                <span className={s.ok ? 'strength-check' : 'strength-miss'}>{s.ok ? '✓' : '○'}</span>
+                <span style={s.ok ? { color: 'var(--text-secondary)' } : {}}>{s.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="rolex-gauge-card">
+          <div className="rolex-gauge-title">Approval Rate</div>
+          <RolexGauge value={approvalRate} max={100} label="%" />
+          <div className="rolex-gauge-value">{approvalRate}%</div>
+          <div className="rolex-gauge-sub">{totalApproved} of {totalLeads} verified</div>
+        </div>
+      </div>
+
+      {/* ── Line Chart ── */}
+      <div className="chart-section">
+        <div className="chart-header">
+          <div className="chart-title">Page Views Over Time</div>
+          <div className="chart-tabs">
+            {(['7d', '30d', '90d'] as const).map(p => (
+              <button key={p} onClick={() => setChartPeriod(p)}
+                className={`chart-tab${chartPeriod === p ? ' chart-tab-active' : ''}`}>
+                {p}
+              </button>
+            ))}
+          </div>
+        </div>
+        <ViewsChart data={pageViewHistory} />
+      </div>
+
+      {/* ── Lead Breakdown ── */}
       <div className="metrics-summary">
         <div className="metrics-summary-title">Lead breakdown</div>
         <div className="metrics-row">
