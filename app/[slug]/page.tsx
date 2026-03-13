@@ -366,6 +366,11 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
       // Track page view
       await supabase.from('page_views').insert({ distributor_id: data.id, slug: data.slug })
         .then(() => {}) // fire-and-forget, ignore errors
+      console.log('[slug page] bio_translations:', data.bio_translations, 'type:', typeof data.bio_translations)
+      // Ensure bio_translations is a parsed object (handle string edge case)
+      if (data.bio_translations && typeof data.bio_translations === 'string') {
+        try { data.bio_translations = JSON.parse(data.bio_translations) } catch { data.bio_translations = null }
+      }
       setDistributor(data)
       setLoading(false)
     }
@@ -422,6 +427,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   if (notFound) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#7a7a72', textAlign: 'center' }}><div style={{ color: '#c9a84c', fontSize: '2rem', marginBottom: '1rem' }}>✦</div><p>Page not found.</p>{dbError && <p style={{ fontSize: '0.875rem', marginTop: '0.75rem', color: '#ff6b6b', background: '#1a0000', padding: '0.5rem 1rem', borderRadius: 4, maxWidth: 360, wordBreak: 'break-all' }}>Debug: {dbError}</p>}<p style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: '#888', maxWidth: 300 }}>Slug: {slug}</p></div></div>
 
   const dist = distributor
+  const translatedBio = dist.bio_translations?.[lang] || dist.bio || ''
 
   return (
     <>
@@ -597,7 +603,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
                   <div style={{ width: '100%', maxWidth: 240, aspectRatio: '3/4', background: 'var(--border)', borderRadius: 6, margin: '0 auto 1.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--grey)', fontSize: '3rem' }}>✦</div>
                 )})()}
                 <div className="dist-badge">{t.dist_badge}</div>
-                {(dist.bio_translations?.[lang] || dist.bio) && <p className="dist-quote">{dist.bio_translations?.[lang] || dist.bio}</p>}
+                {translatedBio && <p className="dist-quote">{translatedBio}</p>}
                 <div className="dist-author">— {dist.name} · 1Move Academy</div>
               </div>
             </div>
