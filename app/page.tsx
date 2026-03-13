@@ -104,6 +104,8 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Content Library',
     contentLibraryDesc: 'Browse marketing content, templates and inspiration for your social media',
     comingSoon: 'Coming soon',
+    vipSupport: 'VIP Support',
+    vipSupportDesc: 'Direct access to VIP support for IB partners',
   },
   no: {
     leadsTab: 'Leads',
@@ -183,6 +185,8 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Innholdsbibliotek',
     contentLibraryDesc: 'Bla gjennom markedsføringsinnhold, maler og inspirasjon for sosiale medier',
     comingSoon: 'Kommer snart',
+    vipSupport: 'VIP-støtte',
+    vipSupportDesc: 'Direkte tilgang til VIP-støtte for IB-partnere',
   },
   sv: {
     leadsTab: 'Leads',
@@ -262,6 +266,8 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Innehållsbibliotek',
     contentLibraryDesc: 'Bläddra bland marknadsföringsinnehåll, mallar och inspiration för sociala medier',
     comingSoon: 'Kommer snart',
+    vipSupport: 'VIP-support',
+    vipSupportDesc: 'Direkt tillgång till VIP-support för IB-partners',
   },
   es: {
     leadsTab: 'Leads',
@@ -341,6 +347,8 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Biblioteca de contenido',
     contentLibraryDesc: 'Explora contenido de marketing, plantillas e inspiración para tus redes sociales',
     comingSoon: 'Próximamente',
+    vipSupport: 'Soporte VIP',
+    vipSupportDesc: 'Acceso directo a soporte VIP para socios IB',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -420,6 +428,8 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Библиотека контента',
     contentLibraryDesc: 'Просматривайте маркетинговый контент, шаблоны и вдохновение для соцсетей',
     comingSoon: 'Скоро',
+    vipSupport: 'VIP-поддержка',
+    vipSupportDesc: 'Прямой доступ к VIP-поддержке для IB-партнёров',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -499,6 +509,8 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'مكتبة المحتوى',
     contentLibraryDesc: 'تصفح محتوى التسويق والقوالب والإلهام لوسائل التواصل الاجتماعي',
     comingSoon: 'قريباً',
+    vipSupport: 'دعم VIP',
+    vipSupportDesc: 'وصول مباشر إلى دعم VIP لشركاء IB',
   },
   tl: {
     leadsTab: 'Leads',
@@ -578,6 +590,8 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Content Library',
     contentLibraryDesc: 'Mag-browse ng marketing content, template at inspirasyon para sa iyong social media',
     comingSoon: 'Malapit na',
+    vipSupport: 'VIP Support',
+    vipSupportDesc: 'Direktang access sa VIP support para sa mga IB partner',
   },
 }
 
@@ -780,7 +794,8 @@ const styles = `
   .tab-btn-active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
 
   /* IB Resources */
-  .ib-resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .ib-resources-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 900px) { .ib-resources-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 640px) { .ib-resources-grid { grid-template-columns: 1fr; } }
   .ib-resource-card {
     position: relative; display: flex; align-items: flex-start; gap: 1rem;
@@ -2137,6 +2152,24 @@ export default function Home() {
                 </div>
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </div>
+              <a
+                href="https://puprimelive.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ib-resource-card"
+              >
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.vipSupport}</div>
+                  <div className="ib-resource-desc">{t.vipSupportDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </a>
             </div>
           </div>
         )}
