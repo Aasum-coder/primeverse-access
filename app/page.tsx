@@ -1565,7 +1565,7 @@ export default function Home() {
                 <div className="ai-panel">
                   <div className="ai-header">
                     <span className="sparkle" aria-hidden="true">✦</span> {t.aiTitle}
-                    <span className="powered">GPT-4</span>
+                    <span className="powered">AI</span>
                   </div>
                   <div className="ai-body">
                     {/* Step indicator dots */}
@@ -1665,7 +1665,7 @@ export default function Home() {
                 <div className="ai-placeholder">
                   <div className="sparkle-big" aria-hidden="true">✦</div>
                   <h3>{t.aiTitle}</h3>
-                  <p>{lang === 'no' ? 'Svar på 5 spørsmål, velg en tone, og GPT-4 lager en profesjonell bio for deg — på alle språk.' : lang === 'sv' ? 'Svara på 5 frågor, välj en ton, så skapar GPT-4 en professionell bio åt dig — på alla språk.' : lang === 'es' ? 'Responde 5 preguntas, elige un tono, y GPT-4 creará una bio profesional para ti — en todos los idiomas.' : lang === 'ru' ? 'Ответьте на 5 вопросов, выберите тон, и GPT-4 создаст профессиональную биографию — на всех языках.' : lang === 'ar' ? 'أجب على 5 أسئلة، اختر نغمة، وسيقوم GPT-4 بإنشاء نبذة احترافية — بجميع اللغات.' : lang === 'tl' ? 'Sagutin ang 5 tanong, pumili ng tono, at gagawa ang GPT-4 ng professional bio para sa iyo — sa lahat ng wika.' : 'Answer 5 questions, choose a tone, and GPT-4 will create a professional bio for you — in all languages.'}</p>
+                  <p>{lang === 'no' ? 'Svar på 5 spørsmål, velg en tone, og AI lager en profesjonell bio for deg — på alle språk.' : lang === 'sv' ? 'Svara på 5 frågor, välj en ton, så skapar AI en professionell bio åt dig — på alla språk.' : lang === 'es' ? 'Responde 5 preguntas, elige un tono, y la AI creará una bio profesional para ti — en todos los idiomas.' : lang === 'ru' ? 'Ответьте на 5 вопросов, выберите тон, и AI создаст профессиональную биографию — на всех языках.' : lang === 'ar' ? 'أجب على 5 أسئلة، اختر نغمة، وسيقوم AI بإنشاء نبذة احترافية — بجميع اللغات.' : lang === 'tl' ? 'Sagutin ang 5 tanong, pumili ng tono, at gagawa ang AI ng professional bio para sa iyo — sa lahat ng wika.' : 'Answer 5 questions, choose a tone, and AI will create a professional bio for you — in all languages.'}</p>
                   <button onClick={startAI} className="gold-btn">{t.startAi}</button>
                 </div>
               )}

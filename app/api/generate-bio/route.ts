@@ -1,4 +1,4 @@
-import OpenAI from 'openai'
+import Groq from 'groq-sdk'
 import { NextResponse } from 'next/server'
 
 const langNames: Record<string, string> = {
@@ -12,10 +12,10 @@ export async function POST(request: Request) {
   console.log('[generate-bio] Request received')
 
   // Check API key
-  const apiKey = process.env.OPENAI_API_KEY
+  const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) {
-    console.error('[generate-bio] OPENAI_API_KEY is not set in environment')
-    return NextResponse.json({ error: 'OpenAI API key is not configured. Add OPENAI_API_KEY to your environment variables.' }, { status: 500 })
+    console.error('[generate-bio] GROQ_API_KEY is not set in environment')
+    return NextResponse.json({ error: 'Groq API key is not configured. Add GROQ_API_KEY to your environment variables.' }, { status: 500 })
   }
   console.log('[generate-bio] API key found, length:', apiKey.length, 'starts with:', apiKey.substring(0, 7) + '...')
 
@@ -78,12 +78,12 @@ Return ONLY valid JSON in this exact format, no markdown, no code fences:
 
 Write the bio now.`
 
-  const openai = new OpenAI({ apiKey })
+  const groq = new Groq({ apiKey })
 
   try {
-    console.log('[generate-bio] Calling OpenAI API with model: gpt-4o')
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+    console.log('[generate-bio] Calling Groq API with model: llama-3.3-70b-versatile')
+    const completion = await groq.chat.completions.create({
+      model: 'llama-3.3-70b-versatile',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
@@ -92,13 +92,13 @@ Write the bio now.`
       max_tokens: 2000,
     })
 
-    console.log('[generate-bio] OpenAI response received, finish_reason:', completion.choices[0]?.finish_reason)
+    console.log('[generate-bio] Groq response received, finish_reason:', completion.choices[0]?.finish_reason)
     const content = completion.choices[0]?.message?.content || ''
     console.log('[generate-bio] Raw response content:', content.substring(0, 200) + '...')
 
     if (!content) {
-      console.error('[generate-bio] Empty response from OpenAI')
-      return NextResponse.json({ error: 'OpenAI returned an empty response. Please try again.' }, { status: 500 })
+      console.error('[generate-bio] Empty response from Groq')
+      return NextResponse.json({ error: 'Groq returned an empty response. Please try again.' }, { status: 500 })
     }
 
     // Parse JSON from response, handling potential markdown fences
@@ -111,7 +111,7 @@ Write the bio now.`
     try {
       bios = JSON.parse(cleaned)
     } catch (parseError) {
-      console.error('[generate-bio] Failed to parse JSON from OpenAI response:', parseError)
+      console.error('[generate-bio] Failed to parse JSON from Groq response:', parseError)
       console.error('[generate-bio] Cleaned content was:', cleaned.substring(0, 500))
       return NextResponse.json({ error: 'Failed to parse bio from AI response. Please try again.' }, { status: 500 })
     }
@@ -119,11 +119,11 @@ Write the bio now.`
     console.log('[generate-bio] Successfully generated bios for languages:', Object.keys(bios).join(', '))
     return NextResponse.json({ bios })
   } catch (error: unknown) {
-    console.error('[generate-bio] OpenAI API error:', error)
+    console.error('[generate-bio] Groq API error:', error)
 
     // Extract detailed error info
-    if (error instanceof OpenAI.APIError) {
-      const msg = `OpenAI API error (${error.status}): ${error.message}`
+    if (error instanceof Groq.APIError) {
+      const msg = `Groq API error (${error.status}): ${error.message}`
       console.error('[generate-bio]', msg)
       return NextResponse.json({ error: msg }, { status: error.status || 500 })
     }
