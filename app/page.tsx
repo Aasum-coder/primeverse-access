@@ -123,6 +123,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Your page:',
     aiDescription: 'Answer 5 questions, choose a tone, and AI will create a professional bio for you — in all languages.',
     somethingWentWrong: 'Something went wrong',
+    noDataYet: 'No data yet',
+    errorPrefix: 'Error: ',
+    uploadErrorPrefix: 'Upload error: ',
     reportBug: 'Report a bug',
     bugModalTitle: 'Report a bug',
     bugModalInstructions: 'Help us improve SYSTM8! Please include a screenshot of the problem — reports without screenshots will not be processed.',
@@ -244,6 +247,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Din side:',
     aiDescription: 'Svar på 5 spørsmål, velg en tone, og AI lager en profesjonell bio for deg — på alle språk.',
     somethingWentWrong: 'Noe gikk galt',
+    noDataYet: 'Ingen data ennå',
+    errorPrefix: 'Feil: ',
+    uploadErrorPrefix: 'Feil ved opplasting: ',
     reportBug: 'Rapporter en feil',
     bugModalTitle: 'Rapporter en feil',
     bugModalInstructions: 'Hjelp oss å forbedre SYSTM8! Vennligst inkluder et skjermbilde av problemet — rapporter uten skjermbilder vil ikke bli behandlet.',
@@ -365,6 +371,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Din sida:',
     aiDescription: 'Svara på 5 frågor, välj en ton, så skapar AI en professionell bio åt dig — på alla språk.',
     somethingWentWrong: 'Något gick fel',
+    noDataYet: 'Ingen data ännu',
+    errorPrefix: 'Fel: ',
+    uploadErrorPrefix: 'Uppladdningsfel: ',
     reportBug: 'Rapportera en bugg',
     bugModalTitle: 'Rapportera en bugg',
     bugModalInstructions: 'Hjälp oss förbättra SYSTM8! Inkludera en skärmbild av problemet — rapporter utan skärmbilder kommer inte att behandlas.',
@@ -486,6 +495,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Tu página:',
     aiDescription: 'Responde 5 preguntas, elige un tono, y la IA creará una bio profesional para ti — en todos los idiomas.',
     somethingWentWrong: 'Algo salió mal',
+    noDataYet: 'Aún no hay datos',
+    errorPrefix: 'Error: ',
+    uploadErrorPrefix: 'Error de carga: ',
     reportBug: 'Reportar un error',
     bugModalTitle: 'Reportar un error',
     bugModalInstructions: '¡Ayúdanos a mejorar SYSTM8! Por favor incluye una captura de pantalla del problema — los reportes sin capturas no serán procesados.',
@@ -607,6 +619,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Ваша страница:',
     aiDescription: 'Ответьте на 5 вопросов, выберите тон, и AI создаст профессиональную биографию — на всех языках.',
     somethingWentWrong: 'Что-то пошло не так',
+    noDataYet: 'Данных пока нет',
+    errorPrefix: 'Ошибка: ',
+    uploadErrorPrefix: 'Ошибка загрузки: ',
     reportBug: 'Сообщить об ошибке',
     bugModalTitle: 'Сообщить об ошибке',
     bugModalInstructions: 'Помогите нам улучшить SYSTM8! Пожалуйста, приложите скриншот проблемы — отчёты без скриншотов не будут обработаны.',
@@ -728,6 +743,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'صفحتك:',
     aiDescription: 'أجب على 5 أسئلة، اختر نغمة، وسيقوم AI بإنشاء نبذة احترافية لك — بجميع اللغات.',
     somethingWentWrong: 'حدث خطأ',
+    noDataYet: 'لا توجد بيانات بعد',
+    errorPrefix: 'خطأ: ',
+    uploadErrorPrefix: 'خطأ في التحميل: ',
     reportBug: 'الإبلاغ عن خطأ',
     bugModalTitle: 'الإبلاغ عن خطأ',
     bugModalInstructions: 'ساعدنا في تحسين SYSTM8! يرجى تضمين لقطة شاشة للمشكلة — لن تتم معالجة التقارير بدون لقطات شاشة.',
@@ -849,6 +867,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Ang page mo:',
     aiDescription: 'Sagutin ang 5 tanong, pumili ng tono, at gagawa ang AI ng professional bio para sa iyo — sa lahat ng wika.',
     somethingWentWrong: 'May nangyaring mali',
+    noDataYet: 'Wala pang data',
+    errorPrefix: 'Error: ',
+    uploadErrorPrefix: 'Error sa pag-upload: ',
     reportBug: 'Mag-report ng bug',
     bugModalTitle: 'Mag-report ng bug',
     bugModalInstructions: 'Tulungan kaming pagbutihin ang SYSTM8! Mangyaring mag-attach ng screenshot ng problema — hindi ipoproseso ang mga report na walang screenshot.',
@@ -970,6 +991,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Sua página:',
     aiDescription: 'Responda 5 perguntas, escolha um tom, e a IA criará uma bio profissional para você — em todos os idiomas.',
     somethingWentWrong: 'Algo deu errado',
+    noDataYet: 'Ainda não há dados',
+    errorPrefix: 'Erro: ',
+    uploadErrorPrefix: 'Erro no upload: ',
     reportBug: 'Reportar um bug',
     bugModalTitle: 'Reportar um bug',
     bugModalInstructions: 'Ajude-nos a melhorar o SYSTM8! Por favor inclua uma captura de tela do problema — relatórios sem capturas de tela não serão processados.',
@@ -1091,6 +1115,9 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'หน้าของคุณ:',
     aiDescription: 'ตอบ 5 คำถาม เลือกโทน แล้ว AI จะสร้างไบโอมืออาชีพให้คุณ — ในทุกภาษา',
     somethingWentWrong: 'เกิดข้อผิดพลาด',
+    noDataYet: 'ยังไม่มีข้อมูล',
+    errorPrefix: 'ข้อผิดพลาด: ',
+    uploadErrorPrefix: 'ข้อผิดพลาดในการอัปโหลด: ',
     reportBug: 'รายงานบัก',
     bugModalTitle: 'รายงานบัก',
     bugModalInstructions: 'ช่วยเราปรับปรุง SYSTM8! กรุณาแนบภาพหน้าจอของปัญหา — รายงานที่ไม่มีภาพหน้าจอจะไม่ได้รับการดำเนินการ',
@@ -1670,8 +1697,11 @@ const styles = `
     position: absolute;
     font-family: Georgia, serif; font-size: 11px; font-weight: 700;
     color: #d4a537; text-shadow: 0 0 6px rgba(212,165,55,0.3);
-    transform: translate(-50%, -50%);
     pointer-events: none;
+    line-height: 1; text-align: center; white-space: nowrap;
+    display: flex; align-items: center; justify-content: center;
+    width: 24px; height: 16px;
+    margin-left: -12px; margin-top: -8px;
   }
   .rolex-gauge-inner-ring {
     position: absolute; top: 7.5%; left: 7.5%; width: 85%; height: 85%;
@@ -1894,6 +1924,36 @@ const styles = `
   .bug-actions .gold-btn { flex: 1; }
   .bug-actions .btn-outline { flex: 0 0 auto; }
   .bug-error { font-size: 0.8rem; color: #e57373; margin-top: 0.5rem; }
+
+  /* Toast notifications */
+  .toast-container {
+    position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%);
+    z-index: 10000; max-width: 420px; width: calc(100% - 2rem);
+    animation: toastSlideIn 0.3s ease-out;
+  }
+  .toast-inner {
+    display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.25rem;
+    border-radius: 12px; backdrop-filter: blur(24px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    font-size: 0.85rem; line-height: 1.4;
+  }
+  .toast-error {
+    background: rgba(40, 10, 10, 0.95); border: 1px solid rgba(229,115,115,0.3);
+    color: #e57373;
+  }
+  .toast-info {
+    background: rgba(10, 25, 40, 0.95); border: 1px solid rgba(100,180,255,0.3);
+    color: #90caf9;
+  }
+  .toast-close {
+    background: none; border: none; color: inherit; cursor: pointer;
+    opacity: 0.6; font-size: 1.1rem; padding: 0; margin-left: auto; flex-shrink: 0;
+  }
+  .toast-close:hover { opacity: 1; }
+  @keyframes toastSlideIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-1rem); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
   .bug-success-msg {
     text-align: center; padding: 2rem 1rem;
     font-size: 1rem; color: var(--success-text);
@@ -1967,6 +2027,16 @@ export default function Home() {
   const [bugError, setBugError] = useState('')
   const bugFileRef = useRef<HTMLInputElement>(null)
 
+  // Toast notifications
+  const [toastMsg, setToastMsg] = useState('')
+  const [toastType, setToastType] = useState<'error' | 'info'>('error')
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const showToast = useCallback((msg: string, type: 'error' | 'info' = 'error') => {
+    setToastMsg(msg); setToastType(type)
+    if (toastTimer.current) clearTimeout(toastTimer.current)
+    toastTimer.current = setTimeout(() => setToastMsg(''), 5000)
+  }, [])
+
   // Language
   const [lang, setLang] = useState('en')
   const [langOpen, setLangOpen] = useState(false)
@@ -1991,7 +2061,7 @@ export default function Home() {
       let dist = existing
       if (!existing) {
         const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId }).select().single()
-        if (error) { alert(error.message); return }
+        if (error) { showToast(t.errorPrefix + error.message); return }
         dist = newDist
       }
       setDistributor(dist)
@@ -2061,10 +2131,10 @@ export default function Home() {
   }, [distributor?.id, activeTab, chartPeriod])
 
   const addLead = async () => {
-    if (!distributor || !leadName || !leadEmail || !leadUid) { alert(t.fillAll); return }
+    if (!distributor || !leadName || !leadEmail || !leadUid) { showToast(t.fillAll); return }
     setSubmitting(true)
     const { error } = await supabase.from('leads').insert({ distributor_id: distributor.id, name: leadName, email: leadEmail, uid: leadUid, uid_verified: false })
-    if (error) { alert('Feil: ' + error.message); setSubmitting(false); return }
+    if (error) { showToast(t.errorPrefix + error.message); setSubmitting(false); return }
     await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName, leadEmail, leadUid, distributorName: distributor.name, distributorEmail: distributor.email }) })
     setLeadName(''); setLeadEmail(''); setLeadUid('')
     setSubmitting(false)
@@ -2074,7 +2144,7 @@ export default function Home() {
   const approveLead = async (lead: any) => {
     setApprovingId(lead.id)
     const { error } = await supabase.from('leads').update({ uid_verified: true, uid_verified_at: new Date().toISOString() }).eq('id', lead.id)
-    if (error) { alert('Feil: ' + error.message); setApprovingId(null); return }
+    if (error) { showToast(t.errorPrefix + error.message); setApprovingId(null); return }
     await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'approved', leadName: lead.name, leadEmail: lead.email, distributorName: distributor.name, distributorEmail: distributor.email }) })
     setApprovingId(null)
     await fetchLeads(distributor.id)
@@ -2087,7 +2157,7 @@ export default function Home() {
     const ext = file.name.split('.').pop()
     const path = `${distributor.id}.${ext}`
     const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
-    if (uploadError) { alert('Feil ved opplasting: ' + uploadError.message); setUploadingImage(false); return }
+    if (uploadError) { showToast(t.uploadErrorPrefix + uploadError.message); setUploadingImage(false); return }
     const { data } = supabase.storage.from('avatars').getPublicUrl(path)
     const newUrl = data.publicUrl
     const newX = 50
@@ -2130,7 +2200,7 @@ export default function Home() {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
       } else {
-        alert('Feil: ' + error.message)
+        showToast(t.errorPrefix + error.message)
       }
       setSavingProfile(false)
       return
@@ -2158,7 +2228,7 @@ export default function Home() {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
       } else {
-        alert('Feil: ' + error.message)
+        showToast(t.errorPrefix + error.message)
       }
       setUpdatingProfile(false)
       return
@@ -2335,6 +2405,16 @@ export default function Home() {
     <>
       <style dangerouslySetInnerHTML={{ __html: styles }} />
       <div className="marble-bg" />
+
+      {/* Toast notification */}
+      {toastMsg && (
+        <div className="toast-container">
+          <div className={`toast-inner ${toastType === 'error' ? 'toast-error' : 'toast-info'}`}>
+            <span>{toastMsg}</span>
+            <button className="toast-close" onClick={() => setToastMsg('')}>✕</button>
+          </div>
+        </div>
+      )}
 
       <div className="dash-wrap" id="main-content">
 
@@ -3087,8 +3167,8 @@ function RolexGauge({ value, max, label }: { value: number; max: number; label: 
 }
 
 /* ─── Mini Line Chart ──────────────────────────────────────────────────────── */
-function ViewsChart({ data }: { data: { date: string; count: number }[] }) {
-  if (!data.length) return <div style={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-dim)', fontSize: '0.8rem' }}>No data yet</div>
+function ViewsChart({ data, noDataLabel }: { data: { date: string; count: number }[]; noDataLabel?: string }) {
+  if (!data.length) return <div style={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-dim)', fontSize: '0.8rem' }}>{noDataLabel || 'No data yet'}</div>
 
   const maxVal = Math.max(...data.map(d => d.count), 1)
   const padL = 36, padR = 16, padT = 12, padB = 28
@@ -3273,7 +3353,7 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
             ))}
           </div>
         </div>
-        <ViewsChart data={pageViewHistory} />
+        <ViewsChart data={pageViewHistory} noDataLabel={t.noDataYet} />
       </div>
 
       {/* ── Lead Breakdown ── */}
