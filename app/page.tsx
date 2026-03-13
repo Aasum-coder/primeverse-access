@@ -860,12 +860,8 @@ const styles = `
     background: linear-gradient(to right, transparent, var(--gold), transparent);
     opacity: 0.4;
   }
-  .rolex-gauge-title {
-    font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--text-secondary); margin-bottom: 0.75rem; font-weight: 500;
-  }
   .rolex-gauge-wrap {
-    position: relative; width: 180px; height: 180px;
+    position: relative; width: 220px; height: 220px;
   }
   .rolex-gauge-bg {
     width: 100%; height: 100%; border-radius: 50%;
@@ -874,16 +870,39 @@ const styles = `
   .rolex-gauge-overlay {
     position: absolute; inset: 0;
   }
-  .rolex-gauge-needle {
-    transition: transform 1.2s cubic-bezier(.4,0,.2,1);
+  .rolex-gauge-number {
+    position: absolute;
+    font-family: Georgia, serif; font-size: 13px; font-weight: 700;
+    color: #d4a537; text-shadow: 0 0 6px rgba(212,165,55,0.3);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .rolex-gauge-inner-ring {
+    position: absolute; top: 15%; left: 15%; width: 70%; height: 70%;
+    border-radius: 50%; border: 0.5px solid rgba(212,165,55,0.15);
+    pointer-events: none;
+  }
+  .rolex-gauge-center {
+    position: absolute; top: 50%; left: 50%;
+    width: 16px; height: 16px; margin: -8px 0 0 -8px;
+    border-radius: 50%; z-index: 3;
+    background: radial-gradient(circle at 35% 35%, #f5d77a, #d4a537 50%, #8b6914);
+    box-shadow: 0 0 8px rgba(212,165,55,0.5);
+  }
+  .rolex-gauge-needle-g {
+    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-origin: 50% 50%;
-    filter: drop-shadow(0 0 3px rgba(212,165,55,0.6));
+  }
+  .rolex-gauge-title-text {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: #888; margin-top: 0.6rem; font-weight: 500;
   }
   .rolex-gauge-value {
-    font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700;
-    color: var(--gold); margin-top: 0.5rem; line-height: 1;
+    font-family: Georgia, serif; font-size: 28px; font-weight: 700;
+    color: #d4a537; line-height: 1; margin-top: 0.25rem;
+    text-shadow: 0 0 10px rgba(212,165,55,0.2);
   }
-  .rolex-gauge-sub { font-size: 0.68rem; color: var(--text-dim); margin-top: 4px; }
+  .rolex-gauge-sub { font-size: 11px; color: #555; margin-top: 4px; }
 
   /* Chart section */
   .chart-section {
@@ -1832,39 +1851,63 @@ export default function Home() {
 /* ─── Rolex Gauge component ────────────────────────────────────────────────── */
 function RolexGauge({ value, max, label }: { value: number; max: number; label: string }) {
   const pct = max > 0 ? Math.min(value / max, 1) : 0
-  // Needle rotates from 220° (0%) to 320° (100%) — bottom-left to bottom-right through top
-  const needleAngle = 220 + pct * 100
+  // Needle rotates from 220° (0%) to 500° (100%) — full sweep through top
+  const needleAngle = 220 + pct * 280
 
-  // Gold number labels around the edge
+  // Gold number labels positioned absolutely around the edge
   const numbers = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-  const cx = 90, cy = 90, numR = 78
+  const centerX = 110, centerY = 110, numRadius = 82
+
+  const numberPositions = numbers.map((n, i) => {
+    const angleDeg = 220 + (i / (numbers.length - 1)) * 280
+    const angleRad = (angleDeg * Math.PI) / 180
+    return {
+      n,
+      left: centerX + Math.cos(angleRad) * numRadius,
+      top: centerY + Math.sin(angleRad) * numRadius,
+    }
+  })
 
   return (
     <div className="rolex-gauge-wrap">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/69588ba2-e157-4b31-a8de-2e0016fb9147.png"
         alt="" className="rolex-gauge-bg" />
-      <svg className="rolex-gauge-overlay" viewBox="0 0 180 180">
-        {/* Number labels around edge */}
-        {numbers.map((n, i) => {
-          const a = ((220 + (i / (numbers.length - 1)) * 100) * Math.PI) / 180
-          const x = cx + Math.cos(a) * numR
-          const y = cy + Math.sin(a) * numR
-          return (
-            <text key={n} x={x} y={y} textAnchor="middle" dominantBaseline="central"
-              style={{ fontSize: '8px', fill: '#d4a537', fontFamily: 'Cormorant Garamond, serif', fontWeight: 600 }}>
-              {n}
-            </text>
-          )
-        })}
-        {/* Needle */}
-        <g className="rolex-gauge-needle" style={{ transform: `rotate(${needleAngle}deg)` }}>
-          <line x1={cx} y1={cy} x2={cx + 58} y2={cy}
-            stroke="#d4a537" strokeWidth="2.5" strokeLinecap="round" />
-          <circle cx={cx} cy={cy} r="5" fill="#d4a537" />
-          <circle cx={cx} cy={cy} r="2.5" fill="#0a0a0a" />
+      {/* Inner ring for depth */}
+      <div className="rolex-gauge-inner-ring" />
+      {/* Number labels */}
+      {numberPositions.map(p => (
+        <span key={p.n} className="rolex-gauge-number"
+          style={{ left: p.left, top: p.top }}>
+          {p.n}
+        </span>
+      ))}
+      {/* SVG needle */}
+      <svg className="rolex-gauge-overlay" viewBox="0 0 220 220">
+        <defs>
+          <linearGradient id="needleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#8b6914" />
+            <stop offset="50%" stopColor="#d4a537" />
+            <stop offset="100%" stopColor="#f5d77a" />
+          </linearGradient>
+          <filter id="needleGlow">
+            <feGaussianBlur stdDeviation="2.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g className="rolex-gauge-needle-g" style={{ transform: `rotate(${needleAngle}deg)` }}
+          filter="url(#needleGlow)">
+          <polygon
+            points="110,108 110,112 172,110"
+            fill="url(#needleGrad)"
+          />
         </g>
       </svg>
+      {/* Center dot */}
+      <div className="rolex-gauge-center" />
     </div>
   )
 }
@@ -2010,14 +2053,14 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
       {/* ── Rolex Gauge Instruments ── */}
       <div className="gauges-row">
         <div className="rolex-gauge-card">
-          <div className="rolex-gauge-title">Conversion Rate</div>
           <RolexGauge value={convRate} max={100} label="%" />
+          <div className="rolex-gauge-title-text">Conversion Rate</div>
           <div className="rolex-gauge-value">{convRate}%</div>
           <div className="rolex-gauge-sub">reg → approved</div>
         </div>
         <div className="rolex-gauge-card">
-          <div className="rolex-gauge-title">Profile Strength</div>
           <RolexGauge value={profileStrength} max={100} label="%" />
+          <div className="rolex-gauge-title-text">Profile Strength</div>
           <div className="rolex-gauge-value">{profileStrength}%</div>
           <div className="strength-items">
             {[
@@ -2035,8 +2078,8 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
           </div>
         </div>
         <div className="rolex-gauge-card">
-          <div className="rolex-gauge-title">Approval Rate</div>
           <RolexGauge value={approvalRate} max={100} label="%" />
+          <div className="rolex-gauge-title-text">Approval Rate</div>
           <div className="rolex-gauge-value">{approvalRate}%</div>
           <div className="rolex-gauge-sub">{totalApproved} of {totalLeads} verified</div>
         </div>
