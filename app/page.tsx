@@ -72,6 +72,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'of',
     fillAll: 'Fill in all fields',
     referralRequired: 'This field must be filled in',
+    slugTaken: 'This URL is already in use. Please choose another.',
     socialMedia: 'Social media',
   },
   no: {
@@ -120,6 +121,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'av',
     fillAll: 'Fyll inn alle feltene',
     referralRequired: 'Dette feltet må fylles ut',
+    slugTaken: 'Denne URL-en er allerede i bruk. Velg en annen.',
     socialMedia: 'Sosiale medier',
   },
   sv: {
@@ -168,6 +170,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'av',
     fillAll: 'Fyll i alla fält',
     referralRequired: 'Detta fält måste fyllas i',
+    slugTaken: 'Denna URL används redan. Välj en annan.',
     socialMedia: 'Sociala medier',
   },
   es: {
@@ -216,6 +219,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'de',
     fillAll: 'Completa todos los campos',
     referralRequired: 'Este campo debe completarse',
+    slugTaken: 'Esta URL ya está en uso. Elige otra.',
     socialMedia: 'Redes sociales',
   },
   ru: {
@@ -264,6 +268,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'из',
     fillAll: 'Заполните все поля',
     referralRequired: 'Это поле обязательно для заполнения',
+    slugTaken: 'Этот URL уже используется. Выберите другой.',
     socialMedia: 'Социальные сети',
   },
   ar: {
@@ -312,6 +317,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'من',
     fillAll: 'املأ جميع الحقول',
     referralRequired: 'يجب ملء هذا الحقل',
+    slugTaken: 'هذا الرابط مستخدم بالفعل. اختر رابطاً آخر.',
     socialMedia: 'وسائل التواصل الاجتماعي',
   },
   tl: {
@@ -360,6 +366,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'ng',
     fillAll: 'Punan lahat ng fields',
     referralRequired: 'Kailangang punan ang field na ito',
+    slugTaken: 'Ginagamit na ang URL na ito. Pumili ng iba.',
     socialMedia: 'Social media',
   },
 }
@@ -930,7 +937,7 @@ export default function Home() {
   const [leads, setLeads] = useState<any[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics'>('leads')
+  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics'>('metrics')
   const [metricPeriod, setMetricPeriod] = useState<'day' | 'week' | 'month' | 'all'>('week')
   const [pageViews, setPageViews] = useState(0)
   const [metricsLoading, setMetricsLoading] = useState(false)
@@ -938,6 +945,7 @@ export default function Home() {
   const [profileName, setProfileName] = useState('')
   const [profileBio, setProfileBio] = useState('')
   const [profileSlug, setProfileSlug] = useState('')
+  const [slugError, setSlugError] = useState(false)
   const [profileReferralLink, setProfileReferralLink] = useState('')
   const [profileDirection, setProfileDirection] = useState('')
   const [profileImage, setProfileImage] = useState<string | null>(null)
@@ -965,6 +973,7 @@ export default function Home() {
   const [generatedBios, setGeneratedBios] = useState<Record<string, string> | null>(null)
   const [bioLangOpen, setBioLangOpen] = useState(false)
   const [bioError, setBioError] = useState<string | null>(null)
+  const [bioTranslations, setBioTranslations] = useState<Record<string, string> | null>(null)
 
   // Language
   const [lang, setLang] = useState('en')
@@ -996,6 +1005,7 @@ export default function Home() {
       setDistributor(dist)
       setProfileName(dist.name || '')
       setProfileBio(dist.bio || '')
+      setBioTranslations(dist.bio_translations || null)
       setProfileSlug(dist.slug || '')
       setProfileReferralLink(dist.referral_link || '')
       setProfileDirection(dist.direction || '')
@@ -1099,15 +1109,24 @@ export default function Home() {
       return
     }
     setReferralError(false)
+    setSlugError(false)
     setSavingProfile(true)
     const isFirstSave = !distributor.slug
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null }).eq('id', distributor.id)
-    if (error) { alert('Feil: ' + error.message); setSavingProfile(false); return }
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null }).eq('id', distributor.id)
+    if (error) {
+      if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
+        setSlugError(true)
+      } else {
+        alert('Feil: ' + error.message)
+      }
+      setSavingProfile(false)
+      return
+    }
     if (isFirstSave && profileSlug) {
       fetch('/api/welcome-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: profileName, email: distributor.email, slug: profileSlug, lang }) }).catch(() => {})
     }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -1205,6 +1224,7 @@ export default function Home() {
   const bioUseCurrent = () => {
     if (generatedBios) {
       setProfileBio(generatedBios[lang] || Object.values(generatedBios)[0] || '')
+      setBioTranslations(generatedBios)
     }
     setShowAI(false)
   }
@@ -1295,13 +1315,13 @@ export default function Home() {
         <div className="tabs" role="tablist" aria-label="Dashboard sections">
           <button
             role="tab"
-            aria-selected={activeTab === 'leads'}
-            aria-controls="tab-panel-leads"
-            id="tab-leads"
-            onClick={() => setActiveTab('leads')}
-            className={`tab-btn${activeTab === 'leads' ? ' tab-btn-active' : ''}`}
+            aria-selected={activeTab === 'metrics'}
+            aria-controls="tab-panel-metrics"
+            id="tab-metrics"
+            onClick={() => setActiveTab('metrics')}
+            className={`tab-btn${activeTab === 'metrics' ? ' tab-btn-active' : ''}`}
           >
-            {t.leadsTab} ({leads.length})
+            {lang === 'no' ? 'Målinger' : lang === 'sv' ? 'Mätningar' : lang === 'es' ? 'Métricas' : 'Metrics'}
           </button>
           <button
             role="tab"
@@ -1315,13 +1335,13 @@ export default function Home() {
           </button>
           <button
             role="tab"
-            aria-selected={activeTab === 'metrics'}
-            aria-controls="tab-panel-metrics"
-            id="tab-metrics"
-            onClick={() => setActiveTab('metrics')}
-            className={`tab-btn${activeTab === 'metrics' ? ' tab-btn-active' : ''}`}
+            aria-selected={activeTab === 'leads'}
+            aria-controls="tab-panel-leads"
+            id="tab-leads"
+            onClick={() => setActiveTab('leads')}
+            className={`tab-btn${activeTab === 'leads' ? ' tab-btn-active' : ''}`}
           >
-            {lang === 'no' ? 'Målinger' : lang === 'sv' ? 'Mätningar' : lang === 'es' ? 'Métricas' : 'Metrics'}
+            {t.leadsTab} ({leads.length})
           </button>
         </div>
 
@@ -1472,10 +1492,11 @@ export default function Home() {
 
               <div className="field-group">
                 <label className="field-label" htmlFor="profile-slug">{t.yourUrl}</label>
-                <div className="url-input-wrap">
+                <div className="url-input-wrap" style={slugError ? { borderColor: '#d44a37' } : undefined}>
                   <span className="url-prefix" aria-hidden="true">primeverseaccess.com/</span>
-                  <input id="profile-slug" value={profileSlug} onChange={e => setProfileSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))} placeholder="ditt-navn" aria-label={`${t.yourUrl}: primeverseaccess.com/`} />
+                  <input id="profile-slug" value={profileSlug} onChange={e => { setProfileSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '')); setSlugError(false) }} placeholder="ditt-navn" aria-label={`${t.yourUrl}: primeverseaccess.com/`} aria-invalid={slugError} />
                 </div>
+                {slugError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{t.slugTaken}</p>}
               </div>
 
               <div className="field-group">
