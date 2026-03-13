@@ -123,6 +123,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Your page:',
     aiDescription: 'Answer 5 questions, choose a tone, and AI will create a professional bio for you — in all languages.',
     somethingWentWrong: 'Something went wrong',
+    reportBug: 'Report a bug',
+    bugModalTitle: 'Report a bug',
+    bugModalInstructions: 'Help us improve SYSTM8! Please include a screenshot of the problem — reports without screenshots will not be processed.',
+    bugWhatHappened: 'What happened?',
+    bugWhatExpected: 'What did you expect to happen?',
+    bugWhichPage: 'Which page were you on?',
+    bugPageDashboard: 'Dashboard',
+    bugPageLanding: 'Landing page',
+    bugPageLogin: 'Login',
+    bugPageOther: 'Other',
+    bugScreenshot: 'Screenshot',
+    bugScreenshotHint: 'PNG or JPG · Max 5MB',
+    bugScreenshotRequired: 'Screenshot is required',
+    bugSeverity: 'Severity',
+    bugSeverityCritical: 'Critical',
+    bugSeverityHigh: 'High',
+    bugSeverityMedium: 'Medium',
+    bugSeverityLow: 'Low',
+    bugSend: 'Send report',
+    bugCancel: 'Cancel',
+    bugSending: 'Sending...',
+    bugSuccess: 'Thank you! Your report has been sent.',
+    bugFillRequired: 'Please fill in all required fields and attach a screenshot.',
   },
   no: {
     leadsTab: 'Leads',
@@ -221,6 +244,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Din side:',
     aiDescription: 'Svar på 5 spørsmål, velg en tone, og AI lager en profesjonell bio for deg — på alle språk.',
     somethingWentWrong: 'Noe gikk galt',
+    reportBug: 'Rapporter en feil',
+    bugModalTitle: 'Rapporter en feil',
+    bugModalInstructions: 'Hjelp oss å forbedre SYSTM8! Vennligst inkluder et skjermbilde av problemet — rapporter uten skjermbilder vil ikke bli behandlet.',
+    bugWhatHappened: 'Hva skjedde?',
+    bugWhatExpected: 'Hva forventet du skulle skje?',
+    bugWhichPage: 'Hvilken side var du på?',
+    bugPageDashboard: 'Dashboard',
+    bugPageLanding: 'Landingsside',
+    bugPageLogin: 'Innlogging',
+    bugPageOther: 'Annet',
+    bugScreenshot: 'Skjermbilde',
+    bugScreenshotHint: 'PNG eller JPG · Maks 5MB',
+    bugScreenshotRequired: 'Skjermbilde er påkrevd',
+    bugSeverity: 'Alvorlighetsgrad',
+    bugSeverityCritical: 'Kritisk',
+    bugSeverityHigh: 'Høy',
+    bugSeverityMedium: 'Medium',
+    bugSeverityLow: 'Lav',
+    bugSend: 'Send rapport',
+    bugCancel: 'Avbryt',
+    bugSending: 'Sender...',
+    bugSuccess: 'Takk! Din rapport er sendt.',
+    bugFillRequired: 'Vennligst fyll inn alle påkrevde felt og legg ved et skjermbilde.',
   },
   sv: {
     leadsTab: 'Leads',
@@ -319,6 +365,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Din sida:',
     aiDescription: 'Svara på 5 frågor, välj en ton, så skapar AI en professionell bio åt dig — på alla språk.',
     somethingWentWrong: 'Något gick fel',
+    reportBug: 'Rapportera en bugg',
+    bugModalTitle: 'Rapportera en bugg',
+    bugModalInstructions: 'Hjälp oss förbättra SYSTM8! Inkludera en skärmbild av problemet — rapporter utan skärmbilder kommer inte att behandlas.',
+    bugWhatHappened: 'Vad hände?',
+    bugWhatExpected: 'Vad förväntade du dig skulle hända?',
+    bugWhichPage: 'Vilken sida var du på?',
+    bugPageDashboard: 'Dashboard',
+    bugPageLanding: 'Landningssida',
+    bugPageLogin: 'Inloggning',
+    bugPageOther: 'Annat',
+    bugScreenshot: 'Skärmbild',
+    bugScreenshotHint: 'PNG eller JPG · Max 5MB',
+    bugScreenshotRequired: 'Skärmbild krävs',
+    bugSeverity: 'Allvarlighetsgrad',
+    bugSeverityCritical: 'Kritisk',
+    bugSeverityHigh: 'Hög',
+    bugSeverityMedium: 'Medium',
+    bugSeverityLow: 'Låg',
+    bugSend: 'Skicka rapport',
+    bugCancel: 'Avbryt',
+    bugSending: 'Skickar...',
+    bugSuccess: 'Tack! Din rapport har skickats.',
+    bugFillRequired: 'Fyll i alla obligatoriska fält och bifoga en skärmbild.',
   },
   es: {
     leadsTab: 'Leads',
@@ -417,6 +486,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Tu página:',
     aiDescription: 'Responde 5 preguntas, elige un tono, y la IA creará una bio profesional para ti — en todos los idiomas.',
     somethingWentWrong: 'Algo salió mal',
+    reportBug: 'Reportar un error',
+    bugModalTitle: 'Reportar un error',
+    bugModalInstructions: '¡Ayúdanos a mejorar SYSTM8! Por favor incluye una captura de pantalla del problema — los reportes sin capturas no serán procesados.',
+    bugWhatHappened: '¿Qué pasó?',
+    bugWhatExpected: '¿Qué esperabas que pasara?',
+    bugWhichPage: '¿En qué página estabas?',
+    bugPageDashboard: 'Dashboard',
+    bugPageLanding: 'Página de aterrizaje',
+    bugPageLogin: 'Inicio de sesión',
+    bugPageOther: 'Otro',
+    bugScreenshot: 'Captura de pantalla',
+    bugScreenshotHint: 'PNG o JPG · Máx 5MB',
+    bugScreenshotRequired: 'La captura de pantalla es obligatoria',
+    bugSeverity: 'Gravedad',
+    bugSeverityCritical: 'Crítica',
+    bugSeverityHigh: 'Alta',
+    bugSeverityMedium: 'Media',
+    bugSeverityLow: 'Baja',
+    bugSend: 'Enviar reporte',
+    bugCancel: 'Cancelar',
+    bugSending: 'Enviando...',
+    bugSuccess: '¡Gracias! Tu reporte ha sido enviado.',
+    bugFillRequired: 'Por favor completa todos los campos obligatorios y adjunta una captura de pantalla.',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -515,6 +607,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Ваша страница:',
     aiDescription: 'Ответьте на 5 вопросов, выберите тон, и AI создаст профессиональную биографию — на всех языках.',
     somethingWentWrong: 'Что-то пошло не так',
+    reportBug: 'Сообщить об ошибке',
+    bugModalTitle: 'Сообщить об ошибке',
+    bugModalInstructions: 'Помогите нам улучшить SYSTM8! Пожалуйста, приложите скриншот проблемы — отчёты без скриншотов не будут обработаны.',
+    bugWhatHappened: 'Что произошло?',
+    bugWhatExpected: 'Что вы ожидали?',
+    bugWhichPage: 'На какой странице вы были?',
+    bugPageDashboard: 'Панель управления',
+    bugPageLanding: 'Лендинг',
+    bugPageLogin: 'Вход',
+    bugPageOther: 'Другое',
+    bugScreenshot: 'Скриншот',
+    bugScreenshotHint: 'PNG или JPG · Макс 5МБ',
+    bugScreenshotRequired: 'Скриншот обязателен',
+    bugSeverity: 'Серьёзность',
+    bugSeverityCritical: 'Критическая',
+    bugSeverityHigh: 'Высокая',
+    bugSeverityMedium: 'Средняя',
+    bugSeverityLow: 'Низкая',
+    bugSend: 'Отправить отчёт',
+    bugCancel: 'Отмена',
+    bugSending: 'Отправка...',
+    bugSuccess: 'Спасибо! Ваш отчёт отправлен.',
+    bugFillRequired: 'Пожалуйста, заполните все обязательные поля и прикрепите скриншот.',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -613,6 +728,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'صفحتك:',
     aiDescription: 'أجب على 5 أسئلة، اختر نغمة، وسيقوم AI بإنشاء نبذة احترافية لك — بجميع اللغات.',
     somethingWentWrong: 'حدث خطأ',
+    reportBug: 'الإبلاغ عن خطأ',
+    bugModalTitle: 'الإبلاغ عن خطأ',
+    bugModalInstructions: 'ساعدنا في تحسين SYSTM8! يرجى تضمين لقطة شاشة للمشكلة — لن تتم معالجة التقارير بدون لقطات شاشة.',
+    bugWhatHappened: 'ماذا حدث؟',
+    bugWhatExpected: 'ماذا كنت تتوقع أن يحدث؟',
+    bugWhichPage: 'في أي صفحة كنت؟',
+    bugPageDashboard: 'لوحة التحكم',
+    bugPageLanding: 'صفحة الهبوط',
+    bugPageLogin: 'تسجيل الدخول',
+    bugPageOther: 'أخرى',
+    bugScreenshot: 'لقطة شاشة',
+    bugScreenshotHint: 'PNG أو JPG · الحد الأقصى 5 ميجابايت',
+    bugScreenshotRequired: 'لقطة الشاشة مطلوبة',
+    bugSeverity: 'الخطورة',
+    bugSeverityCritical: 'حرجة',
+    bugSeverityHigh: 'عالية',
+    bugSeverityMedium: 'متوسطة',
+    bugSeverityLow: 'منخفضة',
+    bugSend: 'إرسال التقرير',
+    bugCancel: 'إلغاء',
+    bugSending: 'جارٍ الإرسال...',
+    bugSuccess: 'شكراً! تم إرسال تقريرك.',
+    bugFillRequired: 'يرجى ملء جميع الحقول المطلوبة وإرفاق لقطة شاشة.',
   },
   tl: {
     leadsTab: 'Leads',
@@ -711,6 +849,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Ang page mo:',
     aiDescription: 'Sagutin ang 5 tanong, pumili ng tono, at gagawa ang AI ng professional bio para sa iyo — sa lahat ng wika.',
     somethingWentWrong: 'May nangyaring mali',
+    reportBug: 'Mag-report ng bug',
+    bugModalTitle: 'Mag-report ng bug',
+    bugModalInstructions: 'Tulungan kaming pagbutihin ang SYSTM8! Mangyaring mag-attach ng screenshot ng problema — hindi ipoproseso ang mga report na walang screenshot.',
+    bugWhatHappened: 'Ano ang nangyari?',
+    bugWhatExpected: 'Ano ang inaasahan mong mangyari?',
+    bugWhichPage: 'Saang page ka?',
+    bugPageDashboard: 'Dashboard',
+    bugPageLanding: 'Landing page',
+    bugPageLogin: 'Login',
+    bugPageOther: 'Iba pa',
+    bugScreenshot: 'Screenshot',
+    bugScreenshotHint: 'PNG o JPG · Max 5MB',
+    bugScreenshotRequired: 'Kailangan ang screenshot',
+    bugSeverity: 'Kalubhaan',
+    bugSeverityCritical: 'Kritikal',
+    bugSeverityHigh: 'Mataas',
+    bugSeverityMedium: 'Katamtaman',
+    bugSeverityLow: 'Mababa',
+    bugSend: 'Ipadala ang report',
+    bugCancel: 'Kanselahin',
+    bugSending: 'Ipinapadala...',
+    bugSuccess: 'Salamat! Naipadala na ang iyong report.',
+    bugFillRequired: 'Mangyaring punan ang lahat ng kinakailangang field at mag-attach ng screenshot.',
   },
   pt: {
     leadsTab: 'Leads',
@@ -809,6 +970,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'Sua página:',
     aiDescription: 'Responda 5 perguntas, escolha um tom, e a IA criará uma bio profissional para você — em todos os idiomas.',
     somethingWentWrong: 'Algo deu errado',
+    reportBug: 'Reportar um bug',
+    bugModalTitle: 'Reportar um bug',
+    bugModalInstructions: 'Ajude-nos a melhorar o SYSTM8! Por favor inclua uma captura de tela do problema — relatórios sem capturas de tela não serão processados.',
+    bugWhatHappened: 'O que aconteceu?',
+    bugWhatExpected: 'O que você esperava que acontecesse?',
+    bugWhichPage: 'Em qual página você estava?',
+    bugPageDashboard: 'Dashboard',
+    bugPageLanding: 'Landing page',
+    bugPageLogin: 'Login',
+    bugPageOther: 'Outro',
+    bugScreenshot: 'Captura de tela',
+    bugScreenshotHint: 'PNG ou JPG · Máx 5MB',
+    bugScreenshotRequired: 'A captura de tela é obrigatória',
+    bugSeverity: 'Gravidade',
+    bugSeverityCritical: 'Crítica',
+    bugSeverityHigh: 'Alta',
+    bugSeverityMedium: 'Média',
+    bugSeverityLow: 'Baixa',
+    bugSend: 'Enviar relatório',
+    bugCancel: 'Cancelar',
+    bugSending: 'Enviando...',
+    bugSuccess: 'Obrigado! Seu relatório foi enviado.',
+    bugFillRequired: 'Por favor preencha todos os campos obrigatórios e anexe uma captura de tela.',
   },
   th: {
     leadsTab: 'ลีด',
@@ -907,6 +1091,29 @@ const translations: Record<string, Record<string, string>> = {
     yourPageAt: 'หน้าของคุณ:',
     aiDescription: 'ตอบ 5 คำถาม เลือกโทน แล้ว AI จะสร้างไบโอมืออาชีพให้คุณ — ในทุกภาษา',
     somethingWentWrong: 'เกิดข้อผิดพลาด',
+    reportBug: 'รายงานบัก',
+    bugModalTitle: 'รายงานบัก',
+    bugModalInstructions: 'ช่วยเราปรับปรุง SYSTM8! กรุณาแนบภาพหน้าจอของปัญหา — รายงานที่ไม่มีภาพหน้าจอจะไม่ได้รับการดำเนินการ',
+    bugWhatHappened: 'เกิดอะไรขึ้น?',
+    bugWhatExpected: 'คุณคาดหวังว่าจะเกิดอะไรขึ้น?',
+    bugWhichPage: 'คุณอยู่หน้าไหน?',
+    bugPageDashboard: 'แดชบอร์ด',
+    bugPageLanding: 'Landing page',
+    bugPageLogin: 'เข้าสู่ระบบ',
+    bugPageOther: 'อื่นๆ',
+    bugScreenshot: 'ภาพหน้าจอ',
+    bugScreenshotHint: 'PNG หรือ JPG · สูงสุด 5MB',
+    bugScreenshotRequired: 'จำเป็นต้องแนบภาพหน้าจอ',
+    bugSeverity: 'ความรุนแรง',
+    bugSeverityCritical: 'วิกฤต',
+    bugSeverityHigh: 'สูง',
+    bugSeverityMedium: 'ปานกลาง',
+    bugSeverityLow: 'ต่ำ',
+    bugSend: 'ส่งรายงาน',
+    bugCancel: 'ยกเลิก',
+    bugSending: 'กำลังส่ง...',
+    bugSuccess: 'ขอบคุณ! รายงานของคุณถูกส่งแล้ว',
+    bugFillRequired: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมดและแนบภาพหน้าจอ',
   },
 }
 
@@ -1628,6 +1835,70 @@ const styles = `
     outline: 2px solid var(--gold);
     outline-offset: 1px;
   }
+
+  /* Bug Report Floating Button */
+  .bug-fab {
+    position: fixed; bottom: 24px; right: 24px; z-index: 100;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(15,13,10,0.9); border: 1px solid rgba(212,165,55,0.3);
+    color: var(--gold); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transition: all 0.3s; backdrop-filter: blur(10px);
+  }
+  .bug-fab:hover {
+    border-color: var(--gold); box-shadow: 0 4px 24px rgba(212,165,55,0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Bug Report Modal */
+  .bug-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; animation: dropIn 0.25s ease;
+  }
+  .bug-modal {
+    background: #111; border: 1px solid rgba(212,165,55,0.25);
+    border-radius: 14px; width: 100%; max-width: 520px;
+    max-height: 90vh; overflow-y: auto; padding: 2rem;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+  .bug-modal-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
+    font-weight: 600; color: var(--gold); margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .bug-modal-instructions {
+    font-size: 0.82rem; color: var(--text-secondary);
+    line-height: 1.55; margin-bottom: 1.5rem;
+    padding: 0.75rem; background: rgba(212,165,55,0.06);
+    border: 1px solid rgba(212,165,55,0.12); border-radius: 8px;
+  }
+  .bug-field { margin-bottom: 1rem; }
+  .bug-field label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.4rem; }
+  .bug-field textarea { width: 100%; min-height: 80px; padding: 0.7rem 0.9rem; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 8px; color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: 0.88rem; resize: vertical; outline: none; transition: border-color 0.3s; }
+  .bug-field textarea:focus { border-color: var(--input-focus); box-shadow: 0 0 0 3px rgba(212,165,55,0.08); }
+  .bug-field select { width: 100%; padding: 0.7rem 0.9rem; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 8px; color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: 0.88rem; outline: none; appearance: none; cursor: pointer; }
+  .bug-field select:focus { border-color: var(--input-focus); }
+  .bug-file-zone {
+    border: 2px dashed rgba(212,165,55,0.25); border-radius: 10px;
+    padding: 1.25rem; text-align: center; cursor: pointer;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .bug-file-zone:hover { border-color: rgba(212,165,55,0.5); background: rgba(212,165,55,0.03); }
+  .bug-file-zone-active { border-color: var(--gold); background: rgba(212,165,55,0.06); }
+  .bug-file-hint { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.3rem; }
+  .bug-file-name { font-size: 0.82rem; color: var(--gold-light); margin-top: 0.4rem; }
+  .bug-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .bug-actions .gold-btn { flex: 1; }
+  .bug-actions .btn-outline { flex: 0 0 auto; }
+  .bug-error { font-size: 0.8rem; color: #e57373; margin-top: 0.5rem; }
+  .bug-success-msg {
+    text-align: center; padding: 2rem 1rem;
+    font-size: 1rem; color: var(--success-text);
+    display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  }
 `;
 
 export default function Home() {
@@ -1683,6 +1954,18 @@ export default function Home() {
   const [bioLangOpen, setBioLangOpen] = useState(false)
   const [bioError, setBioError] = useState<string | null>(null)
   const [bioTranslations, setBioTranslations] = useState<Record<string, string> | null>(null)
+
+  // Bug report
+  const [bugOpen, setBugOpen] = useState(false)
+  const [bugWhat, setBugWhat] = useState('')
+  const [bugExpected, setBugExpected] = useState('')
+  const [bugPage, setBugPage] = useState('Dashboard')
+  const [bugFile, setBugFile] = useState<File | null>(null)
+  const [bugSeverity, setBugSeverity] = useState('Medium')
+  const [bugSending, setBugSending] = useState(false)
+  const [bugSent, setBugSent] = useState(false)
+  const [bugError, setBugError] = useState('')
+  const bugFileRef = useRef<HTMLInputElement>(null)
 
   // Language
   const [lang, setLang] = useState('en')
@@ -1986,6 +2269,55 @@ export default function Home() {
   const handleLogout = async () => {
     await supabase.auth.signOut()
     router.push('/login')
+  }
+
+  const submitBugReport = async () => {
+    if (!bugWhat.trim() || !bugExpected.trim() || !bugFile) {
+      setBugError(t.bugFillRequired)
+      return
+    }
+    setBugSending(true)
+    setBugError('')
+    try {
+      const reader = new FileReader()
+      const fileData = await new Promise<string>((resolve) => {
+        reader.onload = () => resolve(reader.result as string)
+        reader.readAsDataURL(bugFile)
+      })
+      const res = await fetch('/api/bug-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          whatHappened: bugWhat,
+          whatExpected: bugExpected,
+          page: bugPage,
+          severity: bugSeverity,
+          screenshot: fileData,
+          fileName: bugFile.name,
+          userEmail: distributor?.email || '',
+          userName: distributor?.name || '',
+          userSlug: distributor?.slug || '',
+          userAgent: navigator.userAgent,
+          timestamp: new Date().toISOString(),
+          language: lang,
+        }),
+      })
+      if (!res.ok) throw new Error('Failed')
+      setBugSent(true)
+      setTimeout(() => {
+        setBugOpen(false)
+        setBugSent(false)
+        setBugWhat('')
+        setBugExpected('')
+        setBugPage('Dashboard')
+        setBugFile(null)
+        setBugSeverity('Medium')
+      }, 2500)
+    } catch {
+      setBugError(t.somethingWentWrong)
+    } finally {
+      setBugSending(false)
+    }
   }
 
   if (loading) return (
@@ -2565,6 +2897,110 @@ export default function Home() {
         )}
 
       </div>
+
+      {/* ── Bug Report FAB ── */}
+      <button className="bug-fab" onClick={() => { setBugOpen(true); setBugSent(false); setBugError('') }} aria-label={t.reportBug} title={t.reportBug}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8 2l1.88 1.88M14.12 3.88L16 2M9 7.13v-1a3.003 3.003 0 116 0v1" />
+          <path d="M12 20c-3.3 0-6-2.7-6-6v-3a6 6 0 0112 0v3c0 3.3-2.7 6-6 6z" />
+          <path d="M12 20v2M6 13H2M6 17H3M18 13h4M18 17h3" />
+        </svg>
+      </button>
+
+      {/* ── Bug Report Modal ── */}
+      {bugOpen && (
+        <div className="bug-overlay" onClick={(e) => { if (e.target === e.currentTarget) setBugOpen(false) }}>
+          <div className="bug-modal">
+            {bugSent ? (
+              <div className="bug-success-msg">
+                <span style={{ fontSize: '2.5rem' }}>✓</span>
+                <span>{t.bugSuccess}</span>
+              </div>
+            ) : (
+              <>
+                <div className="bug-modal-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 2l1.88 1.88M14.12 3.88L16 2M9 7.13v-1a3.003 3.003 0 116 0v1" />
+                    <path d="M12 20c-3.3 0-6-2.7-6-6v-3a6 6 0 0112 0v3c0 3.3-2.7 6-6 6z" />
+                    <path d="M12 20v2M6 13H2M6 17H3M18 13h4M18 17h3" />
+                  </svg>
+                  {t.bugModalTitle}
+                </div>
+                <div className="bug-modal-instructions">{t.bugModalInstructions}</div>
+
+                <div className="bug-field">
+                  <label>{t.bugWhatHappened} *</label>
+                  <textarea value={bugWhat} onChange={e => setBugWhat(e.target.value)} />
+                </div>
+
+                <div className="bug-field">
+                  <label>{t.bugWhatExpected} *</label>
+                  <textarea value={bugExpected} onChange={e => setBugExpected(e.target.value)} />
+                </div>
+
+                <div className="bug-field">
+                  <label>{t.bugWhichPage}</label>
+                  <select value={bugPage} onChange={e => setBugPage(e.target.value)}>
+                    <option value="Dashboard">{t.bugPageDashboard}</option>
+                    <option value="Landing page">{t.bugPageLanding}</option>
+                    <option value="Login">{t.bugPageLogin}</option>
+                    <option value="Other">{t.bugPageOther}</option>
+                  </select>
+                </div>
+
+                <div className="bug-field">
+                  <label>{t.bugScreenshot} *</label>
+                  <input
+                    ref={bugFileRef}
+                    type="file"
+                    accept="image/png,image/jpeg"
+                    style={{ display: 'none' }}
+                    onChange={e => {
+                      const f = e.target.files?.[0]
+                      if (f && f.size <= 5 * 1024 * 1024) setBugFile(f)
+                      else if (f) setBugError('Max 5MB')
+                    }}
+                  />
+                  <div
+                    className={`bug-file-zone${bugFile ? ' bug-file-zone-active' : ''}`}
+                    onClick={() => bugFileRef.current?.click()}
+                  >
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 4 }}>
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <path d="M21 15l-5-5L5 21" />
+                    </svg>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                      {bugFile ? '' : t.bugScreenshot}
+                    </div>
+                    {bugFile && <div className="bug-file-name">{bugFile.name}</div>}
+                    <div className="bug-file-hint">{t.bugScreenshotHint}</div>
+                  </div>
+                </div>
+
+                <div className="bug-field">
+                  <label>{t.bugSeverity}</label>
+                  <select value={bugSeverity} onChange={e => setBugSeverity(e.target.value)}>
+                    <option value="Critical">{t.bugSeverityCritical}</option>
+                    <option value="High">{t.bugSeverityHigh}</option>
+                    <option value="Medium">{t.bugSeverityMedium}</option>
+                    <option value="Low">{t.bugSeverityLow}</option>
+                  </select>
+                </div>
+
+                {bugError && <div className="bug-error">{bugError}</div>}
+
+                <div className="bug-actions">
+                  <button onClick={submitBugReport} disabled={bugSending} className="gold-btn">
+                    {bugSending ? t.bugSending : t.bugSend}
+                  </button>
+                  <button onClick={() => setBugOpen(false)} className="btn-outline">{t.bugCancel}</button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </>
   )
 }
