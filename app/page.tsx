@@ -72,6 +72,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'of',
     fillAll: 'Fill in all fields',
     referralRequired: 'This field must be filled in',
+    slugTaken: 'This URL is already in use. Please choose another.',
     socialMedia: 'Social media',
   },
   no: {
@@ -120,6 +121,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'av',
     fillAll: 'Fyll inn alle feltene',
     referralRequired: 'Dette feltet må fylles ut',
+    slugTaken: 'Denne URL-en er allerede i bruk. Velg en annen.',
     socialMedia: 'Sosiale medier',
   },
   sv: {
@@ -168,6 +170,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'av',
     fillAll: 'Fyll i alla fält',
     referralRequired: 'Detta fält måste fyllas i',
+    slugTaken: 'Denna URL används redan. Välj en annan.',
     socialMedia: 'Sociala medier',
   },
   es: {
@@ -216,6 +219,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'de',
     fillAll: 'Completa todos los campos',
     referralRequired: 'Este campo debe completarse',
+    slugTaken: 'Esta URL ya está en uso. Elige otra.',
     socialMedia: 'Redes sociales',
   },
   ru: {
@@ -264,6 +268,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'из',
     fillAll: 'Заполните все поля',
     referralRequired: 'Это поле обязательно для заполнения',
+    slugTaken: 'Этот URL уже используется. Выберите другой.',
     socialMedia: 'Социальные сети',
   },
   ar: {
@@ -312,6 +317,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'من',
     fillAll: 'املأ جميع الحقول',
     referralRequired: 'يجب ملء هذا الحقل',
+    slugTaken: 'هذا الرابط مستخدم بالفعل. اختر رابطاً آخر.',
     socialMedia: 'وسائل التواصل الاجتماعي',
   },
   tl: {
@@ -360,6 +366,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'ng',
     fillAll: 'Punan lahat ng fields',
     referralRequired: 'Kailangang punan ang field na ito',
+    slugTaken: 'Ginagamit na ang URL na ito. Pumili ng iba.',
     socialMedia: 'Social media',
   },
 }
@@ -938,6 +945,7 @@ export default function Home() {
   const [profileName, setProfileName] = useState('')
   const [profileBio, setProfileBio] = useState('')
   const [profileSlug, setProfileSlug] = useState('')
+  const [slugError, setSlugError] = useState(false)
   const [profileReferralLink, setProfileReferralLink] = useState('')
   const [profileDirection, setProfileDirection] = useState('')
   const [profileImage, setProfileImage] = useState<string | null>(null)
@@ -1099,11 +1107,20 @@ export default function Home() {
       return
     }
     setReferralError(false)
+    setSlugError(false)
     setSavingProfile(true)
     const isFirstSave = !distributor.slug
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
     const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null }).eq('id', distributor.id)
-    if (error) { alert('Feil: ' + error.message); setSavingProfile(false); return }
+    if (error) {
+      if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
+        setSlugError(true)
+      } else {
+        alert('Feil: ' + error.message)
+      }
+      setSavingProfile(false)
+      return
+    }
     if (isFirstSave && profileSlug) {
       fetch('/api/welcome-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: profileName, email: distributor.email, slug: profileSlug, lang }) }).catch(() => {})
     }
@@ -1472,10 +1489,11 @@ export default function Home() {
 
               <div className="field-group">
                 <label className="field-label" htmlFor="profile-slug">{t.yourUrl}</label>
-                <div className="url-input-wrap">
+                <div className="url-input-wrap" style={slugError ? { borderColor: '#d44a37' } : undefined}>
                   <span className="url-prefix" aria-hidden="true">primeverseaccess.com/</span>
-                  <input id="profile-slug" value={profileSlug} onChange={e => setProfileSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))} placeholder="ditt-navn" aria-label={`${t.yourUrl}: primeverseaccess.com/`} />
+                  <input id="profile-slug" value={profileSlug} onChange={e => { setProfileSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '')); setSlugError(false) }} placeholder="ditt-navn" aria-label={`${t.yourUrl}: primeverseaccess.com/`} aria-invalid={slugError} />
                 </div>
+                {slugError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{t.slugTaken}</p>}
               </div>
 
               <div className="field-group">
