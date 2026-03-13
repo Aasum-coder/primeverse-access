@@ -97,6 +97,13 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Conversion rate',
     pending: 'pending',
     approved: 'approved',
+    ibResourcesTab: 'IB Resources',
+    ibResourcesSubtitle: 'Tools and training to help you succeed',
+    ibTraining: 'IB Training',
+    ibTrainingDesc: 'Access training materials and guides to help you get started',
+    contentLibrary: 'Content Library',
+    contentLibraryDesc: 'Browse marketing content, templates and inspiration for your social media',
+    comingSoon: 'Coming soon',
   },
   no: {
     leadsTab: 'Leads',
@@ -169,6 +176,13 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Konverteringsrate',
     pending: 'ventende',
     approved: 'godkjent',
+    ibResourcesTab: 'IB-ressurser',
+    ibResourcesSubtitle: 'Verktøy og opplæring for å hjelpe deg å lykkes',
+    ibTraining: 'IB-opplæring',
+    ibTrainingDesc: 'Tilgang til opplæringsmateriell og guider for å komme i gang',
+    contentLibrary: 'Innholdsbibliotek',
+    contentLibraryDesc: 'Bla gjennom markedsføringsinnhold, maler og inspirasjon for sosiale medier',
+    comingSoon: 'Kommer snart',
   },
   sv: {
     leadsTab: 'Leads',
@@ -241,6 +255,13 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Konverteringsgrad',
     pending: 'väntande',
     approved: 'godkända',
+    ibResourcesTab: 'IB-resurser',
+    ibResourcesSubtitle: 'Verktyg och utbildning för att hjälpa dig lyckas',
+    ibTraining: 'IB-utbildning',
+    ibTrainingDesc: 'Tillgång till utbildningsmaterial och guider för att komma igång',
+    contentLibrary: 'Innehållsbibliotek',
+    contentLibraryDesc: 'Bläddra bland marknadsföringsinnehåll, mallar och inspiration för sociala medier',
+    comingSoon: 'Kommer snart',
   },
   es: {
     leadsTab: 'Leads',
@@ -313,6 +334,13 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Tasa de conversión',
     pending: 'pendientes',
     approved: 'aprobados',
+    ibResourcesTab: 'Recursos IB',
+    ibResourcesSubtitle: 'Herramientas y formación para ayudarte a tener éxito',
+    ibTraining: 'Formación IB',
+    ibTrainingDesc: 'Accede a materiales de formación y guías para comenzar',
+    contentLibrary: 'Biblioteca de contenido',
+    contentLibraryDesc: 'Explora contenido de marketing, plantillas e inspiración para tus redes sociales',
+    comingSoon: 'Próximamente',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -385,6 +413,13 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Коэффициент конверсии',
     pending: 'ожидают',
     approved: 'одобрено',
+    ibResourcesTab: 'Ресурсы IB',
+    ibResourcesSubtitle: 'Инструменты и обучение для вашего успеха',
+    ibTraining: 'Обучение IB',
+    ibTrainingDesc: 'Доступ к учебным материалам и руководствам для начала работы',
+    contentLibrary: 'Библиотека контента',
+    contentLibraryDesc: 'Просматривайте маркетинговый контент, шаблоны и вдохновение для соцсетей',
+    comingSoon: 'Скоро',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -457,6 +492,13 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'معدل التحويل',
     pending: 'معلق',
     approved: 'معتمد',
+    ibResourcesTab: 'موارد IB',
+    ibResourcesSubtitle: 'أدوات وتدريب لمساعدتك على النجاح',
+    ibTraining: 'تدريب IB',
+    ibTrainingDesc: 'الوصول إلى المواد التدريبية والأدلة لمساعدتك على البدء',
+    contentLibrary: 'مكتبة المحتوى',
+    contentLibraryDesc: 'تصفح محتوى التسويق والقوالب والإلهام لوسائل التواصل الاجتماعي',
+    comingSoon: 'قريباً',
   },
   tl: {
     leadsTab: 'Leads',
@@ -529,6 +571,13 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Conversion rate',
     pending: 'naghihintay',
     approved: 'na-approve',
+    ibResourcesTab: 'IB Resources',
+    ibResourcesSubtitle: 'Mga tool at pagsasanay para makatulong sa iyong tagumpay',
+    ibTraining: 'IB Training',
+    ibTrainingDesc: 'I-access ang mga training material at gabay para makapagsimula',
+    contentLibrary: 'Content Library',
+    contentLibraryDesc: 'Mag-browse ng marketing content, template at inspirasyon para sa iyong social media',
+    comingSoon: 'Malapit na',
   },
 }
 
@@ -729,6 +778,42 @@ const styles = `
   }
   .tab-btn:hover { color: var(--gold-light); }
   .tab-btn-active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
+
+  /* IB Resources */
+  .ib-resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 640px) { .ib-resources-grid { grid-template-columns: 1fr; } }
+  .ib-resource-card {
+    position: relative; display: flex; align-items: flex-start; gap: 1rem;
+    background: #141414; border: 1px solid rgba(212,165,55,0.25); border-radius: 12px;
+    padding: 1.5rem; text-decoration: none; color: inherit;
+    transition: box-shadow 0.3s, border-color 0.3s; cursor: pointer;
+  }
+  .ib-resource-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(212,165,55,0.15), 0 0 40px rgba(212,165,55,0.06);
+  }
+  .ib-resource-card-disabled {
+    opacity: 0.55; cursor: default; pointer-events: none;
+  }
+  .ib-resource-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(212,165,55,0.15); color: var(--gold); border: 1px solid rgba(212,165,55,0.3);
+    border-radius: 6px; padding: 2px 8px; font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .ib-resource-icon {
+    flex-shrink: 0; width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(212,165,55,0.1); border-radius: 10px; color: var(--gold);
+  }
+  .ib-resource-text { flex: 1; min-width: 0; }
+  .ib-resource-title { font-weight: 600; font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.3rem; }
+  .ib-resource-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45; }
+  .ib-resource-arrow {
+    flex-shrink: 0; color: var(--gold); font-size: 1.1rem; margin-top: 0.15rem;
+    transition: transform 0.2s;
+  }
+  .ib-resource-card:hover .ib-resource-arrow { transform: translateX(3px); }
 
   /* Cards */
   .card {
@@ -1224,7 +1309,7 @@ export default function Home() {
   const [leads, setLeads] = useState<any[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics'>('metrics')
+  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources'>('metrics')
   const [metricPeriod, setMetricPeriod] = useState<'day' | 'week' | 'month' | 'all'>('week')
   const [pageViews, setPageViews] = useState(0)
   const [metricsLoading, setMetricsLoading] = useState(false)
@@ -1628,7 +1713,7 @@ export default function Home() {
             onClick={() => setActiveTab('metrics')}
             className={`tab-btn${activeTab === 'metrics' ? ' tab-btn-active' : ''}`}
           >
-            {lang === 'no' ? 'Målinger' : lang === 'sv' ? 'Mätningar' : lang === 'es' ? 'Métricas' : 'Metrics'}
+            {t.metricsTab}
           </button>
           <button
             role="tab"
@@ -1649,6 +1734,16 @@ export default function Home() {
             className={`tab-btn${activeTab === 'leads' ? ' tab-btn-active' : ''}`}
           >
             {t.leadsTab} ({leads.length})
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === 'resources'}
+            aria-controls="tab-panel-resources"
+            id="tab-resources"
+            onClick={() => setActiveTab('resources')}
+            className={`tab-btn${activeTab === 'resources' ? ' tab-btn-active' : ''}`}
+          >
+            {t.ibResourcesTab}
           </button>
         </div>
 
@@ -1997,6 +2092,51 @@ export default function Home() {
                   <button onClick={startAI} className="gold-btn">{t.startAi}</button>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* IB RESOURCES TAB */}
+        {activeTab === 'resources' && (
+          <div role="tabpanel" id="tab-panel-resources" aria-labelledby="tab-resources">
+            <div style={{ marginBottom: '1.75rem' }}>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 0.35rem' }}>{t.ibResourcesTab}</h2>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: 0 }}>{t.ibResourcesSubtitle}</p>
+            </div>
+            <div className="ib-resources-grid">
+              <a
+                href="https://seed-timpani-7f1.notion.site/29eb91acac5281c589cee5eb17a53522?v=29eb91acac5281c18d3a000ca39a21d0&source=copy_link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ib-resource-card"
+              >
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                    <path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5" />
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.ibTraining}</div>
+                  <div className="ib-resource-desc">{t.ibTrainingDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+              <div className="ib-resource-card ib-resource-card-disabled">
+                <div className="ib-resource-badge">{t.comingSoon}</div>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <path d="M21 15l-5-5L5 21" />
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.contentLibrary}</div>
+                  <div className="ib-resource-desc">{t.contentLibraryDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
             </div>
           </div>
         )}
