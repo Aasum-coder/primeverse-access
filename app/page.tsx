@@ -937,7 +937,7 @@ export default function Home() {
   const [leads, setLeads] = useState<any[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics'>('leads')
+  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics'>('metrics')
   const [metricPeriod, setMetricPeriod] = useState<'day' | 'week' | 'month' | 'all'>('week')
   const [pageViews, setPageViews] = useState(0)
   const [metricsLoading, setMetricsLoading] = useState(false)
@@ -973,6 +973,7 @@ export default function Home() {
   const [generatedBios, setGeneratedBios] = useState<Record<string, string> | null>(null)
   const [bioLangOpen, setBioLangOpen] = useState(false)
   const [bioError, setBioError] = useState<string | null>(null)
+  const [bioTranslations, setBioTranslations] = useState<Record<string, string> | null>(null)
 
   // Language
   const [lang, setLang] = useState('en')
@@ -1004,6 +1005,7 @@ export default function Home() {
       setDistributor(dist)
       setProfileName(dist.name || '')
       setProfileBio(dist.bio || '')
+      setBioTranslations(dist.bio_translations || null)
       setProfileSlug(dist.slug || '')
       setProfileReferralLink(dist.referral_link || '')
       setProfileDirection(dist.direction || '')
@@ -1111,7 +1113,7 @@ export default function Home() {
     setSavingProfile(true)
     const isFirstSave = !distributor.slug
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -1124,7 +1126,7 @@ export default function Home() {
     if (isFirstSave && profileSlug) {
       fetch('/api/welcome-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: profileName, email: distributor.email, slug: profileSlug, lang }) }).catch(() => {})
     }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -1222,6 +1224,7 @@ export default function Home() {
   const bioUseCurrent = () => {
     if (generatedBios) {
       setProfileBio(generatedBios[lang] || Object.values(generatedBios)[0] || '')
+      setBioTranslations(generatedBios)
     }
     setShowAI(false)
   }
@@ -1312,13 +1315,13 @@ export default function Home() {
         <div className="tabs" role="tablist" aria-label="Dashboard sections">
           <button
             role="tab"
-            aria-selected={activeTab === 'leads'}
-            aria-controls="tab-panel-leads"
-            id="tab-leads"
-            onClick={() => setActiveTab('leads')}
-            className={`tab-btn${activeTab === 'leads' ? ' tab-btn-active' : ''}`}
+            aria-selected={activeTab === 'metrics'}
+            aria-controls="tab-panel-metrics"
+            id="tab-metrics"
+            onClick={() => setActiveTab('metrics')}
+            className={`tab-btn${activeTab === 'metrics' ? ' tab-btn-active' : ''}`}
           >
-            {t.leadsTab} ({leads.length})
+            {lang === 'no' ? 'Målinger' : lang === 'sv' ? 'Mätningar' : lang === 'es' ? 'Métricas' : 'Metrics'}
           </button>
           <button
             role="tab"
@@ -1332,13 +1335,13 @@ export default function Home() {
           </button>
           <button
             role="tab"
-            aria-selected={activeTab === 'metrics'}
-            aria-controls="tab-panel-metrics"
-            id="tab-metrics"
-            onClick={() => setActiveTab('metrics')}
-            className={`tab-btn${activeTab === 'metrics' ? ' tab-btn-active' : ''}`}
+            aria-selected={activeTab === 'leads'}
+            aria-controls="tab-panel-leads"
+            id="tab-leads"
+            onClick={() => setActiveTab('leads')}
+            className={`tab-btn${activeTab === 'leads' ? ' tab-btn-active' : ''}`}
           >
-            {lang === 'no' ? 'Målinger' : lang === 'sv' ? 'Mätningar' : lang === 'es' ? 'Métricas' : 'Metrics'}
+            {t.leadsTab} ({leads.length})
           </button>
         </div>
 

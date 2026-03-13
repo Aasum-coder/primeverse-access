@@ -597,7 +597,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
                   <div style={{ width: '100%', maxWidth: 240, aspectRatio: '3/4', background: 'var(--border)', borderRadius: 6, margin: '0 auto 1.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--grey)', fontSize: '3rem' }}>✦</div>
                 )})()}
                 <div className="dist-badge">{t.dist_badge}</div>
-                {dist.bio && <p className="dist-quote">{dist.bio}</p>}
+                {(dist.bio_translations?.[lang] || dist.bio) && <p className="dist-quote">{dist.bio_translations?.[lang] || dist.bio}</p>}
                 <div className="dist-author">— {dist.name} · 1Move Academy</div>
               </div>
             </div>
