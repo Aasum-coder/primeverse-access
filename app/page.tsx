@@ -863,10 +863,21 @@ const styles = `
   .rolex-gauge-wrap {
     position: relative; width: 220px; height: 220px;
   }
-  .rolex-gauge-bg {
+  .rolex-gauge-bezel {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    border-radius: 50%; object-fit: cover; object-position: center;
-    opacity: 0.85;
+    border-radius: 50%;
+    background: #141414;
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    box-shadow:
+      inset 0 0 20px rgba(0,0,0,0.5),
+      0 0 15px rgba(212,165,55,0.15);
+  }
+  .rolex-gauge-bezel::before {
+    content: ''; position: absolute; inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8B6914, #d4a537, #F5D77A, #d4a537, #8B6914);
+    z-index: -1;
   }
   .rolex-gauge-overlay {
     position: absolute; inset: 0;
@@ -879,8 +890,8 @@ const styles = `
     pointer-events: none;
   }
   .rolex-gauge-inner-ring {
-    position: absolute; top: 15%; left: 15%; width: 70%; height: 70%;
-    border-radius: 50%; border: 0.5px solid rgba(212,165,55,0.15);
+    position: absolute; top: 7.5%; left: 7.5%; width: 85%; height: 85%;
+    border-radius: 50%; border: 1px solid rgba(212,165,55,0.3);
     pointer-events: none;
   }
   .rolex-gauge-center {
@@ -1871,9 +1882,8 @@ function RolexGauge({ value, max, label }: { value: number; max: number; label: 
 
   return (
     <div className="rolex-gauge-wrap">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/69588ba2-e157-4b31-a8de-2e0016fb9147.png"
-        alt="" className="rolex-gauge-bg" />
+      {/* CSS bezel */}
+      <div className="rolex-gauge-bezel" />
       {/* Inner ring for depth */}
       <div className="rolex-gauge-inner-ring" />
       {/* Number labels */}
@@ -1883,7 +1893,7 @@ function RolexGauge({ value, max, label }: { value: number; max: number; label: 
           {p.n}
         </span>
       ))}
-      {/* SVG needle */}
+      {/* SVG tick marks + needle */}
       <svg className="rolex-gauge-overlay" viewBox="0 0 220 220">
         <defs>
           <linearGradient id="needleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1899,6 +1909,24 @@ function RolexGauge({ value, max, label }: { value: number; max: number; label: 
             </feMerge>
           </filter>
         </defs>
+        {/* Tick marks */}
+        {Array.from({ length: 51 }, (_, i) => {
+          const angleDeg = 220 + (i / 50) * 280
+          const angleRad = (angleDeg * Math.PI) / 180
+          const isMajor = i % 5 === 0
+          const outerR = 100
+          const innerR = isMajor ? 88 : 93
+          const x1 = 110 + Math.cos(angleRad) * outerR
+          const y1 = 110 + Math.sin(angleRad) * outerR
+          const x2 = 110 + Math.cos(angleRad) * innerR
+          const y2 = 110 + Math.sin(angleRad) * innerR
+          return (
+            <line key={`tick-${i}`} x1={x1} y1={y1} x2={x2} y2={y2}
+              stroke={isMajor ? '#d4a537' : 'rgba(212,165,55,0.4)'}
+              strokeWidth={isMajor ? 2 : 0.8}
+            />
+          )
+        })}
         <g className="rolex-gauge-needle-g" style={{ transform: `rotate(${needleAngle}deg)` }}
           filter="url(#needleGlow)">
           <polygon
