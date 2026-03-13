@@ -81,6 +81,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'IP Logging:',
     ip_text: 'Visitor IP addresses and form submission timestamps are logged for fraud prevention and security purposes.',
     footer_rights: 'All rights reserved.',
+    somethingWentWrong: 'Something went wrong. Please try again.',
+    loading: 'Loading…',
   },
   no: {
     nav_cta: 'Få tilgang nå',
@@ -131,6 +133,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'IP-logging:',
     ip_text: 'Besøkendes IP-adresser logges for svindelforebygging og sikkerhet.',
     footer_rights: 'Alle rettigheter forbeholdt.',
+    somethingWentWrong: 'Noe gikk galt. Vennligst prøv igjen.',
+    loading: 'Laster…',
   },
   sv: {
     nav_cta: 'Få tillgång nu',
@@ -181,6 +185,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'IP-loggning:',
     ip_text: 'Besökarens IP-adresser loggas för bedrägeriförebyggande och säkerhet.',
     footer_rights: 'Alla rättigheter förbehållna.',
+    somethingWentWrong: 'Något gick fel. Försök igen.',
+    loading: 'Laddar…',
   },
   es: {
     nav_cta: 'Obtener acceso',
@@ -231,6 +237,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'Registro de IP:',
     ip_text: 'Las direcciones IP de los visitantes se registran con fines de seguridad y prevención del fraude.',
     footer_rights: 'Todos los derechos reservados.',
+    somethingWentWrong: 'Algo salió mal. Inténtalo de nuevo.',
+    loading: 'Cargando…',
   },
   ru: {
     nav_cta: 'Получить доступ',
@@ -281,6 +289,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'Логирование IP:',
     ip_text: 'IP-адреса посетителей регистрируются в целях безопасности и предотвращения мошенничества.',
     footer_rights: 'Все права защищены.',
+    somethingWentWrong: 'Что-то пошло не так. Попробуйте ещё раз.',
+    loading: 'Загрузка…',
   },
   ar: {
     nav_cta: 'احصل على الوصول الآن',
@@ -331,6 +341,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'تسجيل IP:',
     ip_text: 'يتم تسجيل عناوين IP الخاصة بالزوار لأغراض أمنية ومنع الاحتيال.',
     footer_rights: 'جميع الحقوق محفوظة.',
+    somethingWentWrong: 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
+    loading: '…جاري التحميل',
   },
   tl: {
     nav_cta: 'Kumuha ng Access Ngayon',
@@ -381,6 +393,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'IP Logging:',
     ip_text: 'Ang mga IP address ng mga bisita ay nire-record para sa fraud prevention at security.',
     footer_rights: 'Lahat ng karapatan ay nakalaan.',
+    somethingWentWrong: 'May nangyaring mali. Subukan muli.',
+    loading: 'Naglo-load…',
   },
   pt: {
     nav_cta: 'Obter acesso agora',
@@ -431,6 +445,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'Registro de IP:',
     ip_text: 'Os endereços IP dos visitantes são registrados para fins de segurança e prevenção de fraude.',
     footer_rights: 'Todos os direitos reservados.',
+    somethingWentWrong: 'Algo deu errado. Tente novamente.',
+    loading: 'Carregando…',
   },
   th: {
     nav_cta: 'รับสิทธิ์เข้าถึงตอนนี้',
@@ -481,6 +497,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_title: 'การบันทึก IP:',
     ip_text: 'ที่อยู่ IP ของผู้เยี่ยมชมจะถูกบันทึกเพื่อวัตถุประสงค์ด้านความปลอดภัยและการป้องกันการฉ้อโกง',
     footer_rights: 'สงวนลิขสิทธิ์ทั้งหมด',
+    somethingWentWrong: 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง',
+    loading: 'กำลังโหลด…',
   },
 }
 
@@ -495,6 +513,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const [uidForm, setUidForm] = useState({ name: '', email: '', uid: '' })
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [lang, setLang] = useState<LangKey>('en')
   const [langOpen, setLangOpen] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
@@ -568,15 +587,16 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
 
   const handleUidSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setSubmitError('')
     setSubmitting(true)
     const { error } = await supabase.from('leads').insert({ distributor_id: distributor.id, name: uidForm.name, email: uidForm.email, uid: uidForm.uid, uid_verified: false, referral_link_used: slug })
-    if (error) { alert('Something went wrong. Please try again.'); setSubmitting(false); return }
+    if (error) { setSubmitError(t.somethingWentWrong); setSubmitting(false); return }
     await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorName: distributor.name, distributorEmail: distributor.email }) })
     setSubmitting(false)
     setSubmitted(true)
   }
 
-  if (loading) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#c9a84c', fontFamily: 'serif', fontSize: '1.2rem', letterSpacing: '0.2em' }}>Loading…</div></div>
+  if (loading) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#c9a84c', fontFamily: 'serif', fontSize: '1.2rem', letterSpacing: '0.2em' }}>{t.loading}</div></div>
   if (notFound) return <div style={{ background: '#080808', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ color: '#7a7a72', textAlign: 'center' }}><div style={{ color: '#c9a84c', fontSize: '2rem', marginBottom: '1rem' }}>✦</div><p>Page not found.</p>{dbError && <p style={{ fontSize: '0.875rem', marginTop: '0.75rem', color: '#ff6b6b', background: '#1a0000', padding: '0.5rem 1rem', borderRadius: 4, maxWidth: 360, wordBreak: 'break-all' }}>Debug: {dbError}</p>}<p style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: '#888', maxWidth: 300 }}>Slug: {slug}</p></div></div>
 
   const dist = distributor
@@ -821,6 +841,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
                   <div className="fg"><label className="fl" htmlFor="uid-email">{t.f_email}</label><input id="uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => setUidForm({ ...uidForm, email: e.target.value })} /></div>
                   <div className="fg"><label className="fl" htmlFor="uid-uid">{t.f_uid}</label><input id="uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => setUidForm({ ...uidForm, uid: e.target.value })} /></div>
                   <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting}>{submitting ? '…' : t.uid_btn}</button>
+                  {submitError && <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem', textAlign: 'center' }}>{submitError}</p>}
                 </form>
               </>
             )}
@@ -964,6 +985,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
                   <div className="fg"><label className="fl" htmlFor="modal-uid-email">{t.f_email}</label><input id="modal-uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => setUidForm({ ...uidForm, email: e.target.value })} /></div>
                   <div className="fg"><label className="fl" htmlFor="modal-uid-uid">{t.f_uid}</label><input id="modal-uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => setUidForm({ ...uidForm, uid: e.target.value })} /></div>
                   <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting}>{submitting ? '…' : t.uid_btn}</button>
+                  {submitError && <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem', textAlign: 'center' }}>{submitError}</p>}
                 </form>
               )}
             </>
