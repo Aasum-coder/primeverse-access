@@ -114,6 +114,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'Generate my landing page',
     generatingPage: 'Generating your page...',
     pageIsLive: 'Your page is live!',
+    dragToReposition: 'Drag to reposition',
+    rememberToSave: 'Remember to save after repositioning',
+    pageLiveAt: 'Your landing page is ready and live at:',
+    viewLandingPage: 'View your landing page',
+    yourPageAt: 'Your page:',
+    aiDescription: 'Answer 5 questions, choose a tone, and AI will create a professional bio for you — in all languages.',
+    somethingWentWrong: 'Something went wrong',
   },
   no: {
     leadsTab: 'Leads',
@@ -203,6 +210,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'Generer landingssiden min',
     generatingPage: 'Genererer siden din...',
     pageIsLive: 'Siden din er live!',
+    dragToReposition: 'Dra for å reposisjonere',
+    rememberToSave: 'Husk å lagre etter reposisjonering',
+    pageLiveAt: 'Landingssiden din er klar og live på:',
+    viewLandingPage: 'Se landingssiden din',
+    yourPageAt: 'Din side:',
+    aiDescription: 'Svar på 5 spørsmål, velg en tone, og AI lager en profesjonell bio for deg — på alle språk.',
+    somethingWentWrong: 'Noe gikk galt',
   },
   sv: {
     leadsTab: 'Leads',
@@ -292,6 +306,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'Generera min landningssida',
     generatingPage: 'Genererar din sida...',
     pageIsLive: 'Din sida är live!',
+    dragToReposition: 'Dra för att flytta',
+    rememberToSave: 'Kom ihåg att spara efter ompositionering',
+    pageLiveAt: 'Din landningssida är klar och live på:',
+    viewLandingPage: 'Se din landningssida',
+    yourPageAt: 'Din sida:',
+    aiDescription: 'Svara på 5 frågor, välj en ton, så skapar AI en professionell bio åt dig — på alla språk.',
+    somethingWentWrong: 'Något gick fel',
   },
   es: {
     leadsTab: 'Leads',
@@ -381,6 +402,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'Generar mi página',
     generatingPage: 'Generando tu página...',
     pageIsLive: '¡Tu página está en línea!',
+    dragToReposition: 'Arrastra para reposicionar',
+    rememberToSave: 'Recuerda guardar después de reposicionar',
+    pageLiveAt: 'Tu página de aterrizaje está lista y activa en:',
+    viewLandingPage: 'Ver tu página de aterrizaje',
+    yourPageAt: 'Tu página:',
+    aiDescription: 'Responde 5 preguntas, elige un tono, y la IA creará una bio profesional para ti — en todos los idiomas.',
+    somethingWentWrong: 'Algo salió mal',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -470,6 +498,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'Создать мою страницу',
     generatingPage: 'Создаём вашу страницу...',
     pageIsLive: 'Ваша страница онлайн!',
+    dragToReposition: 'Перетащите для изменения позиции',
+    rememberToSave: 'Не забудьте сохранить после изменения позиции',
+    pageLiveAt: 'Ваша страница готова и доступна по адресу:',
+    viewLandingPage: 'Посмотреть вашу страницу',
+    yourPageAt: 'Ваша страница:',
+    aiDescription: 'Ответьте на 5 вопросов, выберите тон, и AI создаст профессиональную биографию — на всех языках.',
+    somethingWentWrong: 'Что-то пошло не так',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -559,6 +594,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'إنشاء صفحتي',
     generatingPage: 'جاري إنشاء صفحتك...',
     pageIsLive: 'صفحتك جاهزة!',
+    dragToReposition: 'اسحب لتغيير الموضع',
+    rememberToSave: 'تذكّر الحفظ بعد تغيير الموضع',
+    pageLiveAt: 'صفحتك جاهزة ومباشرة على:',
+    viewLandingPage: 'عرض صفحتك',
+    yourPageAt: 'صفحتك:',
+    aiDescription: 'أجب على 5 أسئلة، اختر نغمة، وسيقوم AI بإنشاء نبذة احترافية لك — بجميع اللغات.',
+    somethingWentWrong: 'حدث خطأ',
   },
   tl: {
     leadsTab: 'Leads',
@@ -648,6 +690,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'Gumawa ng aking landing page',
     generatingPage: 'Ginagawa ang iyong pahina...',
     pageIsLive: 'Live na ang pahina mo!',
+    dragToReposition: 'I-drag para i-reposition',
+    rememberToSave: 'Tandaan na i-save pagkatapos i-reposition',
+    pageLiveAt: 'Ang landing page mo ay handa na at live sa:',
+    viewLandingPage: 'Tingnan ang landing page mo',
+    yourPageAt: 'Ang page mo:',
+    aiDescription: 'Sagutin ang 5 tanong, pumili ng tono, at gagawa ang AI ng professional bio para sa iyo — sa lahat ng wika.',
+    somethingWentWrong: 'May nangyaring mali',
   },
   pt: {
     leadsTab: 'Leads',
@@ -737,6 +786,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'Gerar minha landing page',
     generatingPage: 'Gerando sua página...',
     pageIsLive: 'Sua página está no ar!',
+    dragToReposition: 'Arraste para reposicionar',
+    rememberToSave: 'Lembre-se de salvar após reposicionar',
+    pageLiveAt: 'Sua landing page está pronta e no ar em:',
+    viewLandingPage: 'Ver sua landing page',
+    yourPageAt: 'Sua página:',
+    aiDescription: 'Responda 5 perguntas, escolha um tom, e a IA criará uma bio profissional para você — em todos os idiomas.',
+    somethingWentWrong: 'Algo deu errado',
   },
   th: {
     leadsTab: 'ลีด',
@@ -826,6 +882,13 @@ const translations: Record<string, Record<string, string>> = {
     generatePage: 'สร้าง landing page ของฉัน',
     generatingPage: 'กำลังสร้างหน้าของคุณ...',
     pageIsLive: 'หน้าของคุณพร้อมใช้แล้ว!',
+    dragToReposition: 'ลากเพื่อปรับตำแหน่ง',
+    rememberToSave: 'อย่าลืมบันทึกหลังจากปรับตำแหน่ง',
+    pageLiveAt: 'Landing page ของคุณพร้อมแล้วที่:',
+    viewLandingPage: 'ดู landing page ของคุณ',
+    yourPageAt: 'หน้าของคุณ:',
+    aiDescription: 'ตอบ 5 คำถาม เลือกโทน แล้ว AI จะสร้างไบโอมืออาชีพให้คุณ — ในทุกภาษา',
+    somethingWentWrong: 'เกิดข้อผิดพลาด',
   },
 }
 
@@ -2137,7 +2200,7 @@ export default function Home() {
                           style={{ objectPosition: `${imgX}% ${imgY}%` }} />
                       </div>
                       <p style={{ margin: '5px 0 0', fontSize: '0.68rem', color: 'var(--text-dim)', display: 'flex', alignItems: 'center', gap: 3 }}>
-                        <span aria-hidden="true">↔</span> Drag to reposition
+                        <span aria-hidden="true">↔</span> {t.dragToReposition}
                       </p>
                     </div>
                   ) : (
@@ -2163,7 +2226,7 @@ export default function Home() {
                       {uploadingImage ? t.uploading : profileImage ? t.changeImage : t.uploadImage}
                     </button>
                     <p style={{ margin: '6px 0 0', fontSize: '0.72rem', color: 'var(--text-dim)' }}>{t.imageHint}</p>
-                    {profileImage && <p style={{ margin: '4px 0 0', fontSize: '0.68rem', color: 'var(--text-dim)' }}>Remember to save after repositioning</p>}
+                    {profileImage && <p style={{ margin: '4px 0 0', fontSize: '0.68rem', color: 'var(--text-dim)' }}>{t.rememberToSave}</p>}
                   </div>
                   <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageUpload} style={{ display: 'none' }} aria-hidden="true" tabIndex={-1} />
                 </div>
@@ -2240,7 +2303,7 @@ export default function Home() {
                   background: 'rgba(212,165,55,0.08)', border: '1px solid var(--gold)',
                   borderRadius: 12, textAlign: 'center'
                 }}>
-                  <p style={{ margin: '0 0 0.5rem', fontSize: '0.8rem', color: 'var(--text-dim)' }}>Din landingsside er klar og live på:</p>
+                  <p style={{ margin: '0 0 0.5rem', fontSize: '0.8rem', color: 'var(--text-dim)' }}>{t.pageLiveAt}</p>
                   <a
                     href={`/${distributor.slug}`}
                     target="_blank"
@@ -2261,14 +2324,14 @@ export default function Home() {
                     className="gold-btn"
                     style={{ display: 'inline-block', textDecoration: 'none', padding: '10px 24px', fontSize: '0.85rem' }}
                   >
-                    Se landingssiden din →
+                    {t.viewLandingPage} →
                   </a>
                 </div>
               )}
 
               {!profileSaved && distributor?.slug && (
                 <p style={{ margin: '0.75rem 0 0', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-dim)' }}>
-                  Din side: <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-link">primeverseaccess.com/{distributor.slug}</a>
+                  {t.yourPageAt} <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-link">primeverseaccess.com/{distributor.slug}</a>
                 </p>
               )}
             </div>
@@ -2359,7 +2422,7 @@ export default function Home() {
                     {bioStep > bioQuestionKeys.length && !aiLoading && !generatedBios && (
                       <div className="ai-loading">
                         <div style={{ color: '#d44a37', fontSize: '0.84rem', marginBottom: '0.5rem', fontWeight: 600 }}>
-                          {lang === 'no' ? 'Noe gikk galt' : lang === 'sv' ? 'Något gick fel' : lang === 'es' ? 'Algo salió mal' : 'Something went wrong'}
+                          {t.somethingWentWrong}
                         </div>
                         {bioError && (
                           <div style={{ color: 'var(--text-dim)', fontSize: '0.76rem', marginBottom: '1rem', maxWidth: '340px', lineHeight: 1.5, wordBreak: 'break-word' }}>
@@ -2378,7 +2441,7 @@ export default function Home() {
                 <div className="ai-placeholder">
                   <div className="sparkle-big" aria-hidden="true">✦</div>
                   <h3>{t.aiTitle}</h3>
-                  <p>{lang === 'no' ? 'Svar på 5 spørsmål, velg en tone, og AI lager en profesjonell bio for deg — på alle språk.' : lang === 'sv' ? 'Svara på 5 frågor, välj en ton, så skapar AI en professionell bio åt dig — på alla språk.' : lang === 'es' ? 'Responde 5 preguntas, elige un tono, y la AI creará una bio profesional para ti — en todos los idiomas.' : lang === 'ru' ? 'Ответьте на 5 вопросов, выберите тон, и AI создаст профессиональную биографию — на всех языках.' : lang === 'ar' ? 'أجب على 5 أسئلة، اختر نغمة، وسيقوم AI بإنشاء نبذة احترافية — بجميع اللغات.' : lang === 'tl' ? 'Sagutin ang 5 tanong, pumili ng tono, at gagawa ang AI ng professional bio para sa iyo — sa lahat ng wika.' : 'Answer 5 questions, choose a tone, and AI will create a professional bio for you — in all languages.'}</p>
+                  <p>{t.aiDescription}</p>
                   <button onClick={startAI} className="gold-btn">{t.startAi}</button>
                 </div>
               )}
