@@ -864,8 +864,9 @@ const styles = `
     position: relative; width: 220px; height: 220px;
   }
   .rolex-gauge-bg {
-    width: 100%; height: 100%; border-radius: 50%;
-    object-fit: cover; opacity: 0.85;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 50%; object-fit: cover; object-position: center;
+    opacity: 0.85;
   }
   .rolex-gauge-overlay {
     position: absolute; inset: 0;
@@ -884,7 +885,7 @@ const styles = `
   }
   .rolex-gauge-center {
     position: absolute; top: 50%; left: 50%;
-    width: 16px; height: 16px; margin: -8px 0 0 -8px;
+    width: 16px; height: 16px; transform: translate(-50%, -50%);
     border-radius: 50%; z-index: 3;
     background: radial-gradient(circle at 35% 35%, #f5d77a, #d4a537 50%, #8b6914);
     box-shadow: 0 0 8px rgba(212,165,55,0.5);
