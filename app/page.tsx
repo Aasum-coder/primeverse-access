@@ -74,6 +74,29 @@ const translations: Record<string, Record<string, string>> = {
     referralRequired: 'This field must be filled in',
     slugTaken: 'This URL is already in use. Please choose another.',
     socialMedia: 'Social media',
+    metricsTab: 'Metrics',
+    daily: 'Daily',
+    weekly: 'Weekly',
+    monthly: 'Monthly',
+    allTime: 'All time',
+    pageViews: 'Page Views',
+    uniqueVisitors: 'unique visitors',
+    conversions: 'Conversions',
+    rate: 'rate',
+    conversionRate: 'Conversion Rate',
+    regToApproved: 'reg → approved',
+    profileStrength: 'Profile Strength',
+    customUrl: 'Custom URL',
+    referralLink: 'Referral link',
+    approvalRate: 'Approval Rate',
+    xOfYVerified: '{0} of {1} verified',
+    pageViewsOverTime: 'Page Views Over Time',
+    leadBreakdown: 'Lead breakdown',
+    registeredLeads: 'Registered leads',
+    pendingVerification: 'Pending verification',
+    conversionRateLower: 'Conversion rate',
+    pending: 'pending',
+    approved: 'approved',
   },
   no: {
     leadsTab: 'Leads',
@@ -123,6 +146,29 @@ const translations: Record<string, Record<string, string>> = {
     referralRequired: 'Dette feltet må fylles ut',
     slugTaken: 'Denne URL-en er allerede i bruk. Velg en annen.',
     socialMedia: 'Sosiale medier',
+    metricsTab: 'Metrikk',
+    daily: 'Daglig',
+    weekly: 'Ukentlig',
+    monthly: 'Månedlig',
+    allTime: 'All tid',
+    pageViews: 'Sidevisninger',
+    uniqueVisitors: 'unike besøkende',
+    conversions: 'Konverteringer',
+    rate: 'rate',
+    conversionRate: 'Konverteringsrate',
+    regToApproved: 'reg → godkjent',
+    profileStrength: 'Profilstyrke',
+    customUrl: 'Egendefinert URL',
+    referralLink: 'Referanselenke',
+    approvalRate: 'Godkjenningsrate',
+    xOfYVerified: '{0} av {1} verifisert',
+    pageViewsOverTime: 'Sidevisninger over tid',
+    leadBreakdown: 'Lead-oversikt',
+    registeredLeads: 'Registrerte leads',
+    pendingVerification: 'Venter på verifisering',
+    conversionRateLower: 'Konverteringsrate',
+    pending: 'ventende',
+    approved: 'godkjent',
   },
   sv: {
     leadsTab: 'Leads',
@@ -172,6 +218,29 @@ const translations: Record<string, Record<string, string>> = {
     referralRequired: 'Detta fält måste fyllas i',
     slugTaken: 'Denna URL används redan. Välj en annan.',
     socialMedia: 'Sociala medier',
+    metricsTab: 'Statistik',
+    daily: 'Dagligen',
+    weekly: 'Veckovis',
+    monthly: 'Månadsvis',
+    allTime: 'All tid',
+    pageViews: 'Sidvisningar',
+    uniqueVisitors: 'unika besökare',
+    conversions: 'Konverteringar',
+    rate: 'andel',
+    conversionRate: 'Konverteringsgrad',
+    regToApproved: 'reg → godkänd',
+    profileStrength: 'Profilstyrka',
+    customUrl: 'Anpassad URL',
+    referralLink: 'Referenslänk',
+    approvalRate: 'Godkännandegrad',
+    xOfYVerified: '{0} av {1} verifierade',
+    pageViewsOverTime: 'Sidvisningar över tid',
+    leadBreakdown: 'Lead-översikt',
+    registeredLeads: 'Registrerade leads',
+    pendingVerification: 'Väntar på verifiering',
+    conversionRateLower: 'Konverteringsgrad',
+    pending: 'väntande',
+    approved: 'godkända',
   },
   es: {
     leadsTab: 'Leads',
@@ -221,6 +290,29 @@ const translations: Record<string, Record<string, string>> = {
     referralRequired: 'Este campo debe completarse',
     slugTaken: 'Esta URL ya está en uso. Elige otra.',
     socialMedia: 'Redes sociales',
+    metricsTab: 'Métricas',
+    daily: 'Diario',
+    weekly: 'Semanal',
+    monthly: 'Mensual',
+    allTime: 'Todo el tiempo',
+    pageViews: 'Visitas',
+    uniqueVisitors: 'visitantes únicos',
+    conversions: 'Conversiones',
+    rate: 'tasa',
+    conversionRate: 'Tasa de conversión',
+    regToApproved: 'reg → aprobado',
+    profileStrength: 'Fortaleza del perfil',
+    customUrl: 'URL personalizada',
+    referralLink: 'Enlace de referencia',
+    approvalRate: 'Tasa de aprobación',
+    xOfYVerified: '{0} de {1} verificados',
+    pageViewsOverTime: 'Visitas a lo largo del tiempo',
+    leadBreakdown: 'Desglose de leads',
+    registeredLeads: 'Leads registrados',
+    pendingVerification: 'Pendiente de verificación',
+    conversionRateLower: 'Tasa de conversión',
+    pending: 'pendientes',
+    approved: 'aprobados',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -270,6 +362,29 @@ const translations: Record<string, Record<string, string>> = {
     referralRequired: 'Это поле обязательно для заполнения',
     slugTaken: 'Этот URL уже используется. Выберите другой.',
     socialMedia: 'Социальные сети',
+    metricsTab: 'Метрики',
+    daily: 'За день',
+    weekly: 'За неделю',
+    monthly: 'За месяц',
+    allTime: 'За всё время',
+    pageViews: 'Просмотры',
+    uniqueVisitors: 'уникальных посетителей',
+    conversions: 'Конверсии',
+    rate: 'процент',
+    conversionRate: 'Коэффициент конверсии',
+    regToApproved: 'рег → одобрен',
+    profileStrength: 'Сила профиля',
+    customUrl: 'Свой URL',
+    referralLink: 'Реферальная ссылка',
+    approvalRate: 'Процент одобрения',
+    xOfYVerified: '{0} из {1} подтверждено',
+    pageViewsOverTime: 'Просмотры за период',
+    leadBreakdown: 'Разбивка лидов',
+    registeredLeads: 'Зарегистрированные лиды',
+    pendingVerification: 'Ожидают верификации',
+    conversionRateLower: 'Коэффициент конверсии',
+    pending: 'ожидают',
+    approved: 'одобрено',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -319,6 +434,29 @@ const translations: Record<string, Record<string, string>> = {
     referralRequired: 'يجب ملء هذا الحقل',
     slugTaken: 'هذا الرابط مستخدم بالفعل. اختر رابطاً آخر.',
     socialMedia: 'وسائل التواصل الاجتماعي',
+    metricsTab: 'المقاييس',
+    daily: 'يومي',
+    weekly: 'أسبوعي',
+    monthly: 'شهري',
+    allTime: 'كل الوقت',
+    pageViews: 'مشاهدات الصفحة',
+    uniqueVisitors: 'زوار فريدون',
+    conversions: 'التحويلات',
+    rate: 'معدل',
+    conversionRate: 'معدل التحويل',
+    regToApproved: 'تسجيل → معتمد',
+    profileStrength: 'قوة الملف الشخصي',
+    customUrl: 'رابط مخصص',
+    referralLink: 'رابط الإحالة',
+    approvalRate: 'معدل الاعتماد',
+    xOfYVerified: '{0} من {1} تم التحقق',
+    pageViewsOverTime: 'المشاهدات عبر الزمن',
+    leadBreakdown: 'تفصيل العملاء',
+    registeredLeads: 'عملاء مسجلون',
+    pendingVerification: 'بانتظار التحقق',
+    conversionRateLower: 'معدل التحويل',
+    pending: 'معلق',
+    approved: 'معتمد',
   },
   tl: {
     leadsTab: 'Leads',
@@ -368,6 +506,29 @@ const translations: Record<string, Record<string, string>> = {
     referralRequired: 'Kailangang punan ang field na ito',
     slugTaken: 'Ginagamit na ang URL na ito. Pumili ng iba.',
     socialMedia: 'Social media',
+    metricsTab: 'Metrics',
+    daily: 'Araw-araw',
+    weekly: 'Lingguhan',
+    monthly: 'Buwanan',
+    allTime: 'Lahat ng oras',
+    pageViews: 'Mga View',
+    uniqueVisitors: 'natatanging bisita',
+    conversions: 'Mga Conversion',
+    rate: 'rate',
+    conversionRate: 'Conversion Rate',
+    regToApproved: 'reg → na-approve',
+    profileStrength: 'Lakas ng Profile',
+    customUrl: 'Custom URL',
+    referralLink: 'Referral link',
+    approvalRate: 'Approval Rate',
+    xOfYVerified: '{0} sa {1} na-verify',
+    pageViewsOverTime: 'Mga View sa Paglipas ng Panahon',
+    leadBreakdown: 'Breakdown ng leads',
+    registeredLeads: 'Mga naka-register na leads',
+    pendingVerification: 'Naghihintay ng verification',
+    conversionRateLower: 'Conversion rate',
+    pending: 'naghihintay',
+    approved: 'na-approve',
   },
 }
 
@@ -1852,6 +2013,7 @@ export default function Home() {
             chartPeriod={chartPeriod}
             setChartPeriod={setChartPeriod}
             pageViewHistory={pageViewHistory}
+            t={t}
           />
         )}
 
@@ -2005,12 +2167,13 @@ function ViewsChart({ data }: { data: { date: string; count: number }[] }) {
 }
 
 /* ─── Metrics tab ──────────────────────────────────────────────────────────── */
-function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor, chartPeriod, setChartPeriod, pageViewHistory }: {
+function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor, chartPeriod, setChartPeriod, pageViewHistory, t }: {
   leads: any[]; pageViews: number; period: string;
   setPeriod: (p: 'day' | 'week' | 'month' | 'all') => void; loading: boolean;
   distributor: any; chartPeriod: '7d' | '30d' | '90d';
   setChartPeriod: (p: '7d' | '30d' | '90d') => void;
   pageViewHistory: { date: string; count: number }[];
+  t: Record<string, string>;
 }) {
   const now = new Date()
   const cutoff = (days: number) => { const d = new Date(now); d.setDate(d.getDate() - days); return d }
@@ -2042,8 +2205,8 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
   const approvalRate = totalLeads > 0 ? Math.round((totalApproved / totalLeads) * 100) : 0
 
   const periods: { key: 'day' | 'week' | 'month' | 'all'; label: string }[] = [
-    { key: 'day', label: 'Daily' }, { key: 'week', label: 'Weekly' },
-    { key: 'month', label: 'Monthly' }, { key: 'all', label: 'All time' },
+    { key: 'day', label: t.daily }, { key: 'week', label: t.weekly },
+    { key: 'month', label: t.monthly }, { key: 'all', label: t.allTime },
   ]
 
   return (
@@ -2063,19 +2226,19 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
       {/* ── Metric Cards ── */}
       <div className="metric-cards-row">
         <div className="metric-card">
-          <div className="metric-card-label">Page Views</div>
+          <div className="metric-card-label">{t.pageViews}</div>
           <div className="metric-card-value">{loading ? '—' : pageViews.toLocaleString()}</div>
-          <div className="metric-card-sub">unique visitors</div>
+          <div className="metric-card-sub">{t.uniqueVisitors}</div>
         </div>
         <div className="metric-card">
-          <div className="metric-card-label">Leads</div>
+          <div className="metric-card-label">{t.leadsTab}</div>
           <div className="metric-card-value">{registered}</div>
-          <div className="metric-card-sub">{pending} pending · {approved} approved</div>
+          <div className="metric-card-sub">{pending} {t.pending} · {approved} {t.approved}</div>
         </div>
         <div className="metric-card">
-          <div className="metric-card-label">Conversions</div>
+          <div className="metric-card-label">{t.conversions}</div>
           <div className="metric-card-value">{approved}</div>
-          <div className="metric-card-change neutral">{convRate}% rate</div>
+          <div className="metric-card-change neutral">{convRate}% {t.rate}</div>
         </div>
       </div>
 
@@ -2083,21 +2246,21 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
       <div className="gauges-row">
         <div className="rolex-gauge-card">
           <RolexGauge value={convRate} max={100} label="%" />
-          <div className="rolex-gauge-title-text">Conversion Rate</div>
+          <div className="rolex-gauge-title-text">{t.conversionRate}</div>
           <div className="rolex-gauge-value">{convRate}%</div>
-          <div className="rolex-gauge-sub">reg → approved</div>
+          <div className="rolex-gauge-sub">{t.regToApproved}</div>
         </div>
         <div className="rolex-gauge-card">
           <RolexGauge value={profileStrength} max={100} label="%" />
-          <div className="rolex-gauge-title-text">Profile Strength</div>
+          <div className="rolex-gauge-title-text">{t.profileStrength}</div>
           <div className="rolex-gauge-value">{profileStrength}%</div>
           <div className="strength-items">
             {[
-              { ok: hasImage, text: 'Profile image' },
-              { ok: hasBio, text: 'Bio' },
-              { ok: hasSlug, text: 'Custom URL' },
-              { ok: hasReferral, text: 'Referral link' },
-              { ok: hasSocial, text: 'Social media' },
+              { ok: hasImage, text: t.profileImage },
+              { ok: hasBio, text: t.bio },
+              { ok: hasSlug, text: t.customUrl },
+              { ok: hasReferral, text: t.referralLink },
+              { ok: hasSocial, text: t.socialMedia },
             ].map(s => (
               <div key={s.text} className="strength-item">
                 <span className={s.ok ? 'strength-check' : 'strength-miss'}>{s.ok ? '✓' : '○'}</span>
@@ -2108,16 +2271,16 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
         </div>
         <div className="rolex-gauge-card">
           <RolexGauge value={approvalRate} max={100} label="%" />
-          <div className="rolex-gauge-title-text">Approval Rate</div>
+          <div className="rolex-gauge-title-text">{t.approvalRate}</div>
           <div className="rolex-gauge-value">{approvalRate}%</div>
-          <div className="rolex-gauge-sub">{totalApproved} of {totalLeads} verified</div>
+          <div className="rolex-gauge-sub">{t.xOfYVerified.replace('{0}', String(totalApproved)).replace('{1}', String(totalLeads))}</div>
         </div>
       </div>
 
       {/* ── Line Chart ── */}
       <div className="chart-section">
         <div className="chart-header">
-          <div className="chart-title">Page Views Over Time</div>
+          <div className="chart-title">{t.pageViewsOverTime}</div>
           <div className="chart-tabs">
             {(['7d', '30d', '90d'] as const).map(p => (
               <button key={p} onClick={() => setChartPeriod(p)}
@@ -2132,39 +2295,39 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
 
       {/* ── Lead Breakdown ── */}
       <div className="metrics-summary">
-        <div className="metrics-summary-title">Lead breakdown</div>
+        <div className="metrics-summary-title">{t.leadBreakdown}</div>
         <div className="metrics-row">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div className="metrics-dot" style={{ background: '#d4a537' }} />
-            <span className="metrics-row-label">Page views</span>
+            <span className="metrics-row-label">{t.pageViews}</span>
           </div>
           <span className="metrics-row-value">{loading ? '—' : pageViews.toLocaleString()}</span>
         </div>
         <div className="metrics-row">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div className="metrics-dot" style={{ background: '#c9a84c' }} />
-            <span className="metrics-row-label">Registered leads</span>
+            <span className="metrics-row-label">{t.registeredLeads}</span>
           </div>
           <span className="metrics-row-value">{registered}</span>
         </div>
         <div className="metrics-row">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div className="metrics-dot" style={{ background: '#f4a742' }} />
-            <span className="metrics-row-label">Pending verification</span>
+            <span className="metrics-row-label">{t.pendingVerification}</span>
           </div>
           <span className="metrics-row-value">{pending}</span>
         </div>
         <div className="metrics-row">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div className="metrics-dot" style={{ background: '#6dc07f' }} />
-            <span className="metrics-row-label">Approved members</span>
+            <span className="metrics-row-label">{t.approvedHeader}</span>
           </div>
           <span className="metrics-row-value">{approved}</span>
         </div>
         <div className="metrics-row">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div className="metrics-dot" style={{ background: '#e8c975' }} />
-            <span className="metrics-row-label">Conversion rate</span>
+            <span className="metrics-row-label">{t.conversionRateLower}</span>
           </div>
           <span className="metrics-row-value">{convRate}%</span>
         </div>
