@@ -104,6 +104,10 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Content Library',
     contentLibraryDesc: 'Browse marketing content, templates and inspiration for your social media',
     comingSoon: 'Coming soon',
+    vipSupport: 'VIP Support',
+    vipSupportDesc: 'Direct access to VIP support for IB partners',
+    youtubeUrl: 'YouTube URL',
+    otherUrl: 'Other URL',
   },
   no: {
     leadsTab: 'Leads',
@@ -183,6 +187,10 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Innholdsbibliotek',
     contentLibraryDesc: 'Bla gjennom markedsføringsinnhold, maler og inspirasjon for sosiale medier',
     comingSoon: 'Kommer snart',
+    vipSupport: 'VIP-støtte',
+    vipSupportDesc: 'Direkte tilgang til VIP-støtte for IB-partnere',
+    youtubeUrl: 'YouTube URL',
+    otherUrl: 'Annen URL',
   },
   sv: {
     leadsTab: 'Leads',
@@ -262,6 +270,10 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Innehållsbibliotek',
     contentLibraryDesc: 'Bläddra bland marknadsföringsinnehåll, mallar och inspiration för sociala medier',
     comingSoon: 'Kommer snart',
+    vipSupport: 'VIP-support',
+    vipSupportDesc: 'Direkt tillgång till VIP-support för IB-partners',
+    youtubeUrl: 'YouTube URL',
+    otherUrl: 'Annan URL',
   },
   es: {
     leadsTab: 'Leads',
@@ -341,6 +353,10 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Biblioteca de contenido',
     contentLibraryDesc: 'Explora contenido de marketing, plantillas e inspiración para tus redes sociales',
     comingSoon: 'Próximamente',
+    vipSupport: 'Soporte VIP',
+    vipSupportDesc: 'Acceso directo a soporte VIP para socios IB',
+    youtubeUrl: 'YouTube URL',
+    otherUrl: 'Otra URL',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -420,6 +436,10 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Библиотека контента',
     contentLibraryDesc: 'Просматривайте маркетинговый контент, шаблоны и вдохновение для соцсетей',
     comingSoon: 'Скоро',
+    vipSupport: 'VIP-поддержка',
+    vipSupportDesc: 'Прямой доступ к VIP-поддержке для IB-партнёров',
+    youtubeUrl: 'YouTube URL',
+    otherUrl: 'Другая URL',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -499,6 +519,10 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'مكتبة المحتوى',
     contentLibraryDesc: 'تصفح محتوى التسويق والقوالب والإلهام لوسائل التواصل الاجتماعي',
     comingSoon: 'قريباً',
+    vipSupport: 'دعم VIP',
+    vipSupportDesc: 'وصول مباشر إلى دعم VIP لشركاء IB',
+    youtubeUrl: 'YouTube URL',
+    otherUrl: 'رابط آخر',
   },
   tl: {
     leadsTab: 'Leads',
@@ -578,6 +602,10 @@ const translations: Record<string, Record<string, string>> = {
     contentLibrary: 'Content Library',
     contentLibraryDesc: 'Mag-browse ng marketing content, template at inspirasyon para sa iyong social media',
     comingSoon: 'Malapit na',
+    vipSupport: 'VIP Support',
+    vipSupportDesc: 'Direktang access sa VIP support para sa mga IB partner',
+    youtubeUrl: 'YouTube URL',
+    otherUrl: 'Ibang URL',
   },
 }
 
@@ -780,7 +808,8 @@ const styles = `
   .tab-btn-active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
 
   /* IB Resources */
-  .ib-resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .ib-resources-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 900px) { .ib-resources-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 640px) { .ib-resources-grid { grid-template-columns: 1fr; } }
   .ib-resource-card {
     position: relative; display: flex; align-items: flex-start; gap: 1rem;
@@ -1334,6 +1363,8 @@ export default function Home() {
   const [socialFacebook, setSocialFacebook] = useState('')
   const [socialSnapchat, setSocialSnapchat] = useState('')
   const [socialLinkedin, setSocialLinkedin] = useState('')
+  const [socialYoutube, setSocialYoutube] = useState('')
+  const [socialOther, setSocialOther] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
@@ -1388,6 +1419,8 @@ export default function Home() {
       setSocialFacebook(dist.social_facebook || '')
       setSocialSnapchat(dist.social_snapchat || '')
       setSocialLinkedin(dist.social_linkedin || '')
+      setSocialYoutube(dist.social_youtube || '')
+      setSocialOther(dist.social_other || '')
       const pi = parseProfileImage(dist.profile_image)
       setProfileImage(pi.url || null)
       setImgX(pi.x)
@@ -1505,7 +1538,7 @@ export default function Home() {
     setSavingProfile(true)
     const isFirstSave = !distributor.slug
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -1518,7 +1551,7 @@ export default function Home() {
     if (isFirstSave && profileSlug) {
       fetch('/api/welcome-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: profileName, email: distributor.email, slug: profileSlug, lang }) }).catch(() => {})
     }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -1915,6 +1948,8 @@ export default function Home() {
                   <input className="field-input" value={socialFacebook} onChange={e => setSocialFacebook(e.target.value)} placeholder="Facebook URL" />
                   <input className="field-input" value={socialSnapchat} onChange={e => setSocialSnapchat(e.target.value)} placeholder="Snapchat URL" />
                   <input className="field-input" value={socialLinkedin} onChange={e => setSocialLinkedin(e.target.value)} placeholder="LinkedIn URL" />
+                  <input className="field-input" value={socialYoutube} onChange={e => setSocialYoutube(e.target.value)} placeholder={t.youtubeUrl || 'YouTube URL'} />
+                  <input className="field-input" value={socialOther} onChange={e => setSocialOther(e.target.value)} placeholder={t.otherUrl || 'Other URL'} />
                 </div>
               </div>
 
@@ -2137,6 +2172,24 @@ export default function Home() {
                 </div>
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </div>
+              <a
+                href="https://puprimelive.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ib-resource-card"
+              >
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.vipSupport}</div>
+                  <div className="ib-resource-desc">{t.vipSupportDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </a>
             </div>
           </div>
         )}
@@ -2335,7 +2388,7 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
   const hasBio = !!distributor?.bio
   const hasSlug = !!distributor?.slug
   const hasReferral = !!distributor?.referral_link
-  const hasSocial = !!(distributor?.social_tiktok || distributor?.social_instagram || distributor?.social_facebook || distributor?.social_snapchat || distributor?.social_linkedin)
+  const hasSocial = !!(distributor?.social_tiktok || distributor?.social_instagram || distributor?.social_facebook || distributor?.social_snapchat || distributor?.social_linkedin || distributor?.social_youtube || distributor?.social_other)
   const strengthParts = [hasImage, hasBio, hasSlug, hasReferral, hasSocial]
   const profileStrength = strengthParts.filter(Boolean).length * 20
 

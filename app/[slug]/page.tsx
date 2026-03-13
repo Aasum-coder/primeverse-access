@@ -682,7 +682,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
       </div>
 
       {/* SOCIAL MEDIA ICONS */}
-      {(dist.social_tiktok || dist.social_instagram || dist.social_facebook || dist.social_snapchat || dist.social_linkedin) && (
+      {(dist.social_tiktok || dist.social_instagram || dist.social_facebook || dist.social_snapchat || dist.social_linkedin || dist.social_youtube || dist.social_other) && (
         <div style={{ background: 'var(--deep)', padding: '1.5rem 0 0.5rem', display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
           {dist.social_tiktok && (
             <a href={dist.social_tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok" style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gold)', transition: 'box-shadow 0.3s, filter 0.3s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(212,165,55,0.5)'; (e.currentTarget as HTMLElement).style.filter = 'brightness(1.3)' }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = 'none'; (e.currentTarget as HTMLElement).style.filter = 'none' }}>
@@ -707,6 +707,16 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
           {dist.social_linkedin && (
             <a href={dist.social_linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gold)', transition: 'box-shadow 0.3s, filter 0.3s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(212,165,55,0.5)'; (e.currentTarget as HTMLElement).style.filter = 'brightness(1.3)' }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = 'none'; (e.currentTarget as HTMLElement).style.filter = 'none' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+          )}
+          {dist.social_youtube && (
+            <a href={dist.social_youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gold)', transition: 'box-shadow 0.3s, filter 0.3s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(212,165,55,0.5)'; (e.currentTarget as HTMLElement).style.filter = 'brightness(1.3)' }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = 'none'; (e.currentTarget as HTMLElement).style.filter = 'none' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.504A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.504 9.376.504 9.376.504s7.505 0 9.377-.504a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+          )}
+          {dist.social_other && (
+            <a href={dist.social_other} target="_blank" rel="noopener noreferrer" aria-label="Website" style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gold)', transition: 'box-shadow 0.3s, filter 0.3s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(212,165,55,0.5)'; (e.currentTarget as HTMLElement).style.filter = 'brightness(1.3)' }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = 'none'; (e.currentTarget as HTMLElement).style.filter = 'none' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
             </a>
           )}
         </div>
