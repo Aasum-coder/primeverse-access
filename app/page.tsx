@@ -108,6 +108,12 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direct access to VIP support for IB partners',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Other URL',
+    updateInfo: 'Update my information',
+    updating: 'Updating...',
+    updated: 'Updated!',
+    generatePage: 'Generate my landing page',
+    generatingPage: 'Generating your page...',
+    pageIsLive: 'Your page is live!',
   },
   no: {
     leadsTab: 'Leads',
@@ -191,6 +197,12 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direkte tilgang til VIP-støtte for IB-partnere',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Annen URL',
+    updateInfo: 'Oppdater mine opplysninger',
+    updating: 'Oppdaterer...',
+    updated: 'Oppdatert!',
+    generatePage: 'Generer landingssiden min',
+    generatingPage: 'Genererer siden din...',
+    pageIsLive: 'Siden din er live!',
   },
   sv: {
     leadsTab: 'Leads',
@@ -274,6 +286,12 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direkt tillgång till VIP-support för IB-partners',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Annan URL',
+    updateInfo: 'Uppdatera mina uppgifter',
+    updating: 'Uppdaterar...',
+    updated: 'Uppdaterat!',
+    generatePage: 'Generera min landningssida',
+    generatingPage: 'Genererar din sida...',
+    pageIsLive: 'Din sida är live!',
   },
   es: {
     leadsTab: 'Leads',
@@ -357,6 +375,12 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Acceso directo a soporte VIP para socios IB',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Otra URL',
+    updateInfo: 'Actualizar mis datos',
+    updating: 'Actualizando...',
+    updated: '¡Actualizado!',
+    generatePage: 'Generar mi página',
+    generatingPage: 'Generando tu página...',
+    pageIsLive: '¡Tu página está en línea!',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -440,6 +464,12 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Прямой доступ к VIP-поддержке для IB-партнёров',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Другая URL',
+    updateInfo: 'Обновить мои данные',
+    updating: 'Обновление...',
+    updated: 'Обновлено!',
+    generatePage: 'Создать мою страницу',
+    generatingPage: 'Создаём вашу страницу...',
+    pageIsLive: 'Ваша страница онлайн!',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -523,6 +553,12 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'وصول مباشر إلى دعم VIP لشركاء IB',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'رابط آخر',
+    updateInfo: 'تحديث بياناتي',
+    updating: 'جاري التحديث...',
+    updated: 'تم التحديث!',
+    generatePage: 'إنشاء صفحتي',
+    generatingPage: 'جاري إنشاء صفحتك...',
+    pageIsLive: 'صفحتك جاهزة!',
   },
   tl: {
     leadsTab: 'Leads',
@@ -606,6 +642,12 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direktang access sa VIP support para sa mga IB partner',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Ibang URL',
+    updateInfo: 'I-update ang aking impormasyon',
+    updating: 'Ina-update...',
+    updated: 'Na-update!',
+    generatePage: 'Gumawa ng aking landing page',
+    generatingPage: 'Ginagawa ang iyong pahina...',
+    pageIsLive: 'Live na ang pahina mo!',
   },
 }
 
@@ -1357,6 +1399,8 @@ export default function Home() {
   const [savingProfile, setSavingProfile] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
+  const [updatingProfile, setUpdatingProfile] = useState(false)
+  const [updateSaved, setUpdateSaved] = useState(false)
   const [referralError, setReferralError] = useState(false)
   const [socialTiktok, setSocialTiktok] = useState('')
   const [socialInstagram, setSocialInstagram] = useState('')
@@ -1555,6 +1599,31 @@ export default function Home() {
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
+  }
+
+  const updateProfile = async () => {
+    if (!profileReferralLink.trim()) {
+      setReferralError(true)
+      return
+    }
+    setReferralError(false)
+    setSlugError(false)
+    setUpdatingProfile(true)
+    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
+    if (error) {
+      if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
+        setSlugError(true)
+      } else {
+        alert('Feil: ' + error.message)
+      }
+      setUpdatingProfile(false)
+      return
+    }
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
+    setUpdatingProfile(false)
+    setUpdateSaved(true)
+    setTimeout(() => setUpdateSaved(false), 3000)
   }
 
   const bioQuestionKeys = ['background', 'motivation', 'unique', 'ideal_client', 'expectations'] as const
@@ -1975,9 +2044,15 @@ export default function Home() {
                 <textarea id="profile-bio" className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
               </div>
 
-              <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={savingProfile}>
-                {savingProfile ? '⏳ Genererer siden din...' : profileSaved ? '✓ Siden din er live!' : '🚀 Generate my landing page'}
-              </button>
+              {distributor?.slug ? (
+                <button onClick={updateProfile} disabled={updatingProfile} className="btn-outline" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={updatingProfile}>
+                  {updatingProfile ? t.updating : updateSaved ? `✓ ${t.updated}` : t.updateInfo}
+                </button>
+              ) : (
+                <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={savingProfile}>
+                  {savingProfile ? `⏳ ${t.generatingPage}` : profileSaved ? `✓ ${t.pageIsLive}` : `🚀 ${t.generatePage}`}
+                </button>
+              )}
 
               {profileSaved && distributor?.slug && (
                 <div style={{
