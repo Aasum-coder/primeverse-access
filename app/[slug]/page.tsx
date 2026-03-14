@@ -35,11 +35,10 @@ type LangKey = keyof typeof LANGS
 const T: Record<LangKey, Record<string, string>> = {
   en: {
     nav_cta: 'Get Access Now',
-    hero_tag: '1Move × PrimeVerse · Education Partner',
-    hero_h1a: 'Get Access with',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: "Your gateway to the world's best trading community — guided by",
-    hero_sub2: ', your dedicated education partner.',
+    hero_h1a: 'Get Access!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: "Your gateway to the world's most advanced trading community — guided by",
+    hero_sub2: ", your dedicated partner. Let's start your journey together.",
     hero_btn: 'Get Access Now',
     scroll: 'Scroll for more',
     about_label: 'About PrimeVerse',
@@ -87,11 +86,10 @@ const T: Record<LangKey, Record<string, string>> = {
   },
   no: {
     nav_cta: 'Få tilgang nå',
-    hero_tag: '1Move × PrimeVerse · Utdanningspartner',
-    hero_h1a: 'Få tilgang med',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: 'Din inngang til verdens beste tradingmiljø — veiledet av',
-    hero_sub2: ', din dedikerte utdanningspartner.',
+    hero_h1a: 'Få tilgang!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: 'Din inngang til verdens mest avanserte trading-fellesskap — veiledet av',
+    hero_sub2: ', din dedikerte partner. La oss starte reisen sammen.',
     hero_btn: 'Få tilgang nå',
     scroll: 'Scroll for mer',
     about_label: 'Om PrimeVerse',
@@ -139,11 +137,10 @@ const T: Record<LangKey, Record<string, string>> = {
   },
   sv: {
     nav_cta: 'Få tillgång nu',
-    hero_tag: '1Move × PrimeVerse · Utbildningspartner',
-    hero_h1a: 'Få tillgång med',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: 'Din ingång till världens bästa tradingmiljö — guidad av',
-    hero_sub2: ', din dedikerade utbildningspartner.',
+    hero_h1a: 'Få tillgång!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: 'Din ingång till världens mest avancerade tradingcommunity — guidad av',
+    hero_sub2: ', din dedikerade partner. Låt oss börja resan tillsammans.',
     hero_btn: 'Få tillgång nu',
     scroll: 'Scrolla för mer',
     about_label: 'Om PrimeVerse',
@@ -191,11 +188,10 @@ const T: Record<LangKey, Record<string, string>> = {
   },
   es: {
     nav_cta: 'Obtener acceso',
-    hero_tag: '1Move × PrimeVerse · Socio Educativo',
-    hero_h1a: 'Obtén acceso con',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: 'Tu puerta de entrada a la mejor comunidad de trading del mundo — guiada por',
-    hero_sub2: ', tu socio educativo dedicado.',
+    hero_h1a: '¡Obtén acceso!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: 'Tu puerta de entrada a la comunidad de trading más avanzada del mundo — guiado por',
+    hero_sub2: ', tu socio dedicado. Comencemos este viaje juntos.',
     hero_btn: 'Obtener acceso ahora',
     scroll: 'Desplázate para más',
     about_label: 'Acerca de PrimeVerse',
@@ -243,11 +239,10 @@ const T: Record<LangKey, Record<string, string>> = {
   },
   ru: {
     nav_cta: 'Получить доступ',
-    hero_tag: '1Move × PrimeVerse · Образовательный партнёр',
-    hero_h1a: 'Получить доступ с',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: 'Ваш путь в лучшее трейдинговое сообщество мира — под руководством',
-    hero_sub2: ', вашего образовательного партнёра.',
+    hero_h1a: 'Получите доступ!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: 'Ваш путь в самое передовое трейдинговое сообщество мира — под руководством',
+    hero_sub2: ', вашего преданного партнёра. Начнём это путешествие вместе.',
     hero_btn: 'Получить доступ',
     scroll: 'Прокрутите вниз',
     about_label: 'О PrimeVerse',
@@ -295,11 +290,10 @@ const T: Record<LangKey, Record<string, string>> = {
   },
   ar: {
     nav_cta: 'احصل على الوصول الآن',
-    hero_tag: '1Move × PrimeVerse · شريك التعليم',
-    hero_h1a: 'احصل على الوصول مع',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: 'بوابتك إلى أفضل مجتمع تداول في العالم — بإرشاد من',
-    hero_sub2: '، شريكك التعليمي المخصص.',
+    hero_h1a: 'احصل على الوصول!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: 'بوابتك إلى أكثر مجتمعات التداول تقدماً في العالم — بإرشاد من',
+    hero_sub2: '، شريكك المخصص. لنبدأ هذه الرحلة معاً.',
     hero_btn: 'احصل على الوصول الآن',
     scroll: 'مرر لأسفل لمزيد',
     about_label: 'حول PrimeVerse',
@@ -347,11 +341,10 @@ const T: Record<LangKey, Record<string, string>> = {
   },
   tl: {
     nav_cta: 'Kumuha ng Access Ngayon',
-    hero_tag: '1Move × PrimeVerse · Education Partner',
-    hero_h1a: 'Kumuha ng access sa',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: 'Ang iyong daan patungo sa pinakamahusay na trading community sa mundo — ginagabayan ni',
-    hero_sub2: ', ang iyong dedikadong education partner.',
+    hero_h1a: 'Kumuha ng Access!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: 'Ang iyong daan patungo sa pinaka-advanced na trading community sa mundo — ginagabayan ni',
+    hero_sub2: ', ang iyong dedikadong partner. Simulan natin ang paglalakbay na ito.',
     hero_btn: 'Kumuha ng Access Ngayon',
     scroll: 'Mag-scroll para sa higit pa',
     about_label: 'Tungkol sa PrimeVerse',
@@ -399,11 +392,10 @@ const T: Record<LangKey, Record<string, string>> = {
   },
   pt: {
     nav_cta: 'Obter acesso agora',
-    hero_tag: '1Move × PrimeVerse · Parceiro Educacional',
-    hero_h1a: 'Obtenha acesso com',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: 'Sua porta de entrada para a melhor comunidade de trading do mundo — guiado por',
-    hero_sub2: ', seu parceiro educacional dedicado.',
+    hero_h1a: 'Obtenha acesso!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: 'Sua porta de entrada para a comunidade de trading mais avançada do mundo — guiado por',
+    hero_sub2: ', seu parceiro dedicado. Vamos começar essa jornada juntos.',
     hero_btn: 'Obter acesso agora',
     scroll: 'Role para mais',
     about_label: 'Sobre o PrimeVerse',
@@ -451,11 +443,10 @@ const T: Record<LangKey, Record<string, string>> = {
   },
   th: {
     nav_cta: 'รับสิทธิ์เข้าถึงตอนนี้',
-    hero_tag: '1Move × PrimeVerse · พาร์ทเนอร์ด้านการศึกษา',
-    hero_h1a: 'รับสิทธิ์เข้าถึงกับ',
-    hero_h1b: '1Move × PrimeVerse',
-    hero_sub: 'ประตูสู่ชุมชนเทรดดิ้งที่ดีที่สุดในโลก — นำโดย',
-    hero_sub2: ' พาร์ทเนอร์ด้านการศึกษาของคุณ',
+    hero_h1a: 'รับสิทธิ์เข้าถึง!',
+    hero_h1b: '1Move × Primeverse',
+    hero_sub: 'ประตูสู่ชุมชนเทรดดิ้งที่ล้ำหน้าที่สุดในโลก — นำโดย',
+    hero_sub2: ' พาร์ทเนอร์ของคุณ มาเริ่มต้นเส้นทางนี้ด้วยกัน',
     hero_btn: 'รับสิทธิ์เข้าถึงตอนนี้',
     scroll: 'เลื่อนเพื่อดูเพิ่มเติม',
     about_label: 'เกี่ยวกับ PrimeVerse',
@@ -654,11 +645,11 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;overflow:hidden}
         .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,168,76,.07) 0%,transparent 70%);pointer-events:none}
         .hero-line{width:1px;height:56px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);margin:0 auto 2.2rem}
-        .hero-tag{font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem}
-        .hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,6.5vw,5rem);font-weight:300;line-height:1.06;margin-bottom:1.4rem;max-width:820px}
-        .hero-h1 em{font-style:italic;color:var(--gold-l)}
-        .hero-sub{font-size:clamp(.95rem,2vw,1.08rem);color:var(--grey);max-width:500px;margin:0 auto 2.8rem}
-        .hero-sub strong{color:var(--white);font-weight:500}
+        .hero-h1{font-family:'Cormorant Garamond',serif;line-height:1.1;margin-bottom:1.6rem;max-width:820px;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+        .hero-h1-main{font-size:clamp(3rem,7.5vw,5.5rem);font-weight:700;color:var(--gold);display:block}
+        .hero-h1-brand{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:300;color:var(--white);display:block;opacity:.9;letter-spacing:.04em}
+        .hero-sub{font-size:clamp(.92rem,2vw,1.05rem);color:var(--grey);max-width:560px;margin:0 auto 2.8rem;line-height:1.7}
+        .hero-sub strong{color:var(--gold);font-weight:600}
         .btn-gold{display:inline-block;background:linear-gradient(135deg,#b8922a 0%,#e8c96a 25%,#c9a84c 45%,#f0d878 55%,#c9a84c 70%,#a07828 85%,#d4aa50 100%);background-size:200% 200%;color:var(--black);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:.95rem 2.8rem;border:none;cursor:pointer;border-radius:var(--r);transition:background-position .4s ease,transform .18s,box-shadow .3s;box-shadow:0 2px 8px rgba(201,168,76,.25),inset 0 1px 0 rgba(255,255,255,.15);position:relative;overflow:hidden}
         .btn-gold::after{content:'';position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .5s ease}
         .btn-gold:hover{background-position:100% 100%;transform:translateY(-2px);box-shadow:0 6px 24px rgba(201,168,76,.4)}
@@ -794,8 +785,10 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
       <section className="hero" id="main-content" dir={isRtl ? 'rtl' : 'ltr'}>
         <div className="hero-bg" />
         <div className="hero-line" />
-        <p className="hero-tag">{t.hero_tag}</p>
-        <h1 className="hero-h1">{t.hero_h1a}<br /><em>{t.hero_h1b}</em></h1>
+        <h1 className="hero-h1">
+          <span className="hero-h1-main">{t.hero_h1a}</span>
+          <span className="hero-h1-brand">{t.hero_h1b}</span>
+        </h1>
         <p className="hero-sub">{t.hero_sub} <strong>{dist.name}</strong>{t.hero_sub2}</p>
         <button className="btn-gold" onClick={() => setModalOpen(true)}>{t.hero_btn}</button>
         <div className="scroll-hint"><div className="scroll-tick" /><span>{t.scroll}</span></div>
