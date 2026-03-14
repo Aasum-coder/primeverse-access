@@ -514,10 +514,23 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [lang, setLang] = useState<LangKey>('en')
+  const [lang, setLangState] = useState<LangKey>('en')
   const [langOpen, setLangOpen] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+
+  const setLang = (code: LangKey) => {
+    setLangState(code)
+    try { localStorage.setItem('systm8_visitor_language', code) } catch {}
+  }
+
+  // Restore visitor language from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('systm8_visitor_language')
+      if (saved && saved in LANGS) setLangState(saved as LangKey)
+    } catch {}
+  }, [])
 
   const t = T[lang]
   const isRtl = lang === 'ar'

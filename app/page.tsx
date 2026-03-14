@@ -2192,9 +2192,28 @@ export default function Home() {
   }, [])
 
   // Language
-  const [lang, setLang] = useState('en')
+  const [lang, setLangState] = useState('en')
   const [langOpen, setLangOpen] = useState(false)
   const t = translations[lang] || translations.en
+
+  // Persist language to localStorage + Supabase
+  const setLang = useCallback((code: string) => {
+    setLangState(code)
+    try { localStorage.setItem('systm8_language', code) } catch {}
+  }, [])
+
+  // Save to Supabase when lang changes (after initial load)
+  const langInitialized = useRef(false)
+  useEffect(() => {
+    if (!langInitialized.current) return
+    const saveLang = async () => {
+      const { data: userData } = await supabase.auth.getUser()
+      if (userData.user) {
+        await supabase.from('distributors').update({ language: lang }).eq('user_id', userData.user.id)
+      }
+    }
+    saveLang()
+  }, [lang])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -2218,6 +2237,10 @@ export default function Home() {
         dist = newDist
       }
       setDistributor(dist)
+      // Restore language: Supabase > localStorage > 'en'
+      const savedLang = dist.language || (() => { try { return localStorage.getItem('systm8_language') } catch { return null } })() || 'en'
+      if (translations[savedLang]) { setLangState(savedLang); try { localStorage.setItem('systm8_language', savedLang) } catch {} }
+      langInitialized.current = true
       setProfileName(dist.name || '')
       setProfileBio(dist.bio || '')
       setBioTranslations(dist.bio_translations || null)
