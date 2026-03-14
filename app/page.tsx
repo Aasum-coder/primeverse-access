@@ -22,6 +22,8 @@ function serializeProfileImage(url: string, x: number, y: number): string {
   return JSON.stringify({ url, x, y })
 }
 
+const SYSTM8_LOGO = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png'
+
 /* ─────────────────────────────────────────────
    TRANSLATIONS
    ───────────────────────────────────────────── */
@@ -1235,6 +1237,22 @@ const styles = `
     border-bottom: 1px solid var(--card-border);
   }
   .dash-header-left { display: flex; align-items: center; gap: 14px; }
+  /* SYSTM8 Logo */
+  .systm8-logo {
+    width: 44px; height: 44px; border-radius: 50%; object-fit: cover;
+    border: 1.5px solid var(--gold-dark);
+    box-shadow: 0 2px 16px rgba(212,165,55,0.25), 0 0 24px rgba(212,165,55,0.08);
+    flex-shrink: 0;
+    transition: box-shadow 0.3s ease;
+  }
+  .systm8-logo:hover {
+    box-shadow: 0 2px 20px rgba(212,165,55,0.4), 0 0 32px rgba(212,165,55,0.15);
+  }
+  .header-divider {
+    width: 1px; height: 32px;
+    background: linear-gradient(to bottom, transparent, var(--card-border), transparent);
+    flex-shrink: 0;
+  }
   .avatar {
     width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
     border: 2px solid var(--gold-dark);
@@ -1613,7 +1631,17 @@ const styles = `
 
   .profile-saved-text { text-align: center; margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-secondary); }
 
-  .loading-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 10; }
+  .loading-screen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; gap: 16px; }
+  .loading-logo {
+    width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--gold-dark);
+    box-shadow: 0 4px 24px rgba(212,165,55,0.3);
+    animation: logoPulse 2s ease infinite;
+  }
+  @keyframes logoPulse {
+    0%, 100% { box-shadow: 0 4px 24px rgba(212,165,55,0.2); transform: scale(1); }
+    50% { box-shadow: 0 4px 36px rgba(212,165,55,0.45); transform: scale(1.03); }
+  }
   .loading-text {
     font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
     color: var(--gold); letter-spacing: 0.1em; animation: pulse 1.5s ease infinite;
@@ -1829,6 +1857,7 @@ const styles = `
     .dash-wrap { padding: 1.5rem 1rem 3rem; }
     .dash-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
     .header-actions { width: 100%; flex-wrap: wrap; }
+    .systm8-logo { width: 36px; height: 36px; }
   }
 
   /* Accessibility: visually hidden but available to screen readers */
@@ -2394,7 +2423,10 @@ export default function Home() {
     <>
       <style dangerouslySetInnerHTML={{ __html: styles }} />
       <div className="marble-bg" />
-      <div className="loading-screen"><span className="loading-text">{t.loading}</span></div>
+      <div className="loading-screen">
+        <img src={SYSTM8_LOGO} className="loading-logo" alt="SYSTM8" />
+        <span className="loading-text">{t.loading}</span>
+      </div>
     </>
   )
 
@@ -2421,6 +2453,9 @@ export default function Home() {
         {/* HEADER */}
         <header className="dash-header">
           <div className="dash-header-left">
+            {/* SYSTM8 Logo */}
+            <img src={SYSTM8_LOGO} className="systm8-logo" alt="SYSTM8" />
+            <div className="header-divider" aria-hidden="true" />
             {distributor?.profile_image ? (
               <img src={parseProfileImage(distributor.profile_image).url} className="avatar"
                 style={{ objectPosition: `${parseProfileImage(distributor.profile_image).x}% ${parseProfileImage(distributor.profile_image).y}%` }}
