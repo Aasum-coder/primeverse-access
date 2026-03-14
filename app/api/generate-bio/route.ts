@@ -28,8 +28,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 
-  const { answers, language, tone } = body
-  console.log('[generate-bio] Request body:', JSON.stringify({ answers, language, tone }))
+  const { answers, language, tone, fullName } = body
+  console.log('[generate-bio] Request body:', JSON.stringify({ answers, language, tone, fullName }))
 
   if (!answers || !language || !tone) {
     console.error('[generate-bio] Missing fields:', { hasAnswers: !!answers, hasLanguage: !!language, hasTone: !!tone })
@@ -46,14 +46,21 @@ export async function POST(request: Request) {
   const primaryLang = langNames[language] || 'English'
   const otherLangs = langCodes.filter(c => c !== language).map(c => `"${c}": ${langNames[c]}`).join(', ')
 
+  const nameInstruction = fullName
+    ? `The person's real name is exactly: ${fullName}. If you mention their name, use exactly "${fullName}". Never invent or use any other name.`
+    : 'Do not mention any name in the bio.'
+
   const systemPrompt = `You are a professional copywriter for 1Move Academy, a premium trading education and financial services ecosystem. You write personal bios for IB (Introducing Broker) partners who have their own landing pages.
 
 Write a bio that is:
 - 3-5 sentences long
 - Tone: ${toneDesc}
+- Written in FIRST PERSON — use "I", "my", "me". The bio should sound like the person wrote it themselves.
+- NEVER write in third person. NEVER use "he", "she", "they", or refer to the person by name as if describing someone else.
 - Personal and authentic — uses the person's real background and motivations
 - Optimized for conversion — makes visitors want to sign up through this person
-- Written in third person (e.g. "John is..." not "I am...")
+
+${nameInstruction}
 
 Do NOT include generic marketing phrases. Make it feel real and human.
 

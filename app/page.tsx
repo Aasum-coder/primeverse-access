@@ -2487,7 +2487,7 @@ export default function Home() {
       const res = await fetch('/api/generate-bio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers: bioAnswers, language: lang, tone }),
+        body: JSON.stringify({ answers: bioAnswers, language: lang, tone, fullName: profileName }),
       })
       const data = await res.json()
       if (data.bios) {
@@ -2514,7 +2514,7 @@ export default function Home() {
       const res = await fetch('/api/generate-bio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers: bioAnswers, language: lang, tone: bioTone }),
+        body: JSON.stringify({ answers: bioAnswers, language: lang, tone: bioTone, fullName: profileName }),
       })
       const data = await res.json()
       if (data.bios) {
