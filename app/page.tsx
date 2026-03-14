@@ -64,6 +64,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'Copy Link',
     copied: 'Copied!',
     shareVia: 'Share via',
+    selectLanguage: 'Select language',
     logout: 'Log out',
     loading: 'Loading...',
     aiHelper: 'AI helps you',
@@ -194,6 +195,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'Kopier lenke',
     copied: 'Kopiert!',
     shareVia: 'Del via',
+    selectLanguage: 'Velg språk',
     logout: 'Logg ut',
     loading: 'Laster...',
     aiHelper: 'AI hjelper deg',
@@ -324,6 +326,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'Kopiera länk',
     copied: 'Kopierad!',
     shareVia: 'Dela via',
+    selectLanguage: 'Välj språk',
     logout: 'Logga ut',
     loading: 'Laddar...',
     aiHelper: 'AI hjälper dig',
@@ -454,6 +457,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'Copiar enlace',
     copied: '¡Copiado!',
     shareVia: 'Compartir vía',
+    selectLanguage: 'Seleccionar idioma',
     logout: 'Cerrar sesión',
     loading: 'Cargando...',
     aiHelper: 'AI te ayuda',
@@ -584,6 +588,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'Копировать ссылку',
     copied: 'Скопировано!',
     shareVia: 'Поделиться через',
+    selectLanguage: 'Выбрать язык',
     logout: 'Выйти',
     loading: 'Загрузка...',
     aiHelper: 'AI помогает',
@@ -714,6 +719,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'نسخ الرابط',
     copied: 'تم النسخ!',
     shareVia: 'مشاركة عبر',
+    selectLanguage: 'اختر اللغة',
     logout: 'تسجيل خروج',
     loading: 'جاري التحميل...',
     aiHelper: 'AI يساعدك',
@@ -844,6 +850,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'Kopyahin ang link',
     copied: 'Nakopya!',
     shareVia: 'Ibahagi sa pamamagitan ng',
+    selectLanguage: 'Pumili ng wika',
     logout: 'Mag-logout',
     loading: 'Naglo-load...',
     aiHelper: 'AI tumutulong',
@@ -974,6 +981,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'Copiar link',
     copied: 'Copiado!',
     shareVia: 'Compartilhar via',
+    selectLanguage: 'Selecionar idioma',
     logout: 'Sair',
     loading: 'Carregando...',
     aiHelper: 'IA te ajuda',
@@ -1104,6 +1112,7 @@ const translations: Record<string, Record<string, string>> = {
     copyLink: 'คัดลอกลิงก์',
     copied: 'คัดลอกแล้ว!',
     shareVia: 'แชร์ผ่าน',
+    selectLanguage: 'เลือกภาษา',
     logout: 'ออกจากระบบ',
     loading: 'กำลังโหลด...',
     aiHelper: 'AI ช่วยคุณ',
@@ -1338,38 +1347,49 @@ const styles = `
   .dash-email { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
   .header-actions { display: flex; gap: 10px; align-items: center; }
 
-  /* Language selector — compact globe + flag */
-  .lang-selector { position: relative; }
-  .lang-btn {
-    background: rgba(10,10,10,0.6); border: 1px solid rgba(212,165,55,0.15);
-    color: var(--text-secondary); font-family: 'Outfit', sans-serif;
-    font-size: 0.82rem; padding: 0.35rem 0.55rem; border-radius: 8px;
+  /* Language selector — trigger button */
+  .lang-trigger {
+    background: none; border: 1px solid rgba(212,165,55,0.15);
+    color: var(--text-secondary); padding: 0.3rem 0.5rem; border-radius: 8px;
     cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);
     display: flex; align-items: center; gap: 0.3rem; line-height: 1;
   }
-  .lang-btn:hover { border-color: rgba(212,165,55,0.4); color: var(--gold-light); }
-  .lang-btn svg { width: 14px; height: 14px; opacity: 0.5; flex-shrink: 0; }
-  .lang-btn:hover svg { opacity: 0.8; }
-  .lang-flag { font-size: 1rem; line-height: 1; }
-  .lang-chevron { font-size: 0.55rem; opacity: 0.4; margin-left: 1px; }
-  .lang-dropdown {
-    position: absolute; top: calc(100% + 6px); right: 0;
-    background: rgba(12,11,9,0.97); border: 1px solid rgba(212,165,55,0.2);
-    border-radius: 10px; overflow: hidden; min-width: 170px;
-    backdrop-filter: blur(20px); box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-    z-index: 50; animation: dropIn 0.2s ease; padding: 4px 0;
+  .lang-trigger:hover { border-color: rgba(212,165,55,0.4); color: var(--gold-light); }
+  .lang-trigger svg { width: 14px; height: 14px; opacity: 0.5; flex-shrink: 0; }
+  .lang-trigger:hover svg { opacity: 0.8; }
+  .lang-trigger .lang-flag { font-size: 1rem; line-height: 1; }
+
+  /* Language modal overlay */
+  .lang-modal-backdrop {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    animation: langFadeIn 0.2s ease;
   }
-  @keyframes dropIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
-  .lang-option {
-    display: flex; align-items: center; gap: 0.55rem;
+  @keyframes langFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .lang-modal {
+    background: #1A1A2E; border: 1px solid rgba(212,165,55,0.25);
+    border-radius: 16px; padding: 1.2rem 0.5rem; min-width: 240px; max-width: 90vw;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    animation: langSlideUp 0.2s ease;
+  }
+  @keyframes langSlideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .lang-modal-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600;
+    color: var(--gold-light); text-align: center; padding: 0 0.7rem 0.7rem;
+    border-bottom: 1px solid rgba(212,165,55,0.1); margin-bottom: 0.3rem;
+  }
+  .lang-modal-option {
+    display: flex; align-items: center; gap: 0.7rem;
     width: 100%; background: none; border: none;
     color: var(--text-secondary); font-family: 'Outfit', sans-serif;
-    font-size: 0.82rem; padding: 0.5rem 0.85rem; text-align: left;
-    cursor: pointer; transition: all 0.2s;
+    font-size: 0.9rem; padding: 0.6rem 1rem; text-align: left;
+    cursor: pointer; transition: all 0.15s; border-radius: 8px; margin: 0 0.2rem;
   }
-  .lang-option:hover { background: rgba(212,165,55,0.08); color: var(--gold-light); }
-  .lang-option-active { color: var(--gold); background: rgba(212,165,55,0.06); }
-  .lang-option .lang-flag { font-size: 1.05rem; }
+  .lang-modal-option:hover { background: rgba(212,165,55,0.1); color: var(--gold-light); }
+  .lang-modal-option-active { color: var(--gold); background: rgba(212,165,55,0.07); }
+  .lang-modal-option .lang-flag { font-size: 1.15rem; line-height: 1; }
+  .lang-modal-option .lang-check { margin-left: auto; opacity: 0.7; font-size: 0.75rem; color: var(--gold); }
 
   /* Logout link in header */
   .logout-link {
@@ -1958,7 +1978,6 @@ const styles = `
     .dash-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
     .header-actions { width: 100%; flex-wrap: wrap; }
     .systm8-logo { width: 36px; height: 36px; }
-    .lang-dropdown { right: 0; left: auto; max-width: calc(100vw - 2rem); }
     .share-dropdown { right: 0; left: auto; max-width: calc(100vw - 2rem); }
   }
 
@@ -1979,8 +1998,8 @@ const styles = `
   .gold-btn:focus-visible,
   .btn-outline:focus-visible,
   .tab-btn:focus-visible,
-  .lang-btn:focus-visible,
-  .lang-option:focus-visible,
+  .lang-trigger:focus-visible,
+  .lang-modal-option:focus-visible,
   .btn-success:focus-visible,
   .gold-link:focus-visible,
   .ai-next-btn:focus-visible,
@@ -2175,12 +2194,10 @@ export default function Home() {
   // Language
   const [lang, setLang] = useState('en')
   const [langOpen, setLangOpen] = useState(false)
-  const langRef = useRef<HTMLDivElement>(null)
   const t = translations[lang] || translations.en
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false)
       if (shareRef.current && !shareRef.current.contains(e.target as Node)) setShareOpen(false)
     }
     document.addEventListener('mousedown', handler)
@@ -2580,6 +2597,26 @@ export default function Home() {
         </div>
       )}
 
+      {/* Language modal overlay */}
+      {langOpen && (
+        <div className="lang-modal-backdrop" onClick={() => setLangOpen(false)} role="dialog" aria-modal="true" aria-label="Select language">
+          <div className="lang-modal" onClick={e => e.stopPropagation()}>
+            <div className="lang-modal-title">{t.selectLanguage || 'Select language'}</div>
+            {Object.entries(languageLabels).map(([code, label]) => (
+              <button
+                key={code}
+                className={`lang-modal-option${code === lang ? ' lang-modal-option-active' : ''}`}
+                onClick={() => { setLang(code); setLangOpen(false); }}
+              >
+                <span className="lang-flag" aria-hidden="true">{languageFlags[code]}</span>
+                {label}
+                {code === lang && <span className="lang-check" aria-hidden="true">&#10003;</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="dash-wrap" id="main-content">
 
         {/* HEADER */}
@@ -2657,39 +2694,19 @@ export default function Home() {
               </div>
             )}
 
-            {/* Language selector — compact globe + flag */}
-            <div className="lang-selector" ref={langRef}>
-              <button
-                className="lang-btn"
-                onClick={() => setLangOpen(!langOpen)}
-                aria-label={`Select language, current: ${languageLabels[lang]}`}
-                aria-expanded={langOpen}
-                aria-haspopup="listbox"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/>
-                </svg>
-                <span className="lang-flag" aria-hidden="true">{languageFlags[lang]}</span>
-                <span className="lang-chevron" aria-hidden="true">&#9660;</span>
-              </button>
-              {langOpen && (
-                <div className="lang-dropdown" role="listbox" aria-label="Select language">
-                  {Object.entries(languageLabels).map(([code, label]) => (
-                    <button
-                      key={code}
-                      role="option"
-                      aria-selected={code === lang}
-                      className={`lang-option${code === lang ? ' lang-option-active' : ''}`}
-                      onClick={() => { setLang(code); setLangOpen(false); }}
-                    >
-                      <span className="lang-flag" aria-hidden="true">{languageFlags[code]}</span>
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            {/* Language trigger — globe + flag */}
+            <button
+              className="lang-trigger"
+              onClick={() => setLangOpen(true)}
+              aria-label={`Select language, current: ${languageLabels[lang]}`}
+              aria-haspopup="dialog"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/>
+              </svg>
+              <span className="lang-flag" aria-hidden="true">{languageFlags[lang]}</span>
+            </button>
 
             <button onClick={handleLogout} className="logout-link">{t.logout}</button>
           </div>
