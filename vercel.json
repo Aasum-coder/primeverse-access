@@ -6,5 +6,11 @@
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/nudge-emails",
+      "schedule": "0 * * * *"
+    }
   ]
 }

@@ -1,7 +1,7 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { buildNudgeEmail, IncompleteSteps } from '@/lib/email-templates/nudge'
+import { buildNudgeEmail, IncompleteSteps, NudgeVariant } from '@/lib/email-templates/nudge'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -11,7 +11,11 @@ const supabaseAdmin = createClient(
 )
 
 export async function POST(request: Request) {
-  const { userId, lang } = await request.json()
+  const { userId, lang, variant = 'profile_nudge' } = await request.json() as {
+    userId: string
+    lang?: string
+    variant?: NudgeVariant
+  }
 
   if (!userId) {
     return NextResponse.json({ error: 'Missing userId' }, { status: 400 })
@@ -20,12 +24,24 @@ export async function POST(request: Request) {
   // Fetch distributor profile to check completion
   const { data: dist, error: fetchError } = await supabaseAdmin
     .from('distributors')
-    .select('name, email, referral_link, bio, profile_image, slug, language')
+    .select('id, name, email, referral_link, bio, profile_image, slug, language')
     .eq('user_id', userId)
     .single()
 
   if (fetchError || !dist) {
     return NextResponse.json({ error: 'Distributor not found' }, { status: 404 })
+  }
+
+  // Check if this email type was already sent (frequency cap)
+  const { data: existing } = await supabaseAdmin
+    .from('email_sends')
+    .select('id')
+    .eq('user_id', dist.id)
+    .eq('email_type', variant)
+    .limit(1)
+
+  if (existing && existing.length > 0) {
+    return NextResponse.json({ skipped: true, reason: `${variant} already sent` })
   }
 
   // Determine which steps are incomplete
@@ -49,6 +65,7 @@ export async function POST(request: Request) {
     name,
     incomplete,
     lang: emailLang,
+    variant,
   })
 
   const { error } = await resend.emails.send({
@@ -62,5 +79,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  return NextResponse.json({ success: true, incomplete })
+  // Log the send to prevent duplicates
+  await supabaseAdmin.from('email_sends').insert({
+    user_id: dist.id,
+    email_type: variant,
+  })
+
+  return NextResponse.json({ success: true, incomplete, variant })
 }
