@@ -1212,6 +1212,18 @@ const languageLabels: Record<string, string> = {
   th: 'ไทย',
 }
 
+const languageFlags: Record<string, string> = {
+  en: '\u{1F1EC}\u{1F1E7}',
+  no: '\u{1F1F3}\u{1F1F4}',
+  sv: '\u{1F1F8}\u{1F1EA}',
+  es: '\u{1F1EA}\u{1F1F8}',
+  ru: '\u{1F1F7}\u{1F1FA}',
+  ar: '\u{1F1F8}\u{1F1E6}',
+  tl: '\u{1F1F5}\u{1F1ED}',
+  pt: '\u{1F1E7}\u{1F1F7}',
+  th: '\u{1F1F9}\u{1F1ED}',
+}
+
 /* ─────────────────────────────────────────────
    STYLES
    ───────────────────────────────────────────── */
@@ -1326,33 +1338,47 @@ const styles = `
   .dash-email { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
   .header-actions { display: flex; gap: 10px; align-items: center; }
 
-  /* Language selector */
+  /* Language selector — compact globe + flag */
   .lang-selector { position: relative; }
   .lang-btn {
-    background: rgba(10,10,10,0.7); border: 1px solid rgba(212,165,55,0.2);
+    background: rgba(10,10,10,0.6); border: 1px solid rgba(212,165,55,0.15);
     color: var(--text-secondary); font-family: 'Outfit', sans-serif;
-    font-size: 0.78rem; padding: 0.4rem 0.7rem; border-radius: 6px;
+    font-size: 0.82rem; padding: 0.35rem 0.55rem; border-radius: 8px;
     cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);
-    display: flex; align-items: center; gap: 0.35rem;
+    display: flex; align-items: center; gap: 0.3rem; line-height: 1;
   }
   .lang-btn:hover { border-color: rgba(212,165,55,0.4); color: var(--gold-light); }
-  .lang-btn svg { width: 13px; height: 13px; opacity: 0.6; }
+  .lang-btn svg { width: 14px; height: 14px; opacity: 0.5; flex-shrink: 0; }
+  .lang-btn:hover svg { opacity: 0.8; }
+  .lang-flag { font-size: 1rem; line-height: 1; }
+  .lang-chevron { font-size: 0.55rem; opacity: 0.4; margin-left: 1px; }
   .lang-dropdown {
     position: absolute; top: calc(100% + 6px); right: 0;
-    background: rgba(15,13,10,0.95); border: 1px solid rgba(212,165,55,0.2);
-    border-radius: 8px; overflow: hidden; min-width: 130px;
-    backdrop-filter: blur(20px); box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-    z-index: 50; animation: dropIn 0.2s ease;
+    background: rgba(12,11,9,0.97); border: 1px solid rgba(212,165,55,0.2);
+    border-radius: 10px; overflow: hidden; min-width: 170px;
+    backdrop-filter: blur(20px); box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    z-index: 50; animation: dropIn 0.2s ease; padding: 4px 0;
   }
   @keyframes dropIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
   .lang-option {
-    display: block; width: 100%; background: none; border: none;
+    display: flex; align-items: center; gap: 0.55rem;
+    width: 100%; background: none; border: none;
     color: var(--text-secondary); font-family: 'Outfit', sans-serif;
-    font-size: 0.8rem; padding: 0.5rem 0.9rem; text-align: left;
+    font-size: 0.82rem; padding: 0.5rem 0.85rem; text-align: left;
     cursor: pointer; transition: all 0.2s;
   }
   .lang-option:hover { background: rgba(212,165,55,0.08); color: var(--gold-light); }
   .lang-option-active { color: var(--gold); background: rgba(212,165,55,0.06); }
+  .lang-option .lang-flag { font-size: 1.05rem; }
+
+  /* Logout link in header */
+  .logout-link {
+    background: none; border: none; color: var(--text-dim);
+    font-family: 'Outfit', sans-serif; font-size: 0.72rem;
+    cursor: pointer; transition: color 0.2s; padding: 0;
+    text-decoration: none; white-space: nowrap;
+  }
+  .logout-link:hover { color: var(--gold-light); }
 
   /* Share dropdown */
   .share-wrapper { position: relative; }
@@ -1932,6 +1958,8 @@ const styles = `
     .dash-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
     .header-actions { width: 100%; flex-wrap: wrap; }
     .systm8-logo { width: 36px; height: 36px; }
+    .lang-dropdown { right: 0; left: auto; max-width: calc(100vw - 2rem); }
+    .share-dropdown { right: 0; left: auto; max-width: calc(100vw - 2rem); }
   }
 
   /* Accessibility: visually hidden but available to screen readers */
@@ -2629,7 +2657,7 @@ export default function Home() {
               </div>
             )}
 
-            {/* Language selector */}
+            {/* Language selector — compact globe + flag */}
             <div className="lang-selector" ref={langRef}>
               <button
                 className="lang-btn"
@@ -2642,7 +2670,8 @@ export default function Home() {
                   <circle cx="12" cy="12" r="10"/>
                   <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/>
                 </svg>
-                {languageLabels[lang]}
+                <span className="lang-flag" aria-hidden="true">{languageFlags[lang]}</span>
+                <span className="lang-chevron" aria-hidden="true">&#9660;</span>
               </button>
               {langOpen && (
                 <div className="lang-dropdown" role="listbox" aria-label="Select language">
@@ -2654,6 +2683,7 @@ export default function Home() {
                       className={`lang-option${code === lang ? ' lang-option-active' : ''}`}
                       onClick={() => { setLang(code); setLangOpen(false); }}
                     >
+                      <span className="lang-flag" aria-hidden="true">{languageFlags[code]}</span>
                       {label}
                     </button>
                   ))}
@@ -2661,7 +2691,7 @@ export default function Home() {
               )}
             </div>
 
-            <button onClick={handleLogout} className="btn-outline">{t.logout}</button>
+            <button onClick={handleLogout} className="logout-link">{t.logout}</button>
           </div>
         </header>
 
