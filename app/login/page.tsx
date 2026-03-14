@@ -818,6 +818,14 @@ export default function LoginPage() {
         }
         return;
       }
+
+      // Send branded verification email via Resend
+      fetch('/api/verify-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, lang }),
+      }).catch(() => {});
+
       setSuccess(t.signupSuccess);
     } catch {
       setError(t.errorGeneric);
