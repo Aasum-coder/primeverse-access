@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation'
 
 function parseProfileImage(value: string | null) {
   if (!value) return { url: '', x: 50, y: 50 }
@@ -504,9 +505,11 @@ const T: Record<LangKey, Record<string, string>> = {
 
 export default function DistributorPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
+  const router = useRouter()
   const [distributor, setDistributor] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [step, setStep] = useState<'register' | 'broker' | 'uid'>('register')
   const [form, setForm] = useState({ name: '', email: '' })
@@ -558,6 +561,9 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
       }
       setDistributor(data)
       setLoading(false)
+      // Check if current user owns this page
+      const { data: userData } = await supabase.auth.getUser()
+      if (userData.user && data.user_id === userData.user.id) setIsOwner(true)
     }
     fetchDistributor()
   }, [slug])
@@ -726,6 +732,9 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .ftr-text{font-size:.76rem;color:var(--grey);line-height:1.75}
         .ftr-divider{height:1px;background:var(--border);margin:1.8rem 0}
         .ftr-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-size:.73rem;color:#3e3e3e}
+        .back-dash{position:fixed;bottom:1.2rem;left:1.2rem;z-index:500;display:flex;align-items:center;gap:.4rem;background:rgba(10,10,10,.75);border:1px solid rgba(201,168,76,.2);color:var(--grey);font-family:'DM Sans',sans-serif;font-size:.75rem;padding:.5rem .9rem;border-radius:10px;cursor:pointer;backdrop-filter:blur(12px);transition:all .25s;text-decoration:none;opacity:.7}
+        .back-dash:hover{opacity:1;border-color:var(--gold);color:var(--gold);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.4)}
+        .back-dash svg{width:14px;height:14px;flex-shrink:0}
         @media(max-width:720px){nav{padding:0 1.2rem}.about-grid{grid-template-columns:1fr;gap:2rem}.ftr-grid{grid-template-columns:1fr}.modal,.fcard{padding:1.8rem 1.4rem}}
         .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
         .btn-gold:focus-visible,.btn-nav:focus-visible,.fsubmit:focus-visible,.lang-trigger:focus-visible,.lang-modal-option:focus-visible,.mclose:focus-visible,.fi:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
@@ -770,6 +779,16 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
           </button>
         </div>
       </nav>
+
+      {/* Back to Dashboard — only visible to page owner */}
+      {isOwner && (
+        <button className="back-dash" onClick={() => router.push('/')} aria-label="Back to Dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Dashboard
+        </button>
+      )}
 
       {/* HERO */}
       <section className="hero" id="main-content" dir={isRtl ? 'rtl' : 'ltr'}>
