@@ -79,13 +79,14 @@ export default function InstallPrompt() {
         boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-          <div style={{
-            flexShrink: 0, borderRadius: '0.75rem',
-            background: 'rgba(212, 168, 67, 0.1)', padding: '0.5rem',
-            fontSize: '1.5rem',
-          }}>
-            S8
-          </div>
+          <img
+            src="https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png"
+            alt="SYSTM8"
+            style={{
+              flexShrink: 0, borderRadius: '0.75rem',
+              width: '3rem', height: '3rem', objectFit: 'cover',
+            }}
+          />
           <div style={{ flex: 1 }}>
             <h3 style={{ fontWeight: 600, color: 'white', margin: 0, fontSize: '0.95rem' }}>Install SYSTM8</h3>
             <p style={{ marginTop: '0.25rem', fontSize: '0.8rem', color: '#9ca3af' }}>
