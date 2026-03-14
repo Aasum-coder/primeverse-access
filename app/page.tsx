@@ -81,6 +81,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'of',
     fillAll: 'Fill in all fields',
     referralRequired: 'This field must be filled in',
+    referralInvalid: 'Only PuPrime partner links are accepted (must start with https://puvip.co/la-partners/)',
     slugTaken: 'This URL is already in use. Please choose another.',
     socialMedia: 'Social media',
     metricsTab: 'Metrics',
@@ -212,6 +213,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'av',
     fillAll: 'Fyll inn alle feltene',
     referralRequired: 'Dette feltet må fylles ut',
+    referralInvalid: 'Kun PuPrime-partnerlenker godtas (må starte med https://puvip.co/la-partners/)',
     slugTaken: 'Denne URL-en er allerede i bruk. Velg en annen.',
     socialMedia: 'Sosiale medier',
     metricsTab: 'Metrikk',
@@ -343,6 +345,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'av',
     fillAll: 'Fyll i alla fält',
     referralRequired: 'Detta fält måste fyllas i',
+    referralInvalid: 'Endast PuPrime-partnerlänkar accepteras (måste börja med https://puvip.co/la-partners/)',
     slugTaken: 'Denna URL används redan. Välj en annan.',
     socialMedia: 'Sociala medier',
     metricsTab: 'Statistik',
@@ -474,6 +477,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'de',
     fillAll: 'Completa todos los campos',
     referralRequired: 'Este campo debe completarse',
+    referralInvalid: 'Solo se aceptan enlaces de socios PuPrime (debe comenzar con https://puvip.co/la-partners/)',
     slugTaken: 'Esta URL ya está en uso. Elige otra.',
     socialMedia: 'Redes sociales',
     metricsTab: 'Métricas',
@@ -605,6 +609,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'из',
     fillAll: 'Заполните все поля',
     referralRequired: 'Это поле обязательно для заполнения',
+    referralInvalid: 'Принимаются только партнёрские ссылки PuPrime (должна начинаться с https://puvip.co/la-partners/)',
     slugTaken: 'Этот URL уже используется. Выберите другой.',
     socialMedia: 'Социальные сети',
     metricsTab: 'Метрики',
@@ -736,6 +741,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'من',
     fillAll: 'املأ جميع الحقول',
     referralRequired: 'يجب ملء هذا الحقل',
+    referralInvalid: 'يتم قبول روابط شركاء PuPrime فقط (يجب أن تبدأ بـ https://puvip.co/la-partners/)',
     slugTaken: 'هذا الرابط مستخدم بالفعل. اختر رابطاً آخر.',
     socialMedia: 'وسائل التواصل الاجتماعي',
     metricsTab: 'المقاييس',
@@ -867,6 +873,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'ng',
     fillAll: 'Punan lahat ng fields',
     referralRequired: 'Kailangang punan ang field na ito',
+    referralInvalid: 'Tanging mga PuPrime partner link lang ang tinatanggap (dapat magsimula sa https://puvip.co/la-partners/)',
     slugTaken: 'Ginagamit na ang URL na ito. Pumili ng iba.',
     socialMedia: 'Social media',
     metricsTab: 'Metrics',
@@ -998,6 +1005,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'de',
     fillAll: 'Preencha todos os campos',
     referralRequired: 'Este campo deve ser preenchido',
+    referralInvalid: 'Somente links de parceiros PuPrime são aceitos (deve começar com https://puvip.co/la-partners/)',
     slugTaken: 'Este URL já está em uso. Escolha outro.',
     socialMedia: 'Redes sociais',
     metricsTab: 'Métricas',
@@ -1129,6 +1137,7 @@ const translations: Record<string, Record<string, string>> = {
     aiStepOf: 'จาก',
     fillAll: 'กรุณากรอกข้อมูลทุกช่อง',
     referralRequired: 'ต้องกรอกช่องนี้',
+    referralInvalid: 'รับเฉพาะลิงก์พาร์ทเนอร์ PuPrime เท่านั้น (ต้องขึ้นต้นด้วย https://puvip.co/la-partners/)',
     slugTaken: 'URL นี้ถูกใช้แล้ว กรุณาเลือกอันอื่น',
     socialMedia: 'โซเชียลมีเดีย',
     metricsTab: 'สถิติ',
@@ -2142,7 +2151,7 @@ export default function Home() {
   const [profileSaved, setProfileSaved] = useState(false)
   const [updatingProfile, setUpdatingProfile] = useState(false)
   const [updateSaved, setUpdateSaved] = useState(false)
-  const [referralError, setReferralError] = useState(false)
+  const [referralError, setReferralError] = useState('')
   const [socialTiktok, setSocialTiktok] = useState('')
   const [socialInstagram, setSocialInstagram] = useState('')
   const [socialFacebook, setSocialFacebook] = useState('')
@@ -2386,17 +2395,43 @@ export default function Home() {
     setShareOpen(false)
   }
 
+  // Validate and normalize PuPrime referral link
+  const validateReferralLink = (link: string): { valid: boolean; normalized: string; error: string } => {
+    const trimmed = link.trim()
+    if (!trimmed) return { valid: false, normalized: '', error: 'referralRequired' }
+    try {
+      const url = new URL(trimmed.startsWith('http') ? trimmed : 'https://' + trimmed)
+      const host = url.hostname.replace(/^www\./, '').toLowerCase()
+      if (host !== 'puvip.co' || !url.pathname.toLowerCase().startsWith('/la-partners')) {
+        return { valid: false, normalized: trimmed, error: 'referralInvalid' }
+      }
+      // Normalize: always https
+      url.protocol = 'https:'
+      return { valid: true, normalized: url.toString(), error: '' }
+    } catch {
+      return { valid: false, normalized: trimmed, error: 'referralInvalid' }
+    }
+  }
+
   const saveProfile = async () => {
-    if (!profileReferralLink.trim()) {
-      setReferralError(true)
+    const rv = validateReferralLink(profileReferralLink)
+    if (!rv.valid) {
+      setReferralError(rv.error)
       return
     }
-    setReferralError(false)
+    const normalizedLink = rv.normalized
+    setProfileReferralLink(normalizedLink)
+    setReferralError('')
     setSlugError(false)
     setSavingProfile(true)
+    // Server-side validation
+    try {
+      const valRes = await fetch('/api/validate-referral', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ referral_link: normalizedLink }) })
+      if (!valRes.ok) { const d = await valRes.json().catch(() => ({})); setReferralError('referralInvalid'); showToast(d.error || t.referralInvalid); setSavingProfile(false); return }
+    } catch { /* network error — allow save with frontend validation only */ }
     const isFirstSave = !distributor.slug
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -2409,22 +2444,30 @@ export default function Home() {
     if (isFirstSave && profileSlug) {
       fetch('/api/welcome-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: profileName, email: distributor.email, slug: profileSlug, lang }) }).catch(() => {})
     }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
   }
 
   const updateProfile = async () => {
-    if (!profileReferralLink.trim()) {
-      setReferralError(true)
+    const rv = validateReferralLink(profileReferralLink)
+    if (!rv.valid) {
+      setReferralError(rv.error)
       return
     }
-    setReferralError(false)
+    const normalizedLink = rv.normalized
+    setProfileReferralLink(normalizedLink)
+    setReferralError('')
     setSlugError(false)
     setUpdatingProfile(true)
+    // Server-side validation
+    try {
+      const valRes = await fetch('/api/validate-referral', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ referral_link: normalizedLink }) })
+      if (!valRes.ok) { const d = await valRes.json().catch(() => ({})); setReferralError('referralInvalid'); showToast(d.error || t.referralInvalid); setUpdatingProfile(false); return }
+    } catch { /* network error — allow save with frontend validation only */ }
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -2434,7 +2477,7 @@ export default function Home() {
       setUpdatingProfile(false)
       return
     }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: profileReferralLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
     setUpdatingProfile(false)
     setUpdateSaved(true)
     setTimeout(() => setUpdateSaved(false), 3000)
@@ -2935,8 +2978,8 @@ export default function Home() {
 
               <div className="field-group">
                 <label className="field-label" htmlFor="profile-referral">IB / Referral-link</label>
-                <input id="profile-referral" type="url" className="field-input" value={profileReferralLink} onChange={e => { setProfileReferralLink(e.target.value); setReferralError(false) }} placeholder="https://puvip.co/la-partners/..." style={referralError ? { borderColor: '#d44a37' } : undefined} aria-invalid={referralError} />
-                {referralError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{t.referralRequired}</p>}
+                <input id="profile-referral" type="url" className="field-input" value={profileReferralLink} onChange={e => { setProfileReferralLink(e.target.value); setReferralError('') }} onBlur={() => { if (profileReferralLink.trim()) { const rv = validateReferralLink(profileReferralLink); if (!rv.valid) setReferralError(rv.error) } }} placeholder="https://puvip.co/la-partners/..." style={referralError ? { borderColor: '#d44a37' } : undefined} aria-invalid={!!referralError} />
+                {referralError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{referralError === 'referralInvalid' ? t.referralInvalid : t.referralRequired}</p>}
               </div>
 
               <div className="field-group">
@@ -2975,11 +3018,11 @@ export default function Home() {
               </div>
 
               {distributor?.slug ? (
-                <button onClick={updateProfile} disabled={updatingProfile} className="btn-outline" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={updatingProfile}>
+                <button onClick={updateProfile} disabled={updatingProfile || !!referralError} className="btn-outline" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={updatingProfile}>
                   {updatingProfile ? t.updating : updateSaved ? `✓ ${t.updated}` : t.updateInfo}
                 </button>
               ) : (
-                <button onClick={saveProfile} disabled={savingProfile} className="gold-btn" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={savingProfile}>
+                <button onClick={saveProfile} disabled={savingProfile || !!referralError} className="gold-btn" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={savingProfile}>
                   {savingProfile ? `⏳ ${t.generatingPage}` : profileSaved ? `✓ ${t.pageIsLive}` : `🚀 ${t.generatePage}`}
                 </button>
               )}
