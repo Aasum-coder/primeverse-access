@@ -18,15 +18,15 @@ const supabase = createClient(
 )
 
 const LANGS = {
-  en: { flag: 'GB', label: 'English' },
-  no: { flag: 'NO', label: 'Norsk' },
-  sv: { flag: 'SE', label: 'Svenska' },
-  es: { flag: 'ES', label: 'Español' },
-  ru: { flag: 'RU', label: 'Русский' },
-  ar: { flag: 'SA', label: 'العربية' },
-  tl: { flag: 'PH', label: 'Filipino' },
-  pt: { flag: 'BR', label: 'Português' },
-  th: { flag: 'TH', label: 'ไทย' },
+  en: { flag: '\u{1F1EC}\u{1F1E7}', label: 'English' },
+  no: { flag: '\u{1F1F3}\u{1F1F4}', label: 'Norsk' },
+  sv: { flag: '\u{1F1F8}\u{1F1EA}', label: 'Svenska' },
+  es: { flag: '\u{1F1EA}\u{1F1F8}', label: 'Español' },
+  ru: { flag: '\u{1F1F7}\u{1F1FA}', label: 'Русский' },
+  ar: { flag: '\u{1F1F8}\u{1F1E6}', label: 'العربية' },
+  tl: { flag: '\u{1F1F5}\u{1F1ED}', label: 'Filipino' },
+  pt: { flag: '\u{1F1E7}\u{1F1F7}', label: 'Português' },
+  th: { flag: '\u{1F1F9}\u{1F1ED}', label: 'ไทย' },
 }
 
 type LangKey = keyof typeof LANGS
@@ -516,6 +516,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const [submitError, setSubmitError] = useState('')
   const [lang, setLang] = useState<LangKey>('en')
   const [langOpen, setLangOpen] = useState(false)
+  const langRef = useRef<HTMLDivElement>(null)
   const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -523,6 +524,14 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const isRtl = lang === 'ar'
 
   const [dbError, setDbError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
 
   useEffect(() => {
     const fetchDistributor = async () => {
@@ -618,14 +627,19 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .btn-nav{background:transparent;border:1px solid var(--border2);color:var(--grey);font-family:'DM Sans',sans-serif;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;padding:.46rem 1.1rem;cursor:pointer;border-radius:var(--r);transition:border-color .2s,color .2s}
         .btn-nav:hover{border-color:var(--gold);color:var(--gold)}
         .lang-wrap{position:relative}
-        .lang-btn{background:transparent;border:1px solid var(--border2);color:var(--grey);font-family:'DM Sans',sans-serif;font-size:.78rem;padding:.46rem 1rem;cursor:pointer;border-radius:var(--r);display:flex;align-items:center;gap:.5rem;transition:border-color .2s,color .2s;white-space:nowrap}
+        .lang-btn{background:rgba(10,10,10,.6);border:1px solid var(--border2);color:var(--grey);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.35rem .55rem;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:.3rem;transition:border-color .2s,color .2s;white-space:nowrap;line-height:1;backdrop-filter:blur(10px)}
         .lang-btn:hover{border-color:var(--gold);color:var(--gold)}
-        .lang-drop{position:absolute;top:calc(100% + 8px);right:0;background:var(--card);border:1px solid var(--border2);border-radius:var(--r);min-width:160px;overflow:hidden;display:none;box-shadow:0 16px 48px rgba(0,0,0,.65);z-index:600}
+        .lang-btn svg{width:14px;height:14px;opacity:.5;flex-shrink:0}
+        .lang-btn:hover svg{opacity:.8}
+        .lang-drop{position:absolute;top:calc(100% + 8px);right:0;background:rgba(12,11,9,.97);border:1px solid var(--border2);border-radius:10px;min-width:170px;overflow:hidden;display:none;box-shadow:0 16px 48px rgba(0,0,0,.65);z-index:600;padding:4px 0;backdrop-filter:blur(20px);animation:langDropIn .2s ease}
+        @keyframes langDropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
         .lang-drop.open{display:block}
-        .lang-drop button{display:flex;align-items:center;gap:.7rem;width:100%;background:none;border:none;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.82rem;text-align:left;padding:.65rem 1.1rem;cursor:pointer;transition:background .15s,color .15s}
-        .lang-drop button:hover{background:var(--gold-d);color:var(--gold)}
+        .lang-drop button{display:flex;align-items:center;gap:.55rem;width:100%;background:none;border:none;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.82rem;text-align:left;padding:.5rem .85rem;cursor:pointer;transition:background .15s,color .15s}
+        .lang-drop button:hover{background:rgba(201,168,76,.08);color:var(--gold)}
         .lang-drop button.active{color:var(--gold)}
-        .flag-badge{display:inline-block;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:.6rem;font-weight:700;letter-spacing:.08em;padding:.15rem .4rem;border-radius:2px;font-family:'DM Sans',sans-serif}
+        .lang-drop .lang-flag{font-size:1.05rem}
+        .lang-flag{font-size:1rem;line-height:1}
+        .lang-chevron{font-size:.55rem;opacity:.4;margin-left:1px}
         .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;overflow:hidden}
         .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,168,76,.07) 0%,transparent 70%);pointer-events:none}
         .hero-line{width:1px;height:56px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);margin:0 auto 2.2rem}
@@ -707,7 +721,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .ftr-text{font-size:.76rem;color:var(--grey);line-height:1.75}
         .ftr-divider{height:1px;background:var(--border);margin:1.8rem 0}
         .ftr-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-size:.73rem;color:#3e3e3e}
-        @media(max-width:720px){nav{padding:0 1.2rem}.about-grid{grid-template-columns:1fr;gap:2rem}.ftr-grid{grid-template-columns:1fr}.modal,.fcard{padding:1.8rem 1.4rem}}
+        @media(max-width:720px){nav{padding:0 1.2rem}.about-grid{grid-template-columns:1fr;gap:2rem}.ftr-grid{grid-template-columns:1fr}.modal,.fcard{padding:1.8rem 1.4rem}.lang-drop{right:0;left:auto;max-width:calc(100vw - 2rem)}}
         .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
         .btn-gold:focus-visible,.btn-nav:focus-visible,.fsubmit:focus-visible,.lang-btn:focus-visible,.lang-drop button:focus-visible,.mclose:focus-visible,.fi:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
       `}</style>
@@ -717,7 +731,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         <span className="nav-brand-text" aria-label="1Move × PrimeVerse">1Move <em aria-hidden="true">×</em> PrimeVerse</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <button ref={triggerRef} className="btn-nav" onClick={() => setModalOpen(true)}>{t.nav_cta}</button>
-          <div className="lang-wrap">
+          <div className="lang-wrap" ref={langRef}>
             <button
               className="lang-btn"
               onClick={() => setLangOpen(!langOpen)}
@@ -725,12 +739,17 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
               aria-expanded={langOpen}
               aria-haspopup="listbox"
             >
-              <span className="flag-badge" aria-hidden="true">{LANGS[lang].flag}</span> {LANGS[lang].label} <span style={{ opacity: 0.5, fontSize: '0.65rem' }} aria-hidden="true">▼</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/>
+              </svg>
+              <span className="lang-flag" aria-hidden="true">{LANGS[lang].flag}</span>
+              <span className="lang-chevron" aria-hidden="true">&#9660;</span>
             </button>
             <div className={`lang-drop${langOpen ? ' open' : ''}`} role="listbox" aria-label="Select language">
               {(Object.keys(LANGS) as LangKey[]).map(k => (
                 <button key={k} role="option" aria-selected={lang === k} className={lang === k ? 'active' : ''} onClick={() => { setLang(k); setLangOpen(false) }}>
-                  <span className="flag-badge" aria-hidden="true">{LANGS[k].flag}</span> {LANGS[k].label}
+                  <span className="lang-flag" aria-hidden="true">{LANGS[k].flag}</span> {LANGS[k].label}
                 </button>
               ))}
             </div>
