@@ -18,37 +18,85 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
-      - name: Fetch bugs and create issues
+      - name: Fetch bugs from Supabase
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          TRIAGE_SECRET: ${{ secrets.TRIAGE_SECRET }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PLATFORM: 'systm8'
         run: |
-          echo "🔍 Fetching new bugs from Supabase..."
-          
-          BUGS=$(curl -s \
-            "${SUPABASE_URL}/rest/v1/bug_reports?status=eq.new&platform=eq.${PLATFORM}&order=created_at.desc&limit=20" \
+          echo "=== DEBUG: curl version ==="
+          curl --version | head -1
+
+          echo ""
+          echo "=== DEBUG: Testing Supabase connection ==="
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${SUPABASE_URL}/rest/v1/" -H "apikey: ${SUPABASE_SERVICE_KEY}" -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" || echo "000")
+          echo "Supabase HTTP status: ${HTTP_CODE}"
+
+          if [ "$HTTP_CODE" = "000" ]; then
+            echo "ERROR: Cannot reach Supabase at all. Check SUPABASE_URL secret."
+            echo "SUPABASE_URL length: ${#SUPABASE_URL}"
+            echo "SUPABASE_SERVICE_KEY length: ${#SUPABASE_SERVICE_KEY}"
+            echo "[]" > /tmp/bugs.json
+            echo "[]" > /tmp/fails.json
+            exit 0
+          fi
+
+          echo ""
+          echo "=== Fetching bug_reports ==="
+          BUGS=$(curl -s "${SUPABASE_URL}/rest/v1/bug_reports?status=eq.new&platform=eq.${PLATFORM}&order=created_at.desc&limit=20" \
             -H "apikey: ${SUPABASE_SERVICE_KEY}" \
-            -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}")
-          
-          FAILS=$(curl -s \
-            "${SUPABASE_URL}/rest/v1/test_results?status=eq.fail&order=created_at.desc&limit=50" \
+            -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" || echo "[]")
+          echo "BUGS response (first 300 chars): $(echo "$BUGS" | head -c 300)"
+          echo "$BUGS" > /tmp/bugs.json
+
+          echo ""
+          echo "=== Fetching test_results ==="
+          FAILS=$(curl -s "${SUPABASE_URL}/rest/v1/test_results?status=eq.fail&order=created_at.desc&limit=50" \
             -H "apikey: ${SUPABASE_SERVICE_KEY}" \
-            -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}")
-          
+            -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" || echo "[]")
+          echo "FAILS response (first 300 chars): $(echo "$FAILS" | head -c 300)"
+          echo "$FAILS" > /tmp/fails.json
+
+          echo ""
+          echo "=== File sizes ==="
+          ls -la /tmp/bugs.json /tmp/fails.json
+
+      - name: Triage and create issues
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           node << 'SCRIPT'
+          const fs = require('fs');
           const { execSync } = require('child_process');
-          
-          const bugs = JSON.parse(process.env.BUGS_JSON || '[]');
-          const fails = JSON.parse(process.env.FAILS_JSON || '[]');
-          
-          const severityEmoji = { critical: '🔴', major: '🟠', minor: '🟡', cosmetic: '🟣' };
+
+          let bugs = [];
+          let fails = [];
+
+          try {
+            const raw = fs.readFileSync('/tmp/bugs.json', 'utf8').trim();
+            bugs = JSON.parse(raw || '[]');
+            if (!Array.isArray(bugs)) bugs = [];
+          } catch (e) {
+            console.log('Could not parse bugs.json:', e.message);
+            bugs = [];
+          }
+
+          try {
+            const raw = fs.readFileSync('/tmp/fails.json', 'utf8').trim();
+            fails = JSON.parse(raw || '[]');
+            if (!Array.isArray(fails)) fails = [];
+          } catch (e) {
+            console.log('Could not parse fails.json:', e.message);
+            fails = [];
+          }
+
+          console.log(`Parsed ${bugs.length} bugs and ${fails.length} test failures`);
+
+          const severityEmoji = { critical: '\u{1F534}', major: '\u{1F7E0}', minor: '\u{1F7E1}', cosmetic: '\u{1F7E3}' };
           const severityOrder = { critical: 0, major: 1, minor: 2, cosmetic: 3 };
-          
+
           function guessFile(text) {
             const t = text.toLowerCase();
             if (t.includes('landing') || t.includes('slug')) return 'app/[slug]/page.tsx';
@@ -59,26 +107,28 @@ jobs:
             if (t.includes('language') || t.includes('translat')) return 'translations in page files';
             return 'app/page.tsx';
           }
-          
+
           function createPrompt(title, desc, severity, file) {
-            return `BUG FIX: ${title}
-          SEVERITY: ${severity}
-          DESCRIPTION: ${desc}
-          LIKELY FILE: ${file}
-          
-          FIX: Investigate and fix this bug. After fixing, verify:
-          - The fix does not break existing functionality
-          - All 9 languages still work (EN, NO, SV, ES, RU, AR, PH, PT, TH)
-          - The dark/gold SYSTM8 theme is maintained
-          - Mobile responsiveness is preserved
-          - Brand names are never translated (SYSTM8, PrimeVerse, 1Move, PuPrime)`;
+            return [
+              'BUG FIX: ' + title,
+              'SEVERITY: ' + severity,
+              'DESCRIPTION: ' + desc,
+              'LIKELY FILE: ' + file,
+              '',
+              'FIX: Investigate and fix this bug. After fixing, verify:',
+              '- The fix does not break existing functionality',
+              '- All 9 languages still work (EN, NO, SV, ES, RU, AR, PH, PT, TH)',
+              '- The dark/gold SYSTM8 theme is maintained',
+              '- Mobile responsiveness is preserved',
+              '- Brand names are never translated (SYSTM8, PrimeVerse, 1Move, PuPrime)'
+            ].join('\n');
           }
-          
+
           let items = [];
-          
+
           bugs.forEach(bug => {
             items.push({
-              id: bug.id,
+              id: bug.id || 'unknown',
               title: bug.title || 'Untitled bug',
               desc: bug.description || '',
               severity: bug.severity || 'major',
@@ -90,20 +140,20 @@ jobs:
               date: bug.created_at
             });
           });
-          
+
           const failGroups = {};
           fails.forEach(f => {
-            const key = f.section + '::' + f.test_item;
+            const key = (f.section || '') + '::' + (f.test_item || '');
             if (!failGroups[key]) failGroups[key] = { count: 0, comments: [], item: f };
             failGroups[key].count++;
             if (f.comment) failGroups[key].comments.push(f.comment);
           });
-          
+
           Object.values(failGroups).forEach(g => {
             items.push({
-              id: 'test-' + g.item.section + '-' + g.item.test_item.substring(0,20),
-              title: 'Test failed: ' + g.item.test_item,
-              desc: g.count + ' tester(s) reported this failure.' + 
+              id: 'test-' + (g.item.test_item || 'unknown').substring(0, 20),
+              title: 'Test failed: ' + (g.item.test_item || 'unknown'),
+              desc: g.count + ' tester(s) reported this failure.' +
                 (g.comments.length ? ' Comments: ' + g.comments.join('; ') : ''),
               severity: g.count >= 3 ? 'critical' : g.count >= 2 ? 'major' : 'minor',
               reporter: g.count + ' tester(s)',
@@ -111,67 +161,71 @@ jobs:
               date: g.item.created_at
             });
           });
-          
+
           items.sort((a, b) => (severityOrder[a.severity] || 1) - (severityOrder[b.severity] || 1));
-          
+
           if (items.length === 0) {
-            console.log('✅ No new bugs or failures. All clear!');
+            console.log('No new bugs or failures. All clear!');
             process.exit(0);
           }
-          
-          console.log(`📋 Found ${items.length} items to process`);
-          
+
+          console.log('Found ' + items.length + ' items to process');
+
           items.forEach(item => {
-            const emoji = severityEmoji[item.severity] || '🟠';
+            const emoji = severityEmoji[item.severity] || '\u{1F7E0}';
             const file = guessFile(item.title + ' ' + item.desc);
             const prompt = item.prompt || createPrompt(item.title, item.desc, item.severity, file);
-            
-            const issueTitle = `${emoji} [${item.severity.toUpperCase()}] ${item.title}`;
-            
-            const body = [
-              `## ${emoji} Auto-triaged Bug\n`,
-              `**Severity:** ${item.severity.toUpperCase()}`,
-              `**Source:** ${item.source === 'bug_report' ? 'Bug Report' : 'Beta Test Failure'}`,
-              `**Reported by:** ${item.reporter}`,
-              `**Date:** ${item.date || new Date().toISOString()}`,
-              item.screenshot ? `**Screenshot:** ![img](${item.screenshot})` : '',
-              item.steps ? `\n### Steps to reproduce\n${item.steps}` : '',
-              `\n### Description\n${item.desc}`,
-              `\n---\n`,
-              `### 🤖 Claude Code prompt — copy and paste this\n`,
-              '```',
-              prompt,
-              '```',
-              `\n---`,
-              `*Auto-generated by SYSTM8 Nightly Triage Agent*`,
-              `*Bug ID: ${item.id}*`
-            ].filter(Boolean).join('\n');
-            
-            const labels = `bug-${item.severity},auto-triage,agent-ready`;
-            
+
+            const issueTitle = emoji + ' [' + item.severity.toUpperCase() + '] ' + item.title;
+
+            const bodyParts = [
+              '## ' + emoji + ' Auto-triaged Bug\n',
+              '**Severity:** ' + item.severity.toUpperCase(),
+              '**Source:** ' + (item.source === 'bug_report' ? 'Bug Report' : 'Beta Test Failure'),
+              '**Reported by:** ' + item.reporter,
+              '**Date:** ' + (item.date || new Date().toISOString()),
+            ];
+            if (item.screenshot) bodyParts.push('**Screenshot:** ![img](' + item.screenshot + ')');
+            if (item.steps) bodyParts.push('\n### Steps to reproduce\n' + item.steps);
+            bodyParts.push('\n### Description\n' + item.desc);
+            bodyParts.push('\n---\n');
+            bodyParts.push('### Claude Code prompt\n');
+            bodyParts.push('```\n' + prompt + '\n```');
+            bodyParts.push('\n---');
+            bodyParts.push('*Auto-generated by SYSTM8 Nightly Triage Agent*');
+            bodyParts.push('*Bug ID: ' + item.id + '*');
+
+            const body = bodyParts.join('\n');
+            const labels = 'bug-' + item.severity + ',auto-triage,agent-ready';
+
             try {
+              const searchTitle = item.title.substring(0, 50).replace(/['"]/g, '');
               const existing = execSync(
-                `gh issue list --search "${item.title.substring(0, 50)}" --state open --limit 1 --json number --jq '.[0].number // empty'`,
+                'gh issue list --search "' + searchTitle + '" --state open --limit 1 --json number --jq ".[0].number // empty"',
                 { encoding: 'utf8', timeout: 10000 }
               ).trim();
-              
+
               if (existing) {
-                console.log(`⏭️  Skipped (exists as #${existing}): ${item.title}`);
+                console.log('Skipped (exists as #' + existing + '): ' + item.title);
                 return;
               }
-              
+
+              const tmpFile = '/tmp/issue_body_' + Math.random().toString(36).substring(7) + '.md';
+              fs.writeFileSync(tmpFile, body);
+
               execSync(
-                `gh issue create --title "${issueTitle.replace(/"/g, '\\"')}" --body "${body.replace(/"/g, '\\"').replace(/\n/g, '\\n')}" --label "${labels}"`,
+                'gh issue create --title "' + issueTitle.replace(/"/g, '\\"') + '" --body-file ' + tmpFile + ' --label "' + labels + '"',
                 { encoding: 'utf8', timeout: 15000 }
               );
-              console.log(`✅ Created: ${issueTitle}`);
+              console.log('Created: ' + issueTitle);
             } catch (e) {
-              console.log(`⚠️  Failed to create issue: ${item.title} — ${e.message}`);
+              console.log('Failed to create issue: ' + item.title + ' - ' + e.message);
             }
           });
-          
-          console.log('🏁 Nightly triage complete!');
+
+          console.log('Nightly triage complete!');
           SCRIPT
+
       - name: Update bug statuses
         if: success()
         env:
@@ -184,5 +238,18 @@ jobs:
             -H "apikey: ${SUPABASE_SERVICE_KEY}" \
             -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
             -H "Content-Type: application/json" \
+            -H "Prefer: return=minimal" \
             -d '{"status": "triaging"}' || echo "Status update skipped"
-          echo "📊 Bug statuses updated to 'triaging'"
+          echo "Bug statuses updated to triaging"
+
+      - name: Ensure labels exist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "bug-critical" --color "FF0000" --description "Critical bug" --force 2>/dev/null || true
+          gh label create "bug-major" --color "FF8C00" --description "Major bug" --force 2>/dev/null || true
+          gh label create "bug-minor" --color "FFD700" --description "Minor bug" --force 2>/dev/null || true
+          gh label create "bug-cosmetic" --color "9B59B6" --description "Cosmetic bug" --force 2>/dev/null || true
+          gh label create "auto-triage" --color "3498DB" --description "Auto-generated by triage agent" --force 2>/dev/null || true
+          gh label create "agent-ready" --color "2ECC71" --description "Claude Code prompt ready" --force 2>/dev/null || true
+          echo "Labels ensured"
