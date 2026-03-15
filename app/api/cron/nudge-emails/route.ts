@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { buildNudgeEmail, IncompleteSteps, NudgeVariant } from '@/lib/email-templates/nudge'
 import { buildFirstShareGuideEmail } from '@/lib/email-templates/first-share-guide'
+import { buildUidReminderEmail } from '@/lib/email-templates/uid-reminder'
 
 const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
@@ -23,8 +24,11 @@ export async function GET(request: Request) {
   const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000)
   const seventyTwoHoursAgo = new Date(now.getTime() - 72 * 60 * 60 * 1000)
 
+  const fortyEightHoursAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000)
+
   let nudgeSent = 0
   let shareSent = 0
+  let uidSent = 0
   const errors: string[] = []
 
   // ─── PART 1: Profile nudge emails ────────────────────────────
@@ -149,9 +153,84 @@ export async function GET(request: Request) {
     }
   }
 
+  // ─── PART 3: UID Reminder (leads with no UID for 48h+) ────────────
+  // Find leads where UID is NULL/empty AND created >48h ago, group by distributor
+  const { data: pendingLeads } = await supabaseAdmin
+    .from('leads')
+    .select('distributor_id')
+    .or('uid.is.null,uid.eq.')
+    .lt('created_at', fortyEightHoursAgo.toISOString())
+
+  if (pendingLeads && pendingLeads.length > 0) {
+    // Group by distributor and count pending leads
+    const pendingPerDist = new Map<string, number>()
+    for (const lead of pendingLeads) {
+      pendingPerDist.set(lead.distributor_id, (pendingPerDist.get(lead.distributor_id) || 0) + 1)
+    }
+
+    const distIds = Array.from(pendingPerDist.keys())
+
+    // Check existing uid_reminder sends (frequency cap: 72h between sends, max 2 total)
+    const { data: uidSends } = await supabaseAdmin
+      .from('email_sends')
+      .select('user_id, sent_at')
+      .in('user_id', distIds)
+      .eq('email_type', 'uid_reminder')
+
+    const uidSendMap = new Map<string, Date[]>()
+    for (const send of uidSends || []) {
+      if (!uidSendMap.has(send.user_id)) uidSendMap.set(send.user_id, [])
+      uidSendMap.get(send.user_id)!.push(new Date(send.sent_at))
+    }
+
+    // Fetch distributor profiles for eligible IBs
+    const { data: uidDists } = await supabaseAdmin
+      .from('distributors')
+      .select('id, name, email, language')
+      .in('id', distIds)
+
+    const seventyTwoHoursAgoMs = now.getTime() - 72 * 60 * 60 * 1000
+
+    for (const dist of uidDists || []) {
+      const previousSends = uidSendMap.get(dist.id) || []
+
+      // Max 2 uid_reminder emails total
+      if (previousSends.length >= 2) continue
+
+      // 72h minimum between sends
+      const lastSend = previousSends.length > 0
+        ? Math.max(...previousSends.map((d) => d.getTime()))
+        : 0
+      if (lastSend > seventyTwoHoursAgoMs) continue
+
+      const pendingCount = pendingPerDist.get(dist.id) || 0
+      if (pendingCount === 0) continue
+
+      const name = dist.name || dist.email?.split('@')[0] || 'there'
+      const lang = dist.language || 'en'
+      const { html, subject } = buildUidReminderEmail({ name, pendingCount, lang })
+
+      const { error: sendError } = await resend.emails.send({
+        from: '1Move Academy <noreply@primeverseaccess.com>',
+        to: [dist.email],
+        subject,
+        html,
+      })
+
+      if (sendError) {
+        errors.push(`uid_reminder ${dist.email}: ${sendError.message}`)
+        continue
+      }
+
+      await supabaseAdmin.from('email_sends').insert({ user_id: dist.id, email_type: 'uid_reminder' })
+      uidSent++
+    }
+  }
+
   return NextResponse.json({
     nudge_sent: nudgeSent,
     share_guide_sent: shareSent,
+    uid_reminder_sent: uidSent,
     errors: errors.length > 0 ? errors : undefined,
   })
 }
