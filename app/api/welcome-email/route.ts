@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 import { buildWelcomeEmail } from '@/lib/email-templates/welcome'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
 export async function POST(request: Request) {
   const { name, email, slug, lang } = await request.json()
