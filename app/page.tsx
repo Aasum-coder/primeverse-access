@@ -2995,7 +2995,7 @@ export default function Home() {
               <div className="field-group">
                 <label className="field-label">{t.socialMedia || 'Social media'}</label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <input className="field-input" value={socialTelegram} onChange={e => setSocialTelegram(e.target.value)} placeholder={t.telegramUrl || 'https://t.me/yourusername'} />
+                  <input className="field-input" value={socialTelegram} onChange={e => setSocialTelegram(e.target.value)} onBlur={() => { const v = socialTelegram.trim(); if (v && /^t\.me\//i.test(v)) setSocialTelegram('https://' + v) }} placeholder={t.telegramUrl || 'https://t.me/yourusername'} />
                   <input className="field-input" value={socialWhatsapp} onChange={e => setSocialWhatsapp(e.target.value.replace(/[^\d+]/g, ''))} placeholder={t.whatsappPhone || '+1234567890'} />
                   <input className="field-input" value={socialTiktok} onChange={e => setSocialTiktok(e.target.value)} placeholder="TikTok URL" />
                   <input className="field-input" value={socialInstagram} onChange={e => setSocialInstagram(e.target.value)} placeholder="Instagram URL" />
