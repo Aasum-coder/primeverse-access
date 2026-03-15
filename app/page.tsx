@@ -161,6 +161,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Sending...',
     bugSuccess: 'Thank you! Your report has been sent.',
     bugFillRequired: 'Please fill in all required fields and attach a screenshot.',
+    betaTestTab: 'Beta Test',
+    betaTitle: 'SYSTM8 Beta Test',
+    betaSubtitle: 'You are one of 18 selected beta testers. Your feedback shapes the future of SYSTM8.',
+    betaProgress: 'tests completed',
+    betaPassed: 'Passed',
+    betaFailed: 'Failed',
+    betaRemaining: 'Remaining',
+    betaAddNote: 'Add a note...',
+    betaScreenshot: 'Screenshot',
+    betaUntested: 'Untested',
+    betaPass: 'Pass',
+    betaFail: 'Fail',
+    betaSubmitAll: 'Submit All Results',
+    betaThankYou: 'tests completed. Thank you for your contribution to SYSTM8!',
+    betaFoundingMember: 'Beta Tester — Founding Member',
+    betaBugTitle: 'Bug title',
+    betaBugDesc: 'What went wrong?',
+    betaBugSeverity: 'Severity',
+    betaBugSubmit: 'Submit Bug Report',
+    betaBugCritical: 'Critical',
+    betaBugMajor: 'Major',
+    betaBugMinor: 'Minor',
+    betaBugCosmetic: 'Cosmetic',
+    betaSec1: 'Registration & Verification',
+    betaSec2: 'Profile Setup',
+    betaSec3: 'AI Bio Assistant',
+    betaSec4: 'Landing Page',
+    betaSec5: 'Language Switching',
+    betaSec6: 'Sharing & Leads',
+    betaSec7: 'Automated Emails',
+    betaSec8: 'Dashboard Features',
   },
   no: {
     leadsTab: 'Leads',
@@ -293,6 +324,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Sender...',
     bugSuccess: 'Takk! Din rapport er sendt.',
     bugFillRequired: 'Vennligst fyll inn alle påkrevde felt og legg ved et skjermbilde.',
+    betaTestTab: 'Beta Test',
+    betaTitle: 'SYSTM8 Beta Test',
+    betaSubtitle: 'Du er en av 18 utvalgte betatestere. Tilbakemeldingen din former fremtiden til SYSTM8.',
+    betaProgress: 'tester fullført',
+    betaPassed: 'Bestått',
+    betaFailed: 'Feilet',
+    betaRemaining: 'Gjenstående',
+    betaAddNote: 'Legg til en merknad...',
+    betaScreenshot: 'Skjermbilde',
+    betaUntested: 'Ikke testet',
+    betaPass: 'Bestått',
+    betaFail: 'Feil',
+    betaSubmitAll: 'Send inn alle resultater',
+    betaThankYou: 'tester fullført. Takk for ditt bidrag til SYSTM8!',
+    betaFoundingMember: 'Betatester — Grunnleggende medlem',
+    betaBugTitle: 'Feiltittel',
+    betaBugDesc: 'Hva gikk galt?',
+    betaBugSeverity: 'Alvorlighetsgrad',
+    betaBugSubmit: 'Send feilrapport',
+    betaBugCritical: 'Kritisk',
+    betaBugMajor: 'Stor',
+    betaBugMinor: 'Liten',
+    betaBugCosmetic: 'Kosmetisk',
+    betaSec1: 'Registrering og verifisering',
+    betaSec2: 'Profiloppsett',
+    betaSec3: 'AI Bio-assistent',
+    betaSec4: 'Landingsside',
+    betaSec5: 'Språkbytte',
+    betaSec6: 'Deling og leads',
+    betaSec7: 'Automatiserte e-poster',
+    betaSec8: 'Dashboard-funksjoner',
   },
   sv: {
     leadsTab: 'Leads',
@@ -425,6 +487,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Skickar...',
     bugSuccess: 'Tack! Din rapport har skickats.',
     bugFillRequired: 'Fyll i alla obligatoriska fält och bifoga en skärmbild.',
+    betaTestTab: 'Beta Test',
+    betaTitle: 'SYSTM8 Beta Test',
+    betaSubtitle: 'Du är en av 18 utvalda betatestare. Din feedback formar framtiden för SYSTM8.',
+    betaProgress: 'tester slutförda',
+    betaPassed: 'Godkänd',
+    betaFailed: 'Underkänd',
+    betaRemaining: 'Återstående',
+    betaAddNote: 'Lägg till en anteckning...',
+    betaScreenshot: 'Skärmbild',
+    betaUntested: 'Ej testad',
+    betaPass: 'Godkänd',
+    betaFail: 'Underkänd',
+    betaSubmitAll: 'Skicka alla resultat',
+    betaThankYou: 'tester slutförda. Tack för ditt bidrag till SYSTM8!',
+    betaFoundingMember: 'Betatestare — Grundande medlem',
+    betaBugTitle: 'Buggtitel',
+    betaBugDesc: 'Vad gick fel?',
+    betaBugSeverity: 'Allvarlighetsgrad',
+    betaBugSubmit: 'Skicka buggrapport',
+    betaBugCritical: 'Kritisk',
+    betaBugMajor: 'Stor',
+    betaBugMinor: 'Liten',
+    betaBugCosmetic: 'Kosmetisk',
+    betaSec1: 'Registrering & verifiering',
+    betaSec2: 'Profilinställning',
+    betaSec3: 'AI Bio-assistent',
+    betaSec4: 'Landningssida',
+    betaSec5: 'Språkbyte',
+    betaSec6: 'Delning & leads',
+    betaSec7: 'Automatiserade e-postmeddelanden',
+    betaSec8: 'Dashboardfunktioner',
   },
   es: {
     leadsTab: 'Leads',
@@ -557,6 +650,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Enviando...',
     bugSuccess: '¡Gracias! Tu reporte ha sido enviado.',
     bugFillRequired: 'Por favor completa todos los campos obligatorios y adjunta una captura de pantalla.',
+    betaTestTab: 'Beta Test',
+    betaTitle: 'SYSTM8 Beta Test',
+    betaSubtitle: 'Eres uno de los 18 beta testers seleccionados. Tu feedback da forma al futuro de SYSTM8.',
+    betaProgress: 'pruebas completadas',
+    betaPassed: 'Aprobado',
+    betaFailed: 'Fallido',
+    betaRemaining: 'Restante',
+    betaAddNote: 'Agregar una nota...',
+    betaScreenshot: 'Captura de pantalla',
+    betaUntested: 'Sin probar',
+    betaPass: 'Aprobado',
+    betaFail: 'Fallido',
+    betaSubmitAll: 'Enviar todos los resultados',
+    betaThankYou: 'pruebas completadas. ¡Gracias por tu contribución a SYSTM8!',
+    betaFoundingMember: 'Beta Tester — Miembro fundador',
+    betaBugTitle: 'Título del bug',
+    betaBugDesc: '¿Qué salió mal?',
+    betaBugSeverity: 'Severidad',
+    betaBugSubmit: 'Enviar reporte de bug',
+    betaBugCritical: 'Crítico',
+    betaBugMajor: 'Mayor',
+    betaBugMinor: 'Menor',
+    betaBugCosmetic: 'Cosmético',
+    betaSec1: 'Registro y verificación',
+    betaSec2: 'Configuración de perfil',
+    betaSec3: 'Asistente de bio AI',
+    betaSec4: 'Página de destino',
+    betaSec5: 'Cambio de idioma',
+    betaSec6: 'Compartir y leads',
+    betaSec7: 'Correos automatizados',
+    betaSec8: 'Funciones del panel',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -689,6 +813,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Отправка...',
     bugSuccess: 'Спасибо! Ваш отчёт отправлен.',
     bugFillRequired: 'Пожалуйста, заполните все обязательные поля и прикрепите скриншот.',
+    betaTestTab: 'Бета-тест',
+    betaTitle: 'SYSTM8 Бета-тест',
+    betaSubtitle: 'Вы один из 18 выбранных бета-тестеров. Ваш отзыв формирует будущее SYSTM8.',
+    betaProgress: 'тестов выполнено',
+    betaPassed: 'Пройдено',
+    betaFailed: 'Провал',
+    betaRemaining: 'Осталось',
+    betaAddNote: 'Добавить заметку...',
+    betaScreenshot: 'Скриншот',
+    betaUntested: 'Не проверено',
+    betaPass: 'Пройдено',
+    betaFail: 'Провал',
+    betaSubmitAll: 'Отправить все результаты',
+    betaThankYou: 'тестов выполнено. Спасибо за ваш вклад в SYSTM8!',
+    betaFoundingMember: 'Бета-тестер — Основатель',
+    betaBugTitle: 'Название бага',
+    betaBugDesc: 'Что пошло не так?',
+    betaBugSeverity: 'Серьёзность',
+    betaBugSubmit: 'Отправить баг-репорт',
+    betaBugCritical: 'Критический',
+    betaBugMajor: 'Серьёзный',
+    betaBugMinor: 'Незначительный',
+    betaBugCosmetic: 'Косметический',
+    betaSec1: 'Регистрация и верификация',
+    betaSec2: 'Настройка профиля',
+    betaSec3: 'AI-ассистент био',
+    betaSec4: 'Лендинг-страница',
+    betaSec5: 'Переключение языка',
+    betaSec6: 'Шеринг и лиды',
+    betaSec7: 'Автоматические письма',
+    betaSec8: 'Функции дашборда',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -821,6 +976,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'جارٍ الإرسال...',
     bugSuccess: 'شكراً! تم إرسال تقريرك.',
     bugFillRequired: 'يرجى ملء جميع الحقول المطلوبة وإرفاق لقطة شاشة.',
+    betaTestTab: 'اختبار تجريبي',
+    betaTitle: 'اختبار SYSTM8 التجريبي',
+    betaSubtitle: 'أنت واحد من 18 مختبر تجريبي مختار. ملاحظاتك تشكّل مستقبل SYSTM8.',
+    betaProgress: 'اختبار مكتمل',
+    betaPassed: 'ناجح',
+    betaFailed: 'فاشل',
+    betaRemaining: 'متبقي',
+    betaAddNote: 'أضف ملاحظة...',
+    betaScreenshot: 'لقطة شاشة',
+    betaUntested: 'لم يُختبر',
+    betaPass: 'ناجح',
+    betaFail: 'فاشل',
+    betaSubmitAll: 'إرسال جميع النتائج',
+    betaThankYou: 'اختبار مكتمل. شكراً لمساهمتك في SYSTM8!',
+    betaFoundingMember: 'مختبر تجريبي — عضو مؤسس',
+    betaBugTitle: 'عنوان الخطأ',
+    betaBugDesc: 'ما الذي حدث خطأ؟',
+    betaBugSeverity: 'الخطورة',
+    betaBugSubmit: 'إرسال تقرير الخطأ',
+    betaBugCritical: 'حرج',
+    betaBugMajor: 'كبير',
+    betaBugMinor: 'صغير',
+    betaBugCosmetic: 'تجميلي',
+    betaSec1: 'التسجيل والتحقق',
+    betaSec2: 'إعداد الملف الشخصي',
+    betaSec3: 'مساعد السيرة الذاتية AI',
+    betaSec4: 'صفحة الهبوط',
+    betaSec5: 'تبديل اللغة',
+    betaSec6: 'المشاركة والعملاء',
+    betaSec7: 'رسائل البريد التلقائية',
+    betaSec8: 'ميزات لوحة التحكم',
   },
   tl: {
     leadsTab: 'Leads',
@@ -953,6 +1139,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Ipinapadala...',
     bugSuccess: 'Salamat! Naipadala na ang iyong report.',
     bugFillRequired: 'Mangyaring punan ang lahat ng kinakailangang field at mag-attach ng screenshot.',
+    betaTestTab: 'Beta Test',
+    betaTitle: 'SYSTM8 Beta Test',
+    betaSubtitle: 'Isa ka sa 18 na napiling beta tester. Ang feedback mo ang humuhubog sa kinabukasan ng SYSTM8.',
+    betaProgress: 'test na nakumpleto',
+    betaPassed: 'Pumasa',
+    betaFailed: 'Nabigo',
+    betaRemaining: 'Natitira',
+    betaAddNote: 'Magdagdag ng note...',
+    betaScreenshot: 'Screenshot',
+    betaUntested: 'Hindi pa nasubukan',
+    betaPass: 'Pumasa',
+    betaFail: 'Nabigo',
+    betaSubmitAll: 'I-submit lahat ng resulta',
+    betaThankYou: 'test na nakumpleto. Salamat sa iyong kontribusyon sa SYSTM8!',
+    betaFoundingMember: 'Beta Tester — Founding Member',
+    betaBugTitle: 'Pamagat ng bug',
+    betaBugDesc: 'Ano ang nangyaring mali?',
+    betaBugSeverity: 'Kalubhaan',
+    betaBugSubmit: 'I-submit ang bug report',
+    betaBugCritical: 'Kritikal',
+    betaBugMajor: 'Malaki',
+    betaBugMinor: 'Maliit',
+    betaBugCosmetic: 'Kosmetiko',
+    betaSec1: 'Pagpaparehistro at Beripikasyon',
+    betaSec2: 'Pag-setup ng Profile',
+    betaSec3: 'AI Bio Assistant',
+    betaSec4: 'Landing Page',
+    betaSec5: 'Pagpapalit ng Wika',
+    betaSec6: 'Pagbabahagi at Leads',
+    betaSec7: 'Automated na Email',
+    betaSec8: 'Mga Feature ng Dashboard',
   },
   pt: {
     leadsTab: 'Leads',
@@ -1085,6 +1302,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Enviando...',
     bugSuccess: 'Obrigado! Seu relatório foi enviado.',
     bugFillRequired: 'Por favor preencha todos os campos obrigatórios e anexe uma captura de tela.',
+    betaTestTab: 'Beta Test',
+    betaTitle: 'SYSTM8 Beta Test',
+    betaSubtitle: 'Você é um dos 18 beta testers selecionados. Seu feedback molda o futuro do SYSTM8.',
+    betaProgress: 'testes concluídos',
+    betaPassed: 'Aprovado',
+    betaFailed: 'Reprovado',
+    betaRemaining: 'Restante',
+    betaAddNote: 'Adicionar uma nota...',
+    betaScreenshot: 'Captura de tela',
+    betaUntested: 'Não testado',
+    betaPass: 'Aprovado',
+    betaFail: 'Reprovado',
+    betaSubmitAll: 'Enviar todos os resultados',
+    betaThankYou: 'testes concluídos. Obrigado pela sua contribuição ao SYSTM8!',
+    betaFoundingMember: 'Beta Tester — Membro Fundador',
+    betaBugTitle: 'Título do bug',
+    betaBugDesc: 'O que deu errado?',
+    betaBugSeverity: 'Severidade',
+    betaBugSubmit: 'Enviar relatório de bug',
+    betaBugCritical: 'Crítico',
+    betaBugMajor: 'Maior',
+    betaBugMinor: 'Menor',
+    betaBugCosmetic: 'Cosmético',
+    betaSec1: 'Registro e verificação',
+    betaSec2: 'Configuração de perfil',
+    betaSec3: 'Assistente de bio AI',
+    betaSec4: 'Página de destino',
+    betaSec5: 'Troca de idioma',
+    betaSec6: 'Compartilhamento e leads',
+    betaSec7: 'E-mails automatizados',
+    betaSec8: 'Recursos do painel',
   },
   th: {
     leadsTab: 'ลีด',
@@ -1217,6 +1465,37 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'กำลังส่ง...',
     bugSuccess: 'ขอบคุณ! รายงานของคุณถูกส่งแล้ว',
     bugFillRequired: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมดและแนบภาพหน้าจอ',
+    betaTestTab: 'เบต้าเทสต์',
+    betaTitle: 'SYSTM8 เบต้าเทสต์',
+    betaSubtitle: 'คุณเป็นหนึ่งใน 18 เบต้าเทสเตอร์ที่ได้รับเลือก ความคิดเห็นของคุณกำหนดอนาคตของ SYSTM8',
+    betaProgress: 'การทดสอบเสร็จสิ้น',
+    betaPassed: 'ผ่าน',
+    betaFailed: 'ไม่ผ่าน',
+    betaRemaining: 'เหลือ',
+    betaAddNote: 'เพิ่มบันทึก...',
+    betaScreenshot: 'ภาพหน้าจอ',
+    betaUntested: 'ยังไม่ทดสอบ',
+    betaPass: 'ผ่าน',
+    betaFail: 'ไม่ผ่าน',
+    betaSubmitAll: 'ส่งผลลัพธ์ทั้งหมด',
+    betaThankYou: 'การทดสอบเสร็จสิ้น ขอบคุณสำหรับการมีส่วนร่วมใน SYSTM8!',
+    betaFoundingMember: 'เบต้าเทสเตอร์ — สมาชิกผู้ก่อตั้ง',
+    betaBugTitle: 'ชื่อบัก',
+    betaBugDesc: 'เกิดอะไรขึ้น?',
+    betaBugSeverity: 'ความรุนแรง',
+    betaBugSubmit: 'ส่งรายงานบัก',
+    betaBugCritical: 'วิกฤต',
+    betaBugMajor: 'สำคัญ',
+    betaBugMinor: 'เล็กน้อย',
+    betaBugCosmetic: 'เครื่องสำอาง',
+    betaSec1: 'การลงทะเบียนและการยืนยัน',
+    betaSec2: 'การตั้งค่าโปรไฟล์',
+    betaSec3: 'ผู้ช่วย AI Bio',
+    betaSec4: 'แลนดิ้งเพจ',
+    betaSec5: 'การเปลี่ยนภาษา',
+    betaSec6: 'การแชร์และ Lead',
+    betaSec7: 'อีเมลอัตโนมัติ',
+    betaSec8: 'ฟีเจอร์แดชบอร์ด',
   },
 }
 
@@ -2132,7 +2411,14 @@ export default function Home() {
   const [leads, setLeads] = useState<any[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources'>('metrics')
+  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources' | 'beta'>('metrics')
+  const [isBetaTester, setIsBetaTester] = useState(false)
+  const [betaResults, setBetaResults] = useState<Record<string, { status: string; comment: string; id?: string }>>({})
+  const [betaOpenSections, setBetaOpenSections] = useState<Set<string>>(new Set())
+  const [betaFailItem, setBetaFailItem] = useState<string | null>(null)
+  const [betaBugForm, setBetaBugForm] = useState({ title: '', description: '', severity: 'major' })
+  const [betaSubmitted, setBetaSubmitted] = useState(false)
+  const [betaUploading, setBetaUploading] = useState<string | null>(null)
   const [metricPeriod, setMetricPeriod] = useState<'day' | 'week' | 'month' | 'all'>('week')
   const [pageViews, setPageViews] = useState(0)
   const [metricsLoading, setMetricsLoading] = useState(false)
@@ -2250,6 +2536,17 @@ export default function Home() {
         dist = newDist
       }
       setDistributor(dist)
+      // Load beta tester flag and existing test results
+      if (dist.is_beta_tester) {
+        setIsBetaTester(true)
+        supabase.from('test_results').select('id, test_item, status, comment').eq('tester_id', userId).then(({ data }) => {
+          if (data) {
+            const results: Record<string, { status: string; comment: string; id?: string }> = {}
+            for (const r of data) results[r.test_item] = { status: r.status, comment: r.comment || '', id: r.id }
+            setBetaResults(results)
+          }
+        })
+      }
       // Update last_login timestamp
       supabase.from('distributors').update({ last_login: new Date().toISOString() }).eq('id', dist.id).then(() => {})
       // Restore language: Supabase > localStorage > 'en'
@@ -2836,6 +3133,19 @@ export default function Home() {
           >
             {t.ibResourcesTab}
           </button>
+          {isBetaTester && (
+          <button
+            role="tab"
+            aria-selected={activeTab === 'beta'}
+            aria-controls="tab-panel-beta"
+            id="tab-beta"
+            onClick={() => setActiveTab('beta')}
+            className={`tab-btn${activeTab === 'beta' ? ' tab-btn-active' : ''}`}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 4, verticalAlign: '-2px' }}><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
+            {t.betaTestTab}
+          </button>
+          )}
         </div>
 
         {/* LEADS TAB */}
@@ -3294,6 +3604,317 @@ export default function Home() {
             t={t}
           />
         )}
+
+        {/* BETA TEST TAB */}
+        {activeTab === 'beta' && isBetaTester && (() => {
+          const betaSections = [
+            { key: 'sec1', label: t.betaSec1, items: [
+              'Homepage loads without errors',
+              'Click Sign Up — registration form appears',
+              'Password hint shows (min 6 characters)',
+              'Submit with valid email — confirmation message appears',
+              'Verification email arrives (from noreply@primeverseaccess.com)',
+              'Email has 1Move branding (dark theme, gold accents, logo)',
+              'Click verification link — redirects to dashboard',
+            ]},
+            { key: 'sec2', label: t.betaSec2, items: [
+              'Dashboard loads with all tabs visible',
+              'Upload profile photo — preview works correctly',
+              'Enter full name, region, niche',
+              'Add referral link (must start with https://puvip.co/la-partners/)',
+              'Invalid referral link shows error message',
+              'Add at least 2 social media links (incl. Telegram and WhatsApp)',
+              'Telegram: full URL accepted (https://t.me/username)',
+              'WhatsApp: phone number with country code accepted',
+              'Select a language using globe icon',
+              'Language persists after page refresh',
+            ]},
+            { key: 'sec3', label: t.betaSec3, items: [
+              'Bio assistant stepper opens correctly',
+              'Answer all 5 questions + choose tone',
+              'Generated bio is in FIRST PERSON (I, my, me)',
+              'Bio uses your REAL NAME (not invented)',
+              'Preview displays correctly',
+              'Bio saves to profile',
+            ]},
+            { key: 'sec4', label: t.betaSec4, items: [
+              'Choose a unique slug — page generates',
+              'Duplicate slug shows inline error',
+              'Landing page loads at primeverseaccess.com/[slug]',
+              'Hero text shows your name correctly',
+              'Profile photo displays',
+              'Bio text appears',
+              'Social media icons show (only filled ones)',
+              'Telegram and WhatsApp icons visible',
+              'Risk disclaimer says "lose all of invested capital"',
+              '"How it works" — all 5 steps visible',
+            ]},
+            { key: 'sec5', label: t.betaSec5, items: [
+              'Globe icon visible in header',
+              'Language modal opens (centered, dark/gold)',
+              'Switch language — content translates',
+              'Bio translates dynamically',
+              'Modal closes on backdrop click',
+            ]},
+            { key: 'sec6', label: t.betaSec6, items: [
+              '"Share My Page" button visible on dashboard',
+              'Share opens modal (WhatsApp, Telegram, Messenger, Email, FB, X, Copy Link)',
+              'Copy link works — paste shows correct URL',
+              'Open landing page in different browser',
+              'Lead signup form works',
+              'Lead appears in Leads tab',
+            ]},
+            { key: 'sec7', label: t.betaSec7, items: [
+              'Email 1: Verification — branded, not Supabase default',
+              'Email 2: Welcome — received after verification',
+              'Email 4: Page Live! — after generating page',
+              'Email 6: New Lead Alert — after test lead signs up',
+              'All emails: 1Move branding, correct language',
+              'No emails say "reply to this email"',
+              'Emails 3 & 5: note for 24h delayed verification',
+            ]},
+            { key: 'sec8', label: t.betaSec8, items: [
+              'Metrics tab — Rolex gauges display correctly',
+              'My Profile — all fields editable',
+              '"Update my details" saves without new page generation',
+              'Leads tab — shows registered leads',
+              'IB Resources — 4 cards visible with working links',
+            ]},
+          ]
+          const allItems = betaSections.flatMap(s => s.items)
+          const totalTests = allItems.length
+          const completed = allItems.filter(i => betaResults[i]?.status === 'pass' || betaResults[i]?.status === 'fail').length
+          const passed = allItems.filter(i => betaResults[i]?.status === 'pass').length
+          const failed = allItems.filter(i => betaResults[i]?.status === 'fail').length
+          const remaining = totalTests - completed
+
+          const cycleStatus = (item: string) => {
+            const current = betaResults[item]?.status || ''
+            const next = current === '' ? 'pass' : current === 'pass' ? 'fail' : ''
+            const existing = betaResults[item]
+            if (next === '') {
+              // Delete from DB
+              if (existing?.id) supabase.from('test_results').delete().eq('id', existing.id).then(() => {})
+              setBetaResults(prev => { const n = { ...prev }; delete n[item]; return n })
+              setBetaFailItem(null)
+              return
+            }
+            const section = betaSections.find(s => s.items.includes(item))?.label || ''
+            const row = { tester_id: distributor?.user_id, tester_email: distributor?.email, tester_name: distributor?.name, section, test_item: item, status: next, comment: existing?.comment || '', platform: 'systm8' as const }
+            if (existing?.id) {
+              supabase.from('test_results').update({ status: next, updated_at: new Date().toISOString() }).eq('id', existing.id).then(() => {})
+              setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: next } }))
+            } else {
+              supabase.from('test_results').insert(row).select('id').single().then(({ data }) => {
+                setBetaResults(prev => ({ ...prev, [item]: { status: next, comment: '', id: data?.id } }))
+              })
+            }
+            if (next === 'fail') { setBetaFailItem(item); setBetaBugForm({ title: item, description: '', severity: 'major' }) }
+            else setBetaFailItem(null)
+          }
+
+          const saveComment = (item: string, comment: string) => {
+            const existing = betaResults[item]
+            setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: prev[item]?.status || '', comment } }))
+            if (existing?.id) supabase.from('test_results').update({ comment, updated_at: new Date().toISOString() }).eq('id', existing.id).then(() => {})
+          }
+
+          const uploadScreenshot = async (item: string, file: File) => {
+            setBetaUploading(item)
+            const ext = file.name.split('.').pop() || 'png'
+            const path = `${distributor?.id}/${Date.now()}.${ext}`
+            const { error } = await supabase.storage.from('beta-screenshots').upload(path, file)
+            setBetaUploading(null)
+            if (error) { showToast(t.errorPrefix + error.message); return }
+            const { data: urlData } = supabase.storage.from('beta-screenshots').getPublicUrl(path)
+            const url = urlData?.publicUrl || ''
+            const existing = betaResults[item]
+            if (existing?.id) {
+              await supabase.from('test_results').update({ screenshot_url: url, updated_at: new Date().toISOString() }).eq('id', existing.id)
+            }
+            showToast('Screenshot uploaded')
+          }
+
+          const submitBugReport = async () => {
+            if (!betaBugForm.title || !betaBugForm.description) return
+            await supabase.from('bug_reports').insert({
+              reporter_id: distributor?.user_id,
+              reporter_email: distributor?.email,
+              reporter_name: distributor?.name,
+              platform: 'systm8',
+              severity: betaBugForm.severity,
+              title: betaBugForm.title,
+              description: betaBugForm.description,
+              language: lang,
+              device_info: navigator.userAgent,
+            })
+            showToast('Bug report submitted')
+            setBetaFailItem(null)
+            setBetaBugForm({ title: '', description: '', severity: 'major' })
+          }
+
+          const toggleSection = (key: string) => {
+            setBetaOpenSections(prev => {
+              const n = new Set(prev)
+              if (n.has(key)) n.delete(key); else n.add(key)
+              return n
+            })
+          }
+
+          const progressPct = totalTests > 0 ? Math.round((completed / totalTests) * 100) : 0
+
+          return (
+          <div role="tabpanel" id="tab-panel-beta" aria-labelledby="tab-beta">
+            {/* Header */}
+            <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+              <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 0.5rem' }}>{t.betaTitle}</h2>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: '0 0 1.25rem' }}>{t.betaSubtitle}</p>
+
+              {/* Progress bar */}
+              <div style={{ background: '#1a1a2e', borderRadius: 8, padding: '12px 16px', marginBottom: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.82rem' }}>
+                  <span style={{ color: '#E0E0E0' }}>{completed}/{totalTests} {t.betaProgress}</span>
+                  <span style={{ color: 'var(--gold)', fontWeight: 700 }}>{progressPct}%</span>
+                </div>
+                <div style={{ height: 8, background: '#2a2a4a', borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${progressPct}%`, background: 'linear-gradient(90deg, #D4A843, #e6c468)', borderRadius: 4, transition: 'width 0.3s' }} />
+                </div>
+              </div>
+
+              {/* Stats row */}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', fontSize: '0.82rem' }}>
+                <span><span style={{ color: '#4ade80', fontWeight: 700 }}>{passed}</span> <span style={{ color: '#888' }}>{t.betaPassed}</span></span>
+                <span><span style={{ color: '#f87171', fontWeight: 700 }}>{failed}</span> <span style={{ color: '#888' }}>{t.betaFailed}</span></span>
+                <span><span style={{ color: '#888', fontWeight: 700 }}>{remaining}</span> <span style={{ color: '#888' }}>{t.betaRemaining}</span></span>
+              </div>
+            </div>
+
+            {/* Test sections */}
+            {betaSections.map(section => {
+              const sectionCompleted = section.items.filter(i => betaResults[i]?.status === 'pass' || betaResults[i]?.status === 'fail').length
+              const isOpen = betaOpenSections.has(section.key)
+              return (
+                <div key={section.key} style={{ marginBottom: '0.75rem', background: '#16213E', borderRadius: 8, border: '1px solid #2a2a4a', overflow: 'hidden' }}>
+                  {/* Section header */}
+                  <button
+                    onClick={() => toggleSection(section.key)}
+                    style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: 'none', border: 'none', cursor: 'pointer', color: '#E0E0E0' }}
+                  >
+                    <span style={{ fontWeight: 600, fontSize: '0.92rem' }}>{section.label}</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: '0.75rem', background: sectionCompleted === section.items.length ? '#D4A843' : '#2a2a4a', color: sectionCompleted === section.items.length ? '#1A1A2E' : '#888', padding: '2px 8px', borderRadius: 10, fontWeight: 600 }}>
+                        {sectionCompleted}/{section.items.length}
+                      </span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}><path d="M6 9l6 6 6-6"/></svg>
+                    </span>
+                  </button>
+
+                  {/* Section items */}
+                  {isOpen && (
+                    <div style={{ borderTop: '1px solid #2a2a4a' }}>
+                      {section.items.map(item => {
+                        const result = betaResults[item]
+                        const status = result?.status || ''
+                        return (
+                          <div key={item} style={{ borderBottom: '1px solid #1a1a2e' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px' }}>
+                              {/* Status toggle */}
+                              <button
+                                onClick={() => cycleStatus(item)}
+                                style={{ width: 28, height: 28, minWidth: 28, borderRadius: 6, border: `2px solid ${status === 'pass' ? '#4ade80' : status === 'fail' ? '#f87171' : '#555'}`, background: status === 'pass' ? 'rgba(74,222,128,0.15)' : status === 'fail' ? 'rgba(248,113,113,0.15)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0, color: status === 'pass' ? '#4ade80' : status === 'fail' ? '#f87171' : '#555', fontSize: '14px', fontWeight: 700 }}
+                              >
+                                {status === 'pass' ? '✓' : status === 'fail' ? '✕' : ''}
+                              </button>
+                              {/* Item text */}
+                              <span style={{ flex: 1, fontSize: '0.84rem', color: status ? '#E0E0E0' : '#999', lineHeight: 1.4 }}>{item}</span>
+                              {/* Screenshot button */}
+                              <label style={{ cursor: 'pointer', color: '#666', display: 'flex', alignItems: 'center' }} title={t.betaScreenshot}>
+                                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f && result?.id) uploadScreenshot(item, f) }} />
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={betaUploading === item ? 'var(--gold)' : 'currentColor'} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                              </label>
+                            </div>
+                            {/* Comment field */}
+                            {status && (
+                              <div style={{ padding: '0 16px 8px 54px' }}>
+                                <input
+                                  type="text"
+                                  value={result?.comment || ''}
+                                  onChange={e => saveComment(item, e.target.value)}
+                                  placeholder={t.betaAddNote}
+                                  style={{ width: '100%', background: '#0f0f23', border: '1px solid #2a2a4a', borderRadius: 4, padding: '6px 10px', color: '#E0E0E0', fontSize: '0.78rem', outline: 'none' }}
+                                />
+                              </div>
+                            )}
+                            {/* Bug report slide-down for failed items */}
+                            {betaFailItem === item && status === 'fail' && (
+                              <div style={{ padding: '8px 16px 12px 54px', background: 'rgba(248,113,113,0.05)', borderTop: '1px solid rgba(248,113,113,0.2)' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                  <input
+                                    type="text"
+                                    value={betaBugForm.title}
+                                    onChange={e => setBetaBugForm(p => ({ ...p, title: e.target.value }))}
+                                    placeholder={t.betaBugTitle}
+                                    style={{ background: '#0f0f23', border: '1px solid #2a2a4a', borderRadius: 4, padding: '6px 10px', color: '#E0E0E0', fontSize: '0.82rem', outline: 'none' }}
+                                  />
+                                  <textarea
+                                    value={betaBugForm.description}
+                                    onChange={e => setBetaBugForm(p => ({ ...p, description: e.target.value }))}
+                                    placeholder={t.betaBugDesc}
+                                    rows={3}
+                                    style={{ background: '#0f0f23', border: '1px solid #2a2a4a', borderRadius: 4, padding: '6px 10px', color: '#E0E0E0', fontSize: '0.82rem', outline: 'none', resize: 'vertical' }}
+                                  />
+                                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                                    <select
+                                      value={betaBugForm.severity}
+                                      onChange={e => setBetaBugForm(p => ({ ...p, severity: e.target.value }))}
+                                      style={{ background: '#0f0f23', border: '1px solid #2a2a4a', borderRadius: 4, padding: '6px 10px', color: '#E0E0E0', fontSize: '0.82rem', outline: 'none', flex: 1 }}
+                                    >
+                                      <option value="critical">{t.betaBugCritical}</option>
+                                      <option value="major">{t.betaBugMajor}</option>
+                                      <option value="minor">{t.betaBugMinor}</option>
+                                      <option value="cosmetic">{t.betaBugCosmetic}</option>
+                                    </select>
+                                    <button
+                                      onClick={submitBugReport}
+                                      style={{ background: '#f87171', color: '#fff', border: 'none', borderRadius: 4, padding: '6px 14px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                    >
+                                      {t.betaBugSubmit}
+                                    </button>
+                                  </div>
+                                  <button onClick={() => setBetaFailItem(null)} style={{ background: 'none', border: 'none', color: '#888', fontSize: '0.75rem', cursor: 'pointer', padding: 0, textAlign: 'left' }}>✕ close</button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+
+            {/* Submit All / Badge */}
+            <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+              {betaSubmitted ? (
+                <div style={{ background: 'linear-gradient(135deg, #1a1a2e 0%, #16213E 100%)', border: '2px solid #D4A843', borderRadius: 12, padding: '24px 20px', display: 'inline-block' }}>
+                  <div style={{ fontSize: '2rem', marginBottom: 8 }}>🏅</div>
+                  <div style={{ color: '#D4A843', fontWeight: 700, fontSize: '1rem', letterSpacing: '0.5px' }}>{t.betaFoundingMember}</div>
+                  <div style={{ color: '#888', fontSize: '0.82rem', marginTop: 6 }}>{completed} {t.betaThankYou}</div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setBetaSubmitted(true)}
+                  disabled={completed === 0}
+                  style={{ background: completed > 0 ? '#D4A843' : '#333', color: completed > 0 ? '#1A1A2E' : '#666', border: 'none', borderRadius: 6, padding: '14px 32px', fontSize: '1rem', fontWeight: 700, cursor: completed > 0 ? 'pointer' : 'default', letterSpacing: '0.5px' }}
+                >
+                  {t.betaSubmitAll}
+                </button>
+              )}
+            </div>
+          </div>
+          )
+        })()}
 
       </div>
 
