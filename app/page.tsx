@@ -2385,14 +2385,20 @@ export default function Home() {
     const title = `${distributor.name || ''} ${t.shareTitle}`
     const text = t.shareText
 
-    if (typeof navigator !== 'undefined' && navigator.share) {
+    const canShare = typeof navigator !== 'undefined'
+      && typeof navigator.share === 'function'
+      && !window.matchMedia('(display-mode: standalone)').matches
+
+    if (canShare) {
       try {
-        await navigator.share({ title, text, url })
+        const timeout = new Promise<never>((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000))
+        await Promise.race([navigator.share({ title, text, url }), timeout])
         return
       } catch {
-        // share failed or cancelled in webview — fall through to modal
+        // share failed, cancelled, or timed out — fall through to modal
       }
     }
+
     setShareOpen(prev => !prev)
   }
 
