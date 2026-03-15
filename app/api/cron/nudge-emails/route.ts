@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 import { buildNudgeEmail, IncompleteSteps, NudgeVariant } from '@/lib/email-templates/nudge'
 import { buildFirstShareGuideEmail } from '@/lib/email-templates/first-share-guide'
 import { buildUidReminderEmail } from '@/lib/email-templates/uid-reminder'
+import { buildWeeklySummaryEmail, WeeklySummaryStats } from '@/lib/email-templates/weekly-summary'
 
 const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
@@ -12,8 +13,9 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder',
 )
 
-// Combined email automation cron — runs every hour via Vercel cron
-// Handles: profile_nudge (24h), profile_nudge_final (72h), first_share_guide (24h after page live, 0 leads)
+// Combined email automation cron — runs daily at 09:00 UTC via Vercel cron
+// Handles: profile_nudge (24h), profile_nudge_final (72h), first_share_guide (24h after page live, 0 leads),
+// uid_reminder (48h+, max 2), weekly_summary (Mondays only)
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -29,6 +31,7 @@ export async function GET(request: Request) {
   let nudgeSent = 0
   let shareSent = 0
   let uidSent = 0
+  let weeklySent = 0
   const errors: string[] = []
 
   // ─── PART 1: Profile nudge emails ────────────────────────────
@@ -227,10 +230,113 @@ export async function GET(request: Request) {
     }
   }
 
+  // ─── PART 4: Weekly Summary (Mondays only) ────────────────────────
+  const isMonday = now.getUTCDay() === 1
+
+  if (isMonday) {
+    const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+    const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000)
+    const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+
+    // Week range for display: Monday to Sunday (past 7 days)
+    const weekEnd = new Date(now.getTime() - 24 * 60 * 60 * 1000) // yesterday (Sunday)
+    const weekStart = new Date(weekEnd.getTime() - 6 * 24 * 60 * 60 * 1000) // last Monday
+
+    // Find active IBs: have a slug (page live) and were created or had leads in the last 30 days
+    const { data: weeklyCandidates } = await supabaseAdmin
+      .from('distributors')
+      .select('id, name, email, slug, language, created_at')
+      .not('slug', 'is', null)
+      .not('slug', 'eq', '')
+
+    if (weeklyCandidates && weeklyCandidates.length > 0) {
+      const weeklyIds = weeklyCandidates.map((c) => c.id)
+
+      // Get all leads for these distributors (for stats calculation)
+      const { data: allLeads } = await supabaseAdmin
+        .from('leads')
+        .select('distributor_id, created_at, uid, uid_verified')
+        .in('distributor_id', weeklyIds)
+
+      // Build stats per distributor
+      const statsMap = new Map<string, WeeklySummaryStats>()
+      for (const distId of weeklyIds) {
+        statsMap.set(distId, { newLeads: 0, totalLeads: 0, pending: 0, approved: 0, lastWeekLeads: 0 })
+      }
+
+      for (const lead of allLeads || []) {
+        const s = statsMap.get(lead.distributor_id)
+        if (!s) continue
+        s.totalLeads++
+
+        const createdAt = new Date(lead.created_at)
+        if (createdAt >= sevenDaysAgo) s.newLeads++
+        if (createdAt >= fourteenDaysAgo && createdAt < sevenDaysAgo) s.lastWeekLeads++
+
+        if (!lead.uid) {
+          s.pending++
+        } else {
+          s.approved++
+        }
+      }
+
+      // Check which have already received weekly_summary this week (prevent double-send on retries)
+      const { data: weeklySends } = await supabaseAdmin
+        .from('email_sends')
+        .select('user_id')
+        .in('user_id', weeklyIds)
+        .eq('email_type', 'weekly_summary')
+        .gte('sent_at', sevenDaysAgo.toISOString())
+
+      const weeklyAlreadySent = new Set((weeklySends || []).map((s) => s.user_id))
+
+      for (const dist of weeklyCandidates) {
+        if (weeklyAlreadySent.has(dist.id)) continue
+
+        // Activity check: created in last 30 days OR has any leads in last 30 days
+        const createdAt = new Date(dist.created_at)
+        const stats = statsMap.get(dist.id)!
+        const hasRecentLeads = (allLeads || []).some(
+          (l) => l.distributor_id === dist.id && new Date(l.created_at) >= thirtyDaysAgo
+        )
+        if (createdAt < thirtyDaysAgo && !hasRecentLeads) continue
+
+        const name = dist.name || dist.email?.split('@')[0] || 'there'
+        const lang = dist.language || 'en'
+
+        const { html, subject } = buildWeeklySummaryEmail({
+          name,
+          slug: dist.slug,
+          stats,
+          weekStart,
+          weekEnd,
+          lang,
+        })
+
+        const { error: sendError } = await resend.emails.send({
+          from: '1Move Academy <noreply@primeverseaccess.com>',
+          to: [dist.email],
+          subject,
+          html,
+        })
+
+        if (sendError) {
+          errors.push(`weekly_summary ${dist.email}: ${sendError.message}`)
+          continue
+        }
+
+        await supabaseAdmin.from('email_sends').insert({ user_id: dist.id, email_type: 'weekly_summary' })
+        weeklySent++
+      }
+    }
+  }
+
   return NextResponse.json({
     nudge_sent: nudgeSent,
     share_guide_sent: shareSent,
     uid_reminder_sent: uidSent,
+    weekly_summary_sent: weeklySent,
+    is_monday: isMonday,
     errors: errors.length > 0 ? errors : undefined,
   })
 }
