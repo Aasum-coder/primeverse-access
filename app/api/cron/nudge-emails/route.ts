@@ -5,6 +5,7 @@ import { buildNudgeEmail, IncompleteSteps, NudgeVariant } from '@/lib/email-temp
 import { buildFirstShareGuideEmail } from '@/lib/email-templates/first-share-guide'
 import { buildUidReminderEmail } from '@/lib/email-templates/uid-reminder'
 import { buildWeeklySummaryEmail, WeeklySummaryStats } from '@/lib/email-templates/weekly-summary'
+import { buildInactiveNudgeEmail } from '@/lib/email-templates/inactive-nudge'
 
 const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
@@ -32,6 +33,7 @@ export async function GET(request: Request) {
   let shareSent = 0
   let uidSent = 0
   let weeklySent = 0
+  let inactiveNudgeSent = 0
   const errors: string[] = []
 
   // ─── PART 1: Profile nudge emails ────────────────────────────
@@ -331,11 +333,126 @@ export async function GET(request: Request) {
     }
   }
 
+  // ─── PART 5: Inactive Nudge (7 days & 14 days since last login) ────────
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+  const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000)
+  const thirtyDaysAgoInactive = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+  const sixDaysAgo = new Date(now.getTime() - 6 * 24 * 60 * 60 * 1000)
+
+  // Find IBs with page live (slug set), last_login between 7-30 days ago
+  // Use COALESCE(last_login, created_at) for users without last_login
+  const { data: inactiveCandidates } = await supabaseAdmin
+    .from('distributors')
+    .select('id, name, email, slug, language, last_login, created_at')
+    .not('slug', 'is', null)
+    .not('slug', 'eq', '')
+
+  if (inactiveCandidates && inactiveCandidates.length > 0) {
+    // Filter to those inactive 7-30 days
+    const eligibleInactive = inactiveCandidates.filter((dist) => {
+      const lastActivity = new Date(dist.last_login || dist.created_at)
+      return lastActivity <= sevenDaysAgo && lastActivity >= thirtyDaysAgoInactive
+    })
+
+    if (eligibleInactive.length > 0) {
+      const inactiveIds = eligibleInactive.map((c) => c.id)
+
+      // Fetch existing inactive_nudge sends
+      const { data: inactiveSends } = await supabaseAdmin
+        .from('email_sends')
+        .select('user_id, email_type, sent_at')
+        .in('user_id', inactiveIds)
+        .in('email_type', ['inactive_nudge', 'inactive_nudge_final'])
+
+      const inactiveSendMap = new Map<string, { types: Set<string>; lastSentAt: Date | null }>()
+      for (const send of inactiveSends || []) {
+        if (!inactiveSendMap.has(send.user_id)) {
+          inactiveSendMap.set(send.user_id, { types: new Set(), lastSentAt: null })
+        }
+        const entry = inactiveSendMap.get(send.user_id)!
+        entry.types.add(send.email_type)
+        const sentAt = new Date(send.sent_at)
+        if (!entry.lastSentAt || sentAt > entry.lastSentAt) entry.lastSentAt = sentAt
+      }
+
+      // Fetch leads created after last_login for each distributor (for "new leads while away")
+      const { data: recentLeads } = await supabaseAdmin
+        .from('leads')
+        .select('distributor_id, created_at')
+        .in('distributor_id', inactiveIds)
+
+      const newLeadsSinceMap = new Map<string, number>()
+      for (const dist of eligibleInactive) {
+        const lastActivity = new Date(dist.last_login || dist.created_at)
+        const count = (recentLeads || []).filter(
+          (l) => l.distributor_id === dist.id && new Date(l.created_at) > lastActivity,
+        ).length
+        newLeadsSinceMap.set(dist.id, count)
+      }
+
+      for (const dist of eligibleInactive) {
+        const sendInfo = inactiveSendMap.get(dist.id) || { types: new Set(), lastSentAt: null }
+
+        // Already sent both → STOP
+        if (sendInfo.types.has('inactive_nudge') && sendInfo.types.has('inactive_nudge_final')) continue
+
+        const lastActivity = new Date(dist.last_login || dist.created_at)
+        const daysSinceLogin = Math.floor((now.getTime() - lastActivity.getTime()) / (24 * 60 * 60 * 1000))
+
+        let variant: 'day7' | 'day14'
+        let emailType: string
+
+        if (!sendInfo.types.has('inactive_nudge')) {
+          // Day 7 nudge: not sent yet, and last send (if any) was >6 days ago
+          if (sendInfo.lastSentAt && sendInfo.lastSentAt > sixDaysAgo) continue
+          variant = 'day7'
+          emailType = 'inactive_nudge'
+        } else if (!sendInfo.types.has('inactive_nudge_final')) {
+          // Day 14 nudge: first nudge was sent, and still inactive 14+ days
+          if (daysSinceLogin < 14) continue
+          variant = 'day14'
+          emailType = 'inactive_nudge_final'
+        } else {
+          continue
+        }
+
+        const name = dist.name || dist.email?.split('@')[0] || 'there'
+        const lang = dist.language || 'en'
+        const newLeadsSince = newLeadsSinceMap.get(dist.id) || 0
+
+        const { html, subject } = buildInactiveNudgeEmail({
+          name,
+          slug: dist.slug,
+          days: daysSinceLogin,
+          variant,
+          newLeadsSince,
+          lang,
+        })
+
+        const { error: sendError } = await resend.emails.send({
+          from: '1Move Academy <noreply@primeverseaccess.com>',
+          to: [dist.email],
+          subject,
+          html,
+        })
+
+        if (sendError) {
+          errors.push(`inactive_nudge ${dist.email}: ${sendError.message}`)
+          continue
+        }
+
+        await supabaseAdmin.from('email_sends').insert({ user_id: dist.id, email_type: emailType })
+        inactiveNudgeSent++
+      }
+    }
+  }
+
   return NextResponse.json({
     nudge_sent: nudgeSent,
     share_guide_sent: shareSent,
     uid_reminder_sent: uidSent,
     weekly_summary_sent: weeklySent,
+    inactive_nudge_sent: inactiveNudgeSent,
     is_monday: isMonday,
     errors: errors.length > 0 ? errors : undefined,
   })

@@ -2246,6 +2246,8 @@ export default function Home() {
         dist = newDist
       }
       setDistributor(dist)
+      // Update last_login timestamp
+      supabase.from('distributors').update({ last_login: new Date().toISOString() }).eq('id', dist.id).then(() => {})
       // Restore language: Supabase > localStorage > 'en'
       const savedLang = dist.language || (() => { try { return localStorage.getItem('systm8_language') } catch { return null } })() || 'en'
       if (translations[savedLang]) { setLangState(savedLang); try { localStorage.setItem('systm8_language', savedLang) } catch {} }
