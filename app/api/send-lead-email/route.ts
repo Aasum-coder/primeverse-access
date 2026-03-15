@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 export async function POST(request: Request) {
 const { type, leadName, leadEmail, distributorName, distributorEmail } = await request.json()
 if (type === 'new_registration') {
