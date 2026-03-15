@@ -585,6 +585,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
     if (error) { setSubmitError(t.somethingWentWrong); setSubmitting(false); return }
     await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorName: distributor.name, distributorEmail: distributor.email }) })
     fetch('/api/new-lead-alert', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
+    fetch('/api/milestone-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     setSubmitting(false)
     setSubmitted(true)
   }
