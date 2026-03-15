@@ -172,11 +172,6 @@ jobs:
           
           console.log('🏁 Nightly triage complete!');
           SCRIPT
-        shell: bash
-        env:
-          BUGS_JSON: ${{ env.BUGS }}
-          FAILS_JSON: ${{ env.FAILS }}
-
       - name: Update bug statuses
         if: success()
         env:
