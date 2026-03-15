@@ -2388,12 +2388,12 @@ export default function Home() {
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {
         await navigator.share({ title, text, url })
+        return
       } catch {
-        // user cancelled share - ignore
+        // share failed or cancelled in webview — fall through to modal
       }
-    } else {
-      setShareOpen(prev => !prev)
     }
+    setShareOpen(prev => !prev)
   }
 
   const copyShareLink = async () => {
