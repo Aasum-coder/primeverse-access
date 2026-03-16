@@ -2,7 +2,10 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { createClient } from '@supabase/supabase-js'
+
+const WorkflowCanvas = dynamic(() => import('@/components/WorkflowCanvas'), { ssr: false })
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
@@ -4200,27 +4203,8 @@ export default function Home() {
   }
 
   const wfOpenBuilder = (wf?: any) => {
-    if (wf) {
-      setWfEditing(wf)
-      setWfName(wf.name)
-      setWfDescription(wf.description || '')
-      setWfTriggerType(wf.trigger_type)
-      setWfTriggerConfig(wf.trigger_config || {})
-      // Load steps
-      supabase
-        .from('workflow_steps')
-        .select('*')
-        .eq('workflow_id', wf.id)
-        .order('step_order', { ascending: true })
-        .then(({ data }) => setWfSteps(data || []))
-    } else {
-      setWfEditing(null)
-      setWfName('')
-      setWfDescription('')
-      setWfTriggerType('lead_signup')
-      setWfTriggerConfig({})
-      setWfSteps([])
-    }
+    setWfEditing(wf || null)
+    fetchWfTemplates()
     setWfView('builder')
   }
 
@@ -6185,225 +6169,27 @@ export default function Home() {
               </div>
             )}
 
-            {/* WORKFLOW BUILDER */}
+            {/* WORKFLOW CANVAS BUILDER */}
             {bcSubTab === 'workflows' && wfView === 'builder' && (
-              <div>
-                <button style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.85rem', marginBottom: '1rem', padding: 0 }} onClick={() => setWfView('list')}>
-                  &larr; {t.wfBackToWorkflows}
-                </button>
-
-                <div className="bc-composer-section">
-                  <div className="bc-composer-label">{t.wfWorkflowName}</div>
-                  <input className="field-input" placeholder={t.wfWorkflowNamePh} value={wfName} onChange={e => setWfName(e.target.value)} />
-                </div>
-
-                <div className="bc-composer-section">
-                  <div className="bc-composer-label">{t.wfDescription}</div>
-                  <input className="field-input" placeholder={t.wfDescriptionPh} value={wfDescription} onChange={e => setWfDescription(e.target.value)} />
-                </div>
-
-                <div className="bc-composer-section">
-                  <div className="bc-composer-label">{t.wfTrigger}</div>
-                  <div className="bc-audience-row">
-                    {([
-                      { key: 'lead_signup', label: t.wfTriggerLeadSignup },
-                      { key: 'lead_inactive', label: t.wfTriggerLeadInactive },
-                      { key: 'stage_change', label: t.wfTriggerStageChange },
-                      { key: 'manual', label: t.wfTriggerManual },
-                    ] as { key: string; label: string }[]).map(opt => (
-                      <div key={opt.key} className={`bc-audience-opt${wfTriggerType === opt.key ? ' bc-audience-active' : ''}`} onClick={() => setWfTriggerType(opt.key)}>
-                        <div style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid', borderColor: wfTriggerType === opt.key ? 'var(--gold)' : 'var(--input-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          {wfTriggerType === opt.key && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gold)' }} />}
-                        </div>
-                        {opt.label}
-                      </div>
-                    ))}
-                  </div>
-                  {wfTriggerType === 'lead_inactive' && (
-                    <div style={{ marginTop: '0.75rem' }}>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>{t.wfInactiveDays}: </span>
-                      <input type="number" className="field-input" style={{ width: 80, display: 'inline-block' }} min={1} value={wfTriggerConfig.days || 14} onChange={e => setWfTriggerConfig({ ...wfTriggerConfig, days: parseInt(e.target.value) || 14 })} />
-                    </div>
-                  )}
-                  {wfTriggerType === 'stage_change' && (
-                    <div style={{ marginTop: '0.75rem' }}>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>{t.wfSelectStage}: </span>
-                      <select className="field-input" style={{ width: 'auto', display: 'inline-block' }} value={wfTriggerConfig.stage || ''} onChange={e => setWfTriggerConfig({ ...wfTriggerConfig, stage: e.target.value })}>
-                        <option value="">--</option>
-                        <option value="Signed Up">Signed Up</option>
-                        <option value="Active">Active</option>
-                        <option value="VIP">VIP</option>
-                      </select>
-                    </div>
-                  )}
-                </div>
-
-                <div className="bc-composer-section">
-                  <div className="bc-composer-label">{t.wfSteps} ({wfSteps.length})</div>
-
-                  {wfSteps.map((step, idx) => (
-                    <div key={idx} style={{ border: '1px solid var(--input-border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.75rem', background: 'var(--card-bg)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <span style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '0.85rem' }}>#{idx + 1}</span>
-                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                            {({ email: t.wfStepEmail, wait: t.wfStepWait, condition: t.wfStepCondition, switch_workflow: t.wfStepSwitch, whatsapp: t.wfStepWhatsApp, telegram: t.wfStepTelegram } as Record<string, string>)[step.step_type] || step.step_type}
-                          </span>
-                        </div>
-                        <div style={{ display: 'flex', gap: '0.25rem' }}>
-                          {idx > 0 && <button style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', padding: '2px 6px', fontSize: '0.9rem' }} onClick={() => wfMoveStep(idx, -1)} title="Move up">&uarr;</button>}
-                          {idx < wfSteps.length - 1 && <button style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', padding: '2px 6px', fontSize: '0.9rem' }} onClick={() => wfMoveStep(idx, 1)} title="Move down">&darr;</button>}
-                          <button style={{ background: 'none', border: 'none', color: '#ff6b6b', cursor: 'pointer', padding: '2px 6px', fontSize: '0.75rem' }} onClick={() => wfDeleteStep(idx)}>{t.wfDeleteStep}</button>
-                        </div>
-                      </div>
-
-                      {step.step_type === 'email' && (
-                        <div>
-                          <input className="field-input" placeholder={t.wfSubject} value={step.config.subject || ''} onChange={e => wfUpdateStep(idx, { subject: e.target.value })} style={{ marginBottom: '0.5rem' }} />
-                          <div style={{ display: 'flex', gap: '0.25rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
-                            {['{first_name}', '{landing_page_url}', '{referral_link}'].map(tag => (
-                              <button key={tag} className="bc-merge-chip" onClick={() => wfUpdateStep(idx, { body: (step.config.body || '') + tag })}>{tag}</button>
-                            ))}
-                          </div>
-                          <textarea className="field-textarea" rows={5} placeholder={t.wfBody} value={step.config.body || ''} onChange={e => wfUpdateStep(idx, { body: e.target.value })} />
-                          <button style={{ background: 'none', border: '1px solid var(--input-border)', borderRadius: 6, padding: '0.3rem 0.75rem', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.8rem', marginTop: '0.5rem', fontFamily: "'Outfit', sans-serif" }} onClick={() => setWfPreviewStep(wfPreviewStep === idx ? null : idx)}>
-                            {t.wfPreview}
-                          </button>
-                          {wfPreviewStep === idx && (
-                            <div className="bc-preview-box" style={{ marginTop: '0.5rem' }}>
-                              {(step.config.body || '').replace(/\{first_name\}/g, 'John').replace(/\{landing_page_url\}/g, `https://primeverseaccess.com/${profileSlug || 'yourpage'}`).replace(/\{referral_link\}/g, profileReferralLink || 'https://puvip.co/la-partners/...')}
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {step.step_type === 'wait' && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{t.wfWaitValue}</span>
-                          <input type="number" className="field-input" style={{ width: 70 }} min={1} value={step.config.value || 1} onChange={e => wfUpdateStep(idx, { value: parseInt(e.target.value) || 1 })} />
-                          <select className="field-input" style={{ width: 'auto' }} value={step.config.unit || 'days'} onChange={e => wfUpdateStep(idx, { unit: e.target.value })}>
-                            <option value="hours">{t.wfHours}</option>
-                            <option value="days">{t.wfDays}</option>
-                          </select>
-                        </div>
-                      )}
-
-                      {step.step_type === 'condition' && (
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.4rem' }}>
-                            <span>{t.wfConditionIf}</span>
-                            <select className="field-input" style={{ width: 'auto', fontSize: '0.8rem' }} value={step.config.condition_type || 'opened'} onChange={e => wfUpdateStep(idx, { condition_type: e.target.value })}>
-                              <option value="opened">{t.wfConditionOpened}</option>
-                              <option value="clicked">{t.wfConditionClicked}</option>
-                              <option value="not_opened">{t.wfConditionNotOpened}</option>
-                            </select>
-                            <span>{t.wfConditionEmail}</span>
-                            <input type="number" className="field-input" style={{ width: 50, fontSize: '0.8rem' }} min={1} value={step.config.target_step_order || 1} onChange={e => wfUpdateStep(idx, { target_step_order: parseInt(e.target.value) || 1 })} />
-                          </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.25rem' }}>
-                            <span>{t.wfConditionThen}</span>
-                            <input type="number" className="field-input" style={{ width: 50, fontSize: '0.8rem' }} min={1} value={step.config.then_step_order || idx + 2} onChange={e => wfUpdateStep(idx, { then_step_order: parseInt(e.target.value) || 1 })} />
-                          </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-                            <span>{t.wfConditionElse}</span>
-                            <input type="number" className="field-input" style={{ width: 50, fontSize: '0.8rem' }} min={1} value={step.config.else_step_order || idx + 2} onChange={e => wfUpdateStep(idx, { else_step_order: parseInt(e.target.value) || 1 })} />
-                          </div>
-                        </div>
-                      )}
-
-                      {step.step_type === 'switch_workflow' && (
-                        <div>
-                          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{t.wfSwitchTo}: </span>
-                          <select className="field-input" style={{ width: 'auto', display: 'inline-block' }} value={step.config.target_workflow_id || ''} onChange={e => wfUpdateStep(idx, { target_workflow_id: e.target.value })}>
-                            <option value="">--</option>
-                            {workflows.filter(w => w.id !== wfEditing?.id).map(w => (
-                              <option key={w.id} value={w.id}>{w.name}</option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-
-                      {(step.step_type === 'whatsapp' || step.step_type === 'telegram') && (
-                        <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontStyle: 'italic' }}>
-                          {step.step_type === 'whatsapp' ? t.wfStepWhatsApp : t.wfStepTelegram} — {t.comingSoon}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                  {/* Add step button */}
-                  <div style={{ position: 'relative' }}>
-                    <button className="gold-btn" style={{ background: 'transparent', border: '1px dashed var(--gold)', color: 'var(--gold)', width: '100%', padding: '0.6rem' }} onClick={() => setWfAddStepOpen(!wfAddStepOpen)}>
-                      + {t.wfAddStep}
-                    </button>
-                    {wfAddStepOpen && (
-                      <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--card-bg)', border: '1px solid var(--input-border)', borderRadius: 8, marginTop: 4, zIndex: 10, overflow: 'hidden' }}>
-                        {[
-                          { key: 'email', label: t.wfStepEmail, icon: 'M22 4l-10 8L2 4' },
-                          { key: 'wait', label: t.wfStepWait, icon: 'M12 2v10l4.5 4.5' },
-                          { key: 'condition', label: t.wfStepCondition, icon: 'M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5' },
-                          { key: 'switch_workflow', label: t.wfStepSwitch, icon: 'M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3' },
-                          { key: 'whatsapp', label: t.wfStepWhatsApp, icon: 'M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z' },
-                          { key: 'telegram', label: t.wfStepTelegram, icon: 'M21.2 4.4L2.4 10.6c-.6.2-.6 1.1 0 1.3l4.3 1.4 1.6 5.1c.2.5.8.7 1.2.4l2.3-1.9 4.5 3.3c.5.3 1.1 0 1.2-.5L21.2 4.4z' },
-                        ].map(opt => (
-                          <button key={opt.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%', padding: '0.6rem 0.75rem', background: 'none', border: 'none', borderBottom: '1px solid var(--input-border)', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '0.85rem', fontFamily: "'Outfit', sans-serif" }} onClick={() => wfAddStep(opt.key)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><path d={opt.icon}/></svg>
-                            {opt.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
-                  <button className="gold-btn" style={{ flex: 1, background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} disabled={wfSaving || !wfName.trim()} onClick={() => wfSave(false)}>
-                    {wfSaving ? '...' : t.wfSaveDraft}
-                  </button>
-                  <button className="gold-btn" style={{ flex: 1 }} disabled={wfSaving || !wfName.trim() || wfSteps.length === 0} onClick={() => wfSave(true)}>
-                    {wfSaving ? '...' : t.wfActivate}
-                  </button>
-                </div>
+              <div style={{ margin: '-1rem', minHeight: '80vh' }}>
+                <WorkflowCanvas
+                  distributor={distributor}
+                  supabase={supabase}
+                  workflow={wfEditing}
+                  templates={wfTemplates}
+                  workflows={workflows}
+                  t={t}
+                  lang={lang}
+                  onBack={() => setWfView('list')}
+                  onSaved={() => { fetchWorkflows(); setWfView('list') }}
+                  showToast={showToast}
+                />
               </div>
             )}
           </div>
         )}
 
-        {/* WORKFLOW TEMPLATE LIBRARY MODAL */}
-        {wfTemplatesOpen && (
-          <div className="bc-confirm-overlay" onClick={e => { if (e.target === e.currentTarget) setWfTemplatesOpen(false) }}>
-            <div className="bc-confirm-box" style={{ textAlign: 'left', maxWidth: 520, maxHeight: '80vh', overflowY: 'auto' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h3 style={{ color: 'var(--gold)', margin: 0 }}>{t.wfTemplateLibrary}</h3>
-                <button style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontSize: '1.2rem' }} onClick={() => setWfTemplatesOpen(false)}>&times;</button>
-              </div>
-              {wfTemplates.length === 0 && (
-                <p style={{ color: 'var(--text-dim)', fontSize: '0.85rem' }}>No templates available. Run the seed-templates API first.</p>
-              )}
-              {wfTemplates.map(tmpl => (
-                <div key={tmpl.id} style={{ border: '1px solid var(--input-border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.75rem', background: 'var(--card-bg)' }}>
-                  <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>{tmpl.name}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginBottom: '0.25rem' }}>
-                    {({ lead_signup: t.wfTriggerLeadSignup, lead_inactive: t.wfTriggerLeadInactive, stage_change: t.wfTriggerStageChange, manual: t.wfTriggerManual, scheduled: t.wfTriggerScheduled } as Record<string, string>)[tmpl.trigger_type] || tmpl.trigger_type}
-                    {' '}&bull;{' '}{(tmpl.workflow_steps || []).length} {t.wfSteps.toLowerCase()}
-                  </div>
-                  {tmpl.description && <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>{tmpl.description}</div>}
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>
-                    {(tmpl.workflow_steps || []).sort((a: any, b: any) => a.step_order - b.step_order).map((s: any, i: number) => (
-                      <span key={i}>
-                        {i > 0 && ' → '}
-                        {s.step_type === 'email' ? `${t.wfStepEmail}: "${(s.config?.subject || '').slice(0, 30)}${(s.config?.subject || '').length > 30 ? '...' : ''}"` : s.step_type === 'wait' ? `${t.wfStepWait} ${s.config?.value}${s.config?.unit === 'days' ? 'd' : 'h'}` : s.step_type === 'condition' ? t.wfStepCondition : s.step_type === 'switch_workflow' ? t.wfStepSwitch : s.step_type}
-                      </span>
-                    ))}
-                  </div>
-                  <button className="gold-btn" style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem' }} onClick={() => wfUseTemplate(tmpl)}>
-                    {t.wfUseTemplate}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Template modal moved into WorkflowCanvas component */}
 
         {/* BROADCAST CONFIRM MODAL */}
         {bcConfirmOpen && (
