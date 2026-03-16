@@ -5251,21 +5251,6 @@ export default function Home() {
               )
             })()}
 
-            <div className="card">
-              <h2 className="card-title">{t.registerLead}</h2>
-              <div style={{ display: 'grid', gap: 10 }}>
-                <label className="sr-only" htmlFor="lead-name">{t.fullName}</label>
-                <input id="lead-name" className="field-input" placeholder={t.fullName} value={leadName} onChange={e => setLeadName(e.target.value)} aria-required="true" />
-                <label className="sr-only" htmlFor="lead-email">{t.emailAddress}</label>
-                <input id="lead-email" className="field-input" placeholder={t.emailAddress} type="email" value={leadEmail} onChange={e => setLeadEmail(e.target.value)} aria-required="true" />
-                <label className="sr-only" htmlFor="lead-uid">{t.uidPlaceholder}</label>
-                <input id="lead-uid" className="field-input" placeholder={t.uidPlaceholder} value={leadUid} onChange={e => setLeadUid(e.target.value)} />
-                <button onClick={addLead} disabled={submitting} className="gold-btn" style={{ marginTop: 4 }} aria-busy={submitting}>
-                  {submitting ? t.sending : t.addLead}
-                </button>
-              </div>
-            </div>
-
             <div style={{ marginBottom: '2rem' }}>
               <h3 className="section-header">
                 <span aria-hidden="true">⏳</span> {t.pendingHeader}
