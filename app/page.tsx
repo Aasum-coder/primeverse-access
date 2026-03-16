@@ -107,8 +107,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Conversion rate',
     pending: 'pending',
     approved: 'approved',
-    ibResourcesTab: 'IB Resources',
+    ibResourcesTab: 'Marketing Resources',
     ibResourcesSubtitle: 'Tools and training to help you succeed',
+    aiMarketingTools: 'AI Marketing Tools',
+    resourcesSection: 'Resources',
     ibTraining: 'IB Training',
     ibTrainingDesc: 'Access training materials and guides to help you get started',
     contentLibrary: 'Content Library',
@@ -118,6 +120,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direct access to VIP support for IB partners',
     pvPresentation: 'PV Presentation',
     pvPresentationDesc: 'View the official PrimeVerse presentation',
+    postWriter: 'Post Writer',
+    postWriterDesc: 'AI-powered social media post generator. Create engaging posts for Facebook, Instagram, TikTok and more.',
+    captionGenerator: 'Caption Generator',
+    captionGeneratorDesc: 'Generate scroll-stopping captions for your images and videos.',
+    hashtagResearch: 'Hashtag Research',
+    hashtagResearchDesc: 'Find the best hashtags for your niche to maximize reach and engagement.',
+    contentCalendar: 'Content Calendar',
+    contentCalendarDesc: 'Get a weekly posting schedule tailored to your audience and timezone.',
+    aiPowered: 'AI Powered',
+    selectPlatform: 'Select platform',
+    topicLabel: 'Topic / product',
+    topicPlaceholder: 'e.g. Trading education, Copy trading, Financial freedom...',
+    toneLabel: 'Tone',
+    toneProfessional: 'Professional',
+    toneCasual: 'Casual',
+    toneMotivational: 'Motivational',
+    toneEducational: 'Educational',
+    generatePost: 'Generate Post',
+    generating: 'Generating...',
+    regenerate: 'Regenerate',
+    copyText: 'Copy',
+    captionTopicPlaceholder: 'Describe your image or video...',
+    captionStyle: 'Style',
+    styleEngaging: 'Engaging',
+    styleInspirational: 'Inspirational',
+    styleEducational: 'Educational',
+    styleHumorous: 'Humorous',
+    generateCaption: 'Generate Caption',
+    emojiSuggestions: 'Emoji suggestions',
+    nicheLabel: 'Niche / topic',
+    nichePlaceholder: 'e.g. Forex trading, Crypto, Financial education...',
+    researchHashtags: 'Research Hashtags',
+    researching: 'Researching...',
+    topHashtags: 'Top (High competition)',
+    mediumHashtags: 'Medium (Balanced)',
+    nicheHashtags: 'Niche (Low competition)',
+    copyAll: 'Copy All',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Other URL',
     telegramUrl: 'https://t.me/yourusername',
@@ -272,8 +311,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Konverteringsrate',
     pending: 'ventende',
     approved: 'godkjent',
-    ibResourcesTab: 'IB-ressurser',
+    ibResourcesTab: 'Markedsføringsressurser',
     ibResourcesSubtitle: 'Verktøy og opplæring for å hjelpe deg å lykkes',
+    aiMarketingTools: 'AI Markedsføringsverktøy',
+    resourcesSection: 'Ressurser',
     ibTraining: 'IB-opplæring',
     ibTrainingDesc: 'Tilgang til opplæringsmateriell og guider for å komme i gang',
     contentLibrary: 'Innholdsbibliotek',
@@ -283,6 +324,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direkte tilgang til VIP-støtte for IB-partnere',
     pvPresentation: 'PV-presentasjon',
     pvPresentationDesc: 'Se den offisielle PrimeVerse-presentasjonen',
+    postWriter: 'Innleggsskriver',
+    postWriterDesc: 'AI-drevet generator for innlegg på sosiale medier. Lag engasjerende innlegg for Facebook, Instagram, TikTok og mer.',
+    captionGenerator: 'Bildetekstgenerator',
+    captionGeneratorDesc: 'Generer fengende bildetekster for bilder og videoer.',
+    hashtagResearch: 'Hashtag-forskning',
+    hashtagResearchDesc: 'Finn de beste hashtaggene for din nisje for å maksimere rekkevidde og engasjement.',
+    contentCalendar: 'Innholdskalender',
+    contentCalendarDesc: 'Få en ukentlig publiseringsplan tilpasset ditt publikum og tidssone.',
+    aiPowered: 'AI-drevet',
+    selectPlatform: 'Velg plattform',
+    topicLabel: 'Emne / produkt',
+    topicPlaceholder: 'f.eks. Handelsopplæring, Copy trading, Finansiell frihet...',
+    toneLabel: 'Tone',
+    toneProfessional: 'Profesjonell',
+    toneCasual: 'Uformell',
+    toneMotivational: 'Motiverende',
+    toneEducational: 'Lærerik',
+    generatePost: 'Generer innlegg',
+    generating: 'Genererer...',
+    regenerate: 'Generer på nytt',
+    copyText: 'Kopier',
+    captionTopicPlaceholder: 'Beskriv bildet eller videoen din...',
+    captionStyle: 'Stil',
+    styleEngaging: 'Engasjerende',
+    styleInspirational: 'Inspirerende',
+    styleEducational: 'Lærerik',
+    styleHumorous: 'Humoristisk',
+    generateCaption: 'Generer bildetekst',
+    emojiSuggestions: 'Emoji-forslag',
+    nicheLabel: 'Nisje / emne',
+    nichePlaceholder: 'f.eks. Forex-handel, Krypto, Finansiell utdanning...',
+    researchHashtags: 'Søk etter hashtagger',
+    researching: 'Søker...',
+    topHashtags: 'Topp (Høy konkurranse)',
+    mediumHashtags: 'Medium (Balansert)',
+    nicheHashtags: 'Nisje (Lav konkurranse)',
+    copyAll: 'Kopier alle',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Annen URL',
     updateInfo: 'Oppdater mine opplysninger',
@@ -435,8 +513,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Konverteringsgrad',
     pending: 'väntande',
     approved: 'godkända',
-    ibResourcesTab: 'IB-resurser',
+    ibResourcesTab: 'Marknadsföringsresurser',
     ibResourcesSubtitle: 'Verktyg och utbildning för att hjälpa dig lyckas',
+    aiMarketingTools: 'AI Marknadsföringsverktyg',
+    resourcesSection: 'Resurser',
     ibTraining: 'IB-utbildning',
     ibTrainingDesc: 'Tillgång till utbildningsmaterial och guider för att komma igång',
     contentLibrary: 'Innehållsbibliotek',
@@ -446,6 +526,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direkt tillgång till VIP-support för IB-partners',
     pvPresentation: 'PV-presentation',
     pvPresentationDesc: 'Se den officiella PrimeVerse-presentationen',
+    postWriter: 'Inläggsförfattare',
+    postWriterDesc: 'AI-driven generator för sociala medieinlägg. Skapa engagerande inlägg för Facebook, Instagram, TikTok och mer.',
+    captionGenerator: 'Bildtextgenerator',
+    captionGeneratorDesc: 'Generera fängslande bildtexter för dina bilder och videor.',
+    hashtagResearch: 'Hashtagforskning',
+    hashtagResearchDesc: 'Hitta de bästa hashtaggarna för din nisch för att maximera räckvidd och engagemang.',
+    contentCalendar: 'Innehållskalender',
+    contentCalendarDesc: 'Få ett veckoschema för publicering anpassat efter din publik och tidszon.',
+    aiPowered: 'AI-driven',
+    selectPlatform: 'Välj plattform',
+    topicLabel: 'Ämne / produkt',
+    topicPlaceholder: 't.ex. Handelsutbildning, Copy trading, Ekonomisk frihet...',
+    toneLabel: 'Ton',
+    toneProfessional: 'Professionell',
+    toneCasual: 'Avslappnad',
+    toneMotivational: 'Motiverande',
+    toneEducational: 'Utbildande',
+    generatePost: 'Generera inlägg',
+    generating: 'Genererar...',
+    regenerate: 'Generera nytt',
+    copyText: 'Kopiera',
+    captionTopicPlaceholder: 'Beskriv din bild eller video...',
+    captionStyle: 'Stil',
+    styleEngaging: 'Engagerande',
+    styleInspirational: 'Inspirerande',
+    styleEducational: 'Utbildande',
+    styleHumorous: 'Humoristisk',
+    generateCaption: 'Generera bildtext',
+    emojiSuggestions: 'Emoji-förslag',
+    nicheLabel: 'Nisch / ämne',
+    nichePlaceholder: 't.ex. Forex-handel, Krypto, Finansiell utbildning...',
+    researchHashtags: 'Sök hashtagar',
+    researching: 'Söker...',
+    topHashtags: 'Topp (Hög konkurrens)',
+    mediumHashtags: 'Medium (Balanserad)',
+    nicheHashtags: 'Nisch (Låg konkurrens)',
+    copyAll: 'Kopiera alla',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Annan URL',
     updateInfo: 'Uppdatera mina uppgifter',
@@ -598,8 +715,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Tasa de conversión',
     pending: 'pendientes',
     approved: 'aprobados',
-    ibResourcesTab: 'Recursos IB',
+    ibResourcesTab: 'Recursos de Marketing',
     ibResourcesSubtitle: 'Herramientas y formación para ayudarte a tener éxito',
+    aiMarketingTools: 'Herramientas de Marketing IA',
+    resourcesSection: 'Recursos',
     ibTraining: 'Formación IB',
     ibTrainingDesc: 'Accede a materiales de formación y guías para comenzar',
     contentLibrary: 'Biblioteca de contenido',
@@ -609,6 +728,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Acceso directo a soporte VIP para socios IB',
     pvPresentation: 'Presentación PV',
     pvPresentationDesc: 'Ver la presentación oficial de PrimeVerse',
+    postWriter: 'Escritor de Posts',
+    postWriterDesc: 'Generador de publicaciones con IA. Crea posts atractivos para Facebook, Instagram, TikTok y más.',
+    captionGenerator: 'Generador de Subtítulos',
+    captionGeneratorDesc: 'Genera subtítulos irresistibles para tus imágenes y videos.',
+    hashtagResearch: 'Investigación de Hashtags',
+    hashtagResearchDesc: 'Encuentra los mejores hashtags para tu nicho y maximiza el alcance y la interacción.',
+    contentCalendar: 'Calendario de Contenido',
+    contentCalendarDesc: 'Obtén un calendario semanal de publicaciones adaptado a tu audiencia y zona horaria.',
+    aiPowered: 'Con IA',
+    selectPlatform: 'Seleccionar plataforma',
+    topicLabel: 'Tema / producto',
+    topicPlaceholder: 'ej. Educación en trading, Copy trading, Libertad financiera...',
+    toneLabel: 'Tono',
+    toneProfessional: 'Profesional',
+    toneCasual: 'Casual',
+    toneMotivational: 'Motivacional',
+    toneEducational: 'Educativo',
+    generatePost: 'Generar publicación',
+    generating: 'Generando...',
+    regenerate: 'Regenerar',
+    copyText: 'Copiar',
+    captionTopicPlaceholder: 'Describe tu imagen o video...',
+    captionStyle: 'Estilo',
+    styleEngaging: 'Atractivo',
+    styleInspirational: 'Inspirador',
+    styleEducational: 'Educativo',
+    styleHumorous: 'Humorístico',
+    generateCaption: 'Generar subtítulo',
+    emojiSuggestions: 'Sugerencias de emojis',
+    nicheLabel: 'Nicho / tema',
+    nichePlaceholder: 'ej. Trading Forex, Cripto, Educación financiera...',
+    researchHashtags: 'Investigar hashtags',
+    researching: 'Investigando...',
+    topHashtags: 'Top (Alta competencia)',
+    mediumHashtags: 'Medio (Equilibrado)',
+    nicheHashtags: 'Nicho (Baja competencia)',
+    copyAll: 'Copiar todo',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Otra URL',
     updateInfo: 'Actualizar mis datos',
@@ -761,8 +917,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Коэффициент конверсии',
     pending: 'ожидают',
     approved: 'одобрено',
-    ibResourcesTab: 'Ресурсы IB',
+    ibResourcesTab: 'Маркетинговые ресурсы',
     ibResourcesSubtitle: 'Инструменты и обучение для вашего успеха',
+    aiMarketingTools: 'AI Маркетинговые инструменты',
+    resourcesSection: 'Ресурсы',
     ibTraining: 'Обучение IB',
     ibTrainingDesc: 'Доступ к учебным материалам и руководствам для начала работы',
     contentLibrary: 'Библиотека контента',
@@ -772,6 +930,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Прямой доступ к VIP-поддержке для IB-партнёров',
     pvPresentation: 'Презентация PV',
     pvPresentationDesc: 'Посмотреть официальную презентацию PrimeVerse',
+    postWriter: 'Генератор постов',
+    postWriterDesc: 'Генератор постов на основе ИИ. Создавайте привлекательные посты для Facebook, Instagram, TikTok и других.',
+    captionGenerator: 'Генератор подписей',
+    captionGeneratorDesc: 'Создавайте цепляющие подписи к вашим фото и видео.',
+    hashtagResearch: 'Подбор хештегов',
+    hashtagResearchDesc: 'Найдите лучшие хештеги для вашей ниши для максимального охвата.',
+    contentCalendar: 'Контент-календарь',
+    contentCalendarDesc: 'Получите недельный план публикаций, адаптированный под вашу аудиторию.',
+    aiPowered: 'На базе ИИ',
+    selectPlatform: 'Выберите платформу',
+    topicLabel: 'Тема / продукт',
+    topicPlaceholder: 'напр. Обучение трейдингу, Копитрейдинг, Финансовая свобода...',
+    toneLabel: 'Тон',
+    toneProfessional: 'Профессиональный',
+    toneCasual: 'Неформальный',
+    toneMotivational: 'Мотивирующий',
+    toneEducational: 'Образовательный',
+    generatePost: 'Сгенерировать пост',
+    generating: 'Генерация...',
+    regenerate: 'Сгенерировать новый',
+    copyText: 'Копировать',
+    captionTopicPlaceholder: 'Опишите ваше фото или видео...',
+    captionStyle: 'Стиль',
+    styleEngaging: 'Вовлекающий',
+    styleInspirational: 'Вдохновляющий',
+    styleEducational: 'Образовательный',
+    styleHumorous: 'Юмористический',
+    generateCaption: 'Сгенерировать подпись',
+    emojiSuggestions: 'Предложения эмодзи',
+    nicheLabel: 'Ниша / тема',
+    nichePlaceholder: 'напр. Форекс, Криптовалюта, Финансовое образование...',
+    researchHashtags: 'Подобрать хештеги',
+    researching: 'Подбор...',
+    topHashtags: 'Топ (Высокая конкуренция)',
+    mediumHashtags: 'Средние (Сбалансированные)',
+    nicheHashtags: 'Нишевые (Низкая конкуренция)',
+    copyAll: 'Копировать все',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Другая URL',
     updateInfo: 'Обновить мои данные',
@@ -924,8 +1119,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'معدل التحويل',
     pending: 'معلق',
     approved: 'معتمد',
-    ibResourcesTab: 'موارد IB',
+    ibResourcesTab: 'موارد التسويق',
     ibResourcesSubtitle: 'أدوات وتدريب لمساعدتك على النجاح',
+    aiMarketingTools: 'أدوات التسويق بالذكاء الاصطناعي',
+    resourcesSection: 'الموارد',
     ibTraining: 'تدريب IB',
     ibTrainingDesc: 'الوصول إلى المواد التدريبية والأدلة لمساعدتك على البدء',
     contentLibrary: 'مكتبة المحتوى',
@@ -935,6 +1132,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'وصول مباشر إلى دعم VIP لشركاء IB',
     pvPresentation: 'عرض PV',
     pvPresentationDesc: 'عرض العرض التقديمي الرسمي لـ PrimeVerse',
+    postWriter: 'كاتب المنشورات',
+    postWriterDesc: 'مولّد منشورات مدعوم بالذكاء الاصطناعي. أنشئ منشورات جذابة لفيسبوك وإنستغرام وتيك توك والمزيد.',
+    captionGenerator: 'مولّد التعليقات',
+    captionGeneratorDesc: 'أنشئ تعليقات لافتة لصورك ومقاطع الفيديو.',
+    hashtagResearch: 'بحث الهاشتاغ',
+    hashtagResearchDesc: 'اعثر على أفضل الهاشتاغات لمجالك لتعظيم الوصول والتفاعل.',
+    contentCalendar: 'تقويم المحتوى',
+    contentCalendarDesc: 'احصل على جدول نشر أسبوعي مصمم لجمهورك ومنطقتك الزمنية.',
+    aiPowered: 'مدعوم بالذكاء الاصطناعي',
+    selectPlatform: 'اختر المنصة',
+    topicLabel: 'الموضوع / المنتج',
+    topicPlaceholder: 'مثال: تعليم التداول، نسخ التداول، الحرية المالية...',
+    toneLabel: 'النغمة',
+    toneProfessional: 'احترافي',
+    toneCasual: 'عفوي',
+    toneMotivational: 'تحفيزي',
+    toneEducational: 'تعليمي',
+    generatePost: 'إنشاء منشور',
+    generating: 'جارٍ الإنشاء...',
+    regenerate: 'إعادة الإنشاء',
+    copyText: 'نسخ',
+    captionTopicPlaceholder: 'صف صورتك أو مقطع الفيديو...',
+    captionStyle: 'الأسلوب',
+    styleEngaging: 'جذاب',
+    styleInspirational: 'ملهم',
+    styleEducational: 'تعليمي',
+    styleHumorous: 'فكاهي',
+    generateCaption: 'إنشاء تعليق',
+    emojiSuggestions: 'اقتراحات الرموز التعبيرية',
+    nicheLabel: 'المجال / الموضوع',
+    nichePlaceholder: 'مثال: تداول الفوركس، العملات المشفرة، التعليم المالي...',
+    researchHashtags: 'بحث الهاشتاغات',
+    researching: 'جارٍ البحث...',
+    topHashtags: 'الأعلى (منافسة عالية)',
+    mediumHashtags: 'متوسط (متوازن)',
+    nicheHashtags: 'متخصص (منافسة منخفضة)',
+    copyAll: 'نسخ الكل',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'رابط آخر',
     updateInfo: 'تحديث بياناتي',
@@ -1087,8 +1321,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Conversion rate',
     pending: 'naghihintay',
     approved: 'na-approve',
-    ibResourcesTab: 'IB Resources',
+    ibResourcesTab: 'Marketing Resources',
     ibResourcesSubtitle: 'Mga tool at pagsasanay para makatulong sa iyong tagumpay',
+    aiMarketingTools: 'AI Marketing Tools',
+    resourcesSection: 'Mga Resource',
     ibTraining: 'IB Training',
     ibTrainingDesc: 'I-access ang mga training material at gabay para makapagsimula',
     contentLibrary: 'Content Library',
@@ -1098,6 +1334,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direktang access sa VIP support para sa mga IB partner',
     pvPresentation: 'PV Presentation',
     pvPresentationDesc: 'Tingnan ang opisyal na PrimeVerse presentation',
+    postWriter: 'Post Writer',
+    postWriterDesc: 'AI-powered na social media post generator. Gumawa ng engaging posts para sa Facebook, Instagram, TikTok at iba pa.',
+    captionGenerator: 'Caption Generator',
+    captionGeneratorDesc: 'Gumawa ng nakaka-engganyo na caption para sa iyong mga larawan at video.',
+    hashtagResearch: 'Hashtag Research',
+    hashtagResearchDesc: 'Hanapin ang pinakamahusay na hashtag para sa iyong niche para ma-maximize ang reach at engagement.',
+    contentCalendar: 'Content Calendar',
+    contentCalendarDesc: 'Kumuha ng lingguhang posting schedule na naaangkop sa iyong audience at timezone.',
+    aiPowered: 'AI Powered',
+    selectPlatform: 'Pumili ng platform',
+    topicLabel: 'Paksa / produkto',
+    topicPlaceholder: 'hal. Trading education, Copy trading, Financial freedom...',
+    toneLabel: 'Tono',
+    toneProfessional: 'Propesyonal',
+    toneCasual: 'Casual',
+    toneMotivational: 'Motivational',
+    toneEducational: 'Pang-edukasyon',
+    generatePost: 'Gumawa ng Post',
+    generating: 'Ginagawa...',
+    regenerate: 'Gumawa ng bago',
+    copyText: 'Kopyahin',
+    captionTopicPlaceholder: 'Ilarawan ang iyong larawan o video...',
+    captionStyle: 'Estilo',
+    styleEngaging: 'Engaging',
+    styleInspirational: 'Inspirational',
+    styleEducational: 'Pang-edukasyon',
+    styleHumorous: 'Nakakatawa',
+    generateCaption: 'Gumawa ng Caption',
+    emojiSuggestions: 'Mga mungkahing emoji',
+    nicheLabel: 'Niche / paksa',
+    nichePlaceholder: 'hal. Forex trading, Crypto, Financial education...',
+    researchHashtags: 'Mag-research ng Hashtag',
+    researching: 'Nagre-research...',
+    topHashtags: 'Top (Mataas na kompetisyon)',
+    mediumHashtags: 'Medium (Balansado)',
+    nicheHashtags: 'Niche (Mababang kompetisyon)',
+    copyAll: 'Kopyahin Lahat',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Ibang URL',
     updateInfo: 'I-update ang aking impormasyon',
@@ -1250,8 +1523,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Taxa de conversão',
     pending: 'pendentes',
     approved: 'aprovados',
-    ibResourcesTab: 'Recursos IB',
+    ibResourcesTab: 'Recursos de Marketing',
     ibResourcesSubtitle: 'Ferramentas e treinamento para ajudá-lo a ter sucesso',
+    aiMarketingTools: 'Ferramentas de Marketing IA',
+    resourcesSection: 'Recursos',
     ibTraining: 'Treinamento IB',
     ibTrainingDesc: 'Acesse materiais de treinamento e guias para começar',
     contentLibrary: 'Biblioteca de conteúdo',
@@ -1261,6 +1536,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Acesso direto ao suporte VIP para parceiros IB',
     pvPresentation: 'Apresentação PV',
     pvPresentationDesc: 'Ver a apresentação oficial do PrimeVerse',
+    postWriter: 'Escritor de Posts',
+    postWriterDesc: 'Gerador de posts com IA. Crie posts envolventes para Facebook, Instagram, TikTok e mais.',
+    captionGenerator: 'Gerador de Legendas',
+    captionGeneratorDesc: 'Gere legendas irresistíveis para suas imagens e vídeos.',
+    hashtagResearch: 'Pesquisa de Hashtags',
+    hashtagResearchDesc: 'Encontre as melhores hashtags para seu nicho e maximize o alcance e engajamento.',
+    contentCalendar: 'Calendário de Conteúdo',
+    contentCalendarDesc: 'Obtenha um cronograma semanal de postagens adaptado ao seu público e fuso horário.',
+    aiPowered: 'Com IA',
+    selectPlatform: 'Selecionar plataforma',
+    topicLabel: 'Tema / produto',
+    topicPlaceholder: 'ex. Educação em trading, Copy trading, Liberdade financeira...',
+    toneLabel: 'Tom',
+    toneProfessional: 'Profissional',
+    toneCasual: 'Casual',
+    toneMotivational: 'Motivacional',
+    toneEducational: 'Educacional',
+    generatePost: 'Gerar post',
+    generating: 'Gerando...',
+    regenerate: 'Gerar novo',
+    copyText: 'Copiar',
+    captionTopicPlaceholder: 'Descreva sua imagem ou vídeo...',
+    captionStyle: 'Estilo',
+    styleEngaging: 'Envolvente',
+    styleInspirational: 'Inspirador',
+    styleEducational: 'Educacional',
+    styleHumorous: 'Humorístico',
+    generateCaption: 'Gerar legenda',
+    emojiSuggestions: 'Sugestões de emoji',
+    nicheLabel: 'Nicho / tema',
+    nichePlaceholder: 'ex. Trading Forex, Cripto, Educação financeira...',
+    researchHashtags: 'Pesquisar hashtags',
+    researching: 'Pesquisando...',
+    topHashtags: 'Top (Alta competição)',
+    mediumHashtags: 'Médio (Equilibrado)',
+    nicheHashtags: 'Nicho (Baixa competição)',
+    copyAll: 'Copiar tudo',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Outro URL',
     updateInfo: 'Atualizar minhas informações',
@@ -1413,8 +1725,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'อัตราการแปลง',
     pending: 'รอดำเนินการ',
     approved: 'อนุมัติแล้ว',
-    ibResourcesTab: 'ทรัพยากร IB',
+    ibResourcesTab: 'ทรัพยากรการตลาด',
     ibResourcesSubtitle: 'เครื่องมือและการฝึกอบรมเพื่อช่วยให้คุณประสบความสำเร็จ',
+    aiMarketingTools: 'เครื่องมือการตลาด AI',
+    resourcesSection: 'ทรัพยากร',
     ibTraining: 'การฝึกอบรม IB',
     ibTrainingDesc: 'เข้าถึงสื่อการฝึกอบรมและคู่มือเพื่อเริ่มต้น',
     contentLibrary: 'คลังเนื้อหา',
@@ -1424,6 +1738,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'เข้าถึงซัพพอร์ต VIP โดยตรงสำหรับพาร์ทเนอร์ IB',
     pvPresentation: 'งานนำเสนอ PV',
     pvPresentationDesc: 'ดูงานนำเสนออย่างเป็นทางการของ PrimeVerse',
+    postWriter: 'นักเขียนโพสต์',
+    postWriterDesc: 'เครื่องมือสร้างโพสต์โซเชียลมีเดียด้วย AI สร้างโพสต์ที่น่าสนใจสำหรับ Facebook, Instagram, TikTok และอื่นๆ',
+    captionGenerator: 'เครื่องสร้างแคปชั่น',
+    captionGeneratorDesc: 'สร้างแคปชั่นที่ดึงดูดสายตาสำหรับรูปภาพและวิดีโอของคุณ',
+    hashtagResearch: 'วิจัยแฮชแท็ก',
+    hashtagResearchDesc: 'ค้นหาแฮชแท็กที่ดีที่สุดสำหรับกลุ่มเฉพาะของคุณเพื่อเพิ่มการเข้าถึง',
+    contentCalendar: 'ปฏิทินเนื้อหา',
+    contentCalendarDesc: 'รับตารางโพสต์รายสัปดาห์ที่เหมาะกับผู้ชมและเขตเวลาของคุณ',
+    aiPowered: 'ขับเคลื่อนด้วย AI',
+    selectPlatform: 'เลือกแพลตฟอร์ม',
+    topicLabel: 'หัวข้อ / ผลิตภัณฑ์',
+    topicPlaceholder: 'เช่น การศึกษาเทรด, Copy trading, อิสรภาพทางการเงิน...',
+    toneLabel: 'โทน',
+    toneProfessional: 'มืออาชีพ',
+    toneCasual: 'สบายๆ',
+    toneMotivational: 'สร้างแรงบันดาลใจ',
+    toneEducational: 'ให้ความรู้',
+    generatePost: 'สร้างโพสต์',
+    generating: 'กำลังสร้าง...',
+    regenerate: 'สร้างใหม่',
+    copyText: 'คัดลอก',
+    captionTopicPlaceholder: 'อธิบายรูปภาพหรือวิดีโอของคุณ...',
+    captionStyle: 'สไตล์',
+    styleEngaging: 'น่าสนใจ',
+    styleInspirational: 'สร้างแรงบันดาลใจ',
+    styleEducational: 'ให้ความรู้',
+    styleHumorous: 'ตลก',
+    generateCaption: 'สร้างแคปชั่น',
+    emojiSuggestions: 'แนะนำอิโมจิ',
+    nicheLabel: 'กลุ่มเฉพาะ / หัวข้อ',
+    nichePlaceholder: 'เช่น เทรด Forex, คริปโต, การศึกษาทางการเงิน...',
+    researchHashtags: 'วิจัยแฮชแท็ก',
+    researching: 'กำลังวิจัย...',
+    topHashtags: 'ยอดนิยม (แข่งขันสูง)',
+    mediumHashtags: 'ปานกลาง (สมดุล)',
+    nicheHashtags: 'เฉพาะกลุ่ม (แข่งขันต่ำ)',
+    copyAll: 'คัดลอกทั้งหมด',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'URL อื่น',
     updateInfo: 'อัปเดตข้อมูลของฉัน',
@@ -1808,6 +2159,102 @@ const styles = `
     transition: transform 0.2s;
   }
   .ib-resource-card:hover .ib-resource-arrow { transform: translateX(3px); }
+
+  /* AI Marketing Section */
+  .ai-section-header {
+    font-size: 1.1rem; font-weight: 700; color: var(--gold);
+    margin: 0 0 1rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .ai-section-header svg { flex-shrink: 0; }
+  .ai-tool-badge {
+    display: inline-block; font-size: 0.65rem; font-weight: 600;
+    padding: 2px 7px; border-radius: 5px; letter-spacing: 0.03em;
+    vertical-align: middle; margin-left: 6px;
+  }
+  .ai-tool-badge-gold {
+    background: rgba(212,165,55,0.15); color: var(--gold);
+    border: 1px solid rgba(212,165,55,0.3);
+  }
+
+  /* AI Tool Modal */
+  .ai-modal-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; animation: fadeIn 0.2s;
+  }
+  .ai-modal {
+    background: #111; border: 1px solid rgba(212,165,55,0.25);
+    border-radius: 16px; width: 100%; max-width: 560px;
+    max-height: 90vh; overflow-y: auto; padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(212,165,55,0.08);
+  }
+  .ai-modal-title {
+    font-size: 1.15rem; font-weight: 700; color: var(--gold);
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .ai-modal-close {
+    margin-left: auto; background: none; border: none; color: var(--text-secondary);
+    font-size: 1.3rem; cursor: pointer; padding: 4px; line-height: 1;
+  }
+  .ai-modal-close:hover { color: var(--text-primary); }
+  .ai-modal-field { margin-bottom: 1rem; }
+  .ai-modal-label {
+    display: block; font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-secondary); margin-bottom: 0.4rem;
+  }
+  .ai-modal-select {
+    width: 100%; padding: 0.6rem 0.9rem; background: var(--input-bg);
+    border: 1px solid var(--input-border); border-radius: 8px;
+    color: var(--text-primary); font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem; outline: none; appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239a917e' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+  .ai-modal-select:focus { border-color: var(--input-focus); box-shadow: 0 0 0 3px rgba(212,165,55,0.08); }
+  .ai-pill-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .ai-pill {
+    padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.82rem;
+    border: 1px solid var(--input-border); background: var(--input-bg);
+    color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+  }
+  .ai-pill:hover { border-color: rgba(212,165,55,0.4); color: var(--text-primary); }
+  .ai-pill-active {
+    background: rgba(212,165,55,0.15); border-color: var(--gold);
+    color: var(--gold); font-weight: 500;
+  }
+  .ai-result-box {
+    background: rgba(20,18,14,0.8); border: 1px solid rgba(212,165,55,0.2);
+    border-radius: 10px; padding: 1.25rem; margin-top: 1rem;
+    white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+  .ai-result-actions {
+    display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;
+  }
+  .ai-hashtag-group { margin-bottom: 1rem; }
+  .ai-hashtag-group-title {
+    font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ai-hashtag-tags {
+    display: flex; flex-wrap: wrap; gap: 0.35rem;
+  }
+  .ai-hashtag-tag {
+    background: rgba(212,165,55,0.08); border: 1px solid rgba(212,165,55,0.2);
+    border-radius: 6px; padding: 3px 8px; font-size: 0.8rem;
+    color: var(--gold-light);
+  }
+  .ai-copy-btn {
+    background: none; border: 1px solid rgba(212,165,55,0.3); border-radius: 6px;
+    color: var(--gold); font-size: 0.75rem; padding: 2px 8px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .ai-copy-btn:hover { background: rgba(212,165,55,0.1); }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   /* Cards */
   .card {
@@ -2480,6 +2927,67 @@ export default function Home() {
   const [bugSent, setBugSent] = useState(false)
   const [bugError, setBugError] = useState('')
   const bugFileRef = useRef<HTMLInputElement>(null)
+
+  // AI Marketing Tools state
+  const [aiToolModal, setAiToolModal] = useState<'post' | 'caption' | 'hashtags' | null>(null)
+  const [aiToolPlatform, setAiToolPlatform] = useState('Facebook')
+  const [aiToolTopic, setAiToolTopic] = useState('')
+  const [aiToolTone, setAiToolTone] = useState('Professional')
+  const [aiToolStyle, setAiToolStyle] = useState('Engaging')
+  const [aiToolLoading, setAiToolLoading] = useState(false)
+  const [aiToolResult, setAiToolResult] = useState('')
+  const [aiToolHashtags, setAiToolHashtags] = useState<{ top: string[]; medium: string[]; niche: string[] } | null>(null)
+  const [aiToolCopied, setAiToolCopied] = useState('')
+
+  const aiToolGenerate = async () => {
+    if (!aiToolTopic.trim()) return
+    setAiToolLoading(true)
+    setAiToolResult('')
+    setAiToolHashtags(null)
+    try {
+      const res = await fetch('/api/ai-marketing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: aiToolModal,
+          platform: aiToolPlatform,
+          topic: aiToolTopic,
+          tone: aiToolTone,
+          style: aiToolStyle,
+          language: lang,
+          name: profileName,
+        }),
+      })
+      const data = await res.json()
+      if (data.error) {
+        setAiToolResult('Error: ' + data.error)
+      } else if (aiToolModal === 'hashtags' && data.hashtags) {
+        setAiToolHashtags(data.hashtags)
+      } else if (data.content) {
+        setAiToolResult(data.content)
+      }
+    } catch (e) {
+      setAiToolResult('Network error: ' + String(e))
+    }
+    setAiToolLoading(false)
+  }
+
+  const aiToolCopy = (text: string, label: string) => {
+    navigator.clipboard.writeText(text)
+    setAiToolCopied(label)
+    setTimeout(() => setAiToolCopied(''), 2000)
+  }
+
+  const aiToolReset = () => {
+    setAiToolModal(null)
+    setAiToolTopic('')
+    setAiToolResult('')
+    setAiToolHashtags(null)
+    setAiToolCopied('')
+    setAiToolPlatform('Facebook')
+    setAiToolTone('Professional')
+    setAiToolStyle('Engaging')
+  }
 
   // Toast notifications
   const [toastMsg, setToastMsg] = useState('')
@@ -3493,12 +4001,83 @@ export default function Home() {
           </div>
         )}
 
-        {/* IB RESOURCES TAB */}
+        {/* MARKETING RESOURCES TAB */}
         {activeTab === 'resources' && (
           <div role="tabpanel" id="tab-panel-resources" aria-labelledby="tab-resources">
             <div style={{ marginBottom: '1.75rem' }}>
               <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 0.35rem' }}>{t.ibResourcesTab}</h2>
               <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: 0 }}>{t.ibResourcesSubtitle}</p>
+            </div>
+
+            {/* AI Marketing Tools Section */}
+            <div className="ai-section-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z" fill="var(--gold)" stroke="none"/></svg>
+              {t.aiMarketingTools}
+            </div>
+            <div className="ib-resources-grid" style={{ marginBottom: '2.5rem' }}>
+              {/* Post Writer */}
+              <div className="ib-resource-card" onClick={() => setAiToolModal('post')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('post')}>
+                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.postWriter}</div>
+                  <div className="ib-resource-desc">{t.postWriterDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+              {/* Caption Generator */}
+              <div className="ib-resource-card" onClick={() => setAiToolModal('caption')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('caption')}>
+                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.captionGenerator}</div>
+                  <div className="ib-resource-desc">{t.captionGeneratorDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+              {/* Hashtag Research */}
+              <div className="ib-resource-card" onClick={() => setAiToolModal('hashtags')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('hashtags')}>
+                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.hashtagResearch}</div>
+                  <div className="ib-resource-desc">{t.hashtagResearchDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+              {/* Content Calendar */}
+              <div className="ib-resource-card ib-resource-card-disabled">
+                <div className="ib-resource-badge">{t.comingSoon}</div>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                    <rect x="7" y="14" width="3" height="3" rx="0.5" fill="var(--gold)" stroke="none" opacity="0.3"/><rect x="14" y="14" width="3" height="3" rx="0.5" fill="var(--gold)" stroke="none" opacity="0.3"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.contentCalendar}</div>
+                  <div className="ib-resource-desc">{t.contentCalendarDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+            </div>
+
+            {/* Resources Section */}
+            <div className="ai-section-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              {t.resourcesSection}
             </div>
             <div className="ib-resources-grid">
               <a
@@ -3571,6 +4150,156 @@ export default function Home() {
                 </div>
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </a>
+            </div>
+          </div>
+        )}
+
+        {/* AI TOOL MODALS */}
+        {aiToolModal && (
+          <div className="ai-modal-overlay" onClick={e => { if (e.target === e.currentTarget) aiToolReset() }}>
+            <div className="ai-modal">
+              <div className="ai-modal-title">
+                {aiToolModal === 'post' && <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>{t.postWriter}</>}
+                {aiToolModal === 'caption' && <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>{t.captionGenerator}</>}
+                {aiToolModal === 'hashtags' && <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>{t.hashtagResearch}</>}
+                <button className="ai-modal-close" onClick={aiToolReset}>&times;</button>
+              </div>
+
+              {/* Platform selector (post & hashtags) */}
+              {(aiToolModal === 'post' || aiToolModal === 'hashtags') && (
+                <div className="ai-modal-field">
+                  <div className="ai-modal-label">{t.selectPlatform}</div>
+                  <div className="ai-pill-group">
+                    {['Facebook', 'Instagram', 'TikTok', 'LinkedIn', 'X/Twitter'].map(p => (
+                      <button key={p} className={`ai-pill${aiToolPlatform === p ? ' ai-pill-active' : ''}`} onClick={() => setAiToolPlatform(p)}>{p}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Topic input */}
+              <div className="ai-modal-field">
+                <div className="ai-modal-label">{aiToolModal === 'hashtags' ? t.nicheLabel : aiToolModal === 'caption' ? t.topicLabel : t.topicLabel}</div>
+                <input
+                  className="field-input"
+                  placeholder={aiToolModal === 'hashtags' ? t.nichePlaceholder : aiToolModal === 'caption' ? t.captionTopicPlaceholder : t.topicPlaceholder}
+                  value={aiToolTopic}
+                  onChange={e => setAiToolTopic(e.target.value)}
+                />
+              </div>
+
+              {/* Tone selector (post only) */}
+              {aiToolModal === 'post' && (
+                <div className="ai-modal-field">
+                  <div className="ai-modal-label">{t.toneLabel}</div>
+                  <div className="ai-pill-group">
+                    {[
+                      { key: 'Professional', label: t.toneProfessional },
+                      { key: 'Casual', label: t.toneCasual },
+                      { key: 'Motivational', label: t.toneMotivational },
+                      { key: 'Educational', label: t.toneEducational },
+                    ].map(item => (
+                      <button key={item.key} className={`ai-pill${aiToolTone === item.key ? ' ai-pill-active' : ''}`} onClick={() => setAiToolTone(item.key)}>{item.label}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Style selector (caption only) */}
+              {aiToolModal === 'caption' && (
+                <div className="ai-modal-field">
+                  <div className="ai-modal-label">{t.captionStyle}</div>
+                  <div className="ai-pill-group">
+                    {[
+                      { key: 'Engaging', label: t.styleEngaging },
+                      { key: 'Inspirational', label: t.styleInspirational },
+                      { key: 'Educational', label: t.styleEducational },
+                      { key: 'Humorous', label: t.styleHumorous },
+                    ].map(item => (
+                      <button key={item.key} className={`ai-pill${aiToolStyle === item.key ? ' ai-pill-active' : ''}`} onClick={() => setAiToolStyle(item.key)}>{item.label}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Language selector */}
+              <div className="ai-modal-field">
+                <div className="ai-modal-label">{t.selectLanguage}</div>
+                <select className="ai-modal-select" value={lang} disabled>
+                  {Object.entries(languageLabels).map(([code, label]) => (
+                    <option key={code} value={code}>{languageFlags[code]} {label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Generate button */}
+              <button
+                className="gold-btn"
+                style={{ width: '100%', marginTop: '0.5rem' }}
+                onClick={aiToolGenerate}
+                disabled={aiToolLoading || !aiToolTopic.trim()}
+              >
+                {aiToolLoading ? t.generating : aiToolModal === 'post' ? t.generatePost : aiToolModal === 'caption' ? t.generateCaption : t.researchHashtags}
+              </button>
+
+              {/* Results - Post & Caption */}
+              {aiToolResult && aiToolModal !== 'hashtags' && (
+                <>
+                  <div className="ai-result-box">{aiToolResult}</div>
+                  {!aiToolResult.startsWith('Error') && (
+                    <div className="ai-result-actions">
+                      <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem' }} onClick={() => aiToolCopy(aiToolResult, 'main')}>
+                        {aiToolCopied === 'main' ? t.copied : t.copyText}
+                      </button>
+                      <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} onClick={aiToolGenerate} disabled={aiToolLoading}>
+                        {t.regenerate}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* Results - Caption emoji suggestions */}
+              {aiToolResult && aiToolModal === 'caption' && aiToolResult.includes('---') && (
+                <div style={{ marginTop: '0.75rem' }}>
+                  <div className="ai-modal-label">{t.emojiSuggestions}</div>
+                  <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+                    {aiToolResult.split('---')[1]?.trim().split('\n').map((line, i) => (
+                      <div key={i}>{line}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Results - Hashtags */}
+              {aiToolHashtags && aiToolModal === 'hashtags' && (
+                <div style={{ marginTop: '1rem' }}>
+                  {([
+                    { key: 'top' as const, label: t.topHashtags },
+                    { key: 'medium' as const, label: t.mediumHashtags },
+                    { key: 'niche' as const, label: t.nicheHashtags },
+                  ]).map(group => (
+                    <div key={group.key} className="ai-hashtag-group">
+                      <div className="ai-hashtag-group-title">
+                        <span>{group.label}</span>
+                        <button className="ai-copy-btn" onClick={() => aiToolCopy((aiToolHashtags[group.key] || []).join(' '), group.key)}>
+                          {aiToolCopied === group.key ? t.copied : t.copyAll}
+                        </button>
+                      </div>
+                      <div className="ai-hashtag-tags">
+                        {(aiToolHashtags[group.key] || []).map((tag, i) => (
+                          <span key={i} className="ai-hashtag-tag">{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Hashtag error */}
+              {aiToolResult && aiToolModal === 'hashtags' && (
+                <div className="ai-result-box" style={{ color: 'var(--warning-text)' }}>{aiToolResult}</div>
+              )}
             </div>
           </div>
         )}
@@ -3664,7 +4393,7 @@ export default function Home() {
               'My Profile — all fields editable',
               '"Update my details" saves without new page generation',
               'Leads tab — shows registered leads',
-              'IB Resources — 4 cards visible with working links',
+              'Marketing Resources — AI tools and resource cards visible with working links',
             ]},
           ]
           const allItems = betaSections.flatMap(s => s.items)
