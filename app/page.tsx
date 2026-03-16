@@ -278,6 +278,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'Telegram bot integration coming soon',
     broadcastSuccess: 'Broadcast sent successfully!',
     broadcastError: 'Failed to send broadcast',
+    wfNoWorkflows: 'No workflows yet. Start with a template or build your own.',
+    wfNewWorkflow: 'New Workflow',
+    wfTemplateLibrary: 'Template Library',
+    wfActive: 'Active',
+    wfDraft: 'Draft',
+    wfPaused: 'Paused',
+    wfEnrolled: 'Enrolled',
+    wfCompleted: 'Completed',
+    wfCompletionRate: 'Completion',
+    wfEditWorkflow: 'Edit Workflow',
+    wfWorkflowName: 'Workflow name',
+    wfWorkflowNamePh: 'e.g. Welcome Sequence, Onboarding...',
+    wfDescription: 'Description',
+    wfDescriptionPh: 'What does this workflow do?',
+    wfTrigger: 'Trigger',
+    wfTriggerLeadSignup: 'Lead Signup',
+    wfTriggerLeadInactive: 'Lead Inactive',
+    wfTriggerStageChange: 'Stage Change',
+    wfTriggerManual: 'Manual',
+    wfTriggerScheduled: 'Scheduled',
+    wfInactiveDays: 'Days inactive',
+    wfSelectStage: 'Select stage',
+    wfSteps: 'Steps',
+    wfAddStep: 'Add Step',
+    wfStepEmail: 'Email',
+    wfStepWait: 'Wait',
+    wfStepCondition: 'Condition',
+    wfStepSwitch: 'Switch Workflow',
+    wfStepWhatsApp: 'WhatsApp',
+    wfStepTelegram: 'Telegram',
+    wfSubject: 'Subject',
+    wfBody: 'Body',
+    wfPreview: 'Preview',
+    wfWaitValue: 'Wait',
+    wfHours: 'hours',
+    wfDays: 'days',
+    wfConditionIf: 'If lead',
+    wfConditionOpened: 'opened',
+    wfConditionClicked: 'clicked',
+    wfConditionNotOpened: 'did not open',
+    wfConditionEmail: 'email from step',
+    wfConditionThen: 'Then go to step',
+    wfConditionElse: 'Else go to step',
+    wfSwitchTo: 'Switch to workflow',
+    wfSaveDraft: 'Save as Draft',
+    wfActivate: 'Activate',
+    wfBackToWorkflows: 'Back to workflows',
+    wfDeleteStep: 'Delete',
+    wfSelectStepType: 'Select step type',
+    wfUseTemplate: 'Use Template',
+    wfCloseTemplates: 'Close',
+    wfTemplateUsed: 'Template added! Customize it before activating.',
+    wfSaved: 'Workflow saved!',
+    wfActivated: 'Workflow activated!',
+    wfDeactivated: 'Workflow paused.',
+    wfSaveError: 'Failed to save workflow',
+    wfEmailPreviewTitle: 'Email Preview',
+    wfClose: 'Close',
   },
   no: {
     leadsTab: 'Leads',
@@ -527,6 +585,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'Telegram-botintegrasjon kommer snart',
     broadcastSuccess: 'Utsendelse sendt!',
     broadcastError: 'Kunne ikke sende utsendelse',
+    wfNoWorkflows: 'Ingen arbeidsflyter ennå. Start med en mal eller bygg din egen.',
+    wfNewWorkflow: 'Ny arbeidsflyt',
+    wfTemplateLibrary: 'Malbibliotek',
+    wfActive: 'Aktiv',
+    wfDraft: 'Utkast',
+    wfPaused: 'Pauset',
+    wfEnrolled: 'Registrert',
+    wfCompleted: 'Fullført',
+    wfCompletionRate: 'Fullføring',
+    wfEditWorkflow: 'Rediger arbeidsflyt',
+    wfWorkflowName: 'Arbeidsflytnavn',
+    wfWorkflowNamePh: 'f.eks. Velkomstsekvens, Onboarding...',
+    wfDescription: 'Beskrivelse',
+    wfDescriptionPh: 'Hva gjør denne arbeidsflyten?',
+    wfTrigger: 'Trigger',
+    wfTriggerLeadSignup: 'Lead registrering',
+    wfTriggerLeadInactive: 'Lead inaktiv',
+    wfTriggerStageChange: 'Statusendring',
+    wfTriggerManual: 'Manuell',
+    wfTriggerScheduled: 'Planlagt',
+    wfInactiveDays: 'Dager inaktiv',
+    wfSelectStage: 'Velg status',
+    wfSteps: 'Steg',
+    wfAddStep: 'Legg til steg',
+    wfStepEmail: 'E-post',
+    wfStepWait: 'Vent',
+    wfStepCondition: 'Betingelse',
+    wfStepSwitch: 'Bytt arbeidsflyt',
+    wfStepWhatsApp: 'WhatsApp',
+    wfStepTelegram: 'Telegram',
+    wfSubject: 'Emne',
+    wfBody: 'Innhold',
+    wfPreview: 'Forhåndsvisning',
+    wfWaitValue: 'Vent',
+    wfHours: 'timer',
+    wfDays: 'dager',
+    wfConditionIf: 'Hvis lead',
+    wfConditionOpened: 'åpnet',
+    wfConditionClicked: 'klikket',
+    wfConditionNotOpened: 'ikke åpnet',
+    wfConditionEmail: 'e-post fra steg',
+    wfConditionThen: 'Gå til steg',
+    wfConditionElse: 'Ellers gå til steg',
+    wfSwitchTo: 'Bytt til arbeidsflyt',
+    wfSaveDraft: 'Lagre som utkast',
+    wfActivate: 'Aktiver',
+    wfBackToWorkflows: 'Tilbake til arbeidsflyter',
+    wfDeleteStep: 'Slett',
+    wfSelectStepType: 'Velg stegtype',
+    wfUseTemplate: 'Bruk mal',
+    wfCloseTemplates: 'Lukk',
+    wfTemplateUsed: 'Mal lagt til! Tilpass den før du aktiverer.',
+    wfSaved: 'Arbeidsflyt lagret!',
+    wfActivated: 'Arbeidsflyt aktivert!',
+    wfDeactivated: 'Arbeidsflyt pauset.',
+    wfSaveError: 'Kunne ikke lagre arbeidsflyt',
+    wfEmailPreviewTitle: 'E-postforhåndsvisning',
+    wfClose: 'Lukk',
   },
   sv: {
     leadsTab: 'Leads',
@@ -776,6 +892,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'Telegram-botintegration kommer snart',
     broadcastSuccess: 'Utskick skickat!',
     broadcastError: 'Kunde inte skicka utskick',
+    wfNoWorkflows: 'Inga arbetsflöden ännu. Börja med en mall eller bygg ditt eget.',
+    wfNewWorkflow: 'Nytt arbetsflöde',
+    wfTemplateLibrary: 'Mallbibliotek',
+    wfActive: 'Aktiv',
+    wfDraft: 'Utkast',
+    wfPaused: 'Pausad',
+    wfEnrolled: 'Registrerad',
+    wfCompleted: 'Slutförd',
+    wfCompletionRate: 'Slutförande',
+    wfEditWorkflow: 'Redigera arbetsflöde',
+    wfWorkflowName: 'Arbetsflödesnamn',
+    wfWorkflowNamePh: 't.ex. Välkomstsekvens, Onboarding...',
+    wfDescription: 'Beskrivning',
+    wfDescriptionPh: 'Vad gör detta arbetsflöde?',
+    wfTrigger: 'Trigger',
+    wfTriggerLeadSignup: 'Lead registrering',
+    wfTriggerLeadInactive: 'Lead inaktiv',
+    wfTriggerStageChange: 'Statusändring',
+    wfTriggerManual: 'Manuell',
+    wfTriggerScheduled: 'Schemalagd',
+    wfInactiveDays: 'Dagar inaktiv',
+    wfSelectStage: 'Välj status',
+    wfSteps: 'Steg',
+    wfAddStep: 'Lägg till steg',
+    wfStepEmail: 'E-post',
+    wfStepWait: 'Vänta',
+    wfStepCondition: 'Villkor',
+    wfStepSwitch: 'Byt arbetsflöde',
+    wfStepWhatsApp: 'WhatsApp',
+    wfStepTelegram: 'Telegram',
+    wfSubject: 'Ämne',
+    wfBody: 'Innehåll',
+    wfPreview: 'Förhandsgranskning',
+    wfWaitValue: 'Vänta',
+    wfHours: 'timmar',
+    wfDays: 'dagar',
+    wfConditionIf: 'Om lead',
+    wfConditionOpened: 'öppnade',
+    wfConditionClicked: 'klickade',
+    wfConditionNotOpened: 'inte öppnade',
+    wfConditionEmail: 'e-post från steg',
+    wfConditionThen: 'Gå till steg',
+    wfConditionElse: 'Annars gå till steg',
+    wfSwitchTo: 'Byt till arbetsflöde',
+    wfSaveDraft: 'Spara som utkast',
+    wfActivate: 'Aktivera',
+    wfBackToWorkflows: 'Tillbaka till arbetsflöden',
+    wfDeleteStep: 'Ta bort',
+    wfSelectStepType: 'Välj stegtyp',
+    wfUseTemplate: 'Använd mall',
+    wfCloseTemplates: 'Stäng',
+    wfTemplateUsed: 'Mall tillagd! Anpassa den innan du aktiverar.',
+    wfSaved: 'Arbetsflöde sparat!',
+    wfActivated: 'Arbetsflöde aktiverat!',
+    wfDeactivated: 'Arbetsflöde pausat.',
+    wfSaveError: 'Kunde inte spara arbetsflöde',
+    wfEmailPreviewTitle: 'E-postförhandsgranskning',
+    wfClose: 'Stäng',
   },
   es: {
     leadsTab: 'Leads',
@@ -1025,6 +1199,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'Integración de bot de Telegram próximamente',
     broadcastSuccess: '¡Difusión enviada con éxito!',
     broadcastError: 'Error al enviar la difusión',
+    wfNoWorkflows: 'No hay flujos de trabajo aún. Comienza con una plantilla o crea el tuyo.',
+    wfNewWorkflow: 'Nuevo flujo',
+    wfTemplateLibrary: 'Biblioteca de plantillas',
+    wfActive: 'Activo',
+    wfDraft: 'Borrador',
+    wfPaused: 'Pausado',
+    wfEnrolled: 'Inscritos',
+    wfCompleted: 'Completados',
+    wfCompletionRate: 'Completado',
+    wfEditWorkflow: 'Editar flujo',
+    wfWorkflowName: 'Nombre del flujo',
+    wfWorkflowNamePh: 'p.ej. Secuencia de bienvenida, Onboarding...',
+    wfDescription: 'Descripción',
+    wfDescriptionPh: '¿Qué hace este flujo de trabajo?',
+    wfTrigger: 'Disparador',
+    wfTriggerLeadSignup: 'Registro de lead',
+    wfTriggerLeadInactive: 'Lead inactivo',
+    wfTriggerStageChange: 'Cambio de etapa',
+    wfTriggerManual: 'Manual',
+    wfTriggerScheduled: 'Programado',
+    wfInactiveDays: 'Días inactivo',
+    wfSelectStage: 'Seleccionar etapa',
+    wfSteps: 'Pasos',
+    wfAddStep: 'Agregar paso',
+    wfStepEmail: 'Email',
+    wfStepWait: 'Esperar',
+    wfStepCondition: 'Condición',
+    wfStepSwitch: 'Cambiar flujo',
+    wfStepWhatsApp: 'WhatsApp',
+    wfStepTelegram: 'Telegram',
+    wfSubject: 'Asunto',
+    wfBody: 'Cuerpo',
+    wfPreview: 'Vista previa',
+    wfWaitValue: 'Esperar',
+    wfHours: 'horas',
+    wfDays: 'días',
+    wfConditionIf: 'Si el lead',
+    wfConditionOpened: 'abrió',
+    wfConditionClicked: 'hizo clic',
+    wfConditionNotOpened: 'no abrió',
+    wfConditionEmail: 'email del paso',
+    wfConditionThen: 'Ir al paso',
+    wfConditionElse: 'Si no, ir al paso',
+    wfSwitchTo: 'Cambiar al flujo',
+    wfSaveDraft: 'Guardar borrador',
+    wfActivate: 'Activar',
+    wfBackToWorkflows: 'Volver a flujos',
+    wfDeleteStep: 'Eliminar',
+    wfSelectStepType: 'Seleccionar tipo de paso',
+    wfUseTemplate: 'Usar plantilla',
+    wfCloseTemplates: 'Cerrar',
+    wfTemplateUsed: '¡Plantilla añadida! Personalízala antes de activar.',
+    wfSaved: '¡Flujo guardado!',
+    wfActivated: '¡Flujo activado!',
+    wfDeactivated: 'Flujo pausado.',
+    wfSaveError: 'Error al guardar flujo',
+    wfEmailPreviewTitle: 'Vista previa del email',
+    wfClose: 'Cerrar',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -1274,6 +1506,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'Интеграция Telegram-бота скоро появится',
     broadcastSuccess: 'Рассылка успешно отправлена!',
     broadcastError: 'Ошибка отправки рассылки',
+    wfNoWorkflows: 'Нет автоматизаций. Начните с шаблона или создайте свою.',
+    wfNewWorkflow: 'Новая автоматизация',
+    wfTemplateLibrary: 'Библиотека шаблонов',
+    wfActive: 'Активна',
+    wfDraft: 'Черновик',
+    wfPaused: 'Пауза',
+    wfEnrolled: 'Зачислено',
+    wfCompleted: 'Завершено',
+    wfCompletionRate: 'Завершение',
+    wfEditWorkflow: 'Редактировать',
+    wfWorkflowName: 'Название',
+    wfWorkflowNamePh: 'напр. Приветственная серия, Онбординг...',
+    wfDescription: 'Описание',
+    wfDescriptionPh: 'Что делает эта автоматизация?',
+    wfTrigger: 'Триггер',
+    wfTriggerLeadSignup: 'Регистрация лида',
+    wfTriggerLeadInactive: 'Лид неактивен',
+    wfTriggerStageChange: 'Смена этапа',
+    wfTriggerManual: 'Ручной',
+    wfTriggerScheduled: 'Запланированный',
+    wfInactiveDays: 'Дней неактивности',
+    wfSelectStage: 'Выберите этап',
+    wfSteps: 'Шаги',
+    wfAddStep: 'Добавить шаг',
+    wfStepEmail: 'Email',
+    wfStepWait: 'Ожидание',
+    wfStepCondition: 'Условие',
+    wfStepSwitch: 'Переключить',
+    wfStepWhatsApp: 'WhatsApp',
+    wfStepTelegram: 'Telegram',
+    wfSubject: 'Тема',
+    wfBody: 'Текст',
+    wfPreview: 'Просмотр',
+    wfWaitValue: 'Ждать',
+    wfHours: 'часов',
+    wfDays: 'дней',
+    wfConditionIf: 'Если лид',
+    wfConditionOpened: 'открыл',
+    wfConditionClicked: 'кликнул',
+    wfConditionNotOpened: 'не открыл',
+    wfConditionEmail: 'email из шага',
+    wfConditionThen: 'Перейти к шагу',
+    wfConditionElse: 'Иначе к шагу',
+    wfSwitchTo: 'Переключить на',
+    wfSaveDraft: 'Сохранить черновик',
+    wfActivate: 'Активировать',
+    wfBackToWorkflows: 'Назад',
+    wfDeleteStep: 'Удалить',
+    wfSelectStepType: 'Выберите тип шага',
+    wfUseTemplate: 'Использовать',
+    wfCloseTemplates: 'Закрыть',
+    wfTemplateUsed: 'Шаблон добавлен! Настройте его перед активацией.',
+    wfSaved: 'Автоматизация сохранена!',
+    wfActivated: 'Автоматизация активирована!',
+    wfDeactivated: 'Автоматизация приостановлена.',
+    wfSaveError: 'Ошибка сохранения',
+    wfEmailPreviewTitle: 'Просмотр email',
+    wfClose: 'Закрыть',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -1523,6 +1813,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'تكامل بوت تيليجرام قريباً',
     broadcastSuccess: 'تم إرسال الرسالة الجماعية بنجاح!',
     broadcastError: 'فشل إرسال الرسالة الجماعية',
+    wfNoWorkflows: 'لا توجد مسارات عمل بعد. ابدأ بقالب أو أنشئ مسارك الخاص.',
+    wfNewWorkflow: 'مسار عمل جديد',
+    wfTemplateLibrary: 'مكتبة القوالب',
+    wfActive: 'نشط',
+    wfDraft: 'مسودة',
+    wfPaused: 'متوقف',
+    wfEnrolled: 'مسجّل',
+    wfCompleted: 'مكتمل',
+    wfCompletionRate: 'الإكمال',
+    wfEditWorkflow: 'تعديل المسار',
+    wfWorkflowName: 'اسم المسار',
+    wfWorkflowNamePh: 'مثال: سلسلة الترحيب، الإعداد...',
+    wfDescription: 'الوصف',
+    wfDescriptionPh: 'ماذا يفعل هذا المسار؟',
+    wfTrigger: 'المشغّل',
+    wfTriggerLeadSignup: 'تسجيل عميل محتمل',
+    wfTriggerLeadInactive: 'عميل غير نشط',
+    wfTriggerStageChange: 'تغيير المرحلة',
+    wfTriggerManual: 'يدوي',
+    wfTriggerScheduled: 'مجدول',
+    wfInactiveDays: 'أيام عدم النشاط',
+    wfSelectStage: 'اختر المرحلة',
+    wfSteps: 'الخطوات',
+    wfAddStep: 'إضافة خطوة',
+    wfStepEmail: 'بريد إلكتروني',
+    wfStepWait: 'انتظار',
+    wfStepCondition: 'شرط',
+    wfStepSwitch: 'تبديل المسار',
+    wfStepWhatsApp: 'واتساب',
+    wfStepTelegram: 'تيليجرام',
+    wfSubject: 'الموضوع',
+    wfBody: 'المحتوى',
+    wfPreview: 'معاينة',
+    wfWaitValue: 'انتظر',
+    wfHours: 'ساعات',
+    wfDays: 'أيام',
+    wfConditionIf: 'إذا العميل',
+    wfConditionOpened: 'فتح',
+    wfConditionClicked: 'نقر',
+    wfConditionNotOpened: 'لم يفتح',
+    wfConditionEmail: 'بريد من الخطوة',
+    wfConditionThen: 'انتقل للخطوة',
+    wfConditionElse: 'وإلا انتقل للخطوة',
+    wfSwitchTo: 'التبديل إلى',
+    wfSaveDraft: 'حفظ كمسودة',
+    wfActivate: 'تفعيل',
+    wfBackToWorkflows: 'العودة',
+    wfDeleteStep: 'حذف',
+    wfSelectStepType: 'اختر نوع الخطوة',
+    wfUseTemplate: 'استخدام القالب',
+    wfCloseTemplates: 'إغلاق',
+    wfTemplateUsed: 'تمت إضافة القالب! خصصه قبل التفعيل.',
+    wfSaved: 'تم حفظ المسار!',
+    wfActivated: 'تم تفعيل المسار!',
+    wfDeactivated: 'تم إيقاف المسار.',
+    wfSaveError: 'فشل حفظ المسار',
+    wfEmailPreviewTitle: 'معاينة البريد',
+    wfClose: 'إغلاق',
   },
   tl: {
     leadsTab: 'Leads',
@@ -1772,6 +2120,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'Telegram bot integration malapit na',
     broadcastSuccess: 'Matagumpay na naipadala ang broadcast!',
     broadcastError: 'Hindi naipadala ang broadcast',
+    wfNoWorkflows: 'Wala pang mga workflow. Magsimula sa template o gumawa ng sarili mo.',
+    wfNewWorkflow: 'Bagong Workflow',
+    wfTemplateLibrary: 'Template Library',
+    wfActive: 'Active',
+    wfDraft: 'Draft',
+    wfPaused: 'Naka-pause',
+    wfEnrolled: 'Naka-enroll',
+    wfCompleted: 'Nakumpleto',
+    wfCompletionRate: 'Pagkumpleto',
+    wfEditWorkflow: 'I-edit ang Workflow',
+    wfWorkflowName: 'Pangalan ng workflow',
+    wfWorkflowNamePh: 'hal. Welcome Sequence, Onboarding...',
+    wfDescription: 'Paglalarawan',
+    wfDescriptionPh: 'Ano ang ginagawa ng workflow na ito?',
+    wfTrigger: 'Trigger',
+    wfTriggerLeadSignup: 'Lead Signup',
+    wfTriggerLeadInactive: 'Lead Inactive',
+    wfTriggerStageChange: 'Stage Change',
+    wfTriggerManual: 'Manual',
+    wfTriggerScheduled: 'Naka-schedule',
+    wfInactiveDays: 'Araw na inactive',
+    wfSelectStage: 'Pumili ng stage',
+    wfSteps: 'Mga hakbang',
+    wfAddStep: 'Magdagdag ng hakbang',
+    wfStepEmail: 'Email',
+    wfStepWait: 'Maghintay',
+    wfStepCondition: 'Kondisyon',
+    wfStepSwitch: 'Palitan ang Workflow',
+    wfStepWhatsApp: 'WhatsApp',
+    wfStepTelegram: 'Telegram',
+    wfSubject: 'Subject',
+    wfBody: 'Nilalaman',
+    wfPreview: 'Preview',
+    wfWaitValue: 'Maghintay',
+    wfHours: 'oras',
+    wfDays: 'araw',
+    wfConditionIf: 'Kung ang lead',
+    wfConditionOpened: 'binuksan',
+    wfConditionClicked: 'na-click',
+    wfConditionNotOpened: 'hindi binuksan',
+    wfConditionEmail: 'email mula sa hakbang',
+    wfConditionThen: 'Pumunta sa hakbang',
+    wfConditionElse: 'Kung hindi, pumunta sa hakbang',
+    wfSwitchTo: 'Lumipat sa workflow',
+    wfSaveDraft: 'I-save bilang Draft',
+    wfActivate: 'I-activate',
+    wfBackToWorkflows: 'Bumalik sa mga workflow',
+    wfDeleteStep: 'Tanggalin',
+    wfSelectStepType: 'Pumili ng uri ng hakbang',
+    wfUseTemplate: 'Gamitin ang Template',
+    wfCloseTemplates: 'Isara',
+    wfTemplateUsed: 'Naidagdag ang template! I-customize bago i-activate.',
+    wfSaved: 'Na-save ang workflow!',
+    wfActivated: 'Na-activate ang workflow!',
+    wfDeactivated: 'Naka-pause ang workflow.',
+    wfSaveError: 'Hindi ma-save ang workflow',
+    wfEmailPreviewTitle: 'Email Preview',
+    wfClose: 'Isara',
   },
   pt: {
     leadsTab: 'Leads',
@@ -2021,6 +2427,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'Integração de bot do Telegram em breve',
     broadcastSuccess: 'Transmissão enviada com sucesso!',
     broadcastError: 'Falha ao enviar transmissão',
+    wfNoWorkflows: 'Nenhum fluxo ainda. Comece com um modelo ou crie o seu.',
+    wfNewWorkflow: 'Novo Fluxo',
+    wfTemplateLibrary: 'Biblioteca de Modelos',
+    wfActive: 'Ativo',
+    wfDraft: 'Rascunho',
+    wfPaused: 'Pausado',
+    wfEnrolled: 'Inscritos',
+    wfCompleted: 'Concluídos',
+    wfCompletionRate: 'Conclusão',
+    wfEditWorkflow: 'Editar Fluxo',
+    wfWorkflowName: 'Nome do fluxo',
+    wfWorkflowNamePh: 'ex. Sequência de boas-vindas, Onboarding...',
+    wfDescription: 'Descrição',
+    wfDescriptionPh: 'O que este fluxo faz?',
+    wfTrigger: 'Gatilho',
+    wfTriggerLeadSignup: 'Cadastro de lead',
+    wfTriggerLeadInactive: 'Lead inativo',
+    wfTriggerStageChange: 'Mudança de etapa',
+    wfTriggerManual: 'Manual',
+    wfTriggerScheduled: 'Agendado',
+    wfInactiveDays: 'Dias inativo',
+    wfSelectStage: 'Selecionar etapa',
+    wfSteps: 'Etapas',
+    wfAddStep: 'Adicionar etapa',
+    wfStepEmail: 'Email',
+    wfStepWait: 'Aguardar',
+    wfStepCondition: 'Condição',
+    wfStepSwitch: 'Trocar fluxo',
+    wfStepWhatsApp: 'WhatsApp',
+    wfStepTelegram: 'Telegram',
+    wfSubject: 'Assunto',
+    wfBody: 'Corpo',
+    wfPreview: 'Pré-visualização',
+    wfWaitValue: 'Aguardar',
+    wfHours: 'horas',
+    wfDays: 'dias',
+    wfConditionIf: 'Se o lead',
+    wfConditionOpened: 'abriu',
+    wfConditionClicked: 'clicou',
+    wfConditionNotOpened: 'não abriu',
+    wfConditionEmail: 'email da etapa',
+    wfConditionThen: 'Ir para etapa',
+    wfConditionElse: 'Senão, ir para etapa',
+    wfSwitchTo: 'Trocar para fluxo',
+    wfSaveDraft: 'Salvar rascunho',
+    wfActivate: 'Ativar',
+    wfBackToWorkflows: 'Voltar aos fluxos',
+    wfDeleteStep: 'Excluir',
+    wfSelectStepType: 'Selecionar tipo de etapa',
+    wfUseTemplate: 'Usar Modelo',
+    wfCloseTemplates: 'Fechar',
+    wfTemplateUsed: 'Modelo adicionado! Personalize antes de ativar.',
+    wfSaved: 'Fluxo salvo!',
+    wfActivated: 'Fluxo ativado!',
+    wfDeactivated: 'Fluxo pausado.',
+    wfSaveError: 'Falha ao salvar fluxo',
+    wfEmailPreviewTitle: 'Pré-visualização do email',
+    wfClose: 'Fechar',
   },
   th: {
     leadsTab: 'ลีด',
@@ -2270,6 +2734,64 @@ const translations: Record<string, Record<string, string>> = {
     telegramComingSoon: 'การเชื่อมต่อบอท Telegram เร็วๆ นี้',
     broadcastSuccess: 'ส่งข้อความสำเร็จ!',
     broadcastError: 'ส่งข้อความไม่สำเร็จ',
+    wfNoWorkflows: 'ยังไม่มีเวิร์กโฟลว์ เริ่มจากเทมเพลตหรือสร้างเอง',
+    wfNewWorkflow: 'เวิร์กโฟลว์ใหม่',
+    wfTemplateLibrary: 'คลังเทมเพลต',
+    wfActive: 'ใช้งาน',
+    wfDraft: 'แบบร่าง',
+    wfPaused: 'หยุดชั่วคราว',
+    wfEnrolled: 'ลงทะเบียน',
+    wfCompleted: 'เสร็จสิ้น',
+    wfCompletionRate: 'ความสำเร็จ',
+    wfEditWorkflow: 'แก้ไขเวิร์กโฟลว์',
+    wfWorkflowName: 'ชื่อเวิร์กโฟลว์',
+    wfWorkflowNamePh: 'เช่น ลำดับต้อนรับ, การเริ่มต้น...',
+    wfDescription: 'คำอธิบาย',
+    wfDescriptionPh: 'เวิร์กโฟลว์นี้ทำอะไร?',
+    wfTrigger: 'ทริกเกอร์',
+    wfTriggerLeadSignup: 'ลีดสมัคร',
+    wfTriggerLeadInactive: 'ลีดไม่ใช้งาน',
+    wfTriggerStageChange: 'เปลี่ยนขั้นตอน',
+    wfTriggerManual: 'ด้วยตนเอง',
+    wfTriggerScheduled: 'ตั้งเวลา',
+    wfInactiveDays: 'วันที่ไม่ใช้งาน',
+    wfSelectStage: 'เลือกขั้นตอน',
+    wfSteps: 'ขั้นตอน',
+    wfAddStep: 'เพิ่มขั้นตอน',
+    wfStepEmail: 'อีเมล',
+    wfStepWait: 'รอ',
+    wfStepCondition: 'เงื่อนไข',
+    wfStepSwitch: 'เปลี่ยนเวิร์กโฟลว์',
+    wfStepWhatsApp: 'WhatsApp',
+    wfStepTelegram: 'Telegram',
+    wfSubject: 'หัวเรื่อง',
+    wfBody: 'เนื้อหา',
+    wfPreview: 'ดูตัวอย่าง',
+    wfWaitValue: 'รอ',
+    wfHours: 'ชั่วโมง',
+    wfDays: 'วัน',
+    wfConditionIf: 'ถ้าลีด',
+    wfConditionOpened: 'เปิด',
+    wfConditionClicked: 'คลิก',
+    wfConditionNotOpened: 'ไม่เปิด',
+    wfConditionEmail: 'อีเมลจากขั้นตอน',
+    wfConditionThen: 'ไปขั้นตอน',
+    wfConditionElse: 'ไม่เช่นนั้นไปขั้นตอน',
+    wfSwitchTo: 'เปลี่ยนไปเวิร์กโฟลว์',
+    wfSaveDraft: 'บันทึกแบบร่าง',
+    wfActivate: 'เปิดใช้งาน',
+    wfBackToWorkflows: 'กลับ',
+    wfDeleteStep: 'ลบ',
+    wfSelectStepType: 'เลือกประเภทขั้นตอน',
+    wfUseTemplate: 'ใช้เทมเพลต',
+    wfCloseTemplates: 'ปิด',
+    wfTemplateUsed: 'เพิ่มเทมเพลตแล้ว! ปรับแต่งก่อนเปิดใช้งาน',
+    wfSaved: 'บันทึกเวิร์กโฟลว์แล้ว!',
+    wfActivated: 'เปิดใช้งานเวิร์กโฟลว์แล้ว!',
+    wfDeactivated: 'หยุดเวิร์กโฟลว์ชั่วคราว',
+    wfSaveError: 'ไม่สามารถบันทึกเวิร์กโฟลว์',
+    wfEmailPreviewTitle: 'ดูตัวอย่างอีเมล',
+    wfClose: 'ปิด',
   },
 }
 
@@ -3543,6 +4065,198 @@ export default function Home() {
   const [bcRecipients, setBcRecipients] = useState<any[]>([])
   const [bcWhatsappLinks, setBcWhatsappLinks] = useState<{ name: string; url: string }[]>([])
 
+  // Workflow state
+  const [workflows, setWorkflows] = useState<any[]>([])
+  const [wfView, setWfView] = useState<'list' | 'builder'>('list')
+  const [wfEditing, setWfEditing] = useState<any>(null)
+  const [wfName, setWfName] = useState('')
+  const [wfDescription, setWfDescription] = useState('')
+  const [wfTriggerType, setWfTriggerType] = useState<string>('lead_signup')
+  const [wfTriggerConfig, setWfTriggerConfig] = useState<any>({})
+  const [wfSteps, setWfSteps] = useState<any[]>([])
+  const [wfSaving, setWfSaving] = useState(false)
+  const [wfTemplatesOpen, setWfTemplatesOpen] = useState(false)
+  const [wfTemplates, setWfTemplates] = useState<any[]>([])
+  const [wfPreviewStep, setWfPreviewStep] = useState<number | null>(null)
+  const [wfAddStepOpen, setWfAddStepOpen] = useState(false)
+  const [wfEnrollmentCounts, setWfEnrollmentCounts] = useState<Record<string, { enrolled: number; completed: number }>>({})
+
+  const fetchWorkflows = useCallback(async () => {
+    if (!distributor?.id) return
+    const { data } = await supabase
+      .from('email_workflows')
+      .select('*')
+      .eq('owner_id', distributor.id)
+      .eq('is_template', false)
+      .order('created_at', { ascending: false })
+    setWorkflows(data || [])
+    // Fetch enrollment counts
+    if (data && data.length > 0) {
+      const wfIds = data.map((w: any) => w.id)
+      const { data: enrollments } = await supabase
+        .from('workflow_enrollments')
+        .select('workflow_id, status')
+        .in('workflow_id', wfIds)
+      const counts: Record<string, { enrolled: number; completed: number }> = {}
+      for (const e of enrollments || []) {
+        if (!counts[e.workflow_id]) counts[e.workflow_id] = { enrolled: 0, completed: 0 }
+        counts[e.workflow_id].enrolled++
+        if (e.status === 'completed') counts[e.workflow_id].completed++
+      }
+      setWfEnrollmentCounts(counts)
+    }
+  }, [distributor?.id])
+
+  const fetchWfTemplates = async () => {
+    const { data } = await supabase
+      .from('email_workflows')
+      .select('*, workflow_steps(*)')
+      .eq('is_template', true)
+      .eq('is_global', true)
+      .order('created_at', { ascending: true })
+    setWfTemplates(data || [])
+  }
+
+  const wfToggleActive = async (wf: any) => {
+    const newStatus = wf.status === 'active' ? 'paused' : 'active'
+    await supabase.from('email_workflows').update({ status: newStatus }).eq('id', wf.id)
+    showToast(newStatus === 'active' ? t.wfActivated : t.wfDeactivated, 'info')
+    fetchWorkflows()
+  }
+
+  const wfOpenBuilder = (wf?: any) => {
+    if (wf) {
+      setWfEditing(wf)
+      setWfName(wf.name)
+      setWfDescription(wf.description || '')
+      setWfTriggerType(wf.trigger_type)
+      setWfTriggerConfig(wf.trigger_config || {})
+      // Load steps
+      supabase
+        .from('workflow_steps')
+        .select('*')
+        .eq('workflow_id', wf.id)
+        .order('step_order', { ascending: true })
+        .then(({ data }) => setWfSteps(data || []))
+    } else {
+      setWfEditing(null)
+      setWfName('')
+      setWfDescription('')
+      setWfTriggerType('lead_signup')
+      setWfTriggerConfig({})
+      setWfSteps([])
+    }
+    setWfView('builder')
+  }
+
+  const wfAddStep = (type: string) => {
+    const order = wfSteps.length + 1
+    let config: any = {}
+    if (type === 'email') config = { subject: '', body: '' }
+    else if (type === 'wait') config = { value: 1, unit: 'days' }
+    else if (type === 'condition') config = { condition_type: 'opened', target_step_order: 1, then_step_order: order + 1, else_step_order: order + 1 }
+    else if (type === 'switch_workflow') config = { target_workflow_id: '' }
+    setWfSteps([...wfSteps, { step_order: order, step_type: type, config }])
+    setWfAddStepOpen(false)
+  }
+
+  const wfUpdateStep = (index: number, config: any) => {
+    const updated = [...wfSteps]
+    updated[index] = { ...updated[index], config: { ...updated[index].config, ...config } }
+    setWfSteps(updated)
+  }
+
+  const wfDeleteStep = (index: number) => {
+    const updated = wfSteps.filter((_, i) => i !== index).map((s, i) => ({ ...s, step_order: i + 1 }))
+    setWfSteps(updated)
+  }
+
+  const wfMoveStep = (index: number, direction: -1 | 1) => {
+    if (index + direction < 0 || index + direction >= wfSteps.length) return
+    const updated = [...wfSteps]
+    const temp = updated[index]
+    updated[index] = updated[index + direction]
+    updated[index + direction] = temp
+    setWfSteps(updated.map((s, i) => ({ ...s, step_order: i + 1 })))
+  }
+
+  const wfSave = async (activate: boolean) => {
+    if (!distributor?.id || !wfName.trim()) return
+    setWfSaving(true)
+    try {
+      const wfData = {
+        owner_id: distributor.id,
+        name: wfName.trim(),
+        description: wfDescription.trim(),
+        trigger_type: wfTriggerType,
+        trigger_config: wfTriggerConfig,
+        status: activate ? 'active' : 'draft',
+        is_template: false,
+        is_global: false,
+      }
+      let wfId: string
+      if (wfEditing) {
+        await supabase.from('email_workflows').update(wfData).eq('id', wfEditing.id)
+        wfId = wfEditing.id
+        // Delete existing steps and re-insert
+        await supabase.from('workflow_steps').delete().eq('workflow_id', wfId)
+      } else {
+        const { data, error } = await supabase.from('email_workflows').insert(wfData).select('id').single()
+        if (error || !data) { showToast(t.wfSaveError); setWfSaving(false); return }
+        wfId = data.id
+      }
+      // Insert steps
+      if (wfSteps.length > 0) {
+        const stepsToInsert = wfSteps.map((s, i) => ({
+          workflow_id: wfId,
+          step_order: i + 1,
+          step_type: s.step_type,
+          config: s.config,
+        }))
+        await supabase.from('workflow_steps').insert(stepsToInsert)
+      }
+      showToast(activate ? t.wfActivated : t.wfSaved, 'info')
+      setWfView('list')
+      fetchWorkflows()
+    } catch {
+      showToast(t.wfSaveError)
+    }
+    setWfSaving(false)
+  }
+
+  const wfUseTemplate = async (template: any) => {
+    if (!distributor?.id) return
+    const { data: wf, error } = await supabase.from('email_workflows').insert({
+      owner_id: distributor.id,
+      name: template.name,
+      description: template.description || '',
+      trigger_type: template.trigger_type,
+      trigger_config: template.trigger_config || {},
+      status: 'draft',
+      is_template: false,
+      is_global: false,
+      created_from: template.id,
+    }).select('id').single()
+    if (error || !wf) { showToast(t.wfSaveError); return }
+    // Clone steps
+    const steps = (template.workflow_steps || []).sort((a: any, b: any) => a.step_order - b.step_order)
+    if (steps.length > 0) {
+      const stepsToInsert = steps.map((s: any) => ({
+        workflow_id: wf.id,
+        step_order: s.step_order,
+        step_type: s.step_type,
+        config: s.config,
+      }))
+      await supabase.from('workflow_steps').insert(stepsToInsert)
+    }
+    showToast(t.wfTemplateUsed, 'info')
+    setWfTemplatesOpen(false)
+    fetchWorkflows()
+    // Open in builder for customization
+    const { data: fullWf } = await supabase.from('email_workflows').select('*').eq('id', wf.id).single()
+    if (fullWf) wfOpenBuilder(fullWf)
+  }
+
   const fetchBroadcasts = useCallback(async () => {
     if (!distributor?.id) return
     const { data } = await supabase
@@ -3554,8 +4268,8 @@ export default function Home() {
   }, [distributor?.id])
 
   useEffect(() => {
-    if (distributor?.id && activeTab === 'marketing') fetchBroadcasts()
-  }, [distributor?.id, activeTab, fetchBroadcasts])
+    if (distributor?.id && activeTab === 'marketing') { fetchBroadcasts(); fetchWorkflows() }
+  }, [distributor?.id, activeTab, fetchBroadcasts, fetchWorkflows])
 
   const bcRecipientCount = (() => {
     if (!leads.length) return 0
@@ -3815,10 +4529,11 @@ export default function Home() {
   const addLead = async () => {
     if (!distributor || !leadName || !leadEmail || !leadUid) { showToast(t.fillAll); return }
     setSubmitting(true)
-    const { error } = await supabase.from('leads').insert({ distributor_id: distributor.id, name: leadName, email: leadEmail, uid: leadUid, uid_verified: false })
+    const { data: insertedLead, error } = await supabase.from('leads').insert({ distributor_id: distributor.id, name: leadName, email: leadEmail, uid: leadUid, uid_verified: false }).select('id').single()
     if (error) { showToast(t.errorPrefix + error.message); setSubmitting(false); return }
     await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName, leadEmail, leadUid, distributorName: distributor.name, distributorEmail: distributor.email }) })
     fetch('/api/milestone-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
+    if (insertedLead?.id) { fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId: insertedLead.id, distributorId: distributor.id }) }).catch(() => {}) }
     setLeadName(''); setLeadEmail(''); setLeadUid('')
     setSubmitting(false)
     await fetchLeads(distributor.id)
@@ -4342,7 +5057,19 @@ export default function Home() {
             aria-selected={activeTab === 'beta'}
             aria-controls="tab-panel-beta"
             id="tab-beta"
-            onClick={() => setActiveTab('beta')}
+            onClick={() => {
+              setActiveTab('beta')
+              // Re-fetch test results from Supabase to ensure persistence across tab switches
+              if (distributor?.user_id) {
+                supabase.from('test_results').select('id, test_item, status, comment').eq('tester_id', distributor.user_id).then(({ data }) => {
+                  if (data) {
+                    const results: Record<string, { status: string; comment: string; id?: string }> = {}
+                    for (const r of data) results[r.test_item] = { status: r.status, comment: r.comment || '', id: r.id }
+                    setBetaResults(results)
+                  }
+                })
+              }
+            }}
             className={`tab-btn${activeTab === 'beta' ? ' tab-btn-active' : ''}`}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 4, verticalAlign: '-2px' }}><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
@@ -5008,7 +5735,7 @@ export default function Home() {
             {/* Sub-tabs */}
             <div className="bc-sub-tabs">
               <button className={`bc-sub-tab${bcSubTab === 'broadcasts' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('broadcasts')}>{t.broadcastsSubTab}</button>
-              <button className={`bc-sub-tab`} disabled style={{ opacity: 0.5, cursor: 'default' }}>{t.workflowsSubTab}<span className="bc-sub-tab-badge">{t.comingSoon}</span></button>
+              <button className={`bc-sub-tab${bcSubTab === 'workflows' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('workflows')}>{t.workflowsSubTab}</button>
               <button className={`bc-sub-tab`} disabled style={{ opacity: 0.5, cursor: 'default' }}>{t.pipelineSubTab}<span className="bc-sub-tab-badge">{t.comingSoon}</span></button>
             </div>
 
@@ -5236,6 +5963,273 @@ export default function Home() {
                 </div>
               </div>
             )}
+
+            {/* WORKFLOWS LIST */}
+            {bcSubTab === 'workflows' && wfView === 'list' && (
+              <div>
+                <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                  <button className="gold-btn" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }} onClick={() => wfOpenBuilder()}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    {t.wfNewWorkflow}
+                  </button>
+                  <button className="gold-btn" style={{ background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} onClick={() => { fetchWfTemplates(); setWfTemplatesOpen(true) }}>
+                    {t.wfTemplateLibrary}
+                  </button>
+                </div>
+
+                {workflows.length === 0 && (
+                  <div className="bc-empty">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" strokeWidth="1" style={{ marginBottom: '1rem' }}>
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    <p>{t.wfNoWorkflows}</p>
+                  </div>
+                )}
+
+                {workflows.map(wf => {
+                  const counts = wfEnrollmentCounts[wf.id] || { enrolled: 0, completed: 0 }
+                  const completionRate = counts.enrolled > 0 ? Math.round((counts.completed / counts.enrolled) * 100) : 0
+                  return (
+                    <div key={wf.id} className="bc-card" style={{ cursor: 'pointer' }} onClick={() => wfOpenBuilder(wf)}>
+                      <div className="bc-card-header">
+                        <div className="bc-card-title">{wf.name}</div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <span className={`bc-status bc-status-${wf.status === 'active' ? 'sent' : wf.status === 'paused' ? 'scheduled' : 'draft'}`}>
+                            {wf.status === 'active' ? t.wfActive : wf.status === 'paused' ? t.wfPaused : t.wfDraft}
+                          </span>
+                          <div onClick={e => { e.stopPropagation(); wfToggleActive(wf) }} style={{ width: 40, height: 22, borderRadius: 11, background: wf.status === 'active' ? 'var(--gold)' : 'var(--input-border)', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
+                            <div style={{ width: 18, height: 18, borderRadius: '50%', background: '#fff', position: 'absolute', top: 2, left: wf.status === 'active' ? 20 : 2, transition: 'left 0.2s' }} />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bc-card-meta">
+                        <span>{({ lead_signup: t.wfTriggerLeadSignup, lead_inactive: t.wfTriggerLeadInactive, stage_change: t.wfTriggerStageChange, manual: t.wfTriggerManual, scheduled: t.wfTriggerScheduled } as Record<string, string>)[wf.trigger_type] || wf.trigger_type}</span>
+                        <span>{t.wfEnrolled}: {counts.enrolled}</span>
+                        <span>{t.wfCompletionRate}: {completionRate}%</span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* WORKFLOW BUILDER */}
+            {bcSubTab === 'workflows' && wfView === 'builder' && (
+              <div>
+                <button style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.85rem', marginBottom: '1rem', padding: 0 }} onClick={() => setWfView('list')}>
+                  &larr; {t.wfBackToWorkflows}
+                </button>
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.wfWorkflowName}</div>
+                  <input className="field-input" placeholder={t.wfWorkflowNamePh} value={wfName} onChange={e => setWfName(e.target.value)} />
+                </div>
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.wfDescription}</div>
+                  <input className="field-input" placeholder={t.wfDescriptionPh} value={wfDescription} onChange={e => setWfDescription(e.target.value)} />
+                </div>
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.wfTrigger}</div>
+                  <div className="bc-audience-row">
+                    {([
+                      { key: 'lead_signup', label: t.wfTriggerLeadSignup },
+                      { key: 'lead_inactive', label: t.wfTriggerLeadInactive },
+                      { key: 'stage_change', label: t.wfTriggerStageChange },
+                      { key: 'manual', label: t.wfTriggerManual },
+                    ] as { key: string; label: string }[]).map(opt => (
+                      <div key={opt.key} className={`bc-audience-opt${wfTriggerType === opt.key ? ' bc-audience-active' : ''}`} onClick={() => setWfTriggerType(opt.key)}>
+                        <div style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid', borderColor: wfTriggerType === opt.key ? 'var(--gold)' : 'var(--input-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {wfTriggerType === opt.key && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gold)' }} />}
+                        </div>
+                        {opt.label}
+                      </div>
+                    ))}
+                  </div>
+                  {wfTriggerType === 'lead_inactive' && (
+                    <div style={{ marginTop: '0.75rem' }}>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>{t.wfInactiveDays}: </span>
+                      <input type="number" className="field-input" style={{ width: 80, display: 'inline-block' }} min={1} value={wfTriggerConfig.days || 14} onChange={e => setWfTriggerConfig({ ...wfTriggerConfig, days: parseInt(e.target.value) || 14 })} />
+                    </div>
+                  )}
+                  {wfTriggerType === 'stage_change' && (
+                    <div style={{ marginTop: '0.75rem' }}>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>{t.wfSelectStage}: </span>
+                      <select className="field-input" style={{ width: 'auto', display: 'inline-block' }} value={wfTriggerConfig.stage || ''} onChange={e => setWfTriggerConfig({ ...wfTriggerConfig, stage: e.target.value })}>
+                        <option value="">--</option>
+                        <option value="Signed Up">Signed Up</option>
+                        <option value="Active">Active</option>
+                        <option value="VIP">VIP</option>
+                      </select>
+                    </div>
+                  )}
+                </div>
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.wfSteps} ({wfSteps.length})</div>
+
+                  {wfSteps.map((step, idx) => (
+                    <div key={idx} style={{ border: '1px solid var(--input-border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.75rem', background: 'var(--card-bg)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '0.85rem' }}>#{idx + 1}</span>
+                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            {({ email: t.wfStepEmail, wait: t.wfStepWait, condition: t.wfStepCondition, switch_workflow: t.wfStepSwitch, whatsapp: t.wfStepWhatsApp, telegram: t.wfStepTelegram } as Record<string, string>)[step.step_type] || step.step_type}
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.25rem' }}>
+                          {idx > 0 && <button style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', padding: '2px 6px', fontSize: '0.9rem' }} onClick={() => wfMoveStep(idx, -1)} title="Move up">&uarr;</button>}
+                          {idx < wfSteps.length - 1 && <button style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', padding: '2px 6px', fontSize: '0.9rem' }} onClick={() => wfMoveStep(idx, 1)} title="Move down">&darr;</button>}
+                          <button style={{ background: 'none', border: 'none', color: '#ff6b6b', cursor: 'pointer', padding: '2px 6px', fontSize: '0.75rem' }} onClick={() => wfDeleteStep(idx)}>{t.wfDeleteStep}</button>
+                        </div>
+                      </div>
+
+                      {step.step_type === 'email' && (
+                        <div>
+                          <input className="field-input" placeholder={t.wfSubject} value={step.config.subject || ''} onChange={e => wfUpdateStep(idx, { subject: e.target.value })} style={{ marginBottom: '0.5rem' }} />
+                          <div style={{ display: 'flex', gap: '0.25rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                            {['{first_name}', '{landing_page_url}', '{referral_link}'].map(tag => (
+                              <button key={tag} className="bc-merge-chip" onClick={() => wfUpdateStep(idx, { body: (step.config.body || '') + tag })}>{tag}</button>
+                            ))}
+                          </div>
+                          <textarea className="field-textarea" rows={5} placeholder={t.wfBody} value={step.config.body || ''} onChange={e => wfUpdateStep(idx, { body: e.target.value })} />
+                          <button style={{ background: 'none', border: '1px solid var(--input-border)', borderRadius: 6, padding: '0.3rem 0.75rem', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.8rem', marginTop: '0.5rem', fontFamily: "'Outfit', sans-serif" }} onClick={() => setWfPreviewStep(wfPreviewStep === idx ? null : idx)}>
+                            {t.wfPreview}
+                          </button>
+                          {wfPreviewStep === idx && (
+                            <div className="bc-preview-box" style={{ marginTop: '0.5rem' }}>
+                              {(step.config.body || '').replace(/\{first_name\}/g, 'John').replace(/\{landing_page_url\}/g, `https://primeverseaccess.com/${profileSlug || 'yourpage'}`).replace(/\{referral_link\}/g, profileReferralLink || 'https://puvip.co/la-partners/...')}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {step.step_type === 'wait' && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{t.wfWaitValue}</span>
+                          <input type="number" className="field-input" style={{ width: 70 }} min={1} value={step.config.value || 1} onChange={e => wfUpdateStep(idx, { value: parseInt(e.target.value) || 1 })} />
+                          <select className="field-input" style={{ width: 'auto' }} value={step.config.unit || 'days'} onChange={e => wfUpdateStep(idx, { unit: e.target.value })}>
+                            <option value="hours">{t.wfHours}</option>
+                            <option value="days">{t.wfDays}</option>
+                          </select>
+                        </div>
+                      )}
+
+                      {step.step_type === 'condition' && (
+                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.4rem' }}>
+                            <span>{t.wfConditionIf}</span>
+                            <select className="field-input" style={{ width: 'auto', fontSize: '0.8rem' }} value={step.config.condition_type || 'opened'} onChange={e => wfUpdateStep(idx, { condition_type: e.target.value })}>
+                              <option value="opened">{t.wfConditionOpened}</option>
+                              <option value="clicked">{t.wfConditionClicked}</option>
+                              <option value="not_opened">{t.wfConditionNotOpened}</option>
+                            </select>
+                            <span>{t.wfConditionEmail}</span>
+                            <input type="number" className="field-input" style={{ width: 50, fontSize: '0.8rem' }} min={1} value={step.config.target_step_order || 1} onChange={e => wfUpdateStep(idx, { target_step_order: parseInt(e.target.value) || 1 })} />
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.25rem' }}>
+                            <span>{t.wfConditionThen}</span>
+                            <input type="number" className="field-input" style={{ width: 50, fontSize: '0.8rem' }} min={1} value={step.config.then_step_order || idx + 2} onChange={e => wfUpdateStep(idx, { then_step_order: parseInt(e.target.value) || 1 })} />
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                            <span>{t.wfConditionElse}</span>
+                            <input type="number" className="field-input" style={{ width: 50, fontSize: '0.8rem' }} min={1} value={step.config.else_step_order || idx + 2} onChange={e => wfUpdateStep(idx, { else_step_order: parseInt(e.target.value) || 1 })} />
+                          </div>
+                        </div>
+                      )}
+
+                      {step.step_type === 'switch_workflow' && (
+                        <div>
+                          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{t.wfSwitchTo}: </span>
+                          <select className="field-input" style={{ width: 'auto', display: 'inline-block' }} value={step.config.target_workflow_id || ''} onChange={e => wfUpdateStep(idx, { target_workflow_id: e.target.value })}>
+                            <option value="">--</option>
+                            {workflows.filter(w => w.id !== wfEditing?.id).map(w => (
+                              <option key={w.id} value={w.id}>{w.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+
+                      {(step.step_type === 'whatsapp' || step.step_type === 'telegram') && (
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontStyle: 'italic' }}>
+                          {step.step_type === 'whatsapp' ? t.wfStepWhatsApp : t.wfStepTelegram} — {t.comingSoon}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* Add step button */}
+                  <div style={{ position: 'relative' }}>
+                    <button className="gold-btn" style={{ background: 'transparent', border: '1px dashed var(--gold)', color: 'var(--gold)', width: '100%', padding: '0.6rem' }} onClick={() => setWfAddStepOpen(!wfAddStepOpen)}>
+                      + {t.wfAddStep}
+                    </button>
+                    {wfAddStepOpen && (
+                      <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--card-bg)', border: '1px solid var(--input-border)', borderRadius: 8, marginTop: 4, zIndex: 10, overflow: 'hidden' }}>
+                        {[
+                          { key: 'email', label: t.wfStepEmail, icon: 'M22 4l-10 8L2 4' },
+                          { key: 'wait', label: t.wfStepWait, icon: 'M12 2v10l4.5 4.5' },
+                          { key: 'condition', label: t.wfStepCondition, icon: 'M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5' },
+                          { key: 'switch_workflow', label: t.wfStepSwitch, icon: 'M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3' },
+                          { key: 'whatsapp', label: t.wfStepWhatsApp, icon: 'M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z' },
+                          { key: 'telegram', label: t.wfStepTelegram, icon: 'M21.2 4.4L2.4 10.6c-.6.2-.6 1.1 0 1.3l4.3 1.4 1.6 5.1c.2.5.8.7 1.2.4l2.3-1.9 4.5 3.3c.5.3 1.1 0 1.2-.5L21.2 4.4z' },
+                        ].map(opt => (
+                          <button key={opt.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%', padding: '0.6rem 0.75rem', background: 'none', border: 'none', borderBottom: '1px solid var(--input-border)', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '0.85rem', fontFamily: "'Outfit', sans-serif" }} onClick={() => wfAddStep(opt.key)}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><path d={opt.icon}/></svg>
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
+                  <button className="gold-btn" style={{ flex: 1, background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} disabled={wfSaving || !wfName.trim()} onClick={() => wfSave(false)}>
+                    {wfSaving ? '...' : t.wfSaveDraft}
+                  </button>
+                  <button className="gold-btn" style={{ flex: 1 }} disabled={wfSaving || !wfName.trim() || wfSteps.length === 0} onClick={() => wfSave(true)}>
+                    {wfSaving ? '...' : t.wfActivate}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* WORKFLOW TEMPLATE LIBRARY MODAL */}
+        {wfTemplatesOpen && (
+          <div className="bc-confirm-overlay" onClick={e => { if (e.target === e.currentTarget) setWfTemplatesOpen(false) }}>
+            <div className="bc-confirm-box" style={{ textAlign: 'left', maxWidth: 520, maxHeight: '80vh', overflowY: 'auto' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                <h3 style={{ color: 'var(--gold)', margin: 0 }}>{t.wfTemplateLibrary}</h3>
+                <button style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontSize: '1.2rem' }} onClick={() => setWfTemplatesOpen(false)}>&times;</button>
+              </div>
+              {wfTemplates.length === 0 && (
+                <p style={{ color: 'var(--text-dim)', fontSize: '0.85rem' }}>No templates available. Run the seed-templates API first.</p>
+              )}
+              {wfTemplates.map(tmpl => (
+                <div key={tmpl.id} style={{ border: '1px solid var(--input-border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.75rem', background: 'var(--card-bg)' }}>
+                  <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>{tmpl.name}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginBottom: '0.25rem' }}>
+                    {({ lead_signup: t.wfTriggerLeadSignup, lead_inactive: t.wfTriggerLeadInactive, stage_change: t.wfTriggerStageChange, manual: t.wfTriggerManual, scheduled: t.wfTriggerScheduled } as Record<string, string>)[tmpl.trigger_type] || tmpl.trigger_type}
+                    {' '}&bull;{' '}{(tmpl.workflow_steps || []).length} {t.wfSteps.toLowerCase()}
+                  </div>
+                  {tmpl.description && <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>{tmpl.description}</div>}
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.5rem' }}>
+                    {(tmpl.workflow_steps || []).sort((a: any, b: any) => a.step_order - b.step_order).map((s: any, i: number) => (
+                      <span key={i}>
+                        {i > 0 && ' → '}
+                        {s.step_type === 'email' ? `${t.wfStepEmail}: "${(s.config?.subject || '').slice(0, 30)}${(s.config?.subject || '').length > 30 ? '...' : ''}"` : s.step_type === 'wait' ? `${t.wfStepWait} ${s.config?.value}${s.config?.unit === 'days' ? 'd' : 'h'}` : s.step_type === 'condition' ? t.wfStepCondition : s.step_type === 'switch_workflow' ? t.wfStepSwitch : s.step_type}
+                      </span>
+                    ))}
+                  </div>
+                  <button className="gold-btn" style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem' }} onClick={() => wfUseTemplate(tmpl)}>
+                    {t.wfUseTemplate}
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
@@ -5380,32 +6374,29 @@ export default function Home() {
           const cycleStatus = (item: string) => {
             const current = betaResults[item]?.status || ''
             const next = current === '' ? 'pass' : current === 'pass' ? 'fail' : ''
-            const existing = betaResults[item]
             if (next === '') {
-              // Delete from DB
-              if (existing?.id) supabase.from('test_results').delete().eq('id', existing.id).then(() => {})
+              // Delete from DB using tester_id + test_item (unique constraint)
+              supabase.from('test_results').delete().eq('tester_id', distributor?.user_id).eq('test_item', item).then(() => {})
               setBetaResults(prev => { const n = { ...prev }; delete n[item]; return n })
               setBetaFailItem(null)
               return
             }
             const section = betaSections.find(s => s.items.includes(item))?.label || ''
-            const row = { tester_id: distributor?.user_id, tester_email: distributor?.email, tester_name: distributor?.name, section, test_item: item, status: next, comment: existing?.comment || '', platform: 'systm8' as const }
-            if (existing?.id) {
-              supabase.from('test_results').update({ status: next, updated_at: new Date().toISOString() }).eq('id', existing.id).then(() => {})
-              setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: next } }))
-            } else {
-              supabase.from('test_results').insert(row).select('id').single().then(({ data }) => {
-                setBetaResults(prev => ({ ...prev, [item]: { status: next, comment: '', id: data?.id } }))
-              })
-            }
+            const row = { tester_id: distributor?.user_id, tester_email: distributor?.email, tester_name: distributor?.name, section, test_item: item, status: next, comment: betaResults[item]?.comment || '', platform: 'systm8' as const, updated_at: new Date().toISOString() }
+            // Upsert on (tester_id, test_item) — immediately persists to Supabase
+            supabase.from('test_results').upsert(row, { onConflict: 'tester_id,test_item' }).select('id').single().then(({ data }) => {
+              setBetaResults(prev => ({ ...prev, [item]: { status: next, comment: prev[item]?.comment || '', id: data?.id } }))
+            })
+            // Optimistic UI update
+            setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: next, comment: prev[item]?.comment || '' } }))
             if (next === 'fail') { setBetaFailItem(item); setBetaBugForm({ title: item, description: '', severity: 'major' }) }
             else setBetaFailItem(null)
           }
 
           const saveComment = (item: string, comment: string) => {
-            const existing = betaResults[item]
             setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: prev[item]?.status || '', comment } }))
-            if (existing?.id) supabase.from('test_results').update({ comment, updated_at: new Date().toISOString() }).eq('id', existing.id).then(() => {})
+            // Save comment to Supabase using tester_id + test_item
+            supabase.from('test_results').update({ comment, updated_at: new Date().toISOString() }).eq('tester_id', distributor?.user_id).eq('test_item', item).then(() => {})
           }
 
           const uploadScreenshot = async (item: string, file: File) => {
@@ -5417,10 +6408,7 @@ export default function Home() {
             if (error) { showToast(t.errorPrefix + error.message); return }
             const { data: urlData } = supabase.storage.from('beta-screenshots').getPublicUrl(path)
             const url = urlData?.publicUrl || ''
-            const existing = betaResults[item]
-            if (existing?.id) {
-              await supabase.from('test_results').update({ screenshot_url: url, updated_at: new Date().toISOString() }).eq('id', existing.id)
-            }
+            await supabase.from('test_results').update({ screenshot_url: url, updated_at: new Date().toISOString() }).eq('tester_id', distributor?.user_id).eq('test_item', item)
             showToast('Screenshot uploaded')
           }
 

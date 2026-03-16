@@ -1,0 +1,107 @@
+import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder',
+)
+
+const ADMIN_EMAILS = ['aasum85@gmail.com', 'bitaasum@gmail.com']
+
+// Total test items count (hardcoded to match the beta test sections in page.tsx)
+const TOTAL_TEST_ITEMS = 38
+
+export async function GET(request: Request) {
+  // Verify admin via auth cookie
+  const authHeader = request.headers.get('cookie') || ''
+  // Use the anon client to check the user from the request
+  const anonClient = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
+    { global: { headers: { cookie: authHeader } } }
+  )
+  const { data: userData } = await anonClient.auth.getUser()
+  if (!userData.user || !ADMIN_EMAILS.includes(userData.user.email || '')) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Fetch all test results using service role (bypasses RLS)
+  const { data: results, error } = await supabaseAdmin
+    .from('test_results')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  // Group by tester
+  const testerMap = new Map<string, {
+    tester_id: string
+    tester_email: string
+    tester_name: string
+    results: typeof results
+    passCount: number
+    failCount: number
+    skipCount: number
+  }>()
+
+  for (const r of results || []) {
+    const key = r.tester_id
+    if (!testerMap.has(key)) {
+      testerMap.set(key, {
+        tester_id: r.tester_id,
+        tester_email: r.tester_email,
+        tester_name: r.tester_name || r.tester_email,
+        results: [],
+        passCount: 0,
+        failCount: 0,
+        skipCount: 0,
+      })
+    }
+    const t = testerMap.get(key)!
+    t.results!.push(r)
+    if (r.status === 'pass') t.passCount++
+    else if (r.status === 'fail') t.failCount++
+    else if (r.status === 'skip') t.skipCount++
+  }
+
+  const testers = Array.from(testerMap.values()).map(t => ({
+    tester_id: t.tester_id,
+    tester_email: t.tester_email,
+    tester_name: t.tester_name,
+    passCount: t.passCount,
+    failCount: t.failCount,
+    skipCount: t.skipCount,
+    totalCompleted: t.passCount + t.failCount + t.skipCount,
+    completionPct: Math.round(((t.passCount + t.failCount + t.skipCount) / TOTAL_TEST_ITEMS) * 100),
+    results: t.results,
+  }))
+
+  // Most-failed test items
+  const failCountMap = new Map<string, { test_item: string; section: string; count: number }>()
+  for (const r of results || []) {
+    if (r.status === 'fail') {
+      const key = r.test_item
+      if (!failCountMap.has(key)) {
+        failCountMap.set(key, { test_item: r.test_item, section: r.section, count: 0 })
+      }
+      failCountMap.get(key)!.count++
+    }
+  }
+  const mostFailed = Array.from(failCountMap.values()).sort((a, b) => b.count - a.count)
+
+  // Overview stats
+  const totalTesters = testers.length
+  const avgCompletion = totalTesters > 0 ? Math.round(testers.reduce((s, t) => s + t.completionPct, 0) / totalTesters) : 0
+
+  return NextResponse.json({
+    overview: {
+      totalTesters,
+      avgCompletion,
+      totalTestItems: TOTAL_TEST_ITEMS,
+      mostFailed: mostFailed.slice(0, 10),
+    },
+    testers,
+  })
+}
