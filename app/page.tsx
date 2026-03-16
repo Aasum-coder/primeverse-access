@@ -4157,11 +4157,11 @@ export default function Home() {
   const [wfEnrollmentCounts, setWfEnrollmentCounts] = useState<Record<string, { enrolled: number; completed: number }>>({})
 
   const fetchWorkflows = useCallback(async () => {
-    if (!distributor?.id) return
+    if (!distributor?.user_id) return
     const { data } = await supabase
       .from('email_workflows')
       .select('*')
-      .eq('owner_id', distributor.id)
+      .eq('owner_id', distributor.user_id)
       .eq('is_template', false)
       .order('created_at', { ascending: false })
     setWorkflows(data || [])
@@ -4180,7 +4180,7 @@ export default function Home() {
       }
       setWfEnrollmentCounts(counts)
     }
-  }, [distributor?.id])
+  }, [distributor?.user_id])
 
   const fetchWfTemplates = async () => {
     const { data } = await supabase
@@ -4260,7 +4260,7 @@ export default function Home() {
     setWfSaving(true)
     try {
       const wfData = {
-        owner_id: distributor.id,
+        owner_id: distributor.user_id,
         name: wfName.trim(),
         description: wfDescription.trim(),
         trigger_type: wfTriggerType,
@@ -4300,9 +4300,9 @@ export default function Home() {
   }
 
   const wfUseTemplate = async (template: any) => {
-    if (!distributor?.id) return
+    if (!distributor?.user_id) return
     const { data: wf, error } = await supabase.from('email_workflows').insert({
-      owner_id: distributor.id,
+      owner_id: distributor.user_id,
       name: template.name,
       description: template.description || '',
       trigger_type: template.trigger_type,
