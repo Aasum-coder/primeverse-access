@@ -10,15 +10,11 @@ const langNames: Record<string, string> = {
 const langCodes = ['en', 'no', 'sv', 'es', 'ru', 'ar', 'tl', 'pt', 'th']
 
 export async function POST(request: Request) {
-  console.log('[generate-bio] Request received')
-
   // Check API key
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) {
-    console.error('[generate-bio] GROQ_API_KEY is not set in environment')
     return NextResponse.json({ error: 'Groq API key is not configured. Add GROQ_API_KEY to your environment variables.' }, { status: 500 })
   }
-  console.log('[generate-bio] API key found, length:', apiKey.length, 'starts with:', apiKey.substring(0, 7) + '...')
 
   let body
   try {
@@ -29,7 +25,6 @@ export async function POST(request: Request) {
   }
 
   const { answers, language, tone, fullName } = body
-  console.log('[generate-bio] Request body:', JSON.stringify({ answers, language, tone, fullName }))
 
   if (!answers || !language || !tone) {
     console.error('[generate-bio] Missing fields:', { hasAnswers: !!answers, hasLanguage: !!language, hasTone: !!tone })
@@ -89,7 +84,6 @@ Write the bio now.`
   const groq = new Groq({ apiKey })
 
   try {
-    console.log('[generate-bio] Calling Groq API with model: llama-3.3-70b-versatile')
     const completion = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [
@@ -100,9 +94,7 @@ Write the bio now.`
       max_tokens: 2000,
     })
 
-    console.log('[generate-bio] Groq response received, finish_reason:', completion.choices[0]?.finish_reason)
     const content = completion.choices[0]?.message?.content || ''
-    console.log('[generate-bio] Raw response content:', content.substring(0, 200) + '...')
 
     if (!content) {
       console.error('[generate-bio] Empty response from Groq')
@@ -124,7 +116,6 @@ Write the bio now.`
       return NextResponse.json({ error: 'Failed to parse bio from AI response. Please try again.' }, { status: 500 })
     }
 
-    console.log('[generate-bio] Successfully generated bios for languages:', Object.keys(bios).join(', '))
     return NextResponse.json({ bios })
   } catch (error: unknown) {
     console.error('[generate-bio] Groq API error:', error)
