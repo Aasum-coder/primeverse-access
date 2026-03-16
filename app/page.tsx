@@ -107,8 +107,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Conversion rate',
     pending: 'pending',
     approved: 'approved',
-    ibResourcesTab: 'IB Resources',
+    ibResourcesTab: 'Marketing Resources',
     ibResourcesSubtitle: 'Tools and training to help you succeed',
+    aiMarketingTools: 'AI Marketing Tools',
+    resourcesSection: 'Resources',
     ibTraining: 'IB Training',
     ibTrainingDesc: 'Access training materials and guides to help you get started',
     contentLibrary: 'Content Library',
@@ -118,6 +120,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direct access to VIP support for IB partners',
     pvPresentation: 'PV Presentation',
     pvPresentationDesc: 'View the official PrimeVerse presentation',
+    postWriter: 'Post Writer',
+    postWriterDesc: 'AI-powered social media post generator. Create engaging posts for Facebook, Instagram, TikTok and more.',
+    captionGenerator: 'Caption Generator',
+    captionGeneratorDesc: 'Generate scroll-stopping captions for your images and videos.',
+    hashtagResearch: 'Hashtag Research',
+    hashtagResearchDesc: 'Find the best hashtags for your niche to maximize reach and engagement.',
+    contentCalendar: 'Content Calendar',
+    contentCalendarDesc: 'Get a weekly posting schedule tailored to your audience and timezone.',
+    aiPowered: 'AI Powered',
+    selectPlatform: 'Select platform',
+    topicLabel: 'Topic / product',
+    topicPlaceholder: 'e.g. Trading education, Copy trading, Financial freedom...',
+    toneLabel: 'Tone',
+    toneProfessional: 'Professional',
+    toneCasual: 'Casual',
+    toneMotivational: 'Motivational',
+    toneEducational: 'Educational',
+    generatePost: 'Generate Post',
+    generating: 'Generating...',
+    regenerate: 'Regenerate',
+    copyText: 'Copy',
+    captionTopicPlaceholder: 'Describe your image or video...',
+    captionStyle: 'Style',
+    styleEngaging: 'Engaging',
+    styleInspirational: 'Inspirational',
+    styleEducational: 'Educational',
+    styleHumorous: 'Humorous',
+    generateCaption: 'Generate Caption',
+    emojiSuggestions: 'Emoji suggestions',
+    nicheLabel: 'Niche / topic',
+    nichePlaceholder: 'e.g. Forex trading, Crypto, Financial education...',
+    researchHashtags: 'Research Hashtags',
+    researching: 'Researching...',
+    topHashtags: 'Top (High competition)',
+    mediumHashtags: 'Medium (Balanced)',
+    nicheHashtags: 'Niche (Low competition)',
+    copyAll: 'Copy All',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Other URL',
     telegramUrl: 'https://t.me/yourusername',
@@ -192,6 +231,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'Sharing & Leads',
     betaSec7: 'Automated Emails',
     betaSec8: 'Dashboard Features',
+    marketingTab: 'Marketing',
+    broadcastsSubTab: 'Broadcasts',
+    workflowsSubTab: 'Workflows',
+    pipelineSubTab: 'Pipeline',
+    newBroadcast: 'New Broadcast',
+    noBroadcasts: 'No broadcasts yet. Create your first campaign to reach your leads.',
+    campaignName: 'Campaign name',
+    campaignNamePlaceholder: 'e.g. Welcome new members, Weekly update...',
+    messageLabel: 'Message',
+    messagePlaceholder: 'Write your broadcast message...',
+    mergeTags: 'Merge tags',
+    channelsLabel: 'Channels',
+    emailChannel: 'Email',
+    whatsappChannel: 'WhatsApp',
+    whatsappHint: '(opens wa.me links)',
+    telegramChannel: 'Telegram',
+    telegramHint: '(requires bot setup)',
+    audienceLabel: 'Audience',
+    audienceAll: 'All my leads',
+    audienceVerified: 'All verified members',
+    audienceLast7: 'Leads from last 7 days',
+    audienceLast30: 'Leads from last 30 days',
+    previewLabel: 'Preview',
+    scheduleLabel: 'Schedule',
+    sendNow: 'Send now',
+    scheduleLater: 'Schedule for later',
+    recipientCount: 'This broadcast will be sent to {0} recipients',
+    sendBroadcast: 'Send Broadcast',
+    confirmSendTitle: 'Confirm broadcast',
+    confirmSendMsg: 'You are about to send to {0} recipients via {1}. Confirm?',
+    confirmBtn: 'Confirm & Send',
+    cancelBtn: 'Cancel',
+    broadcastSending: 'Sending...',
+    broadcastSent: 'Sent',
+    broadcastDraft: 'Draft',
+    broadcastScheduled: 'Scheduled',
+    statsSent: 'Sent',
+    statsDelivered: 'Delivered',
+    statsOpened: 'Opened',
+    statsClicked: 'Clicked',
+    viewRecipients: 'View recipients',
+    backToBroadcasts: 'Back to broadcasts',
+    whatsappLinks: 'WhatsApp links',
+    whatsappLinksDesc: 'Click each link to send the message via WhatsApp:',
+    telegramComingSoon: 'Telegram bot integration coming soon',
+    broadcastSuccess: 'Broadcast sent successfully!',
+    broadcastError: 'Failed to send broadcast',
   },
   no: {
     leadsTab: 'Leads',
@@ -272,8 +358,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Konverteringsrate',
     pending: 'ventende',
     approved: 'godkjent',
-    ibResourcesTab: 'IB-ressurser',
+    ibResourcesTab: 'Markedsføringsressurser',
     ibResourcesSubtitle: 'Verktøy og opplæring for å hjelpe deg å lykkes',
+    aiMarketingTools: 'AI Markedsføringsverktøy',
+    resourcesSection: 'Ressurser',
     ibTraining: 'IB-opplæring',
     ibTrainingDesc: 'Tilgang til opplæringsmateriell og guider for å komme i gang',
     contentLibrary: 'Innholdsbibliotek',
@@ -283,6 +371,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direkte tilgang til VIP-støtte for IB-partnere',
     pvPresentation: 'PV-presentasjon',
     pvPresentationDesc: 'Se den offisielle PrimeVerse-presentasjonen',
+    postWriter: 'Innleggsskriver',
+    postWriterDesc: 'AI-drevet generator for innlegg på sosiale medier. Lag engasjerende innlegg for Facebook, Instagram, TikTok og mer.',
+    captionGenerator: 'Bildetekstgenerator',
+    captionGeneratorDesc: 'Generer fengende bildetekster for bilder og videoer.',
+    hashtagResearch: 'Hashtag-forskning',
+    hashtagResearchDesc: 'Finn de beste hashtaggene for din nisje for å maksimere rekkevidde og engasjement.',
+    contentCalendar: 'Innholdskalender',
+    contentCalendarDesc: 'Få en ukentlig publiseringsplan tilpasset ditt publikum og tidssone.',
+    aiPowered: 'AI-drevet',
+    selectPlatform: 'Velg plattform',
+    topicLabel: 'Emne / produkt',
+    topicPlaceholder: 'f.eks. Handelsopplæring, Copy trading, Finansiell frihet...',
+    toneLabel: 'Tone',
+    toneProfessional: 'Profesjonell',
+    toneCasual: 'Uformell',
+    toneMotivational: 'Motiverende',
+    toneEducational: 'Lærerik',
+    generatePost: 'Generer innlegg',
+    generating: 'Genererer...',
+    regenerate: 'Generer på nytt',
+    copyText: 'Kopier',
+    captionTopicPlaceholder: 'Beskriv bildet eller videoen din...',
+    captionStyle: 'Stil',
+    styleEngaging: 'Engasjerende',
+    styleInspirational: 'Inspirerende',
+    styleEducational: 'Lærerik',
+    styleHumorous: 'Humoristisk',
+    generateCaption: 'Generer bildetekst',
+    emojiSuggestions: 'Emoji-forslag',
+    nicheLabel: 'Nisje / emne',
+    nichePlaceholder: 'f.eks. Forex-handel, Krypto, Finansiell utdanning...',
+    researchHashtags: 'Søk etter hashtagger',
+    researching: 'Søker...',
+    topHashtags: 'Topp (Høy konkurranse)',
+    mediumHashtags: 'Medium (Balansert)',
+    nicheHashtags: 'Nisje (Lav konkurranse)',
+    copyAll: 'Kopier alle',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Annen URL',
     updateInfo: 'Oppdater mine opplysninger',
@@ -355,6 +480,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'Deling og leads',
     betaSec7: 'Automatiserte e-poster',
     betaSec8: 'Dashboard-funksjoner',
+    marketingTab: 'Markedsføring',
+    broadcastsSubTab: 'Utsendelser',
+    workflowsSubTab: 'Arbeidsflyter',
+    pipelineSubTab: 'Pipeline',
+    newBroadcast: 'Ny utsendelse',
+    noBroadcasts: 'Ingen utsendelser ennå. Lag din første kampanje for å nå dine leads.',
+    campaignName: 'Kampanjenavn',
+    campaignNamePlaceholder: 'f.eks. Velkommen nye medlemmer, Ukentlig oppdatering...',
+    messageLabel: 'Melding',
+    messagePlaceholder: 'Skriv din utsendelsesmelding...',
+    mergeTags: 'Flettekoder',
+    channelsLabel: 'Kanaler',
+    emailChannel: 'E-post',
+    whatsappChannel: 'WhatsApp',
+    whatsappHint: '(åpner wa.me-lenker)',
+    telegramChannel: 'Telegram',
+    telegramHint: '(krever bot-oppsett)',
+    audienceLabel: 'Publikum',
+    audienceAll: 'Alle mine leads',
+    audienceVerified: 'Alle verifiserte medlemmer',
+    audienceLast7: 'Leads fra siste 7 dager',
+    audienceLast30: 'Leads fra siste 30 dager',
+    previewLabel: 'Forhåndsvisning',
+    scheduleLabel: 'Planlegging',
+    sendNow: 'Send nå',
+    scheduleLater: 'Planlegg for senere',
+    recipientCount: 'Denne utsendelsen sendes til {0} mottakere',
+    sendBroadcast: 'Send utsendelse',
+    confirmSendTitle: 'Bekreft utsendelse',
+    confirmSendMsg: 'Du er i ferd med å sende til {0} mottakere via {1}. Bekreft?',
+    confirmBtn: 'Bekreft og send',
+    cancelBtn: 'Avbryt',
+    broadcastSending: 'Sender...',
+    broadcastSent: 'Sendt',
+    broadcastDraft: 'Utkast',
+    broadcastScheduled: 'Planlagt',
+    statsSent: 'Sendt',
+    statsDelivered: 'Levert',
+    statsOpened: 'Åpnet',
+    statsClicked: 'Klikket',
+    viewRecipients: 'Se mottakere',
+    backToBroadcasts: 'Tilbake til utsendelser',
+    whatsappLinks: 'WhatsApp-lenker',
+    whatsappLinksDesc: 'Klikk på hver lenke for å sende meldingen via WhatsApp:',
+    telegramComingSoon: 'Telegram-botintegrasjon kommer snart',
+    broadcastSuccess: 'Utsendelse sendt!',
+    broadcastError: 'Kunne ikke sende utsendelse',
   },
   sv: {
     leadsTab: 'Leads',
@@ -435,8 +607,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Konverteringsgrad',
     pending: 'väntande',
     approved: 'godkända',
-    ibResourcesTab: 'IB-resurser',
+    ibResourcesTab: 'Marknadsföringsresurser',
     ibResourcesSubtitle: 'Verktyg och utbildning för att hjälpa dig lyckas',
+    aiMarketingTools: 'AI Marknadsföringsverktyg',
+    resourcesSection: 'Resurser',
     ibTraining: 'IB-utbildning',
     ibTrainingDesc: 'Tillgång till utbildningsmaterial och guider för att komma igång',
     contentLibrary: 'Innehållsbibliotek',
@@ -446,6 +620,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direkt tillgång till VIP-support för IB-partners',
     pvPresentation: 'PV-presentation',
     pvPresentationDesc: 'Se den officiella PrimeVerse-presentationen',
+    postWriter: 'Inläggsförfattare',
+    postWriterDesc: 'AI-driven generator för sociala medieinlägg. Skapa engagerande inlägg för Facebook, Instagram, TikTok och mer.',
+    captionGenerator: 'Bildtextgenerator',
+    captionGeneratorDesc: 'Generera fängslande bildtexter för dina bilder och videor.',
+    hashtagResearch: 'Hashtagforskning',
+    hashtagResearchDesc: 'Hitta de bästa hashtaggarna för din nisch för att maximera räckvidd och engagemang.',
+    contentCalendar: 'Innehållskalender',
+    contentCalendarDesc: 'Få ett veckoschema för publicering anpassat efter din publik och tidszon.',
+    aiPowered: 'AI-driven',
+    selectPlatform: 'Välj plattform',
+    topicLabel: 'Ämne / produkt',
+    topicPlaceholder: 't.ex. Handelsutbildning, Copy trading, Ekonomisk frihet...',
+    toneLabel: 'Ton',
+    toneProfessional: 'Professionell',
+    toneCasual: 'Avslappnad',
+    toneMotivational: 'Motiverande',
+    toneEducational: 'Utbildande',
+    generatePost: 'Generera inlägg',
+    generating: 'Genererar...',
+    regenerate: 'Generera nytt',
+    copyText: 'Kopiera',
+    captionTopicPlaceholder: 'Beskriv din bild eller video...',
+    captionStyle: 'Stil',
+    styleEngaging: 'Engagerande',
+    styleInspirational: 'Inspirerande',
+    styleEducational: 'Utbildande',
+    styleHumorous: 'Humoristisk',
+    generateCaption: 'Generera bildtext',
+    emojiSuggestions: 'Emoji-förslag',
+    nicheLabel: 'Nisch / ämne',
+    nichePlaceholder: 't.ex. Forex-handel, Krypto, Finansiell utbildning...',
+    researchHashtags: 'Sök hashtagar',
+    researching: 'Söker...',
+    topHashtags: 'Topp (Hög konkurrens)',
+    mediumHashtags: 'Medium (Balanserad)',
+    nicheHashtags: 'Nisch (Låg konkurrens)',
+    copyAll: 'Kopiera alla',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Annan URL',
     updateInfo: 'Uppdatera mina uppgifter',
@@ -518,6 +729,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'Delning & leads',
     betaSec7: 'Automatiserade e-postmeddelanden',
     betaSec8: 'Dashboardfunktioner',
+    marketingTab: 'Marknadsföring',
+    broadcastsSubTab: 'Utskick',
+    workflowsSubTab: 'Arbetsflöden',
+    pipelineSubTab: 'Pipeline',
+    newBroadcast: 'Nytt utskick',
+    noBroadcasts: 'Inga utskick ännu. Skapa din första kampanj för att nå dina leads.',
+    campaignName: 'Kampanjnamn',
+    campaignNamePlaceholder: 't.ex. Välkomna nya medlemmar, Veckovis uppdatering...',
+    messageLabel: 'Meddelande',
+    messagePlaceholder: 'Skriv ditt utskicksmeddelande...',
+    mergeTags: 'Kopplingskoder',
+    channelsLabel: 'Kanaler',
+    emailChannel: 'E-post',
+    whatsappChannel: 'WhatsApp',
+    whatsappHint: '(öppnar wa.me-länkar)',
+    telegramChannel: 'Telegram',
+    telegramHint: '(kräver bot-inställning)',
+    audienceLabel: 'Målgrupp',
+    audienceAll: 'Alla mina leads',
+    audienceVerified: 'Alla verifierade medlemmar',
+    audienceLast7: 'Leads från senaste 7 dagarna',
+    audienceLast30: 'Leads från senaste 30 dagarna',
+    previewLabel: 'Förhandsvisning',
+    scheduleLabel: 'Schemaläggning',
+    sendNow: 'Skicka nu',
+    scheduleLater: 'Schemalägg för senare',
+    recipientCount: 'Detta utskick skickas till {0} mottagare',
+    sendBroadcast: 'Skicka utskick',
+    confirmSendTitle: 'Bekräfta utskick',
+    confirmSendMsg: 'Du är på väg att skicka till {0} mottagare via {1}. Bekräfta?',
+    confirmBtn: 'Bekräfta och skicka',
+    cancelBtn: 'Avbryt',
+    broadcastSending: 'Skickar...',
+    broadcastSent: 'Skickat',
+    broadcastDraft: 'Utkast',
+    broadcastScheduled: 'Schemalagt',
+    statsSent: 'Skickat',
+    statsDelivered: 'Levererat',
+    statsOpened: 'Öppnat',
+    statsClicked: 'Klickat',
+    viewRecipients: 'Visa mottagare',
+    backToBroadcasts: 'Tillbaka till utskick',
+    whatsappLinks: 'WhatsApp-länkar',
+    whatsappLinksDesc: 'Klicka på varje länk för att skicka meddelandet via WhatsApp:',
+    telegramComingSoon: 'Telegram-botintegration kommer snart',
+    broadcastSuccess: 'Utskick skickat!',
+    broadcastError: 'Kunde inte skicka utskick',
   },
   es: {
     leadsTab: 'Leads',
@@ -598,8 +856,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Tasa de conversión',
     pending: 'pendientes',
     approved: 'aprobados',
-    ibResourcesTab: 'Recursos IB',
+    ibResourcesTab: 'Recursos de Marketing',
     ibResourcesSubtitle: 'Herramientas y formación para ayudarte a tener éxito',
+    aiMarketingTools: 'Herramientas de Marketing IA',
+    resourcesSection: 'Recursos',
     ibTraining: 'Formación IB',
     ibTrainingDesc: 'Accede a materiales de formación y guías para comenzar',
     contentLibrary: 'Biblioteca de contenido',
@@ -609,6 +869,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Acceso directo a soporte VIP para socios IB',
     pvPresentation: 'Presentación PV',
     pvPresentationDesc: 'Ver la presentación oficial de PrimeVerse',
+    postWriter: 'Escritor de Posts',
+    postWriterDesc: 'Generador de publicaciones con IA. Crea posts atractivos para Facebook, Instagram, TikTok y más.',
+    captionGenerator: 'Generador de Subtítulos',
+    captionGeneratorDesc: 'Genera subtítulos irresistibles para tus imágenes y videos.',
+    hashtagResearch: 'Investigación de Hashtags',
+    hashtagResearchDesc: 'Encuentra los mejores hashtags para tu nicho y maximiza el alcance y la interacción.',
+    contentCalendar: 'Calendario de Contenido',
+    contentCalendarDesc: 'Obtén un calendario semanal de publicaciones adaptado a tu audiencia y zona horaria.',
+    aiPowered: 'Con IA',
+    selectPlatform: 'Seleccionar plataforma',
+    topicLabel: 'Tema / producto',
+    topicPlaceholder: 'ej. Educación en trading, Copy trading, Libertad financiera...',
+    toneLabel: 'Tono',
+    toneProfessional: 'Profesional',
+    toneCasual: 'Casual',
+    toneMotivational: 'Motivacional',
+    toneEducational: 'Educativo',
+    generatePost: 'Generar publicación',
+    generating: 'Generando...',
+    regenerate: 'Regenerar',
+    copyText: 'Copiar',
+    captionTopicPlaceholder: 'Describe tu imagen o video...',
+    captionStyle: 'Estilo',
+    styleEngaging: 'Atractivo',
+    styleInspirational: 'Inspirador',
+    styleEducational: 'Educativo',
+    styleHumorous: 'Humorístico',
+    generateCaption: 'Generar subtítulo',
+    emojiSuggestions: 'Sugerencias de emojis',
+    nicheLabel: 'Nicho / tema',
+    nichePlaceholder: 'ej. Trading Forex, Cripto, Educación financiera...',
+    researchHashtags: 'Investigar hashtags',
+    researching: 'Investigando...',
+    topHashtags: 'Top (Alta competencia)',
+    mediumHashtags: 'Medio (Equilibrado)',
+    nicheHashtags: 'Nicho (Baja competencia)',
+    copyAll: 'Copiar todo',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Otra URL',
     updateInfo: 'Actualizar mis datos',
@@ -681,6 +978,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'Compartir y leads',
     betaSec7: 'Correos automatizados',
     betaSec8: 'Funciones del panel',
+    marketingTab: 'Marketing',
+    broadcastsSubTab: 'Difusiones',
+    workflowsSubTab: 'Flujos de trabajo',
+    pipelineSubTab: 'Pipeline',
+    newBroadcast: 'Nueva difusión',
+    noBroadcasts: 'Aún no hay difusiones. Crea tu primera campaña para llegar a tus leads.',
+    campaignName: 'Nombre de campaña',
+    campaignNamePlaceholder: 'ej. Bienvenida nuevos miembros, Actualización semanal...',
+    messageLabel: 'Mensaje',
+    messagePlaceholder: 'Escribe tu mensaje de difusión...',
+    mergeTags: 'Etiquetas de combinación',
+    channelsLabel: 'Canales',
+    emailChannel: 'Correo',
+    whatsappChannel: 'WhatsApp',
+    whatsappHint: '(abre enlaces wa.me)',
+    telegramChannel: 'Telegram',
+    telegramHint: '(requiere configurar bot)',
+    audienceLabel: 'Audiencia',
+    audienceAll: 'Todos mis leads',
+    audienceVerified: 'Todos los miembros verificados',
+    audienceLast7: 'Leads de los últimos 7 días',
+    audienceLast30: 'Leads de los últimos 30 días',
+    previewLabel: 'Vista previa',
+    scheduleLabel: 'Programación',
+    sendNow: 'Enviar ahora',
+    scheduleLater: 'Programar para después',
+    recipientCount: 'Esta difusión se enviará a {0} destinatarios',
+    sendBroadcast: 'Enviar difusión',
+    confirmSendTitle: 'Confirmar difusión',
+    confirmSendMsg: 'Estás a punto de enviar a {0} destinatarios vía {1}. ¿Confirmar?',
+    confirmBtn: 'Confirmar y enviar',
+    cancelBtn: 'Cancelar',
+    broadcastSending: 'Enviando...',
+    broadcastSent: 'Enviado',
+    broadcastDraft: 'Borrador',
+    broadcastScheduled: 'Programado',
+    statsSent: 'Enviados',
+    statsDelivered: 'Entregados',
+    statsOpened: 'Abiertos',
+    statsClicked: 'Clicados',
+    viewRecipients: 'Ver destinatarios',
+    backToBroadcasts: 'Volver a difusiones',
+    whatsappLinks: 'Enlaces de WhatsApp',
+    whatsappLinksDesc: 'Haz clic en cada enlace para enviar el mensaje vía WhatsApp:',
+    telegramComingSoon: 'Integración de bot de Telegram próximamente',
+    broadcastSuccess: '¡Difusión enviada con éxito!',
+    broadcastError: 'Error al enviar la difusión',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -761,8 +1105,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Коэффициент конверсии',
     pending: 'ожидают',
     approved: 'одобрено',
-    ibResourcesTab: 'Ресурсы IB',
+    ibResourcesTab: 'Маркетинговые ресурсы',
     ibResourcesSubtitle: 'Инструменты и обучение для вашего успеха',
+    aiMarketingTools: 'AI Маркетинговые инструменты',
+    resourcesSection: 'Ресурсы',
     ibTraining: 'Обучение IB',
     ibTrainingDesc: 'Доступ к учебным материалам и руководствам для начала работы',
     contentLibrary: 'Библиотека контента',
@@ -772,6 +1118,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Прямой доступ к VIP-поддержке для IB-партнёров',
     pvPresentation: 'Презентация PV',
     pvPresentationDesc: 'Посмотреть официальную презентацию PrimeVerse',
+    postWriter: 'Генератор постов',
+    postWriterDesc: 'Генератор постов на основе ИИ. Создавайте привлекательные посты для Facebook, Instagram, TikTok и других.',
+    captionGenerator: 'Генератор подписей',
+    captionGeneratorDesc: 'Создавайте цепляющие подписи к вашим фото и видео.',
+    hashtagResearch: 'Подбор хештегов',
+    hashtagResearchDesc: 'Найдите лучшие хештеги для вашей ниши для максимального охвата.',
+    contentCalendar: 'Контент-календарь',
+    contentCalendarDesc: 'Получите недельный план публикаций, адаптированный под вашу аудиторию.',
+    aiPowered: 'На базе ИИ',
+    selectPlatform: 'Выберите платформу',
+    topicLabel: 'Тема / продукт',
+    topicPlaceholder: 'напр. Обучение трейдингу, Копитрейдинг, Финансовая свобода...',
+    toneLabel: 'Тон',
+    toneProfessional: 'Профессиональный',
+    toneCasual: 'Неформальный',
+    toneMotivational: 'Мотивирующий',
+    toneEducational: 'Образовательный',
+    generatePost: 'Сгенерировать пост',
+    generating: 'Генерация...',
+    regenerate: 'Сгенерировать новый',
+    copyText: 'Копировать',
+    captionTopicPlaceholder: 'Опишите ваше фото или видео...',
+    captionStyle: 'Стиль',
+    styleEngaging: 'Вовлекающий',
+    styleInspirational: 'Вдохновляющий',
+    styleEducational: 'Образовательный',
+    styleHumorous: 'Юмористический',
+    generateCaption: 'Сгенерировать подпись',
+    emojiSuggestions: 'Предложения эмодзи',
+    nicheLabel: 'Ниша / тема',
+    nichePlaceholder: 'напр. Форекс, Криптовалюта, Финансовое образование...',
+    researchHashtags: 'Подобрать хештеги',
+    researching: 'Подбор...',
+    topHashtags: 'Топ (Высокая конкуренция)',
+    mediumHashtags: 'Средние (Сбалансированные)',
+    nicheHashtags: 'Нишевые (Низкая конкуренция)',
+    copyAll: 'Копировать все',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Другая URL',
     updateInfo: 'Обновить мои данные',
@@ -844,6 +1227,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'Шеринг и лиды',
     betaSec7: 'Автоматические письма',
     betaSec8: 'Функции дашборда',
+    marketingTab: 'Маркетинг',
+    broadcastsSubTab: 'Рассылки',
+    workflowsSubTab: 'Автоматизации',
+    pipelineSubTab: 'Воронка',
+    newBroadcast: 'Новая рассылка',
+    noBroadcasts: 'Рассылок пока нет. Создайте первую кампанию для связи с вашими лидами.',
+    campaignName: 'Название кампании',
+    campaignNamePlaceholder: 'напр. Приветствие новых участников, Еженедельная рассылка...',
+    messageLabel: 'Сообщение',
+    messagePlaceholder: 'Напишите сообщение рассылки...',
+    mergeTags: 'Переменные подстановки',
+    channelsLabel: 'Каналы',
+    emailChannel: 'Электронная почта',
+    whatsappChannel: 'WhatsApp',
+    whatsappHint: '(открывает ссылки wa.me)',
+    telegramChannel: 'Telegram',
+    telegramHint: '(требуется настройка бота)',
+    audienceLabel: 'Аудитория',
+    audienceAll: 'Все мои лиды',
+    audienceVerified: 'Все верифицированные участники',
+    audienceLast7: 'Лиды за последние 7 дней',
+    audienceLast30: 'Лиды за последние 30 дней',
+    previewLabel: 'Предпросмотр',
+    scheduleLabel: 'Планирование',
+    sendNow: 'Отправить сейчас',
+    scheduleLater: 'Запланировать на потом',
+    recipientCount: 'Эта рассылка будет отправлена {0} получателям',
+    sendBroadcast: 'Отправить рассылку',
+    confirmSendTitle: 'Подтвердите рассылку',
+    confirmSendMsg: 'Вы собираетесь отправить {0} получателям через {1}. Подтвердить?',
+    confirmBtn: 'Подтвердить и отправить',
+    cancelBtn: 'Отмена',
+    broadcastSending: 'Отправка...',
+    broadcastSent: 'Отправлено',
+    broadcastDraft: 'Черновик',
+    broadcastScheduled: 'Запланировано',
+    statsSent: 'Отправлено',
+    statsDelivered: 'Доставлено',
+    statsOpened: 'Открыто',
+    statsClicked: 'Кликнуто',
+    viewRecipients: 'Посмотреть получателей',
+    backToBroadcasts: 'Назад к рассылкам',
+    whatsappLinks: 'Ссылки WhatsApp',
+    whatsappLinksDesc: 'Нажмите на каждую ссылку, чтобы отправить сообщение через WhatsApp:',
+    telegramComingSoon: 'Интеграция Telegram-бота скоро появится',
+    broadcastSuccess: 'Рассылка успешно отправлена!',
+    broadcastError: 'Ошибка отправки рассылки',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -924,8 +1354,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'معدل التحويل',
     pending: 'معلق',
     approved: 'معتمد',
-    ibResourcesTab: 'موارد IB',
+    ibResourcesTab: 'موارد التسويق',
     ibResourcesSubtitle: 'أدوات وتدريب لمساعدتك على النجاح',
+    aiMarketingTools: 'أدوات التسويق بالذكاء الاصطناعي',
+    resourcesSection: 'الموارد',
     ibTraining: 'تدريب IB',
     ibTrainingDesc: 'الوصول إلى المواد التدريبية والأدلة لمساعدتك على البدء',
     contentLibrary: 'مكتبة المحتوى',
@@ -935,6 +1367,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'وصول مباشر إلى دعم VIP لشركاء IB',
     pvPresentation: 'عرض PV',
     pvPresentationDesc: 'عرض العرض التقديمي الرسمي لـ PrimeVerse',
+    postWriter: 'كاتب المنشورات',
+    postWriterDesc: 'مولّد منشورات مدعوم بالذكاء الاصطناعي. أنشئ منشورات جذابة لفيسبوك وإنستغرام وتيك توك والمزيد.',
+    captionGenerator: 'مولّد التعليقات',
+    captionGeneratorDesc: 'أنشئ تعليقات لافتة لصورك ومقاطع الفيديو.',
+    hashtagResearch: 'بحث الهاشتاغ',
+    hashtagResearchDesc: 'اعثر على أفضل الهاشتاغات لمجالك لتعظيم الوصول والتفاعل.',
+    contentCalendar: 'تقويم المحتوى',
+    contentCalendarDesc: 'احصل على جدول نشر أسبوعي مصمم لجمهورك ومنطقتك الزمنية.',
+    aiPowered: 'مدعوم بالذكاء الاصطناعي',
+    selectPlatform: 'اختر المنصة',
+    topicLabel: 'الموضوع / المنتج',
+    topicPlaceholder: 'مثال: تعليم التداول، نسخ التداول، الحرية المالية...',
+    toneLabel: 'النغمة',
+    toneProfessional: 'احترافي',
+    toneCasual: 'عفوي',
+    toneMotivational: 'تحفيزي',
+    toneEducational: 'تعليمي',
+    generatePost: 'إنشاء منشور',
+    generating: 'جارٍ الإنشاء...',
+    regenerate: 'إعادة الإنشاء',
+    copyText: 'نسخ',
+    captionTopicPlaceholder: 'صف صورتك أو مقطع الفيديو...',
+    captionStyle: 'الأسلوب',
+    styleEngaging: 'جذاب',
+    styleInspirational: 'ملهم',
+    styleEducational: 'تعليمي',
+    styleHumorous: 'فكاهي',
+    generateCaption: 'إنشاء تعليق',
+    emojiSuggestions: 'اقتراحات الرموز التعبيرية',
+    nicheLabel: 'المجال / الموضوع',
+    nichePlaceholder: 'مثال: تداول الفوركس، العملات المشفرة، التعليم المالي...',
+    researchHashtags: 'بحث الهاشتاغات',
+    researching: 'جارٍ البحث...',
+    topHashtags: 'الأعلى (منافسة عالية)',
+    mediumHashtags: 'متوسط (متوازن)',
+    nicheHashtags: 'متخصص (منافسة منخفضة)',
+    copyAll: 'نسخ الكل',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'رابط آخر',
     updateInfo: 'تحديث بياناتي',
@@ -1007,6 +1476,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'المشاركة والعملاء',
     betaSec7: 'رسائل البريد التلقائية',
     betaSec8: 'ميزات لوحة التحكم',
+    marketingTab: 'التسويق',
+    broadcastsSubTab: 'الرسائل الجماعية',
+    workflowsSubTab: 'سير العمل',
+    pipelineSubTab: 'مسار المبيعات',
+    newBroadcast: 'رسالة جماعية جديدة',
+    noBroadcasts: 'لا توجد رسائل جماعية بعد. أنشئ حملتك الأولى للوصول إلى عملائك.',
+    campaignName: 'اسم الحملة',
+    campaignNamePlaceholder: 'مثال: ترحيب بالأعضاء الجدد، تحديث أسبوعي...',
+    messageLabel: 'الرسالة',
+    messagePlaceholder: 'اكتب رسالتك الجماعية...',
+    mergeTags: 'علامات الدمج',
+    channelsLabel: 'القنوات',
+    emailChannel: 'البريد الإلكتروني',
+    whatsappChannel: 'واتساب',
+    whatsappHint: '(يفتح روابط wa.me)',
+    telegramChannel: 'تيليجرام',
+    telegramHint: '(يتطلب إعداد البوت)',
+    audienceLabel: 'الجمهور',
+    audienceAll: 'جميع عملائي',
+    audienceVerified: 'جميع الأعضاء المعتمدين',
+    audienceLast7: 'عملاء آخر 7 أيام',
+    audienceLast30: 'عملاء آخر 30 يوماً',
+    previewLabel: 'معاينة',
+    scheduleLabel: 'الجدولة',
+    sendNow: 'إرسال الآن',
+    scheduleLater: 'جدولة لاحقاً',
+    recipientCount: 'سيتم إرسال هذه الرسالة إلى {0} مستلم',
+    sendBroadcast: 'إرسال الرسالة الجماعية',
+    confirmSendTitle: 'تأكيد الإرسال',
+    confirmSendMsg: 'أنت على وشك الإرسال إلى {0} مستلم عبر {1}. تأكيد؟',
+    confirmBtn: 'تأكيد وإرسال',
+    cancelBtn: 'إلغاء',
+    broadcastSending: 'جارٍ الإرسال...',
+    broadcastSent: 'مُرسل',
+    broadcastDraft: 'مسودة',
+    broadcastScheduled: 'مجدول',
+    statsSent: 'مُرسل',
+    statsDelivered: 'تم التسليم',
+    statsOpened: 'تم الفتح',
+    statsClicked: 'تم النقر',
+    viewRecipients: 'عرض المستلمين',
+    backToBroadcasts: 'العودة إلى الرسائل الجماعية',
+    whatsappLinks: 'روابط واتساب',
+    whatsappLinksDesc: 'انقر على كل رابط لإرسال الرسالة عبر واتساب:',
+    telegramComingSoon: 'تكامل بوت تيليجرام قريباً',
+    broadcastSuccess: 'تم إرسال الرسالة الجماعية بنجاح!',
+    broadcastError: 'فشل إرسال الرسالة الجماعية',
   },
   tl: {
     leadsTab: 'Leads',
@@ -1087,8 +1603,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Conversion rate',
     pending: 'naghihintay',
     approved: 'na-approve',
-    ibResourcesTab: 'IB Resources',
+    ibResourcesTab: 'Marketing Resources',
     ibResourcesSubtitle: 'Mga tool at pagsasanay para makatulong sa iyong tagumpay',
+    aiMarketingTools: 'AI Marketing Tools',
+    resourcesSection: 'Mga Resource',
     ibTraining: 'IB Training',
     ibTrainingDesc: 'I-access ang mga training material at gabay para makapagsimula',
     contentLibrary: 'Content Library',
@@ -1098,6 +1616,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Direktang access sa VIP support para sa mga IB partner',
     pvPresentation: 'PV Presentation',
     pvPresentationDesc: 'Tingnan ang opisyal na PrimeVerse presentation',
+    postWriter: 'Post Writer',
+    postWriterDesc: 'AI-powered na social media post generator. Gumawa ng engaging posts para sa Facebook, Instagram, TikTok at iba pa.',
+    captionGenerator: 'Caption Generator',
+    captionGeneratorDesc: 'Gumawa ng nakaka-engganyo na caption para sa iyong mga larawan at video.',
+    hashtagResearch: 'Hashtag Research',
+    hashtagResearchDesc: 'Hanapin ang pinakamahusay na hashtag para sa iyong niche para ma-maximize ang reach at engagement.',
+    contentCalendar: 'Content Calendar',
+    contentCalendarDesc: 'Kumuha ng lingguhang posting schedule na naaangkop sa iyong audience at timezone.',
+    aiPowered: 'AI Powered',
+    selectPlatform: 'Pumili ng platform',
+    topicLabel: 'Paksa / produkto',
+    topicPlaceholder: 'hal. Trading education, Copy trading, Financial freedom...',
+    toneLabel: 'Tono',
+    toneProfessional: 'Propesyonal',
+    toneCasual: 'Casual',
+    toneMotivational: 'Motivational',
+    toneEducational: 'Pang-edukasyon',
+    generatePost: 'Gumawa ng Post',
+    generating: 'Ginagawa...',
+    regenerate: 'Gumawa ng bago',
+    copyText: 'Kopyahin',
+    captionTopicPlaceholder: 'Ilarawan ang iyong larawan o video...',
+    captionStyle: 'Estilo',
+    styleEngaging: 'Engaging',
+    styleInspirational: 'Inspirational',
+    styleEducational: 'Pang-edukasyon',
+    styleHumorous: 'Nakakatawa',
+    generateCaption: 'Gumawa ng Caption',
+    emojiSuggestions: 'Mga mungkahing emoji',
+    nicheLabel: 'Niche / paksa',
+    nichePlaceholder: 'hal. Forex trading, Crypto, Financial education...',
+    researchHashtags: 'Mag-research ng Hashtag',
+    researching: 'Nagre-research...',
+    topHashtags: 'Top (Mataas na kompetisyon)',
+    mediumHashtags: 'Medium (Balansado)',
+    nicheHashtags: 'Niche (Mababang kompetisyon)',
+    copyAll: 'Kopyahin Lahat',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Ibang URL',
     updateInfo: 'I-update ang aking impormasyon',
@@ -1170,6 +1725,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'Pagbabahagi at Leads',
     betaSec7: 'Automated na Email',
     betaSec8: 'Mga Feature ng Dashboard',
+    marketingTab: 'Marketing',
+    broadcastsSubTab: 'Mga Broadcast',
+    workflowsSubTab: 'Mga Workflow',
+    pipelineSubTab: 'Pipeline',
+    newBroadcast: 'Bagong Broadcast',
+    noBroadcasts: 'Wala pang broadcast. Gumawa ng unang kampanya para maabot ang iyong mga lead.',
+    campaignName: 'Pangalan ng kampanya',
+    campaignNamePlaceholder: 'hal. Welcome sa mga bagong miyembro, Lingguhang update...',
+    messageLabel: 'Mensahe',
+    messagePlaceholder: 'Isulat ang iyong broadcast message...',
+    mergeTags: 'Mga merge tag',
+    channelsLabel: 'Mga Channel',
+    emailChannel: 'Email',
+    whatsappChannel: 'WhatsApp',
+    whatsappHint: '(magbubukas ng wa.me link)',
+    telegramChannel: 'Telegram',
+    telegramHint: '(kailangan ng bot setup)',
+    audienceLabel: 'Audience',
+    audienceAll: 'Lahat ng leads ko',
+    audienceVerified: 'Lahat ng verified na miyembro',
+    audienceLast7: 'Mga lead mula sa huling 7 araw',
+    audienceLast30: 'Mga lead mula sa huling 30 araw',
+    previewLabel: 'Preview',
+    scheduleLabel: 'Iskedyul',
+    sendNow: 'Ipadala ngayon',
+    scheduleLater: 'I-schedule para mamaya',
+    recipientCount: 'Ipapadala ang broadcast na ito sa {0} na tatanggap',
+    sendBroadcast: 'Ipadala ang Broadcast',
+    confirmSendTitle: 'Kumpirmahin ang broadcast',
+    confirmSendMsg: 'Ipapadala mo sa {0} na tatanggap sa pamamagitan ng {1}. Kumpirmahin?',
+    confirmBtn: 'Kumpirmahin at Ipadala',
+    cancelBtn: 'Kanselahin',
+    broadcastSending: 'Ipinapadala...',
+    broadcastSent: 'Naipadala',
+    broadcastDraft: 'Draft',
+    broadcastScheduled: 'Naka-schedule',
+    statsSent: 'Naipadala',
+    statsDelivered: 'Na-deliver',
+    statsOpened: 'Nabuksan',
+    statsClicked: 'Na-click',
+    viewRecipients: 'Tingnan ang mga tatanggap',
+    backToBroadcasts: 'Bumalik sa mga broadcast',
+    whatsappLinks: 'Mga WhatsApp link',
+    whatsappLinksDesc: 'I-click ang bawat link para ipadala ang mensahe sa WhatsApp:',
+    telegramComingSoon: 'Telegram bot integration malapit na',
+    broadcastSuccess: 'Matagumpay na naipadala ang broadcast!',
+    broadcastError: 'Hindi naipadala ang broadcast',
   },
   pt: {
     leadsTab: 'Leads',
@@ -1250,8 +1852,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Taxa de conversão',
     pending: 'pendentes',
     approved: 'aprovados',
-    ibResourcesTab: 'Recursos IB',
+    ibResourcesTab: 'Recursos de Marketing',
     ibResourcesSubtitle: 'Ferramentas e treinamento para ajudá-lo a ter sucesso',
+    aiMarketingTools: 'Ferramentas de Marketing IA',
+    resourcesSection: 'Recursos',
     ibTraining: 'Treinamento IB',
     ibTrainingDesc: 'Acesse materiais de treinamento e guias para começar',
     contentLibrary: 'Biblioteca de conteúdo',
@@ -1261,6 +1865,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'Acesso direto ao suporte VIP para parceiros IB',
     pvPresentation: 'Apresentação PV',
     pvPresentationDesc: 'Ver a apresentação oficial do PrimeVerse',
+    postWriter: 'Escritor de Posts',
+    postWriterDesc: 'Gerador de posts com IA. Crie posts envolventes para Facebook, Instagram, TikTok e mais.',
+    captionGenerator: 'Gerador de Legendas',
+    captionGeneratorDesc: 'Gere legendas irresistíveis para suas imagens e vídeos.',
+    hashtagResearch: 'Pesquisa de Hashtags',
+    hashtagResearchDesc: 'Encontre as melhores hashtags para seu nicho e maximize o alcance e engajamento.',
+    contentCalendar: 'Calendário de Conteúdo',
+    contentCalendarDesc: 'Obtenha um cronograma semanal de postagens adaptado ao seu público e fuso horário.',
+    aiPowered: 'Com IA',
+    selectPlatform: 'Selecionar plataforma',
+    topicLabel: 'Tema / produto',
+    topicPlaceholder: 'ex. Educação em trading, Copy trading, Liberdade financeira...',
+    toneLabel: 'Tom',
+    toneProfessional: 'Profissional',
+    toneCasual: 'Casual',
+    toneMotivational: 'Motivacional',
+    toneEducational: 'Educacional',
+    generatePost: 'Gerar post',
+    generating: 'Gerando...',
+    regenerate: 'Gerar novo',
+    copyText: 'Copiar',
+    captionTopicPlaceholder: 'Descreva sua imagem ou vídeo...',
+    captionStyle: 'Estilo',
+    styleEngaging: 'Envolvente',
+    styleInspirational: 'Inspirador',
+    styleEducational: 'Educacional',
+    styleHumorous: 'Humorístico',
+    generateCaption: 'Gerar legenda',
+    emojiSuggestions: 'Sugestões de emoji',
+    nicheLabel: 'Nicho / tema',
+    nichePlaceholder: 'ex. Trading Forex, Cripto, Educação financeira...',
+    researchHashtags: 'Pesquisar hashtags',
+    researching: 'Pesquisando...',
+    topHashtags: 'Top (Alta competição)',
+    mediumHashtags: 'Médio (Equilibrado)',
+    nicheHashtags: 'Nicho (Baixa competição)',
+    copyAll: 'Copiar tudo',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'Outro URL',
     updateInfo: 'Atualizar minhas informações',
@@ -1333,6 +1974,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'Compartilhamento e leads',
     betaSec7: 'E-mails automatizados',
     betaSec8: 'Recursos do painel',
+    marketingTab: 'Marketing',
+    broadcastsSubTab: 'Transmissões',
+    workflowsSubTab: 'Fluxos de trabalho',
+    pipelineSubTab: 'Pipeline',
+    newBroadcast: 'Nova transmissão',
+    noBroadcasts: 'Nenhuma transmissão ainda. Crie sua primeira campanha para alcançar seus leads.',
+    campaignName: 'Nome da campanha',
+    campaignNamePlaceholder: 'ex. Boas-vindas novos membros, Atualização semanal...',
+    messageLabel: 'Mensagem',
+    messagePlaceholder: 'Escreva sua mensagem de transmissão...',
+    mergeTags: 'Tags de mesclagem',
+    channelsLabel: 'Canais',
+    emailChannel: 'E-mail',
+    whatsappChannel: 'WhatsApp',
+    whatsappHint: '(abre links wa.me)',
+    telegramChannel: 'Telegram',
+    telegramHint: '(requer configuração de bot)',
+    audienceLabel: 'Público',
+    audienceAll: 'Todos os meus leads',
+    audienceVerified: 'Todos os membros verificados',
+    audienceLast7: 'Leads dos últimos 7 dias',
+    audienceLast30: 'Leads dos últimos 30 dias',
+    previewLabel: 'Pré-visualização',
+    scheduleLabel: 'Agendamento',
+    sendNow: 'Enviar agora',
+    scheduleLater: 'Agendar para depois',
+    recipientCount: 'Esta transmissão será enviada para {0} destinatários',
+    sendBroadcast: 'Enviar transmissão',
+    confirmSendTitle: 'Confirmar transmissão',
+    confirmSendMsg: 'Você está prestes a enviar para {0} destinatários via {1}. Confirmar?',
+    confirmBtn: 'Confirmar e enviar',
+    cancelBtn: 'Cancelar',
+    broadcastSending: 'Enviando...',
+    broadcastSent: 'Enviado',
+    broadcastDraft: 'Rascunho',
+    broadcastScheduled: 'Agendado',
+    statsSent: 'Enviados',
+    statsDelivered: 'Entregues',
+    statsOpened: 'Abertos',
+    statsClicked: 'Clicados',
+    viewRecipients: 'Ver destinatários',
+    backToBroadcasts: 'Voltar às transmissões',
+    whatsappLinks: 'Links do WhatsApp',
+    whatsappLinksDesc: 'Clique em cada link para enviar a mensagem via WhatsApp:',
+    telegramComingSoon: 'Integração de bot do Telegram em breve',
+    broadcastSuccess: 'Transmissão enviada com sucesso!',
+    broadcastError: 'Falha ao enviar transmissão',
   },
   th: {
     leadsTab: 'ลีด',
@@ -1413,8 +2101,10 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'อัตราการแปลง',
     pending: 'รอดำเนินการ',
     approved: 'อนุมัติแล้ว',
-    ibResourcesTab: 'ทรัพยากร IB',
+    ibResourcesTab: 'ทรัพยากรการตลาด',
     ibResourcesSubtitle: 'เครื่องมือและการฝึกอบรมเพื่อช่วยให้คุณประสบความสำเร็จ',
+    aiMarketingTools: 'เครื่องมือการตลาด AI',
+    resourcesSection: 'ทรัพยากร',
     ibTraining: 'การฝึกอบรม IB',
     ibTrainingDesc: 'เข้าถึงสื่อการฝึกอบรมและคู่มือเพื่อเริ่มต้น',
     contentLibrary: 'คลังเนื้อหา',
@@ -1424,6 +2114,43 @@ const translations: Record<string, Record<string, string>> = {
     vipSupportDesc: 'เข้าถึงซัพพอร์ต VIP โดยตรงสำหรับพาร์ทเนอร์ IB',
     pvPresentation: 'งานนำเสนอ PV',
     pvPresentationDesc: 'ดูงานนำเสนออย่างเป็นทางการของ PrimeVerse',
+    postWriter: 'นักเขียนโพสต์',
+    postWriterDesc: 'เครื่องมือสร้างโพสต์โซเชียลมีเดียด้วย AI สร้างโพสต์ที่น่าสนใจสำหรับ Facebook, Instagram, TikTok และอื่นๆ',
+    captionGenerator: 'เครื่องสร้างแคปชั่น',
+    captionGeneratorDesc: 'สร้างแคปชั่นที่ดึงดูดสายตาสำหรับรูปภาพและวิดีโอของคุณ',
+    hashtagResearch: 'วิจัยแฮชแท็ก',
+    hashtagResearchDesc: 'ค้นหาแฮชแท็กที่ดีที่สุดสำหรับกลุ่มเฉพาะของคุณเพื่อเพิ่มการเข้าถึง',
+    contentCalendar: 'ปฏิทินเนื้อหา',
+    contentCalendarDesc: 'รับตารางโพสต์รายสัปดาห์ที่เหมาะกับผู้ชมและเขตเวลาของคุณ',
+    aiPowered: 'ขับเคลื่อนด้วย AI',
+    selectPlatform: 'เลือกแพลตฟอร์ม',
+    topicLabel: 'หัวข้อ / ผลิตภัณฑ์',
+    topicPlaceholder: 'เช่น การศึกษาเทรด, Copy trading, อิสรภาพทางการเงิน...',
+    toneLabel: 'โทน',
+    toneProfessional: 'มืออาชีพ',
+    toneCasual: 'สบายๆ',
+    toneMotivational: 'สร้างแรงบันดาลใจ',
+    toneEducational: 'ให้ความรู้',
+    generatePost: 'สร้างโพสต์',
+    generating: 'กำลังสร้าง...',
+    regenerate: 'สร้างใหม่',
+    copyText: 'คัดลอก',
+    captionTopicPlaceholder: 'อธิบายรูปภาพหรือวิดีโอของคุณ...',
+    captionStyle: 'สไตล์',
+    styleEngaging: 'น่าสนใจ',
+    styleInspirational: 'สร้างแรงบันดาลใจ',
+    styleEducational: 'ให้ความรู้',
+    styleHumorous: 'ตลก',
+    generateCaption: 'สร้างแคปชั่น',
+    emojiSuggestions: 'แนะนำอิโมจิ',
+    nicheLabel: 'กลุ่มเฉพาะ / หัวข้อ',
+    nichePlaceholder: 'เช่น เทรด Forex, คริปโต, การศึกษาทางการเงิน...',
+    researchHashtags: 'วิจัยแฮชแท็ก',
+    researching: 'กำลังวิจัย...',
+    topHashtags: 'ยอดนิยม (แข่งขันสูง)',
+    mediumHashtags: 'ปานกลาง (สมดุล)',
+    nicheHashtags: 'เฉพาะกลุ่ม (แข่งขันต่ำ)',
+    copyAll: 'คัดลอกทั้งหมด',
     youtubeUrl: 'YouTube URL',
     otherUrl: 'URL อื่น',
     updateInfo: 'อัปเดตข้อมูลของฉัน',
@@ -1496,6 +2223,53 @@ const translations: Record<string, Record<string, string>> = {
     betaSec6: 'การแชร์และ Lead',
     betaSec7: 'อีเมลอัตโนมัติ',
     betaSec8: 'ฟีเจอร์แดชบอร์ด',
+    marketingTab: 'การตลาด',
+    broadcastsSubTab: 'การส่งข้อความ',
+    workflowsSubTab: 'เวิร์กโฟลว์',
+    pipelineSubTab: 'ไปป์ไลน์',
+    newBroadcast: 'ส่งข้อความใหม่',
+    noBroadcasts: 'ยังไม่มีการส่งข้อความ สร้างแคมเปญแรกของคุณเพื่อเข้าถึงลีดของคุณ',
+    campaignName: 'ชื่อแคมเปญ',
+    campaignNamePlaceholder: 'เช่น ต้อนรับสมาชิกใหม่, อัปเดตประจำสัปดาห์...',
+    messageLabel: 'ข้อความ',
+    messagePlaceholder: 'เขียนข้อความของคุณ...',
+    mergeTags: 'แท็กรวม',
+    channelsLabel: 'ช่องทาง',
+    emailChannel: 'อีเมล',
+    whatsappChannel: 'WhatsApp',
+    whatsappHint: '(เปิดลิงก์ wa.me)',
+    telegramChannel: 'Telegram',
+    telegramHint: '(ต้องตั้งค่าบอท)',
+    audienceLabel: 'กลุ่มเป้าหมาย',
+    audienceAll: 'ลีดทั้งหมดของฉัน',
+    audienceVerified: 'สมาชิกที่ยืนยันแล้วทั้งหมด',
+    audienceLast7: 'ลีดจาก 7 วันที่ผ่านมา',
+    audienceLast30: 'ลีดจาก 30 วันที่ผ่านมา',
+    previewLabel: 'ตัวอย่าง',
+    scheduleLabel: 'กำหนดเวลา',
+    sendNow: 'ส่งตอนนี้',
+    scheduleLater: 'กำหนดเวลาภายหลัง',
+    recipientCount: 'การส่งข้อความนี้จะส่งถึง {0} ผู้รับ',
+    sendBroadcast: 'ส่งข้อความ',
+    confirmSendTitle: 'ยืนยันการส่ง',
+    confirmSendMsg: 'คุณกำลังจะส่งถึง {0} ผู้รับผ่าน {1} ยืนยัน?',
+    confirmBtn: 'ยืนยันและส่ง',
+    cancelBtn: 'ยกเลิก',
+    broadcastSending: 'กำลังส่ง...',
+    broadcastSent: 'ส่งแล้ว',
+    broadcastDraft: 'ฉบับร่าง',
+    broadcastScheduled: 'กำหนดเวลาแล้ว',
+    statsSent: 'ส่งแล้ว',
+    statsDelivered: 'ส่งถึงแล้ว',
+    statsOpened: 'เปิดแล้ว',
+    statsClicked: 'คลิกแล้ว',
+    viewRecipients: 'ดูผู้รับ',
+    backToBroadcasts: 'กลับไปที่การส่งข้อความ',
+    whatsappLinks: 'ลิงก์ WhatsApp',
+    whatsappLinksDesc: 'คลิกแต่ละลิงก์เพื่อส่งข้อความผ่าน WhatsApp:',
+    telegramComingSoon: 'การเชื่อมต่อบอท Telegram เร็วๆ นี้',
+    broadcastSuccess: 'ส่งข้อความสำเร็จ!',
+    broadcastError: 'ส่งข้อความไม่สำเร็จ',
   },
 }
 
@@ -1808,6 +2582,217 @@ const styles = `
     transition: transform 0.2s;
   }
   .ib-resource-card:hover .ib-resource-arrow { transform: translateX(3px); }
+
+  /* AI Marketing Section */
+  .ai-section-header {
+    font-size: 1.1rem; font-weight: 700; color: var(--gold);
+    margin: 0 0 1rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .ai-section-header svg { flex-shrink: 0; }
+  .ai-tool-badge {
+    display: inline-block; font-size: 0.65rem; font-weight: 600;
+    padding: 2px 7px; border-radius: 5px; letter-spacing: 0.03em;
+    vertical-align: middle; margin-left: 6px;
+  }
+  .ai-tool-badge-gold {
+    background: rgba(212,165,55,0.15); color: var(--gold);
+    border: 1px solid rgba(212,165,55,0.3);
+  }
+
+  /* AI Tool Modal */
+  .ai-modal-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; animation: fadeIn 0.2s;
+  }
+  .ai-modal {
+    background: #111; border: 1px solid rgba(212,165,55,0.25);
+    border-radius: 16px; width: 100%; max-width: 560px;
+    max-height: 90vh; overflow-y: auto; padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(212,165,55,0.08);
+  }
+  .ai-modal-title {
+    font-size: 1.15rem; font-weight: 700; color: var(--gold);
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .ai-modal-close {
+    margin-left: auto; background: none; border: none; color: var(--text-secondary);
+    font-size: 1.3rem; cursor: pointer; padding: 4px; line-height: 1;
+  }
+  .ai-modal-close:hover { color: var(--text-primary); }
+  .ai-modal-field { margin-bottom: 1rem; }
+  .ai-modal-label {
+    display: block; font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-secondary); margin-bottom: 0.4rem;
+  }
+  .ai-modal-select {
+    width: 100%; padding: 0.6rem 0.9rem; background: var(--input-bg);
+    border: 1px solid var(--input-border); border-radius: 8px;
+    color: var(--text-primary); font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem; outline: none; appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239a917e' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+  .ai-modal-select:focus { border-color: var(--input-focus); box-shadow: 0 0 0 3px rgba(212,165,55,0.08); }
+  .ai-pill-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .ai-pill {
+    padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.82rem;
+    border: 1px solid var(--input-border); background: var(--input-bg);
+    color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+  }
+  .ai-pill:hover { border-color: rgba(212,165,55,0.4); color: var(--text-primary); }
+  .ai-pill-active {
+    background: rgba(212,165,55,0.15); border-color: var(--gold);
+    color: var(--gold); font-weight: 500;
+  }
+  .ai-result-box {
+    background: rgba(20,18,14,0.8); border: 1px solid rgba(212,165,55,0.2);
+    border-radius: 10px; padding: 1.25rem; margin-top: 1rem;
+    white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+  .ai-result-actions {
+    display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;
+  }
+  .ai-hashtag-group { margin-bottom: 1rem; }
+  .ai-hashtag-group-title {
+    font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ai-hashtag-tags {
+    display: flex; flex-wrap: wrap; gap: 0.35rem;
+  }
+  .ai-hashtag-tag {
+    background: rgba(212,165,55,0.08); border: 1px solid rgba(212,165,55,0.2);
+    border-radius: 6px; padding: 3px 8px; font-size: 0.8rem;
+    color: var(--gold-light);
+  }
+  .ai-copy-btn {
+    background: none; border: 1px solid rgba(212,165,55,0.3); border-radius: 6px;
+    color: var(--gold); font-size: 0.75rem; padding: 2px 8px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .ai-copy-btn:hover { background: rgba(212,165,55,0.1); }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* Broadcast / Marketing */
+  .bc-sub-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .bc-sub-tab {
+    padding: 0.45rem 1rem; border-radius: 20px; font-size: 0.82rem;
+    border: 1px solid var(--input-border); background: transparent;
+    color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+    font-family: 'Outfit', sans-serif; position: relative;
+  }
+  .bc-sub-tab:hover { border-color: rgba(212,165,55,0.4); color: var(--text-primary); }
+  .bc-sub-tab-active {
+    background: rgba(212,165,55,0.15); border-color: var(--gold);
+    color: var(--gold); font-weight: 500;
+  }
+  .bc-sub-tab-badge {
+    font-size: 0.6rem; background: rgba(212,165,55,0.15); color: var(--gold);
+    border: 1px solid rgba(212,165,55,0.3); border-radius: 4px;
+    padding: 1px 5px; margin-left: 6px; vertical-align: 1px;
+  }
+  .bc-card {
+    background: #141414; border: 1px solid rgba(212,165,55,0.2);
+    border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
+    cursor: pointer; transition: border-color 0.3s;
+  }
+  .bc-card:hover { border-color: var(--gold); }
+  .bc-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+  .bc-card-title { font-weight: 600; font-size: 0.95rem; color: var(--text-primary); }
+  .bc-status {
+    font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 10px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .bc-status-sent { background: rgba(74,157,90,0.15); color: #6dc07f; }
+  .bc-status-draft { background: rgba(150,150,150,0.15); color: #999; }
+  .bc-status-scheduled { background: rgba(100,149,237,0.15); color: #6495ed; }
+  .bc-status-sending { background: rgba(212,165,55,0.15); color: var(--gold); }
+  .bc-card-meta { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.78rem; color: var(--text-secondary); }
+  .bc-card-meta svg { vertical-align: -2px; margin-right: 3px; }
+  .bc-stats-row { display: flex; gap: 1.25rem; margin-top: 0.75rem; flex-wrap: wrap; }
+  .bc-stat { text-align: center; }
+  .bc-stat-value { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+  .bc-stat-label { font-size: 0.68rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+  .bc-open-bar {
+    height: 6px; background: #2a2a4a; border-radius: 3px; overflow: hidden; margin-top: 0.5rem;
+  }
+  .bc-open-bar-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.5s; }
+  .bc-composer-section { margin-bottom: 1.5rem; }
+  .bc-composer-label {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.5rem;
+  }
+  .bc-merge-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+  .bc-merge-chip {
+    background: rgba(212,165,55,0.1); border: 1px solid rgba(212,165,55,0.25);
+    border-radius: 6px; padding: 3px 10px; font-size: 0.75rem; color: var(--gold);
+    cursor: pointer; font-family: monospace; transition: all 0.2s;
+  }
+  .bc-merge-chip:hover { background: rgba(212,165,55,0.2); border-color: var(--gold); }
+  .bc-channel-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .bc-channel-opt {
+    display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem;
+    border-radius: 8px; border: 1px solid var(--input-border);
+    background: var(--input-bg); cursor: pointer; transition: all 0.2s;
+    font-size: 0.85rem; color: var(--text-secondary);
+  }
+  .bc-channel-opt:hover { border-color: rgba(212,165,55,0.4); }
+  .bc-channel-active { border-color: var(--gold); background: rgba(212,165,55,0.1); color: var(--gold); }
+  .bc-channel-hint { font-size: 0.7rem; color: var(--text-dim); margin-left: 2px; }
+  .bc-audience-row { display: flex; flex-direction: column; gap: 0.5rem; }
+  .bc-audience-opt {
+    display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem;
+    border-radius: 8px; border: 1px solid var(--input-border);
+    background: var(--input-bg); cursor: pointer; font-size: 0.85rem;
+    color: var(--text-secondary); transition: all 0.2s;
+  }
+  .bc-audience-opt:hover { border-color: rgba(212,165,55,0.4); }
+  .bc-audience-active { border-color: var(--gold); background: rgba(212,165,55,0.1); color: var(--gold); }
+  .bc-preview-box {
+    background: rgba(20,18,14,0.8); border: 1px solid rgba(212,165,55,0.15);
+    border-radius: 10px; padding: 1.25rem; white-space: pre-wrap;
+    line-height: 1.6; font-size: 0.88rem; color: var(--text-primary);
+  }
+  .bc-schedule-toggle { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .bc-recipient-count {
+    text-align: center; padding: 0.75rem; background: rgba(212,165,55,0.06);
+    border: 1px solid rgba(212,165,55,0.15); border-radius: 8px;
+    font-size: 0.88rem; color: var(--gold-light); margin-bottom: 1rem;
+  }
+  .bc-empty {
+    text-align: center; padding: 3rem 1rem; color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+  .bc-confirm-overlay {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; animation: fadeIn 0.2s;
+  }
+  .bc-confirm-box {
+    background: #111; border: 1px solid rgba(212,165,55,0.25);
+    border-radius: 16px; padding: 2rem; max-width: 440px; width: 100%;
+    text-align: center;
+  }
+  .bc-wa-list { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .bc-wa-list li {
+    margin-bottom: 0.5rem; padding: 0.5rem 0.75rem;
+    background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2);
+    border-radius: 8px;
+  }
+  .bc-wa-list a { color: #25D366; text-decoration: none; font-size: 0.85rem; }
+  .bc-wa-list a:hover { text-decoration: underline; }
+  .bc-detail-recipient {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+  }
 
   /* Cards */
   .card {
@@ -2412,7 +3397,7 @@ export default function Home() {
   const [leads, setLeads] = useState<any[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources' | 'beta'>('metrics')
+  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources' | 'marketing' | 'beta'>('metrics')
   const [isBetaTester, setIsBetaTester] = useState(false)
   const [betaResults, setBetaResults] = useState<Record<string, { status: string; comment: string; id?: string }>>({})
   const [betaOpenSections, setBetaOpenSections] = useState<Set<string>>(new Set())
@@ -2480,6 +3465,212 @@ export default function Home() {
   const [bugSent, setBugSent] = useState(false)
   const [bugError, setBugError] = useState('')
   const bugFileRef = useRef<HTMLInputElement>(null)
+
+  // AI Marketing Tools state
+  const [aiToolModal, setAiToolModal] = useState<'post' | 'caption' | 'hashtags' | null>(null)
+  const [aiToolPlatform, setAiToolPlatform] = useState('Facebook')
+  const [aiToolTopic, setAiToolTopic] = useState('')
+  const [aiToolTone, setAiToolTone] = useState('Professional')
+  const [aiToolStyle, setAiToolStyle] = useState('Engaging')
+  const [aiToolLoading, setAiToolLoading] = useState(false)
+  const [aiToolResult, setAiToolResult] = useState('')
+  const [aiToolHashtags, setAiToolHashtags] = useState<{ top: string[]; medium: string[]; niche: string[] } | null>(null)
+  const [aiToolCopied, setAiToolCopied] = useState('')
+
+  const aiToolGenerate = async () => {
+    if (!aiToolTopic.trim()) return
+    setAiToolLoading(true)
+    setAiToolResult('')
+    setAiToolHashtags(null)
+    try {
+      const res = await fetch('/api/ai-marketing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: aiToolModal,
+          platform: aiToolPlatform,
+          topic: aiToolTopic,
+          tone: aiToolTone,
+          style: aiToolStyle,
+          language: lang,
+          name: profileName,
+        }),
+      })
+      const data = await res.json()
+      if (data.error) {
+        setAiToolResult('Error: ' + data.error)
+      } else if (aiToolModal === 'hashtags' && data.hashtags) {
+        setAiToolHashtags(data.hashtags)
+      } else if (data.content) {
+        setAiToolResult(data.content)
+      }
+    } catch (e) {
+      setAiToolResult('Network error: ' + String(e))
+    }
+    setAiToolLoading(false)
+  }
+
+  const aiToolCopy = (text: string, label: string) => {
+    navigator.clipboard.writeText(text)
+    setAiToolCopied(label)
+    setTimeout(() => setAiToolCopied(''), 2000)
+  }
+
+  const aiToolReset = () => {
+    setAiToolModal(null)
+    setAiToolTopic('')
+    setAiToolResult('')
+    setAiToolHashtags(null)
+    setAiToolCopied('')
+    setAiToolPlatform('Facebook')
+    setAiToolTone('Professional')
+    setAiToolStyle('Engaging')
+  }
+
+  // Broadcast state
+  const [broadcasts, setBroadcasts] = useState<any[]>([])
+  const [bcSubTab, setBcSubTab] = useState<'broadcasts' | 'workflows' | 'pipeline'>('broadcasts')
+  const [bcView, setBcView] = useState<'list' | 'compose' | 'detail'>('list')
+  const [bcTitle, setBcTitle] = useState('')
+  const [bcMessage, setBcMessage] = useState('')
+  const [bcChannels, setBcChannels] = useState<Set<string>>(new Set(['email']))
+  const [bcAudience, setBcAudience] = useState<'all' | 'verified' | 'last7days' | 'last30days'>('all')
+  const [bcScheduleMode, setBcScheduleMode] = useState<'now' | 'later'>('now')
+  const [bcScheduleDate, setBcScheduleDate] = useState('')
+  const [bcSending, setBcSending] = useState(false)
+  const [bcConfirmOpen, setBcConfirmOpen] = useState(false)
+  const [bcDetailBroadcast, setBcDetailBroadcast] = useState<any>(null)
+  const [bcRecipients, setBcRecipients] = useState<any[]>([])
+  const [bcWhatsappLinks, setBcWhatsappLinks] = useState<{ name: string; url: string }[]>([])
+
+  const fetchBroadcasts = useCallback(async () => {
+    if (!distributor?.id) return
+    const { data } = await supabase
+      .from('broadcasts')
+      .select('*')
+      .eq('distributor_id', distributor.id)
+      .order('created_at', { ascending: false })
+    setBroadcasts(data || [])
+  }, [distributor?.id])
+
+  useEffect(() => {
+    if (distributor?.id && activeTab === 'marketing') fetchBroadcasts()
+  }, [distributor?.id, activeTab, fetchBroadcasts])
+
+  const bcRecipientCount = (() => {
+    if (!leads.length) return 0
+    if (bcAudience === 'all') return leads.length
+    if (bcAudience === 'verified') return leads.filter(l => l.uid_verified).length
+    const now = Date.now()
+    const days = bcAudience === 'last7days' ? 7 : 30
+    return leads.filter(l => (now - new Date(l.created_at).getTime()) < days * 86400000).length
+  })()
+
+  const bcInsertMergeTag = (tag: string) => {
+    setBcMessage(prev => prev + tag)
+  }
+
+  const bcPreviewMessage = () => {
+    return bcMessage
+      .replace(/\{first_name\}/g, 'John')
+      .replace(/\{landing_page_url\}/g, `https://primeverseaccess.com/${profileSlug || 'yourpage'}`)
+      .replace(/\{referral_link\}/g, profileReferralLink || 'https://puvip.co/la-partners/...')
+  }
+
+  const bcToggleChannel = (ch: string) => {
+    setBcChannels(prev => {
+      const next = new Set(prev)
+      if (next.has(ch)) next.delete(ch)
+      else next.add(ch)
+      return next
+    })
+  }
+
+  const bcSend = async () => {
+    if (!distributor || !bcTitle.trim() || !bcMessage.trim()) return
+    setBcSending(true)
+    setBcConfirmOpen(false)
+    try {
+      // Create broadcast record
+      const { data: bc, error: bcErr } = await supabase
+        .from('broadcasts')
+        .insert({
+          distributor_id: distributor.id,
+          title: bcTitle,
+          message: bcMessage,
+          channels: Array.from(bcChannels),
+          audience: bcAudience,
+          status: bcScheduleMode === 'later' ? 'scheduled' : 'sending',
+          scheduled_at: bcScheduleMode === 'later' ? bcScheduleDate : null,
+        })
+        .select()
+        .single()
+
+      if (bcErr || !bc) {
+        showToast(t.broadcastError)
+        setBcSending(false)
+        return
+      }
+
+      if (bcScheduleMode === 'later') {
+        showToast(t.broadcastScheduled, 'info')
+        setBcSending(false)
+        setBcView('list')
+        setBcTitle('')
+        setBcMessage('')
+        setBcChannels(new Set(['email']))
+        setBcAudience('all')
+        setBcScheduleMode('now')
+        await fetchBroadcasts()
+        return
+      }
+
+      // Send via API
+      const res = await fetch('/api/send-broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          broadcastId: bc.id,
+          distributorId: distributor.id,
+          title: bcTitle,
+          message: bcMessage,
+          channels: Array.from(bcChannels),
+          audience: bcAudience,
+          distributorName: profileName || distributor.name,
+          distributorSlug: profileSlug,
+          distributorReferralLink: profileReferralLink,
+        }),
+      })
+      const result = await res.json()
+
+      if (result.whatsappLinks?.length) {
+        setBcWhatsappLinks(result.whatsappLinks)
+      }
+
+      showToast(t.broadcastSuccess, 'info')
+      setBcView('list')
+      setBcTitle('')
+      setBcMessage('')
+      setBcChannels(new Set(['email']))
+      setBcAudience('all')
+      setBcScheduleMode('now')
+      await fetchBroadcasts()
+    } catch {
+      showToast(t.broadcastError)
+    }
+    setBcSending(false)
+  }
+
+  const bcViewDetail = async (broadcast: any) => {
+    setBcDetailBroadcast(broadcast)
+    setBcView('detail')
+    const { data } = await supabase
+      .from('broadcast_recipients')
+      .select('*')
+      .eq('broadcast_id', broadcast.id)
+      .order('created_at', { ascending: false })
+    setBcRecipients(data || [])
+  }
 
   // Toast notifications
   const [toastMsg, setToastMsg] = useState('')
@@ -3134,6 +4325,17 @@ export default function Home() {
           >
             {t.ibResourcesTab}
           </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === 'marketing'}
+            aria-controls="tab-panel-marketing"
+            id="tab-marketing"
+            onClick={() => setActiveTab('marketing')}
+            className={`tab-btn${activeTab === 'marketing' ? ' tab-btn-active' : ''}`}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 4, verticalAlign: '-2px' }}><path d="M3 11V3h4l3 4h10v4H3zm0 2h18l-1.5 8H4.5L3 13z"/></svg>
+            {t.marketingTab}
+          </button>
           {isBetaTester && (
           <button
             role="tab"
@@ -3493,12 +4695,83 @@ export default function Home() {
           </div>
         )}
 
-        {/* IB RESOURCES TAB */}
+        {/* MARKETING RESOURCES TAB */}
         {activeTab === 'resources' && (
           <div role="tabpanel" id="tab-panel-resources" aria-labelledby="tab-resources">
             <div style={{ marginBottom: '1.75rem' }}>
               <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 0.35rem' }}>{t.ibResourcesTab}</h2>
               <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: 0 }}>{t.ibResourcesSubtitle}</p>
+            </div>
+
+            {/* AI Marketing Tools Section */}
+            <div className="ai-section-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z" fill="var(--gold)" stroke="none"/></svg>
+              {t.aiMarketingTools}
+            </div>
+            <div className="ib-resources-grid" style={{ marginBottom: '2.5rem' }}>
+              {/* Post Writer */}
+              <div className="ib-resource-card" onClick={() => setAiToolModal('post')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('post')}>
+                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.postWriter}</div>
+                  <div className="ib-resource-desc">{t.postWriterDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+              {/* Caption Generator */}
+              <div className="ib-resource-card" onClick={() => setAiToolModal('caption')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('caption')}>
+                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.captionGenerator}</div>
+                  <div className="ib-resource-desc">{t.captionGeneratorDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+              {/* Hashtag Research */}
+              <div className="ib-resource-card" onClick={() => setAiToolModal('hashtags')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('hashtags')}>
+                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.hashtagResearch}</div>
+                  <div className="ib-resource-desc">{t.hashtagResearchDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+              {/* Content Calendar */}
+              <div className="ib-resource-card ib-resource-card-disabled">
+                <div className="ib-resource-badge">{t.comingSoon}</div>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                    <rect x="7" y="14" width="3" height="3" rx="0.5" fill="var(--gold)" stroke="none" opacity="0.3"/><rect x="14" y="14" width="3" height="3" rx="0.5" fill="var(--gold)" stroke="none" opacity="0.3"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.contentCalendar}</div>
+                  <div className="ib-resource-desc">{t.contentCalendarDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+            </div>
+
+            {/* Resources Section */}
+            <div className="ai-section-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              {t.resourcesSection}
             </div>
             <div className="ib-resources-grid">
               <a
@@ -3571,6 +4844,436 @@ export default function Home() {
                 </div>
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </a>
+            </div>
+          </div>
+        )}
+
+        {/* AI TOOL MODALS */}
+        {aiToolModal && (
+          <div className="ai-modal-overlay" onClick={e => { if (e.target === e.currentTarget) aiToolReset() }}>
+            <div className="ai-modal">
+              <div className="ai-modal-title">
+                {aiToolModal === 'post' && <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>{t.postWriter}</>}
+                {aiToolModal === 'caption' && <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>{t.captionGenerator}</>}
+                {aiToolModal === 'hashtags' && <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>{t.hashtagResearch}</>}
+                <button className="ai-modal-close" onClick={aiToolReset}>&times;</button>
+              </div>
+
+              {/* Platform selector (post & hashtags) */}
+              {(aiToolModal === 'post' || aiToolModal === 'hashtags') && (
+                <div className="ai-modal-field">
+                  <div className="ai-modal-label">{t.selectPlatform}</div>
+                  <div className="ai-pill-group">
+                    {['Facebook', 'Instagram', 'TikTok', 'LinkedIn', 'X/Twitter'].map(p => (
+                      <button key={p} className={`ai-pill${aiToolPlatform === p ? ' ai-pill-active' : ''}`} onClick={() => setAiToolPlatform(p)}>{p}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Topic input */}
+              <div className="ai-modal-field">
+                <div className="ai-modal-label">{aiToolModal === 'hashtags' ? t.nicheLabel : aiToolModal === 'caption' ? t.topicLabel : t.topicLabel}</div>
+                <input
+                  className="field-input"
+                  placeholder={aiToolModal === 'hashtags' ? t.nichePlaceholder : aiToolModal === 'caption' ? t.captionTopicPlaceholder : t.topicPlaceholder}
+                  value={aiToolTopic}
+                  onChange={e => setAiToolTopic(e.target.value)}
+                />
+              </div>
+
+              {/* Tone selector (post only) */}
+              {aiToolModal === 'post' && (
+                <div className="ai-modal-field">
+                  <div className="ai-modal-label">{t.toneLabel}</div>
+                  <div className="ai-pill-group">
+                    {[
+                      { key: 'Professional', label: t.toneProfessional },
+                      { key: 'Casual', label: t.toneCasual },
+                      { key: 'Motivational', label: t.toneMotivational },
+                      { key: 'Educational', label: t.toneEducational },
+                    ].map(item => (
+                      <button key={item.key} className={`ai-pill${aiToolTone === item.key ? ' ai-pill-active' : ''}`} onClick={() => setAiToolTone(item.key)}>{item.label}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Style selector (caption only) */}
+              {aiToolModal === 'caption' && (
+                <div className="ai-modal-field">
+                  <div className="ai-modal-label">{t.captionStyle}</div>
+                  <div className="ai-pill-group">
+                    {[
+                      { key: 'Engaging', label: t.styleEngaging },
+                      { key: 'Inspirational', label: t.styleInspirational },
+                      { key: 'Educational', label: t.styleEducational },
+                      { key: 'Humorous', label: t.styleHumorous },
+                    ].map(item => (
+                      <button key={item.key} className={`ai-pill${aiToolStyle === item.key ? ' ai-pill-active' : ''}`} onClick={() => setAiToolStyle(item.key)}>{item.label}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Language selector */}
+              <div className="ai-modal-field">
+                <div className="ai-modal-label">{t.selectLanguage}</div>
+                <select className="ai-modal-select" value={lang} disabled>
+                  {Object.entries(languageLabels).map(([code, label]) => (
+                    <option key={code} value={code}>{languageFlags[code]} {label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Generate button */}
+              <button
+                className="gold-btn"
+                style={{ width: '100%', marginTop: '0.5rem' }}
+                onClick={aiToolGenerate}
+                disabled={aiToolLoading || !aiToolTopic.trim()}
+              >
+                {aiToolLoading ? t.generating : aiToolModal === 'post' ? t.generatePost : aiToolModal === 'caption' ? t.generateCaption : t.researchHashtags}
+              </button>
+
+              {/* Results - Post & Caption */}
+              {aiToolResult && aiToolModal !== 'hashtags' && (
+                <>
+                  <div className="ai-result-box">{aiToolResult}</div>
+                  {!aiToolResult.startsWith('Error') && (
+                    <div className="ai-result-actions">
+                      <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem' }} onClick={() => aiToolCopy(aiToolResult, 'main')}>
+                        {aiToolCopied === 'main' ? t.copied : t.copyText}
+                      </button>
+                      <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} onClick={aiToolGenerate} disabled={aiToolLoading}>
+                        {t.regenerate}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* Results - Caption emoji suggestions */}
+              {aiToolResult && aiToolModal === 'caption' && aiToolResult.includes('---') && (
+                <div style={{ marginTop: '0.75rem' }}>
+                  <div className="ai-modal-label">{t.emojiSuggestions}</div>
+                  <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+                    {aiToolResult.split('---')[1]?.trim().split('\n').map((line, i) => (
+                      <div key={i}>{line}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Results - Hashtags */}
+              {aiToolHashtags && aiToolModal === 'hashtags' && (
+                <div style={{ marginTop: '1rem' }}>
+                  {([
+                    { key: 'top' as const, label: t.topHashtags },
+                    { key: 'medium' as const, label: t.mediumHashtags },
+                    { key: 'niche' as const, label: t.nicheHashtags },
+                  ]).map(group => (
+                    <div key={group.key} className="ai-hashtag-group">
+                      <div className="ai-hashtag-group-title">
+                        <span>{group.label}</span>
+                        <button className="ai-copy-btn" onClick={() => aiToolCopy((aiToolHashtags[group.key] || []).join(' '), group.key)}>
+                          {aiToolCopied === group.key ? t.copied : t.copyAll}
+                        </button>
+                      </div>
+                      <div className="ai-hashtag-tags">
+                        {(aiToolHashtags[group.key] || []).map((tag, i) => (
+                          <span key={i} className="ai-hashtag-tag">{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Hashtag error */}
+              {aiToolResult && aiToolModal === 'hashtags' && (
+                <div className="ai-result-box" style={{ color: 'var(--warning-text)' }}>{aiToolResult}</div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* MARKETING TAB */}
+        {activeTab === 'marketing' && (
+          <div role="tabpanel" id="tab-panel-marketing" aria-labelledby="tab-marketing">
+            <div style={{ marginBottom: '1.75rem' }}>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 0.35rem' }}>{t.marketingTab}</h2>
+            </div>
+
+            {/* Sub-tabs */}
+            <div className="bc-sub-tabs">
+              <button className={`bc-sub-tab${bcSubTab === 'broadcasts' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('broadcasts')}>{t.broadcastsSubTab}</button>
+              <button className={`bc-sub-tab`} disabled style={{ opacity: 0.5, cursor: 'default' }}>{t.workflowsSubTab}<span className="bc-sub-tab-badge">{t.comingSoon}</span></button>
+              <button className={`bc-sub-tab`} disabled style={{ opacity: 0.5, cursor: 'default' }}>{t.pipelineSubTab}<span className="bc-sub-tab-badge">{t.comingSoon}</span></button>
+            </div>
+
+            {bcSubTab === 'broadcasts' && bcView === 'list' && (
+              <div>
+                <button className="gold-btn" style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }} onClick={() => setBcView('compose')}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  {t.newBroadcast}
+                </button>
+
+                {broadcasts.length === 0 && (
+                  <div className="bc-empty">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" strokeWidth="1" style={{ marginBottom: '1rem' }}><path d="M3 11V3h4l3 4h10v4H3zm0 2h18l-1.5 8H4.5L3 13z"/></svg>
+                    <p>{t.noBroadcasts}</p>
+                  </div>
+                )}
+
+                {broadcasts.map(bc => (
+                  <div key={bc.id} className="bc-card" onClick={() => bcViewDetail(bc)}>
+                    <div className="bc-card-header">
+                      <div className="bc-card-title">{bc.title}</div>
+                      <span className={`bc-status bc-status-${bc.status || 'draft'}`}>
+                        {bc.status === 'sent' ? t.broadcastSent : bc.status === 'scheduled' ? t.broadcastScheduled : bc.status === 'sending' ? t.broadcastSending : t.broadcastDraft}
+                      </span>
+                    </div>
+                    <div className="bc-card-meta">
+                      {(bc.channels || []).includes('email') && (
+                        <span>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+                          {t.emailChannel}
+                        </span>
+                      )}
+                      {(bc.channels || []).includes('whatsapp') && (
+                        <span>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                          {t.whatsappChannel}
+                        </span>
+                      )}
+                      <span>{new Date(bc.created_at).toLocaleDateString()}</span>
+                      {bc.sent_count != null && <span>{bc.sent_count} {t.statsSent.toLowerCase()}</span>}
+                    </div>
+                    {bc.status === 'sent' && (
+                      <>
+                        <div className="bc-stats-row">
+                          <div className="bc-stat">
+                            <div className="bc-stat-value">{bc.sent_count || 0}</div>
+                            <div className="bc-stat-label">{t.statsSent}</div>
+                          </div>
+                          <div className="bc-stat">
+                            <div className="bc-stat-value">{bc.delivered_count || bc.sent_count || 0}</div>
+                            <div className="bc-stat-label">{t.statsDelivered}</div>
+                          </div>
+                          <div className="bc-stat">
+                            <div className="bc-stat-value">{bc.opened_count || 0}{bc.sent_count ? ` (${Math.round(((bc.opened_count || 0) / bc.sent_count) * 100)}%)` : ''}</div>
+                            <div className="bc-stat-label">{t.statsOpened}</div>
+                          </div>
+                          <div className="bc-stat">
+                            <div className="bc-stat-value">{bc.clicked_count || 0}{bc.sent_count ? ` (${Math.round(((bc.clicked_count || 0) / bc.sent_count) * 100)}%)` : ''}</div>
+                            <div className="bc-stat-label">{t.statsClicked}</div>
+                          </div>
+                        </div>
+                        {bc.sent_count > 0 && (
+                          <div className="bc-open-bar">
+                            <div className="bc-open-bar-fill" style={{ width: `${Math.round(((bc.opened_count || 0) / bc.sent_count) * 100)}%` }} />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* BROADCAST COMPOSER */}
+            {bcSubTab === 'broadcasts' && bcView === 'compose' && (
+              <div>
+                <button style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.85rem', marginBottom: '1rem', padding: 0 }} onClick={() => setBcView('list')}>
+                  &larr; {t.backToBroadcasts}
+                </button>
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.campaignName}</div>
+                  <input className="field-input" placeholder={t.campaignNamePlaceholder} value={bcTitle} onChange={e => setBcTitle(e.target.value)} />
+                </div>
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.mergeTags}</div>
+                  <div className="bc-merge-chips">
+                    {['{first_name}', '{landing_page_url}', '{referral_link}'].map(tag => (
+                      <button key={tag} className="bc-merge-chip" onClick={() => bcInsertMergeTag(tag)}>{tag}</button>
+                    ))}
+                  </div>
+                  <div className="bc-composer-label">{t.messageLabel}</div>
+                  <textarea className="field-textarea" rows={8} placeholder={t.messagePlaceholder} value={bcMessage} onChange={e => setBcMessage(e.target.value)} />
+                </div>
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.channelsLabel}</div>
+                  <div className="bc-channel-row">
+                    <div className={`bc-channel-opt${bcChannels.has('email') ? ' bc-channel-active' : ''}`} onClick={() => bcToggleChannel('email')}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+                      {t.emailChannel}
+                    </div>
+                    <div className={`bc-channel-opt${bcChannels.has('whatsapp') ? ' bc-channel-active' : ''}`} onClick={() => bcToggleChannel('whatsapp')}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                      {t.whatsappChannel} <span className="bc-channel-hint">{t.whatsappHint}</span>
+                    </div>
+                    <div className={`bc-channel-opt${bcChannels.has('telegram') ? ' bc-channel-active' : ''}`} onClick={() => bcToggleChannel('telegram')}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21.2 4.4L2.4 10.6c-.6.2-.6 1.1 0 1.3l4.3 1.4 1.6 5.1c.2.5.8.7 1.2.4l2.3-1.9 4.5 3.3c.5.3 1.1 0 1.2-.5L21.2 4.4z"/></svg>
+                      {t.telegramChannel} <span className="bc-channel-hint">{t.telegramHint}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.audienceLabel}</div>
+                  <div className="bc-audience-row">
+                    {([
+                      { key: 'all' as const, label: t.audienceAll },
+                      { key: 'verified' as const, label: t.audienceVerified },
+                      { key: 'last7days' as const, label: t.audienceLast7 },
+                      { key: 'last30days' as const, label: t.audienceLast30 },
+                    ]).map(opt => (
+                      <div key={opt.key} className={`bc-audience-opt${bcAudience === opt.key ? ' bc-audience-active' : ''}`} onClick={() => setBcAudience(opt.key)}>
+                        <div style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid', borderColor: bcAudience === opt.key ? 'var(--gold)' : 'var(--input-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {bcAudience === opt.key && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gold)' }} />}
+                        </div>
+                        {opt.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {bcMessage.trim() && (
+                  <div className="bc-composer-section">
+                    <div className="bc-composer-label">{t.previewLabel}</div>
+                    <div className="bc-preview-box">{bcPreviewMessage()}</div>
+                  </div>
+                )}
+
+                <div className="bc-composer-section">
+                  <div className="bc-composer-label">{t.scheduleLabel}</div>
+                  <div className="bc-schedule-toggle">
+                    <button className={`ai-pill${bcScheduleMode === 'now' ? ' ai-pill-active' : ''}`} onClick={() => setBcScheduleMode('now')}>{t.sendNow}</button>
+                    <button className={`ai-pill${bcScheduleMode === 'later' ? ' ai-pill-active' : ''}`} onClick={() => setBcScheduleMode('later')}>{t.scheduleLater}</button>
+                  </div>
+                  {bcScheduleMode === 'later' && (
+                    <input type="datetime-local" className="field-input" value={bcScheduleDate} onChange={e => setBcScheduleDate(e.target.value)} />
+                  )}
+                </div>
+
+                <div className="bc-recipient-count">
+                  {t.recipientCount.replace('{0}', String(bcRecipientCount))}
+                </div>
+
+                <button
+                  className="gold-btn"
+                  style={{ width: '100%', fontSize: '1rem', padding: '0.75rem' }}
+                  disabled={bcSending || !bcTitle.trim() || !bcMessage.trim() || bcChannels.size === 0 || bcRecipientCount === 0}
+                  onClick={() => setBcConfirmOpen(true)}
+                >
+                  {bcSending ? t.broadcastSending : t.sendBroadcast}
+                </button>
+              </div>
+            )}
+
+            {/* BROADCAST DETAIL */}
+            {bcSubTab === 'broadcasts' && bcView === 'detail' && bcDetailBroadcast && (
+              <div>
+                <button style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.85rem', marginBottom: '1rem', padding: 0 }} onClick={() => { setBcView('list'); setBcDetailBroadcast(null) }}>
+                  &larr; {t.backToBroadcasts}
+                </button>
+                <div className="bc-card" style={{ cursor: 'default' }}>
+                  <div className="bc-card-header">
+                    <div className="bc-card-title">{bcDetailBroadcast.title}</div>
+                    <span className={`bc-status bc-status-${bcDetailBroadcast.status || 'draft'}`}>
+                      {bcDetailBroadcast.status === 'sent' ? t.broadcastSent : bcDetailBroadcast.status === 'scheduled' ? t.broadcastScheduled : bcDetailBroadcast.status === 'sending' ? t.broadcastSending : t.broadcastDraft}
+                    </span>
+                  </div>
+                  {bcDetailBroadcast.status === 'sent' && (
+                    <>
+                      <div className="bc-stats-row">
+                        <div className="bc-stat">
+                          <div className="bc-stat-value">{bcDetailBroadcast.sent_count || 0}</div>
+                          <div className="bc-stat-label">{t.statsSent}</div>
+                        </div>
+                        <div className="bc-stat">
+                          <div className="bc-stat-value">{bcDetailBroadcast.delivered_count || bcDetailBroadcast.sent_count || 0}</div>
+                          <div className="bc-stat-label">{t.statsDelivered}</div>
+                        </div>
+                        <div className="bc-stat">
+                          <div className="bc-stat-value">{bcDetailBroadcast.opened_count || 0}{bcDetailBroadcast.sent_count ? ` (${Math.round(((bcDetailBroadcast.opened_count || 0) / bcDetailBroadcast.sent_count) * 100)}%)` : ''}</div>
+                          <div className="bc-stat-label">{t.statsOpened}</div>
+                        </div>
+                        <div className="bc-stat">
+                          <div className="bc-stat-value">{bcDetailBroadcast.clicked_count || 0}{bcDetailBroadcast.sent_count ? ` (${Math.round(((bcDetailBroadcast.clicked_count || 0) / bcDetailBroadcast.sent_count) * 100)}%)` : ''}</div>
+                          <div className="bc-stat-label">{t.statsClicked}</div>
+                        </div>
+                      </div>
+                      {bcDetailBroadcast.sent_count > 0 && (
+                        <div className="bc-open-bar" style={{ marginBottom: '1rem' }}>
+                          <div className="bc-open-bar-fill" style={{ width: `${Math.round(((bcDetailBroadcast.opened_count || 0) / bcDetailBroadcast.sent_count) * 100)}%` }} />
+                        </div>
+                      )}
+                    </>
+                  )}
+                  <div style={{ marginTop: '1rem' }}>
+                    <div className="bc-composer-label">{t.messageLabel}</div>
+                    <div className="bc-preview-box">{bcDetailBroadcast.message}</div>
+                  </div>
+                </div>
+
+                {/* Recipient list */}
+                <div style={{ marginTop: '1rem' }}>
+                  <div className="bc-composer-label">{t.viewRecipients} ({bcRecipients.length})</div>
+                  {bcRecipients.map((r, i) => (
+                    <div key={r.id || i} className="bc-detail-recipient">
+                      <span style={{ color: 'var(--text-primary)' }}>{r.lead_name || r.lead_email || `Lead #${i + 1}`}</span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>{r.channel}</span>
+                        <span className={`bc-status bc-status-${r.status || 'sent'}`}>{r.status || 'sent'}</span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* BROADCAST CONFIRM MODAL */}
+        {bcConfirmOpen && (
+          <div className="bc-confirm-overlay" onClick={e => { if (e.target === e.currentTarget) setBcConfirmOpen(false) }}>
+            <div className="bc-confirm-box">
+              <h3 style={{ color: 'var(--gold)', marginBottom: '1rem' }}>{t.confirmSendTitle}</h3>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: 1.5 }}>
+                {t.confirmSendMsg.replace('{0}', String(bcRecipientCount)).replace('{1}', Array.from(bcChannels).join(', '))}
+              </p>
+              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+                <button className="gold-btn" onClick={bcSend} disabled={bcSending}>
+                  {bcSending ? t.broadcastSending : t.confirmBtn}
+                </button>
+                <button style={{ background: 'transparent', border: '1px solid var(--input-border)', borderRadius: 8, padding: '0.5rem 1.25rem', color: 'var(--text-secondary)', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }} onClick={() => setBcConfirmOpen(false)}>
+                  {t.cancelBtn}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* WHATSAPP LINKS MODAL */}
+        {bcWhatsappLinks.length > 0 && (
+          <div className="bc-confirm-overlay" onClick={e => { if (e.target === e.currentTarget) setBcWhatsappLinks([]) }}>
+            <div className="bc-confirm-box" style={{ textAlign: 'left' }}>
+              <h3 style={{ color: 'var(--gold)', marginBottom: '0.5rem' }}>{t.whatsappLinks}</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1rem' }}>{t.whatsappLinksDesc}</p>
+              <ul className="bc-wa-list">
+                {bcWhatsappLinks.map((link, i) => (
+                  <li key={i}><a href={link.url} target="_blank" rel="noopener noreferrer">{link.name}</a></li>
+                ))}
+              </ul>
+              {bcChannels.has('telegram') && (
+                <p style={{ color: 'var(--text-dim)', fontSize: '0.8rem', marginTop: '1rem', fontStyle: 'italic' }}>{t.telegramComingSoon}</p>
+              )}
+              <button className="gold-btn" style={{ marginTop: '1rem', width: '100%' }} onClick={() => setBcWhatsappLinks([])}>OK</button>
             </div>
           </div>
         )}
@@ -3664,7 +5367,7 @@ export default function Home() {
               'My Profile — all fields editable',
               '"Update my details" saves without new page generation',
               'Leads tab — shows registered leads',
-              'IB Resources — 4 cards visible with working links',
+              'Marketing Resources — AI tools and resource cards visible with working links',
             ]},
           ]
           const allItems = betaSections.flatMap(s => s.items)
