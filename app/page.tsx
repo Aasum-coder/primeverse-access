@@ -3063,7 +3063,7 @@ const styles = `
   .tab-btn {
     padding: 0.75rem 1.5rem; background: none; border: none;
     font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 400;
-    color: var(--text-secondary); cursor: pointer;
+    color: var(--text-secondary); cursor: pointer; white-space: nowrap;
     border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.3s;
   }
   .tab-btn:hover { color: var(--gold-light); }
@@ -4537,6 +4537,8 @@ export default function Home() {
         dist = { ...dist, slug: autoSlug }
       }
       setDistributor(dist)
+      // Auto-create default pipeline stages if they don't exist yet
+      fetch('/api/create-default-stages', { method: 'POST' }).catch(() => {})
       // Load beta tester flag and existing test results
       if (dist.is_beta_tester) {
         setIsBetaTester(true)
@@ -5396,15 +5398,15 @@ export default function Home() {
               <div className="field-group">
                 <label className="field-label">{t.socialMedia || 'Social media'}</label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <input className="field-input" value={socialTelegram} onChange={e => setSocialTelegram(e.target.value)} onBlur={() => { const v = socialTelegram.trim(); if (v && /^t\.me\//i.test(v)) setSocialTelegram('https://' + v) }} placeholder={t.telegramUrl || 'https://t.me/yourusername'} />
+                  <input className="field-input" value={socialTelegram} onChange={e => setSocialTelegram(e.target.value)} onBlur={() => { const v = socialTelegram.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialTelegram('https://' + v) }} placeholder={t.telegramUrl || 'https://t.me/yourusername'} />
                   <input className="field-input" value={socialWhatsapp} onChange={e => setSocialWhatsapp(e.target.value.replace(/[^\d+]/g, ''))} placeholder={t.whatsappPhone || '+1234567890'} />
-                  <input className="field-input" value={socialTiktok} onChange={e => setSocialTiktok(e.target.value)} placeholder="TikTok URL" />
-                  <input className="field-input" value={socialInstagram} onChange={e => setSocialInstagram(e.target.value)} placeholder="Instagram URL" />
-                  <input className="field-input" value={socialFacebook} onChange={e => setSocialFacebook(e.target.value)} placeholder="Facebook URL" />
-                  <input className="field-input" value={socialSnapchat} onChange={e => setSocialSnapchat(e.target.value)} placeholder="Snapchat URL" />
-                  <input className="field-input" value={socialLinkedin} onChange={e => setSocialLinkedin(e.target.value)} placeholder="LinkedIn URL" />
-                  <input className="field-input" value={socialYoutube} onChange={e => setSocialYoutube(e.target.value)} placeholder={t.youtubeUrl || 'YouTube URL'} />
-                  <input className="field-input" value={socialOther} onChange={e => setSocialOther(e.target.value)} placeholder={t.otherUrl || 'Other URL'} />
+                  <input className="field-input" value={socialTiktok} onChange={e => setSocialTiktok(e.target.value)} onBlur={() => { const v = socialTiktok.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialTiktok('https://' + v) }} placeholder="TikTok URL" />
+                  <input className="field-input" value={socialInstagram} onChange={e => setSocialInstagram(e.target.value)} onBlur={() => { const v = socialInstagram.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialInstagram('https://' + v) }} placeholder="Instagram URL" />
+                  <input className="field-input" value={socialFacebook} onChange={e => setSocialFacebook(e.target.value)} onBlur={() => { const v = socialFacebook.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialFacebook('https://' + v) }} placeholder="Facebook URL" />
+                  <input className="field-input" value={socialSnapchat} onChange={e => setSocialSnapchat(e.target.value)} onBlur={() => { const v = socialSnapchat.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialSnapchat('https://' + v) }} placeholder="Snapchat URL" />
+                  <input className="field-input" value={socialLinkedin} onChange={e => setSocialLinkedin(e.target.value)} onBlur={() => { const v = socialLinkedin.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialLinkedin('https://' + v) }} placeholder="LinkedIn URL" />
+                  <input className="field-input" value={socialYoutube} onChange={e => setSocialYoutube(e.target.value)} onBlur={() => { const v = socialYoutube.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialYoutube('https://' + v) }} placeholder={t.youtubeUrl || 'YouTube URL'} />
+                  <input className="field-input" value={socialOther} onChange={e => setSocialOther(e.target.value)} onBlur={() => { const v = socialOther.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialOther('https://' + v) }} placeholder={t.otherUrl || 'Other URL'} />
                 </div>
               </div>
 

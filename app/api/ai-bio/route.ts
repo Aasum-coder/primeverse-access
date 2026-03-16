@@ -20,9 +20,6 @@ export async function POST(req: NextRequest) {
     })
 
     const data = await res.json()
-    console.log('Anthropic response status:', res.status)
-    console.log('Anthropic response:', JSON.stringify(data))
-
     if (!res.ok) {
       return NextResponse.json({ reply: 'API error: ' + (data.error?.message || res.status) }, { status: 500 })
     }

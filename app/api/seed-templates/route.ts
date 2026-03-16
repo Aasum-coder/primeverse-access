@@ -6,14 +6,9 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder',
 )
 
-export async function POST(request: Request) {
-  const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
+export async function GET() {
   try {
-    // ─── Step 1: Delete existing global templates and their steps ────────
+    // ─── Step 1: Check if templates already exist (idempotent) ──────────
     const { data: existingTemplates } = await supabaseAdmin
       .from('email_workflows')
       .select('id')
@@ -22,17 +17,7 @@ export async function POST(request: Request) {
       .is('owner_id', null)
 
     if (existingTemplates && existingTemplates.length > 0) {
-      const templateIds = existingTemplates.map((t) => t.id)
-
-      await supabaseAdmin
-        .from('workflow_steps')
-        .delete()
-        .in('workflow_id', templateIds)
-
-      await supabaseAdmin
-        .from('email_workflows')
-        .delete()
-        .in('id', templateIds)
+      return NextResponse.json({ message: `Templates already exist (${existingTemplates.length} found). No action taken.`, count: existingTemplates.length })
     }
 
     // ─── Step 2: Insert workflow templates ────────────────────────────────
