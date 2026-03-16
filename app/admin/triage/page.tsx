@@ -104,11 +104,13 @@ export default function TriagePage() {
   }, [])
 
   const fetchBugs = async () => {
-    const { data } = await supabase
-      .from('bug_reports')
-      .select('*')
-      .order('created_at', { ascending: false })
-    setBugs(data || [])
+    try {
+      const res = await fetch('/api/admin/bugs')
+      if (res.ok) {
+        const { bugs: data } = await res.json()
+        setBugs(data || [])
+      }
+    } catch { /* ignore */ }
   }
 
   const fetchTestResults = async () => {
@@ -145,8 +147,14 @@ export default function TriagePage() {
   }
 
   const updateStatus = async (id: string, status: string) => {
-    await supabase.from('bug_reports').update({ status, updated_at: new Date().toISOString() }).eq('id', id)
-    setBugs(prev => prev.map(b => b.id === id ? { ...b, status } : b))
+    try {
+      await fetch('/api/admin/bugs', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      })
+      setBugs(prev => prev.map(b => b.id === id ? { ...b, status } : b))
+    } catch { /* ignore */ }
   }
 
   const copyPrompt = (id: string, prompt: string) => {
