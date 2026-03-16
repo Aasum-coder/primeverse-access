@@ -5057,7 +5057,19 @@ export default function Home() {
             aria-selected={activeTab === 'beta'}
             aria-controls="tab-panel-beta"
             id="tab-beta"
-            onClick={() => setActiveTab('beta')}
+            onClick={() => {
+              setActiveTab('beta')
+              // Re-fetch test results from Supabase to ensure persistence across tab switches
+              if (distributor?.user_id) {
+                supabase.from('test_results').select('id, test_item, status, comment').eq('tester_id', distributor.user_id).then(({ data }) => {
+                  if (data) {
+                    const results: Record<string, { status: string; comment: string; id?: string }> = {}
+                    for (const r of data) results[r.test_item] = { status: r.status, comment: r.comment || '', id: r.id }
+                    setBetaResults(results)
+                  }
+                })
+              }
+            }}
             className={`tab-btn${activeTab === 'beta' ? ' tab-btn-active' : ''}`}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 4, verticalAlign: '-2px' }}><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
@@ -6362,32 +6374,29 @@ export default function Home() {
           const cycleStatus = (item: string) => {
             const current = betaResults[item]?.status || ''
             const next = current === '' ? 'pass' : current === 'pass' ? 'fail' : ''
-            const existing = betaResults[item]
             if (next === '') {
-              // Delete from DB
-              if (existing?.id) supabase.from('test_results').delete().eq('id', existing.id).then(() => {})
+              // Delete from DB using tester_id + test_item (unique constraint)
+              supabase.from('test_results').delete().eq('tester_id', distributor?.user_id).eq('test_item', item).then(() => {})
               setBetaResults(prev => { const n = { ...prev }; delete n[item]; return n })
               setBetaFailItem(null)
               return
             }
             const section = betaSections.find(s => s.items.includes(item))?.label || ''
-            const row = { tester_id: distributor?.user_id, tester_email: distributor?.email, tester_name: distributor?.name, section, test_item: item, status: next, comment: existing?.comment || '', platform: 'systm8' as const }
-            if (existing?.id) {
-              supabase.from('test_results').update({ status: next, updated_at: new Date().toISOString() }).eq('id', existing.id).then(() => {})
-              setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: next } }))
-            } else {
-              supabase.from('test_results').insert(row).select('id').single().then(({ data }) => {
-                setBetaResults(prev => ({ ...prev, [item]: { status: next, comment: '', id: data?.id } }))
-              })
-            }
+            const row = { tester_id: distributor?.user_id, tester_email: distributor?.email, tester_name: distributor?.name, section, test_item: item, status: next, comment: betaResults[item]?.comment || '', platform: 'systm8' as const, updated_at: new Date().toISOString() }
+            // Upsert on (tester_id, test_item) — immediately persists to Supabase
+            supabase.from('test_results').upsert(row, { onConflict: 'tester_id,test_item' }).select('id').single().then(({ data }) => {
+              setBetaResults(prev => ({ ...prev, [item]: { status: next, comment: prev[item]?.comment || '', id: data?.id } }))
+            })
+            // Optimistic UI update
+            setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: next, comment: prev[item]?.comment || '' } }))
             if (next === 'fail') { setBetaFailItem(item); setBetaBugForm({ title: item, description: '', severity: 'major' }) }
             else setBetaFailItem(null)
           }
 
           const saveComment = (item: string, comment: string) => {
-            const existing = betaResults[item]
             setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: prev[item]?.status || '', comment } }))
-            if (existing?.id) supabase.from('test_results').update({ comment, updated_at: new Date().toISOString() }).eq('id', existing.id).then(() => {})
+            // Save comment to Supabase using tester_id + test_item
+            supabase.from('test_results').update({ comment, updated_at: new Date().toISOString() }).eq('tester_id', distributor?.user_id).eq('test_item', item).then(() => {})
           }
 
           const uploadScreenshot = async (item: string, file: File) => {
@@ -6399,10 +6408,7 @@ export default function Home() {
             if (error) { showToast(t.errorPrefix + error.message); return }
             const { data: urlData } = supabase.storage.from('beta-screenshots').getPublicUrl(path)
             const url = urlData?.publicUrl || ''
-            const existing = betaResults[item]
-            if (existing?.id) {
-              await supabase.from('test_results').update({ screenshot_url: url, updated_at: new Date().toISOString() }).eq('id', existing.id)
-            }
+            await supabase.from('test_results').update({ screenshot_url: url, updated_at: new Date().toISOString() }).eq('tester_id', distributor?.user_id).eq('test_item', item)
             showToast('Screenshot uploaded')
           }
 
