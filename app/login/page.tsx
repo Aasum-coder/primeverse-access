@@ -784,10 +784,20 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-      router.push("/")
-    } catch {
-      setError(t.errorInvalid);
+      if (error) {
+        const msg = error.message?.toLowerCase() ?? "";
+        if (msg.includes("fetch") || msg.includes("network") || error.status === 0) {
+          setError("Cannot reach server. Check your connection or try again later.");
+        } else if (msg.includes("confirm") || msg.includes("verified")) {
+          setError("Please confirm your email address before signing in.");
+        } else {
+          setError(t.errorInvalid);
+        }
+        return;
+      }
+      router.push("/");
+    } catch (err: any) {
+      setError(err?.message || t.errorInvalid);
     } finally {
       setLoading(false);
     }
@@ -809,12 +819,19 @@ export default function LoginPage() {
     }
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({ email, password });
+      const { data, error } = await supabase.auth.signUp({ email, password });
       if (error) {
-        if (error.message.toLowerCase().includes("already registered")) {
+        const msg = error.message?.toLowerCase() ?? "";
+        if (msg.includes("fetch") || msg.includes("network") || error.status === 0) {
+          setError("Cannot reach server. Check your connection or try again later.");
+        } else if (msg.includes("already") || msg.includes("registered") || msg.includes("exists")) {
           setError(t.errorEmailInUse);
-        } else {
+        } else if (msg.includes("disabled") || msg.includes("signup")) {
+          setError("Sign-ups are currently disabled. Contact the administrator.");
+        } else if (msg.includes("password")) {
           setError(error.message);
+        } else {
+          setError(error.message || t.errorGeneric);
         }
         return;
       }
@@ -826,9 +843,13 @@ export default function LoginPage() {
         body: JSON.stringify({ email, lang }),
       }).catch(() => {});
 
-      setSuccess(t.signupSuccess);
-    } catch {
-      setError(t.errorGeneric);
+      if (data.user && !data.session) {
+        setSuccess("Account created! Check your email to confirm before signing in.");
+      } else {
+        setSuccess(t.signupSuccess);
+      }
+    } catch (err: any) {
+      setError(err?.message || t.errorGeneric);
     } finally {
       setLoading(false);
     }
