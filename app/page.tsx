@@ -3779,6 +3779,71 @@ const styles = `
     .share-dropdown { right: 0; left: auto; max-width: calc(100vw - 2rem); }
   }
 
+  /* Live page banner */
+  .live-banner {
+    background: linear-gradient(135deg, rgba(212,165,55,0.08) 0%, rgba(212,165,55,0.04) 100%);
+    border: 1px solid rgba(212,165,55,0.25);
+    border-radius: 12px; padding: 1.1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; margin-bottom: 1.75rem; flex-wrap: wrap;
+  }
+  .live-banner-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #4acd63; flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(74,205,99,0.6);
+    animation: livePulse 2s ease infinite;
+  }
+  @keyframes livePulse { 0%,100%{box-shadow:0 0 6px rgba(74,205,99,0.6)} 50%{box-shadow:0 0 14px rgba(74,205,99,0.9)} }
+  .live-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #4acd63; font-weight: 600; }
+  .live-url {
+    font-family: 'Outfit', sans-serif; font-size: 0.88rem; color: var(--gold-light);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;
+  }
+  .live-banner-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .copy-btn {
+    padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
+    font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.2s;
+    border: 1px solid rgba(212,165,55,0.3); background: rgba(212,165,55,0.08);
+    color: var(--gold);
+  }
+  .copy-btn:hover { background: rgba(212,165,55,0.15); border-color: rgba(212,165,55,0.5); }
+  .copy-btn-done { background: rgba(74,205,99,0.1); border-color: rgba(74,205,99,0.3); color: #4acd63; }
+
+  /* Setup guide */
+  .setup-card {
+    background: rgba(212,165,55,0.04); border: 1px solid rgba(212,165,55,0.18);
+    border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .setup-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+    font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem;
+  }
+  .setup-sub { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1.25rem; }
+  .setup-steps { display: flex; flex-direction: column; gap: 0.6rem; }
+  .setup-step {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.85rem; color: var(--text-secondary);
+  }
+  .setup-step-done { color: var(--text-primary); }
+  .step-icon {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700;
+  }
+  .step-icon-done { background: rgba(74,205,99,0.15); border: 1px solid rgba(74,205,99,0.3); color: #4acd63; }
+  .step-icon-todo { background: rgba(212,165,55,0.1); border: 1px solid rgba(212,165,55,0.2); color: var(--gold); }
+  .setup-cta { margin-top: 1.1rem; }
+  .progress-bar-wrap {
+    height: 4px; background: rgba(212,165,55,0.1); border-radius: 2px;
+    margin-top: 1.1rem; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+    transition: width 0.6s ease;
+  }
+
   /* Accessibility: visually hidden but available to screen readers */
   .sr-only {
     position: absolute;
@@ -3960,6 +4025,16 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
+
+  const [urlCopied, setUrlCopied] = useState(false)
+
+  const copyPageUrl = () => {
+    const url = `${window.location.origin}/${distributor?.slug}`
+    navigator.clipboard.writeText(url).then(() => {
+      setUrlCopied(true)
+      setTimeout(() => setUrlCopied(false), 2000)
+    })
+  }
 
   const [showAI, setShowAI] = useState(false)
   const [aiLoading, setAiLoading] = useState(false)
@@ -4434,12 +4509,32 @@ export default function Home() {
       if (!userData.user) { router.push('/login'); return }
       const userId = userData.user.id
       const email = userData.user.email!
-      const { data: existing } = await supabase.from('distributors').select('*').eq('user_id', userId).single()
-      let dist = existing
-      if (!existing) {
-        const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId }).select().single()
+      // 1. Try to find by user_id
+      const { data: byUserId } = await supabase.from('distributors').select('*').eq('user_id', userId).maybeSingle()
+      let dist = byUserId
+
+      if (!dist) {
+        // 2. Fall back to email lookup (rows created by admin without user_id)
+        const { data: byEmail } = await supabase.from('distributors').select('*').eq('email', email).maybeSingle()
+        if (byEmail) {
+          // Claim the row by writing user_id so future logins find it correctly
+          await supabase.from('distributors').update({ user_id: userId }).eq('id', byEmail.id)
+          dist = { ...byEmail, user_id: userId }
+        }
+      }
+
+      if (!dist) {
+        // 3. No row at all — create one
+        const autoSlug = email.split('@')[0].toLowerCase().replace(/[^a-z0-9-]/g, '')
+        const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId, slug: autoSlug }).select().maybeSingle()
         if (error) { showToast(t.errorPrefix + error.message); return }
         dist = newDist
+      }
+      // If existing record has no slug, set one from email
+      if (dist && !dist.slug) {
+        const autoSlug = email.split('@')[0].toLowerCase().replace(/[^a-z0-9-]/g, '')
+        await supabase.from('distributors').update({ slug: autoSlug }).eq('id', dist.id)
+        dist = { ...dist, slug: autoSlug }
       }
       setDistributor(dist)
       // Load beta tester flag and existing test results
@@ -4998,6 +5093,36 @@ export default function Home() {
           </div>
         </header>
 
+        {/* LIVE PAGE BANNER */}
+        {distributor?.slug && (
+          <div className="live-banner">
+            <div className="live-banner-left">
+              <div className="live-dot" />
+              <div>
+                <div className="live-label">
+                  {lang === 'no' ? 'Din side er live' : lang === 'sv' ? 'Din sida är live' : lang === 'es' ? 'Tu página está activa' : lang === 'ru' ? 'Ваша страница активна' : lang === 'ar' ? 'صفحتك نشطة' : 'Your page is live'}
+                </div>
+                <div className="live-url">{typeof window !== 'undefined' ? `${window.location.origin}/${distributor.slug}` : `/${distributor.slug}`}</div>
+              </div>
+            </div>
+            <div className="live-banner-actions">
+              <button
+                className={`copy-btn${urlCopied ? ' copy-btn-done' : ''}`}
+                onClick={copyPageUrl}
+                aria-label={urlCopied ? 'Copied!' : 'Copy page URL'}
+              >
+                {urlCopied
+                  ? (lang === 'no' ? '✓ Kopiert!' : lang === 'sv' ? '✓ Kopierat!' : lang === 'es' ? '✓ Copiado!' : '✓ Copied!')
+                  : (lang === 'no' ? 'Kopier lenke' : lang === 'sv' ? 'Kopiera länk' : lang === 'es' ? 'Copiar enlace' : 'Copy link')}
+              </button>
+              <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="copy-btn" style={{ textDecoration: 'none' }}>
+                {lang === 'no' ? 'Åpne ↗' : lang === 'sv' ? 'Öppna ↗' : lang === 'es' ? 'Abrir ↗' : 'Open ↗'}
+                <span className="sr-only">(opens in new tab)</span>
+              </a>
+            </div>
+          </div>
+        )}
+
         {/* TABS */}
         <div className="tabs" role="tablist" aria-label="Dashboard sections">
           <button
@@ -5081,6 +5206,51 @@ export default function Home() {
         {/* LEADS TAB */}
         {activeTab === 'leads' && (
           <div role="tabpanel" id="tab-panel-leads" aria-labelledby="tab-leads">
+
+            {/* SETUP GUIDE — shown when profile is incomplete */}
+            {(() => {
+              const hasPhoto = !!distributor?.profile_image
+              const hasBio = !!(distributor?.bio?.trim())
+              const hasReferral = !!(distributor?.referral_link?.trim())
+              const done = [hasPhoto, hasBio, hasReferral].filter(Boolean).length
+              if (done === 3) return null
+              return (
+                <div className="setup-card">
+                  <div className="setup-title">
+                    {lang === 'no' ? '👋 Sett opp din side' : lang === 'sv' ? '👋 Konfigurera din sida' : lang === 'es' ? '👋 Configura tu página' : '👋 Set up your page'}
+                  </div>
+                  <div className="setup-sub">
+                    {lang === 'no' ? `Din landingsside er opprettet! Fullfør disse ${3 - done} stegene for å gjøre den klar til å dele.`
+                      : lang === 'sv' ? `Din landningssida är skapad! Slutför dessa ${3 - done} steg för att göra den redo att dela.`
+                      : lang === 'es' ? `¡Tu página de aterrizaje está creada! Completa estos ${3 - done} pasos para compartirla.`
+                      : `Your landing page is created! Complete these ${3 - done} steps to make it ready to share.`}
+                  </div>
+                  <div className="setup-steps">
+                    <div className={`setup-step${hasPhoto ? ' setup-step-done' : ''}`}>
+                      <span className={`step-icon${hasPhoto ? ' step-icon-done' : ' step-icon-todo'}`}>{hasPhoto ? '✓' : '1'}</span>
+                      {lang === 'no' ? 'Last opp profilbilde' : lang === 'sv' ? 'Ladda upp profilbild' : lang === 'es' ? 'Sube tu foto de perfil' : 'Upload a profile photo'}
+                    </div>
+                    <div className={`setup-step${hasBio ? ' setup-step-done' : ''}`}>
+                      <span className={`step-icon${hasBio ? ' step-icon-done' : ' step-icon-todo'}`}>{hasBio ? '✓' : '2'}</span>
+                      {lang === 'no' ? 'Skriv en bio' : lang === 'sv' ? 'Skriv en bio' : lang === 'es' ? 'Escribe una bio' : 'Write a bio'}
+                    </div>
+                    <div className={`setup-step${hasReferral ? ' setup-step-done' : ''}`}>
+                      <span className={`step-icon${hasReferral ? ' step-icon-done' : ' step-icon-todo'}`}>{hasReferral ? '✓' : '3'}</span>
+                      {lang === 'no' ? 'Lim inn din IB-link (referral link fra broker)' : lang === 'sv' ? 'Klistra in din IB-länk' : lang === 'es' ? 'Pega tu enlace IB del broker' : 'Paste your IB referral link from the broker'}
+                    </div>
+                  </div>
+                  <div className="progress-bar-wrap">
+                    <div className="progress-bar-fill" style={{ width: `${(done / 3) * 100}%` }} />
+                  </div>
+                  <div className="setup-cta">
+                    <button className="gold-btn gold-btn-sm" onClick={() => setActiveTab('profile')}>
+                      {lang === 'no' ? 'Gå til profil →' : lang === 'sv' ? 'Gå till profil →' : lang === 'es' ? 'Ir a perfil →' : 'Go to profile →'}
+                    </button>
+                  </div>
+                </div>
+              )
+            })()}
+
             <div style={{ marginBottom: '2rem' }}>
               <h3 className="section-header">
                 <span aria-hidden="true">⏳</span> {t.pendingHeader}
