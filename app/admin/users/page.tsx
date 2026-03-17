@@ -20,6 +20,9 @@ interface UserRow {
   created_at: string
   user_id: string
   lead_count: number
+  ib_status: string | null
+  ib_status_note: string | null
+  ib_approved_at: string | null
 }
 
 export default function AdminUsersPage() {
@@ -30,6 +33,9 @@ export default function AdminUsersPage() {
   const [viewingUser, setViewingUser] = useState<UserRow | null>(null)
   const [viewDistributor, setViewDistributor] = useState<any>(null)
   const [viewLoading, setViewLoading] = useState(false)
+  const [actionModal, setActionModal] = useState<{ userId: string; action: 'approved' | 'rejected' | 'pending' } | null>(null)
+  const [actionNote, setActionNote] = useState('')
+  const [actionLoading, setActionLoading] = useState(false)
 
   useEffect(() => {
     const init = async () => {
@@ -62,8 +68,6 @@ export default function AdminUsersPage() {
     setViewingUser(user)
     setViewLoading(true)
     try {
-      const { data: { session } } = await supabase.auth.getSession()
-      // Fetch full distributor data for this user via the admin API
       const { data } = await supabase
         .from('distributors')
         .select('*')
@@ -79,10 +83,43 @@ export default function AdminUsersPage() {
     setViewDistributor(null)
   }
 
+  const updateIbStatus = async () => {
+    if (!actionModal) return
+    setActionLoading(true)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const res = await fetch(`/api/admin/users/${actionModal.userId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({ ib_status: actionModal.action, ib_status_note: actionNote || undefined }),
+      })
+      if (res.ok) {
+        setUsers(prev => prev.map(u =>
+          u.id === actionModal.userId
+            ? { ...u, ib_status: actionModal.action, ib_status_note: actionNote || null, ib_approved_at: actionModal.action === 'approved' ? new Date().toISOString() : u.ib_approved_at }
+            : u
+        ))
+        setActionModal(null)
+        setActionNote('')
+      }
+    } catch { /* ignore */ }
+    setActionLoading(false)
+  }
+
   const getStatus = (u: UserRow): { label: string; color: string } => {
     if (u.landing_active) return { label: 'Active', color: '#22c55e' }
     if (u.slug) return { label: 'Setup', color: '#eab308' }
     return { label: 'Incomplete', color: '#ef4444' }
+  }
+
+  const getIbStatus = (u: UserRow): { label: string; color: string } => {
+    const s = u.ib_status || 'pending'
+    if (s === 'approved') return { label: 'Approved', color: '#22c55e' }
+    if (s === 'rejected') return { label: 'Rejected', color: '#ef4444' }
+    return { label: 'Pending', color: '#eab308' }
   }
 
   const getInitials = (name: string | null, email: string | null) => {
@@ -122,8 +159,72 @@ export default function AdminUsersPage() {
   )
   if (!authorized) return null
 
+  const btnStyle = (bg: string, color: string, border: string) => ({
+    background: bg,
+    color,
+    border: `1px solid ${border}`,
+    borderRadius: 4,
+    padding: '3px 10px',
+    fontSize: '0.72rem',
+    fontWeight: 600 as const,
+    cursor: 'pointer',
+    whiteSpace: 'nowrap' as const,
+  })
+
   return (
     <div style={{ background: '#1A1A2E', minHeight: '100vh', fontFamily: 'Arial, sans-serif', color: '#E0E0E0' }}>
+      {/* Action modal overlay */}
+      {actionModal && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex',
+          alignItems: 'center', justifyContent: 'center', zIndex: 200,
+        }} onClick={() => { setActionModal(null); setActionNote('') }}>
+          <div style={{
+            background: '#16162a', border: '1px solid #2a2a4a', borderRadius: 12,
+            padding: '24px 28px', maxWidth: 400, width: '90%',
+          }} onClick={e => e.stopPropagation()}>
+            <h3 style={{ color: '#D4A843', margin: '0 0 12px', fontSize: '1rem' }}>
+              {actionModal.action === 'approved' ? 'Approve User' : actionModal.action === 'rejected' ? 'Reject User' : 'Set to Pending'}
+            </h3>
+            <p style={{ color: '#888', fontSize: '0.85rem', margin: '0 0 16px' }}>
+              {actionModal.action === 'approved' ? 'This will grant full dashboard access and send a welcome email.' :
+               actionModal.action === 'rejected' ? 'This will block the user from accessing the dashboard.' :
+               'This will put the user back in pending review state.'}
+            </p>
+            <textarea
+              placeholder="Optional note (visible to user if rejected)..."
+              value={actionNote}
+              onChange={e => setActionNote(e.target.value)}
+              rows={3}
+              style={{
+                width: '100%', background: '#1a1a2e', border: '1px solid #2a2a4a', borderRadius: 8,
+                padding: '10px 12px', color: '#E0E0E0', fontSize: '0.85rem', outline: 'none',
+                resize: 'vertical', boxSizing: 'border-box', marginBottom: 16,
+              }}
+            />
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => { setActionModal(null); setActionNote('') }}
+                style={btnStyle('transparent', '#888', '#2a2a4a')}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={updateIbStatus}
+                disabled={actionLoading}
+                style={btnStyle(
+                  actionModal.action === 'approved' ? 'rgba(34,197,94,0.15)' : actionModal.action === 'rejected' ? 'rgba(239,68,68,0.15)' : 'rgba(234,179,8,0.15)',
+                  actionModal.action === 'approved' ? '#22c55e' : actionModal.action === 'rejected' ? '#f87171' : '#eab308',
+                  actionModal.action === 'approved' ? 'rgba(34,197,94,0.3)' : actionModal.action === 'rejected' ? 'rgba(239,68,68,0.3)' : 'rgba(234,179,8,0.3)',
+                )}
+              >
+                {actionLoading ? '...' : 'Confirm'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Impersonation banner */}
       {viewingUser && (
         <div style={{
@@ -172,7 +273,7 @@ export default function AdminUsersPage() {
         </div>
       )}
 
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 16px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 16px' }}>
         {/* Impersonation view */}
         {viewingUser && (
           <div style={{
@@ -266,7 +367,7 @@ export default function AdminUsersPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
             <thead>
               <tr style={{ borderBottom: '2px solid #2a2a4a' }}>
-                {['', 'Name', 'Email', 'Landing Page', 'Leads', 'Referral', 'Joined', 'Status'].map(h => (
+                {['', 'Name', 'Email', 'Landing Page', 'Leads', 'Referral', 'Joined', 'Status', 'IB Status', 'Actions'].map(h => (
                   <th key={h} style={{ padding: '10px 8px', textAlign: 'left', color: '#888', fontWeight: 600, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>
                     {h}
                   </th>
@@ -276,6 +377,8 @@ export default function AdminUsersPage() {
             <tbody>
               {filtered.map(u => {
                 const status = getStatus(u)
+                const ibStatus = getIbStatus(u)
+                const ibState = u.ib_status || 'pending'
                 return (
                   <tr key={u.id} style={{ borderBottom: '1px solid #1e1e38' }}>
                     {/* Avatar */}
@@ -357,12 +460,42 @@ export default function AdminUsersPage() {
                         {status.label}
                       </span>
                     </td>
+                    {/* IB Status */}
+                    <td style={{ padding: '8px' }}>
+                      <span style={{
+                        background: `${ibStatus.color}18`,
+                        color: ibStatus.color,
+                        padding: '3px 10px',
+                        borderRadius: 4,
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                      }}>
+                        {ibStatus.label}
+                      </span>
+                    </td>
+                    {/* Actions */}
+                    <td style={{ padding: '8px' }}>
+                      <div style={{ display: 'flex', gap: 4 }}>
+                        {ibState === 'pending' && (
+                          <>
+                            <button onClick={() => setActionModal({ userId: u.id, action: 'approved' })} style={btnStyle('rgba(34,197,94,0.12)', '#22c55e', 'rgba(34,197,94,0.3)')}>Approve</button>
+                            <button onClick={() => setActionModal({ userId: u.id, action: 'rejected' })} style={btnStyle('rgba(239,68,68,0.12)', '#f87171', 'rgba(239,68,68,0.3)')}>Reject</button>
+                          </>
+                        )}
+                        {ibState === 'approved' && (
+                          <button onClick={() => setActionModal({ userId: u.id, action: 'rejected' })} style={btnStyle('rgba(239,68,68,0.12)', '#f87171', 'rgba(239,68,68,0.3)')}>Revoke</button>
+                        )}
+                        {ibState === 'rejected' && (
+                          <button onClick={() => setActionModal({ userId: u.id, action: 'approved' })} style={btnStyle('rgba(34,197,94,0.12)', '#22c55e', 'rgba(34,197,94,0.3)')}>Re-approve</button>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 )
               })}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={8} style={{ padding: 40, textAlign: 'center', color: '#555' }}>
+                  <td colSpan={10} style={{ padding: 40, textAlign: 'center', color: '#555' }}>
                     {search ? 'No users match your search' : 'No users found'}
                   </td>
                 </tr>

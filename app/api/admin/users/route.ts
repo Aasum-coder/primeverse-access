@@ -27,7 +27,7 @@ export async function GET(req: Request) {
   // Fetch all distributors with lead counts using service role
   const { data: distributors, error } = await supabaseAdmin
     .from('distributors')
-    .select('id, name, email, slug, landing_active, referral_link, profile_image, created_at, user_id')
+    .select('id, name, email, slug, landing_active, referral_link, profile_image, created_at, user_id, ib_status, ib_status_note, ib_approved_at')
     .order('created_at', { ascending: false })
 
   if (error) {
