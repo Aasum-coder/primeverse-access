@@ -233,6 +233,7 @@ function WorkflowCanvasInner({
   const [dirty, setDirty] = useState(false)
   const [templatesOpen, setTemplatesOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [canvasMessage, setCanvasMessage] = useState<{ text: string; type: 'error' | 'warning' } | null>(null)
   const lastSavedRef = useRef<string>('')
 
   // ── Mobile detection ──
@@ -357,8 +358,13 @@ function WorkflowCanvasInner({
     event.preventDefault()
     const typeId = event.dataTransfer.getData('application/reactflow')
     if (!typeId) return
-    const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
     const cat = getNodeCategory(typeId)
+    if (cat === 'trigger' && nodes.some(n => n.type === 'trigger')) {
+      setCanvasMessage({ text: 'A workflow can only have one trigger', type: 'error' })
+      setTimeout(() => setCanvasMessage(null), 3000)
+      return
+    }
+    const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
     const id = `${typeId}-${Date.now()}`
     const allTypes = [...TRIGGER_TYPES, ...ACTION_TYPES, ...CONDITION_TYPES, ...FLOW_CONTROL_TYPES]
     const info = allTypes.find(t => t.id === typeId)
@@ -374,7 +380,7 @@ function WorkflowCanvasInner({
     }
     setNodes(nds => [...nds, newNode])
     setDirty(true)
-  }, [screenToFlowPosition, setNodes])
+  }, [screenToFlowPosition, setNodes, nodes])
 
   // ── Node click ──
   const onNodeClick = useCallback((_: any, node: Node) => {
@@ -407,6 +413,25 @@ function WorkflowCanvasInner({
     setSelectedNode(null)
     setDirty(true)
   }, [setNodes, setEdges])
+
+  // ── Keyboard delete handler ──
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Delete' && e.key !== 'Backspace') return
+      const tag = (e.target as HTMLElement)?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
+      if (!selectedNode) return
+      if (selectedNode.type === 'trigger') {
+        setCanvasMessage({ text: 'Triggers cannot be deleted', type: 'warning' })
+        setTimeout(() => setCanvasMessage(null), 3000)
+        return
+      }
+      e.preventDefault()
+      deleteNode(selectedNode.id)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedNode, deleteNode])
 
   // ── Tidy up (auto-arrange) ──
   const tidyUp = useCallback(() => {
@@ -654,7 +679,12 @@ function WorkflowCanvasInner({
         )}
 
         {/* CANVAS */}
-        <div ref={reactFlowWrapper} style={{ flex: 1, background: '#1A1A2E' }}>
+        <div ref={reactFlowWrapper} style={{ flex: 1, background: '#1A1A2E', position: 'relative' }}>
+          {canvasMessage && (
+            <div style={{ position: 'absolute', top: 16, left: '50%', transform: 'translateX(-50%)', zIndex: 50, background: canvasMessage.type === 'error' ? 'rgba(248,113,113,0.15)' : 'rgba(212,168,67,0.15)', color: canvasMessage.type === 'error' ? '#f87171' : '#D4A843', border: `1px solid ${canvasMessage.type === 'error' ? 'rgba(248,113,113,0.4)' : 'rgba(212,168,67,0.4)'}`, borderRadius: 8, padding: '8px 16px', fontSize: '0.82rem', fontWeight: 600, pointerEvents: 'none' }}>
+              {canvasMessage.text}
+            </div>
+          )}
           <ReactFlow
             nodes={nodes}
             edges={edges}
