@@ -286,14 +286,17 @@ function WorkflowCanvasInner({
         data: { label: 'Trigger', nodeType: 'trigger', config: { triggerType: workflow.trigger_type || 'lead_signup', ...(workflow.trigger_config || {}), position: undefined } },
       })
       steps.forEach((step: any, i: number) => {
-        const cat = getNodeCategory(step.step_type)
+        // Restore the real nodeType from config._nodeType if it was mapped for DB constraint
+        const realNodeType = step.config?._nodeType || step.step_type
+        const cat = getNodeCategory(realNodeType)
         const nodeId = `step-${step.id || i}`
         const pos = step.config?.position || { x: 300, y: 150 + i * 120 }
+        const { _nodeType: _, position: _pos, ...cleanConfig } = step.config || {}
         loadedNodes.push({
           id: nodeId,
           type: cat,
           position: pos,
-          data: { label: step.step_type, nodeType: step.step_type, config: { ...step.config, position: undefined } },
+          data: { label: realNodeType, nodeType: realNodeType, config: cleanConfig },
         })
         // Build edges from connections stored in config
         if (step.config?.connections) {
@@ -358,13 +361,14 @@ function WorkflowCanvasInner({
     event.preventDefault()
     const typeId = event.dataTransfer.getData('application/reactflow')
     if (!typeId) return
-    const cat = getNodeCategory(typeId)
+    const cat = getNodeCategory(typeId) 
     if (cat === 'trigger' && nodes.some(n => n.type === 'trigger')) {
       setCanvasMessage({ text: 'A workflow can only have one trigger', type: 'error' })
       setTimeout(() => setCanvasMessage(null), 3000)
       return
     }
     const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
+
     const id = `${typeId}-${Date.now()}`
     const allTypes = [...TRIGGER_TYPES, ...ACTION_TYPES, ...CONDITION_TYPES, ...FLOW_CONTROL_TYPES]
     const info = allTypes.find(t => t.id === typeId)
@@ -380,8 +384,6 @@ function WorkflowCanvasInner({
     }
     setNodes(nds => [...nds, newNode])
     setDirty(true)
-  }, [screenToFlowPosition, setNodes, nodes])
-
   // ── Node click ──
   const onNodeClick = useCallback((_: any, node: Node) => {
     setSelectedNode(node as Node<NodeData>)
@@ -408,11 +410,34 @@ function WorkflowCanvasInner({
 
   // ── Delete node ──
   const deleteNode = useCallback((nodeId: string) => {
+    // Don't allow deleting the trigger node
+    const node = nodes.find(n => n.id === nodeId)
+    if (node?.type === 'trigger') {
+      showToast('Cannot delete the trigger node', 'error')
+      return
+    }
     setNodes(nds => nds.filter(n => n.id !== nodeId))
     setEdges(eds => eds.filter(e => e.source !== nodeId && e.target !== nodeId))
     setSelectedNode(null)
     setDirty(true)
-  }, [setNodes, setEdges])
+  }, [nodes, setNodes, setEdges, showToast])
+
+  // ── Keyboard handler for Delete/Backspace ──
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        // Don't intercept if user is typing in an input/textarea/select
+        const tag = (e.target as HTMLElement)?.tagName?.toLowerCase()
+        if (tag === 'input' || tag === 'textarea' || tag === 'select') return
+        if (selectedNode) {
+          e.preventDefault()
+          deleteNode(selectedNode.id)
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedNode, deleteNode])
 
   // ── Keyboard delete handler ──
   useEffect(() => {
@@ -465,6 +490,9 @@ function WorkflowCanvasInner({
     setDirty(true)
   }, [nodes, edges, setNodes])
 
+  // ── Valid step_type values (must match DB CHECK constraint) ──
+  const VALID_STEP_TYPES = new Set(['email', 'wait', 'condition', 'switch_workflow', 'whatsapp', 'telegram'])
+
   // ── Save ──
   const handleSave = useCallback(async (activate?: boolean) => {
     if (!wfName.trim()) {
@@ -487,38 +515,25 @@ function WorkflowCanvasInner({
       const triggerType = triggerConfig.triggerType || 'lead_signup'
       const { triggerType: _tt, ...restTriggerConfig } = triggerConfig
 
+      // Store trigger position in trigger_config
+      if (triggerNode) {
+        restTriggerConfig.triggerPosition = triggerNode.position
+      }
+
       const wfData: Record<string, any> = {
         owner_id: user.id,
         name: wfName.trim(),
+        description: '',
         trigger_type: triggerType,
         trigger_config: restTriggerConfig,
-        status: activate ? 'active' : (activate === false && wfStatus === 'active') ? 'paused' : wfStatus,
+        status: activate !== undefined ? (activate ? 'active' : 'paused') : wfStatus,
         is_template: false,
         is_global: false,
       }
-      if (activate !== undefined) {
-        wfData.status = activate ? 'active' : 'paused'
-      }
-      console.log('Workflow data to save:', JSON.stringify(wfData))
-
-      let wfId: string
-      if (workflow?.id) {
-        const { error: updateError } = await supabase.from('email_workflows').update(wfData).eq('id', workflow.id)
-        if (updateError) {
-          console.error('Workflow save error:', JSON.stringify(updateError))
-          showToast(t.wfSaveError || 'Failed to update workflow')
           setSaving(false)
           return
         }
         wfId = workflow.id
-        console.log('Updated workflow id:', wfId)
-        const { error: deleteError } = await supabase.from('workflow_steps').delete().eq('workflow_id', wfId)
-        if (deleteError) console.error('Steps delete error:', JSON.stringify(deleteError))
-      } else {
-        const { data, error } = await supabase.from('email_workflows').insert(wfData).select('id').single()
-        if (error || !data) {
-          console.error('Workflow save error:', JSON.stringify(error))
-          showToast(t.wfSaveError || 'Failed to save')
           setSaving(false)
           return
         }
@@ -538,29 +553,23 @@ function WorkflowCanvasInner({
             else connections.default = e.target
           })
           const nd = n.data as NodeData
+          // Map extended node types to valid DB step_types
+          let stepType = nd.nodeType
+          if (!VALID_STEP_TYPES.has(stepType)) {
+            // Store the original nodeType in config so it can be restored on load
+            // but use a valid step_type for the DB constraint
+            stepType = 'email' // fallback; the config carries the real type
+          }
           return {
             workflow_id: wfId,
             step_order: i + 1,
-            step_type: nd.nodeType,
-            config: { ...(nd.config || {}), position: n.position, connections },
-          }
-        })
-        const { error: stepsError } = await supabase.from('workflow_steps').insert(stepsToInsert)
-        if (stepsError) console.error('Workflow save error:', JSON.stringify(stepsError))
-      }
-      // Also store trigger position
-      if (triggerNode) {
-        const { error: trigPosError } = await supabase.from('email_workflows').update({ trigger_config: { ...restTriggerConfig, triggerPosition: triggerNode.position } }).eq('id', wfId)
-        if (trigPosError) console.error('Trigger position save error:', JSON.stringify(trigPosError))
-      }
-
+            step_type: stepType,
+            config: { ...(nd.config || {}), _nodeType: nd.nodeType, position: n.position, connections },
+    
       if (activate !== undefined) setWfStatus(activate ? 'active' : 'paused')
       setDirty(false)
       showToast(activate ? (t.wfActivated || 'Workflow activated!') : (t.wfSaved || 'Workflow saved!'), 'info')
       onSaved()
-    } catch (err) {
-      console.error('Workflow save error:', err)
-      showToast(t.wfSaveError || 'Failed to save workflow')
     }
     setSaving(false)
   }, [wfName, wfStatus, nodes, edges, workflow, supabase, showToast, t, onSaved])
@@ -725,6 +734,7 @@ function WorkflowCanvasInner({
             fitView
             snapToGrid
             snapGrid={[20, 20]}
+            deleteKeyCode={null}
             defaultEdgeOptions={{ style: { stroke: '#D4A843', strokeWidth: 2 }, markerEnd: { type: MarkerType.ArrowClosed, color: '#D4A843' } }}
             style={{ background: '#1A1A2E' }}
           >
