@@ -4240,11 +4240,19 @@ export default function Home() {
   }
 
   const wfSave = async (activate: boolean) => {
-    if (!distributor?.id || !wfName.trim()) return
+    if (!wfName.trim()) return
     setWfSaving(true)
     try {
+      const { data: { user }, error: authError } = await supabase.auth.getUser()
+      if (authError || !user) {
+        console.error('Auth error:', authError)
+        showToast('Not authenticated')
+        setWfSaving(false)
+        return
+      }
+      console.log('Saving workflow as user:', user.id)
       const wfData = {
-        owner_id: distributor.user_id,
+        owner_id: user.id,
         name: wfName.trim(),
         description: wfDescription.trim(),
         trigger_type: wfTriggerType,
@@ -4255,38 +4263,58 @@ export default function Home() {
       }
       let wfId: string
       if (wfEditing) {
-        await supabase.from('email_workflows').update(wfData).eq('id', wfEditing.id)
+        const { error: updateError } = await supabase.from('email_workflows').update(wfData).eq('id', wfEditing.id)
+        if (updateError) {
+          console.error('Workflow save error:', JSON.stringify(updateError))
+          showToast(t.wfSaveError)
+          setWfSaving(false)
+          return
+        }
         wfId = wfEditing.id
-        // Delete existing steps and re-insert
         await supabase.from('workflow_steps').delete().eq('workflow_id', wfId)
       } else {
         const { data, error } = await supabase.from('email_workflows').insert(wfData).select('id').single()
-        if (error || !data) { showToast(t.wfSaveError); setWfSaving(false); return }
+        if (error || !data) {
+          console.error('Workflow save error:', JSON.stringify(error))
+          showToast(t.wfSaveError)
+          setWfSaving(false)
+          return
+        }
         wfId = data.id
+        console.log('Created workflow id:', wfId)
       }
       // Insert steps
       if (wfSteps.length > 0) {
+        console.log('Saving steps for workflow_id:', wfId)
         const stepsToInsert = wfSteps.map((s, i) => ({
           workflow_id: wfId,
           step_order: i + 1,
           step_type: s.step_type,
           config: s.config,
         }))
-        await supabase.from('workflow_steps').insert(stepsToInsert)
+        const { error: stepsError } = await supabase.from('workflow_steps').insert(stepsToInsert)
+        if (stepsError) console.error('Workflow save error:', JSON.stringify(stepsError))
       }
       showToast(activate ? t.wfActivated : t.wfSaved, 'info')
       setWfView('list')
       fetchWorkflows()
-    } catch {
+    } catch (err) {
+      console.error('Workflow save error:', err)
       showToast(t.wfSaveError)
     }
     setWfSaving(false)
   }
 
   const wfUseTemplate = async (template: any) => {
-    if (!distributor?.user_id) return
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    if (authError || !user) {
+      console.error('Auth error:', authError)
+      showToast('Not authenticated')
+      return
+    }
+    console.log('Using template as user:', user.id)
     const { data: wf, error } = await supabase.from('email_workflows').insert({
-      owner_id: distributor.user_id,
+      owner_id: user.id,
       name: template.name,
       description: template.description || '',
       trigger_type: template.trigger_type,
@@ -4296,7 +4324,11 @@ export default function Home() {
       is_global: false,
       created_from: template.id,
     }).select('id').single()
-    if (error || !wf) { showToast(t.wfSaveError); return }
+    if (error || !wf) {
+      console.error('Workflow save error:', JSON.stringify(error))
+      showToast(t.wfSaveError)
+      return
+    }
     // Clone steps
     const steps = (template.workflow_steps || []).sort((a: any, b: any) => a.step_order - b.step_order)
     if (steps.length > 0) {
