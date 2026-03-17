@@ -384,6 +384,8 @@ function WorkflowCanvasInner({
     }
     setNodes(nds => [...nds, newNode])
     setDirty(true)
+  }, [screenToFlowPosition, setNodes, nodes])
+
   // ── Node click ──
   const onNodeClick = useCallback((_: any, node: Node) => {
     setSelectedNode(node as Node<NodeData>)
@@ -421,23 +423,6 @@ function WorkflowCanvasInner({
     setSelectedNode(null)
     setDirty(true)
   }, [nodes, setNodes, setEdges, showToast])
-
-  // ── Keyboard handler for Delete/Backspace ──
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Delete' || e.key === 'Backspace') {
-        // Don't intercept if user is typing in an input/textarea/select
-        const tag = (e.target as HTMLElement)?.tagName?.toLowerCase()
-        if (tag === 'input' || tag === 'textarea' || tag === 'select') return
-        if (selectedNode) {
-          e.preventDefault()
-          deleteNode(selectedNode.id)
-        }
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedNode, deleteNode])
 
   // ── Keyboard delete handler ──
   useEffect(() => {
@@ -530,10 +515,26 @@ function WorkflowCanvasInner({
         is_template: false,
         is_global: false,
       }
+      console.log('Workflow data to save:', JSON.stringify(wfData))
+
+      let wfId: string
+      if (workflow?.id) {
+        const { error: updateError } = await supabase.from('email_workflows').update(wfData).eq('id', workflow.id)
+        if (updateError) {
+          console.error('Workflow save error:', JSON.stringify(updateError))
+          showToast(t.wfSaveError || 'Failed to update workflow')
           setSaving(false)
           return
         }
         wfId = workflow.id
+        console.log('Updated workflow id:', wfId)
+        const { error: deleteError } = await supabase.from('workflow_steps').delete().eq('workflow_id', wfId)
+        if (deleteError) console.error('Steps delete error:', JSON.stringify(deleteError))
+      } else {
+        const { data, error } = await supabase.from('email_workflows').insert(wfData).select('id').single()
+        if (error || !data) {
+          console.error('Workflow save error:', JSON.stringify(error))
+          showToast(t.wfSaveError || 'Failed to save')
           setSaving(false)
           return
         }
@@ -556,8 +557,6 @@ function WorkflowCanvasInner({
           // Map extended node types to valid DB step_types
           let stepType = nd.nodeType
           if (!VALID_STEP_TYPES.has(stepType)) {
-            // Store the original nodeType in config so it can be restored on load
-            // but use a valid step_type for the DB constraint
             stepType = 'email' // fallback; the config carries the real type
           }
           return {
@@ -565,11 +564,19 @@ function WorkflowCanvasInner({
             step_order: i + 1,
             step_type: stepType,
             config: { ...(nd.config || {}), _nodeType: nd.nodeType, position: n.position, connections },
-    
+          }
+        })
+        const { error: stepsError } = await supabase.from('workflow_steps').insert(stepsToInsert)
+        if (stepsError) console.error('Workflow save error:', JSON.stringify(stepsError))
+      }
+
       if (activate !== undefined) setWfStatus(activate ? 'active' : 'paused')
       setDirty(false)
       showToast(activate ? (t.wfActivated || 'Workflow activated!') : (t.wfSaved || 'Workflow saved!'), 'info')
       onSaved()
+    } catch (err) {
+      console.error('Workflow save error:', err)
+      showToast(t.wfSaveError || 'Failed to save workflow')
     }
     setSaving(false)
   }, [wfName, wfStatus, nodes, edges, workflow, supabase, showToast, t, onSaved])
