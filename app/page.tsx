@@ -5032,7 +5032,11 @@ export default function Home() {
               <div className="avatar-placeholder" aria-hidden="true">👤</div>
             )}
             <div>
-              <div className="dash-username">{distributor?.name || 'Dashboard'}</div>
+              <div className="dash-username">
+                {distributor?.slug && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#22c55e', marginRight: 6, verticalAlign: 'middle', boxShadow: '0 0 6px rgba(34,197,94,0.5)' }} title="Live" />}
+                {distributor?.name || 'Dashboard'}
+                {distributor?.slug && <span style={{ fontSize: '0.65rem', color: '#22c55e', marginLeft: 6, fontWeight: 600, verticalAlign: 'middle' }}>Live</span>}
+              </div>
               <div className="dash-email">{distributor?.email}</div>
             </div>
           </div>
@@ -5110,36 +5114,6 @@ export default function Home() {
             <button onClick={handleLogout} className="logout-link">{t.logout}</button>
           </div>
         </header>
-
-        {/* LIVE PAGE BANNER */}
-        {distributor?.slug && (
-          <div className="live-banner">
-            <div className="live-banner-left">
-              <div className="live-dot" />
-              <div>
-                <div className="live-label">
-                  {lang === 'no' ? 'Din side er live' : lang === 'sv' ? 'Din sida är live' : lang === 'es' ? 'Tu página está activa' : lang === 'ru' ? 'Ваша страница активна' : lang === 'ar' ? 'صفحتك نشطة' : 'Your page is live'}
-                </div>
-                <div className="live-url">{typeof window !== 'undefined' ? `${window.location.origin}/${distributor.slug}` : `/${distributor.slug}`}</div>
-              </div>
-            </div>
-            <div className="live-banner-actions">
-              <button
-                className={`copy-btn${urlCopied ? ' copy-btn-done' : ''}`}
-                onClick={copyPageUrl}
-                aria-label={urlCopied ? 'Copied!' : 'Copy page URL'}
-              >
-                {urlCopied
-                  ? (lang === 'no' ? '✓ Kopiert!' : lang === 'sv' ? '✓ Kopierat!' : lang === 'es' ? '✓ Copiado!' : '✓ Copied!')
-                  : (lang === 'no' ? 'Kopier lenke' : lang === 'sv' ? 'Kopiera länk' : lang === 'es' ? 'Copiar enlace' : 'Copy link')}
-              </button>
-              <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="copy-btn" style={{ textDecoration: 'none' }}>
-                {lang === 'no' ? 'Åpne ↗' : lang === 'sv' ? 'Öppna ↗' : lang === 'es' ? 'Abrir ↗' : 'Open ↗'}
-                <span className="sr-only">(opens in new tab)</span>
-              </a>
-            </div>
-          </div>
-        )}
 
         {/* TABS */}
         <div className="tabs" role="tablist" aria-label="Dashboard sections">
