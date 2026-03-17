@@ -2,7 +2,13 @@
 
 ## Session: SYSTM8 Beta Signup Flow
 
-Bygget en komplett beta-signup-funnel for SYSTM8 Beta Program, med eksklusiv invitasjons-tone, PU Prime UID-verifisering, flerspråklig støtte (9 språk), og Zoom-call booking som kjerne i flyten. Endringer på tvers av to repositories.
+Bygget en komplett beta-signup-funnel for SYSTM8 Beta Program, med eksklusiv invitasjons-tone, PU Prime UID-verifisering, flerspråklig støtte (9 språk), og Zoom-call booking som kjerne i flyten. Endringer på tvers av to repositories (`primeverse-access` og `1move-academy`). Ingen endringer i `Get-access-to-primverse`.
+
+### Opprinnelig forespørsel
+> "Personlig melding → primeverseaccess.com/beta → Registrer (30 sek) → Call → SYSTM8 signup"
+
+### Revidert forespørsel (andre iterasjon)
+> De melder seg på en Zoom-call for å få en gjennomgang, for så å bli med i beta-test-gruppen. Skal oversettes til 9 språk. Registrering krever PU Prime UID for IB-verifisering. Kun for 1Move Academy Marketing Team. Eksklusivt privilegium å delta og forme fremtiden av IB marketing.
 
 ---
 
@@ -59,13 +65,18 @@ Bygget en komplett beta-signup-funnel for SYSTM8 Beta Program, med eksklusiv inv
 
 | Fil | Status | Beskrivelse |
 |-----|--------|-------------|
-| `app/beta/page.tsx` | **Opprettet** → **Fullstendig omskrevet** | Første versjon var en enkel 3-stegs norsk funnel (registrer → book call → SYSTM8). Andre versjon er den endelige: 9-språklig, eksklusiv beta-program side med PU Prime UID, Zoom-call flow, og "invite only"-tone. ~900 linjer. |
+| `app/beta/page.tsx` | **Opprettet** → **Fullstendig omskrevet** | Første versjon var en enkel 3-stegs norsk funnel (registrer → book call → SYSTM8). Andre versjon er den endelige: 9-språklig, eksklusiv beta-program side med PU Prime UID, Zoom-call flow, og "invite only"-tone. 1128 linjer. |
+| `Handoff.md` | **Opprettet** | Denne filen. Dokumentasjon av hele sesjonen. |
 
 ### 1move-academy (1 commit)
 
 | Fil | Status | Beskrivelse |
 |-----|--------|-------------|
-| `app/(auth)/signup/page.tsx` | **Endret** | Lagt til `useEffect` + `useSearchParams` for å pre-fylle navn og e-post fra query params. Import endret fra `useState` til `useState, useEffect`, og `useRouter` til `useRouter, useSearchParams`. |
+| `app/(auth)/signup/page.tsx` | **Endret** | Lagt til `useEffect` + `useSearchParams` for å pre-fylle navn og e-post fra query params. Import endret fra `useState` til `useState, useEffect`, og `useRouter` til `useRouter, useSearchParams`. Linter reformatterte filen etter commit (state-deklarasjoner ble flyttet etter useEffect). |
+
+### Get-access-to-primverse (0 commits)
+
+Ingen endringer. Repoet inneholder kun en `index.html` med vanilla JS for tilgangsforespørsler og UID-innsending. Ikke relevant for beta-flyten.
 
 ---
 
@@ -99,12 +110,13 @@ Ingen eksisterende bugs ble fikset i denne sesjonen. Sesjonen handlet om ny funk
 
 ### Git
 - **Branch**: `claude/systm8-signup-flow-k3bmm` (brukt i alle 3 repos)
-- **primeverse-access**: 2 commits pushet
-  - `5445dc0` — Add SYSTM8 beta signup funnel page (/beta) (første versjon)
-  - `55e11b7` — Rewrite /beta as exclusive SYSTM8 Beta Program page (endelig versjon)
-- **1move-academy**: 1 commit pushet
+- **primeverse-access**: 3 commits pushet til `origin/claude/systm8-signup-flow-k3bmm`
+  - `5445dc0` — Add SYSTM8 beta signup funnel page (/beta) — første versjon, enkel norsk 3-stegs funnel
+  - `55e11b7` — Rewrite /beta as exclusive SYSTM8 Beta Program page — endelig versjon med 9 språk, UID, eksklusiv tone
+  - `cd0ced5` — Add Handoff.md documenting SYSTM8 beta signup flow session
+- **1move-academy**: 1 commit pushet til `origin/claude/systm8-signup-flow-k3bmm`
   - `4eef1b6` — Accept pre-filled name/email from beta funnel on signup
-- **Get-access-to-primverse**: Ingen endringer nødvendig
+- **Get-access-to-primverse**: Ingen endringer, branch eksisterer men er uendret
 
 ### Vercel
 - Ingen endringer i `vercel.json`
@@ -181,7 +193,51 @@ Legg til en filtrert visning i admin-dashboardet (eller under `/admin`) som vise
 Vurder å integrere med Calendly eller Zoom direkte slik at søkere kan booke en tid i stedet for å vente på manuell invitasjon.
 
 ### 5. Deploy og test
-- Merge branch `claude/systm8-signup-flow-k3bmm` til main
+- Merge branch `claude/systm8-signup-flow-k3bmm` til main i begge repos
 - Verifiser at `/beta` fungerer i produksjon
-- Test alle 9 språk
+- Test alle 9 språk (spesielt RTL for arabisk)
 - Test skjemainnsending med reell PU Prime UID
+- Verifiser at `/api/new-lead-alert` håndterer `type: 'beta_application'` riktig
+
+---
+
+## Komplett oversettelsesdekning
+
+Alle 9 språk har oversettelse av følgende strenger (53 nøkler per språk, 477 oversettelser totalt):
+
+| Kategori | Nøkler |
+|----------|--------|
+| Tittel & undertittel | `title`, `subtitle`, `subtitle2` |
+| Badges | `invite_badge`, `team_badge`, `excl_badge` |
+| Skjema | `card_h`, `card_p`, `name_label`, `name_ph`, `email_label`, `email_ph`, `uid_label`, `uid_ph`, `uid_hint`, `phone_label`, `phone_opt`, `phone_ph`, `submit`, `loading` |
+| Feilmeldinger | `err_fields`, `err_email`, `err_uid`, `err_generic` |
+| Suksess-side | `success_h`, `success_p1`, `success_p2`, `success_p3`, `success_uid`, `success_status` |
+| Neste steg | `what_h`, `what_1`, `what_2`, `what_3`, `what_4` |
+| Hvorfor-seksjon | `why_h`, `why_p`, `feat_1`–`feat_5` |
+| Stepper | `step1`, `step2`, `step3` |
+| Footer | `footer_note` |
+
+## Teknisk arkitektur for `/beta`-siden
+
+```
+app/beta/page.tsx (1128 linjer, single-file component)
+├── Translations (T object) — 9 languages × 53 keys
+├── Styles (CSS-in-JS via <style> tag)
+│   ├── Marble background (matches login/page.tsx)
+│   ├── Language selector (matches login/page.tsx)
+│   ├── Stepper (3-dot progress indicator)
+│   ├── Card, fields, gold button (shared design system)
+│   ├── Success state (UID box, next steps)
+│   └── Why section (feature grid)
+├── State management
+│   ├── lang (LangKey) — current language
+│   ├── pageStep ('form' | 'success')
+│   ├── name, email, uid, phone — form fields
+│   ├── loading, error — UI state
+│   └── langOpen — dropdown toggle
+├── Data flow
+│   ├── Form submit → supabase.from('leads').insert(...)
+│   ├── On success → POST /api/new-lead-alert
+│   └── On success → show success card with UID
+└── Supabase client imported from @/lib/supabase
+```
