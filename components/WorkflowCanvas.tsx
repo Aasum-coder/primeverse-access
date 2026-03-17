@@ -467,19 +467,29 @@ function WorkflowCanvasInner({
 
   // ── Save ──
   const handleSave = useCallback(async (activate?: boolean) => {
-    if (!distributor?.user_id || !wfName.trim()) {
+    if (!wfName.trim()) {
       showToast('Please enter a workflow name')
       return
     }
     setSaving(true)
     try {
+      // Get authenticated user for owner_id (must match RLS policy)
+      const { data: { user }, error: authError } = await supabase.auth.getUser()
+      if (authError || !user) {
+        console.error('[WorkflowSave] Auth error:', authError)
+        showToast('Authentication error — please sign in again')
+        setSaving(false)
+        return
+      }
+      console.log('[WorkflowSave] Authenticated user.id:', user.id)
+
       const triggerNode = nodes.find(n => n.type === 'trigger')
       const triggerConfig = ((triggerNode?.data as NodeData)?.config || {}) as Record<string, any>
       const triggerType = triggerConfig.triggerType || 'lead_signup'
       const { triggerType: _tt, ...restTriggerConfig } = triggerConfig
 
       const wfData: Record<string, any> = {
-        owner_id: distributor.user_id,
+        owner_id: user.id,
         name: wfName.trim(),
         trigger_type: triggerType,
         trigger_config: restTriggerConfig,
@@ -490,16 +500,30 @@ function WorkflowCanvasInner({
       if (activate !== undefined) {
         wfData.status = activate ? 'active' : 'paused'
       }
+      console.log('[WorkflowSave] Saving workflow data:', JSON.stringify(wfData))
 
       let wfId: string
       if (workflow?.id) {
-        await supabase.from('email_workflows').update(wfData).eq('id', workflow.id)
+        const { error: updateError } = await supabase.from('email_workflows').update(wfData).eq('id', workflow.id)
+        if (updateError) {
+          console.error('[WorkflowSave] Update error:', updateError)
+          showToast(t.wfSaveError || 'Failed to update workflow')
+          setSaving(false)
+          return
+        }
         wfId = workflow.id
-        await supabase.from('workflow_steps').delete().eq('workflow_id', wfId)
+        const { error: deleteError } = await supabase.from('workflow_steps').delete().eq('workflow_id', wfId)
+        if (deleteError) console.error('[WorkflowSave] Steps delete error:', deleteError)
       } else {
         const { data, error } = await supabase.from('email_workflows').insert(wfData).select('id').single()
-        if (error || !data) { showToast(t.wfSaveError || 'Failed to save'); setSaving(false); return }
+        if (error || !data) {
+          console.error('[WorkflowSave] Insert error:', error)
+          showToast(t.wfSaveError || 'Failed to save')
+          setSaving(false)
+          return
+        }
         wfId = data.id
+        console.log('[WorkflowSave] Created workflow id:', wfId)
       }
 
       // Build steps from non-trigger nodes
@@ -521,23 +545,25 @@ function WorkflowCanvasInner({
             config: { ...(nd.config || {}), position: n.position, connections },
           }
         })
-        await supabase.from('workflow_steps').insert(stepsToInsert)
+        const { error: stepsError } = await supabase.from('workflow_steps').insert(stepsToInsert)
+        if (stepsError) console.error('[WorkflowSave] Steps insert error:', stepsError)
       }
       // Also store trigger position
       if (triggerNode) {
-        // store trigger position in trigger_config
-        await supabase.from('email_workflows').update({ trigger_config: { ...restTriggerConfig, triggerPosition: triggerNode.position } }).eq('id', wfId)
+        const { error: trigPosError } = await supabase.from('email_workflows').update({ trigger_config: { ...restTriggerConfig, triggerPosition: triggerNode.position } }).eq('id', wfId)
+        if (trigPosError) console.error('[WorkflowSave] Trigger position error:', trigPosError)
       }
 
       if (activate !== undefined) setWfStatus(activate ? 'active' : 'paused')
       setDirty(false)
       showToast(activate ? (t.wfActivated || 'Workflow activated!') : (t.wfSaved || 'Workflow saved!'), 'info')
       onSaved()
-    } catch {
+    } catch (err) {
+      console.error('[WorkflowSave] Unexpected error:', err)
       showToast(t.wfSaveError || 'Failed to save workflow')
     }
     setSaving(false)
-  }, [distributor, wfName, wfStatus, nodes, edges, workflow, supabase, showToast, t, onSaved])
+  }, [wfName, wfStatus, nodes, edges, workflow, supabase, showToast, t, onSaved])
 
   // ── Use template ──
   const useTemplate = useCallback(async (template: any) => {
