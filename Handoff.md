@@ -37,13 +37,34 @@ En fullverdig visuell drag-and-drop workflow-bygger som erstatter den lineære s
 - **Bugs-fane**: Henter alle bug_reports via service role API (bypass RLS), severitetsgruppering, AI-triage, statusoppdatering
 - **Test Results-fane**: Samler og viser all beta-test data med statistikk
 
-### 4. Broadcasting System (allerede bygget før denne sesjonen)
+### 4. Broadcasting System
+Bygget i denne sesjonen som Marketing Module 1.
 - Email/WhatsApp/Telegram broadcast til leads
 - Audience targeting: all leads, specific stages, tags
 - Merge tags: `{first_name}`, `{landing_page_url}`, `{referral_link}`
 - Scheduling og preview
+- WhatsApp-lenke generering for manuell sending
+- **Filer**: broadcast UI i `app/page.tsx`, `lib/email-templates/broadcast.ts`, `app/api/send-broadcast/route.ts`
 
-### 5. Pipeline Stages
+### 5. Marketing Resources Tab Redesign
+- Omdøpt fra "IB Resources" til "Marketing Resources" i alle 9 språk
+- Lagt til **AI Marketing Tools** seksjon med 4 kort:
+  - Post Writer (funksjonell, kaller AI API)
+  - Caption Generator (funksjonell)
+  - Hashtag Research (funksjonell)
+  - Content Calendar (coming soon)
+- **Fil**: `app/api/ai-marketing/route.ts` — AI-drevet innholdsgenerering
+
+### 6. Workflow Engine (Backend)
+- **`app/api/process-workflows/route.ts`** — Cron job som prosesserer aktive workflow-enrollments
+  - Sender emails via Resend med merge tag-substitusjon
+  - Evaluerer wait-delays
+  - Håndterer condition branching (opened/clicked/not_opened)
+  - Avanserer steg i sekvens
+- **`app/api/auto-enroll-workflow/route.ts`** — Auto-enrolls leads basert på trigger-type (lead_signup osv.)
+- Vercel cron: `*/15 * * * *` (hvert 15. minutt)
+
+### 7. Pipeline Stages
 - API-rute for å opprette 6 standard pipeline-stadier: New, Contacted, Interested, Signed Up, Active, VIP
 - Idempotent — sjekker om stadier allerede eksisterer
 
@@ -55,10 +76,14 @@ En fullverdig visuell drag-and-drop workflow-bygger som erstatter den lineære s
   - Member Value Drip (7 steg, trigger: manual)
   - VIP Upgrade Path (5 steg, trigger: stage_change → Active)
 
-### 7. CLAUDE.md
+### 9. CLAUDE.md
 - Auto-merge regel: Push → PR → Merge
 - Repo-identitet: Aasum-coder/primeverse-access, IKKE Get-access-to-primverse eller 1move-academy
 - Produksjons-URL: www.primeverseaccess.com
+
+### 10. 9-språklig oversettelse
+- Alle nye workflow- og broadcast-oversettelsesnøkler lagt til i alle 9 språk: en, no, sv, es, ru, ar, tl, pt, th
+- Alle oversettelser samlet i én translations-objekt i `app/page.tsx`
 
 ---
 
@@ -73,11 +98,17 @@ En fullverdig visuell drag-and-drop workflow-bygger som erstatter den lineære s
 | `app/api/admin/test-results/route.ts` | GET: henter alle test_results, grupperer per tester, beregner statistikk (passCount, failCount, skipCount, completionPct, mostFailed) |
 | `app/api/create-default-stages/route.ts` | POST: oppretter 6 standard pipeline-stadier for en bruker, idempotent |
 | `app/api/seed-templates/route.ts` | GET: seeder 5 workflow-maler med 35 steg, idempotent (sjekker om de allerede finnes) |
+| `app/api/send-broadcast/route.ts` | POST: sender broadcast via Resend (email), genererer WhatsApp-lenker, oppdaterer broadcast-status |
+| `app/api/process-workflows/route.ts` | Cron-rute: prosesserer aktive workflow-enrollments, sender emails, evaluerer conditions, avanserer steg |
+| `app/api/auto-enroll-workflow/route.ts` | Auto-enrolls leads i workflows basert på trigger-events |
+| `app/api/ai-marketing/route.ts` | AI-drevet innholdsgenerering for sosiale medier (posts, captions, hashtags) |
+| `lib/email-templates/broadcast.ts` | Broadcast email-template med SYSTM8-branding, merge tags, dark/gold design |
 | `supabase/migrations/20260314000000_create_email_sends.sql` | Oppretter email_sends-tabell for deduplisering av sendte emails |
 | `supabase/migrations/20260315000000_beta_testing_infrastructure.sql` | Oppretter test_results og bug_reports tabeller, RLS-policies, indexes |
 | `supabase/migrations/20260315000001_beta_screenshots_bucket.sql` | Storage-bucket for beta-test skjermbilder |
 | `supabase/migrations/20260316000000_test_results_upsert_constraint.sql` | UNIQUE constraint `(tester_id, test_item)` for upsert-støtte |
 | `CLAUDE.md` | Auto-merge regel og repo-identitet |
+| `Handoff.md` | Dette dokumentet |
 
 ### Modifiserte filer
 
@@ -88,7 +119,9 @@ En fullverdig visuell drag-and-drop workflow-bygger som erstatter den lineære s
 | `app/admin/triage/page.tsx` | Komplett rewrite. Bruker nå `/api/admin/bugs` (GET/PATCH) istedenfor direkte Supabase anon client. Lagt til Bugs/Test Results tab-switcher. Test Results-fane med oversikt og per-tester detaljer |
 | `app/api/generate-bio/route.ts` | Fjernet sensitive console.log (API-nøkkel, request body, response content) |
 | `app/api/ai-bio/route.ts` | Fjernet console.log for Anthropic response |
+| `app/login/page.tsx` | Merget accessibility-endringer: bedre feilhåndtering for nettverk/disabled/eksisterer-allerede |
 | `package.json` | Lagt til `"@xyflow/react": "^12"` dependency |
+| `vercel.json` | Lagt til cron-entry for `/api/process-workflows` |
 
 ---
 
@@ -129,10 +162,14 @@ En fullverdig visuell drag-and-drop workflow-bygger som erstatter den lineære s
 ### Eksisterende tabeller som brukes (ikke opprettet i denne sesjonen)
 
 - `email_workflows` — workflow-definisjoner (name, trigger_type, trigger_config, status, owner_id, is_template, is_global, description)
-- `workflow_steps` — steg i workflows (workflow_id, step_order, step_type, config)
-- `workflow_enrollments` — brukere enrollet i workflows (workflow_id, status)
+- `workflow_steps` — steg i workflows (workflow_id, step_order, step_type, config). **NB: step_type har CHECK constraint som kun tillater: email, wait, condition, switch_workflow, whatsapp, telegram**
+- `workflow_enrollments` — brukere enrollet i workflows (workflow_id, lead_id, status, current_step)
 - `pipeline_stages` — pipeline-stadier per bruker (name, color, position, owner_id)
-- `distributors` — bruker/distributør-profiler
+- `distributors` — bruker/distributør-profiler (id, user_id, full_name, slug, social_* felter, is_beta_tester)
+- `leads` — lead-data (distributor_id, name, email, status)
+- `broadcasts` — broadcast-tracking
+- `broadcast_recipients` — mottakere per broadcast (broadcast_id, lead_id, channel, status)
+- `message_templates` — email meldingsmaler
 
 ---
 
@@ -275,11 +312,17 @@ En fullverdig visuell drag-and-drop workflow-bygger som erstatter den lineære s
 
 ### Lav prioritet
 
-10. **Lead registration form handler/translations**: HTML er fjernet men `handleSubmitLead`-funksjonen og oversettelsesnøkler finnes fortsatt i koden. Kan ryddes opp om ikke brukt i fremtiden
+10. **Pipeline sub-tab**: Viser fortsatt "coming soon" badge i Marketing-fanen. Kun Broadcasts og Workflows er funksjonelle
 
-11. **Workflow enrollment counts**: Hentes i `fetchWorkflows` men vises kun i listevisningen, ikke i canvas
+11. **Content Calendar AI-verktøy**: Viser "coming soon" i Marketing Resources. Post Writer, Caption Generator og Hashtag Research er funksjonelle
 
-12. **Auto-save indikator**: Canvas viser "Unsaved" tekst, men gir ikke feedback under auto-save (30s timer)
+12. **Lead registration form handler/translations**: HTML er fjernet men `handleSubmitLead`-funksjonen og oversettelsesnøkler finnes fortsatt i koden. Kan ryddes opp om ikke brukt i fremtiden
+
+13. **Workflow enrollment counts**: Hentes i `fetchWorkflows` men vises kun i listevisningen, ikke i canvas
+
+14. **Auto-save indikator**: Canvas viser "Unsaved" tekst, men gir ikke feedback under auto-save (30s timer)
+
+15. **Workflow condition evaluation**: Workflow engine (`/api/process-workflows`) har logikk for conditions, men full evaluering av alle condition-typer (field_equals, days_since, stage_is) er muligens ikke komplett
 
 ---
 
