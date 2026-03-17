@@ -244,25 +244,6 @@ function WorkflowCanvasInner({
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  // ── Keyboard delete handler ──
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Delete' && e.key !== 'Backspace') return
-      const tag = (e.target as HTMLElement)?.tagName
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
-      if (!selectedNode) return
-      if (selectedNode.type === 'trigger') {
-        setCanvasMessage({ text: 'Triggers cannot be deleted', type: 'warning' })
-        setTimeout(() => setCanvasMessage(null), 3000)
-        return
-      }
-      e.preventDefault()
-      deleteNode(selectedNode.id)
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedNode, deleteNode])
-
   // ── Load workflow ──
   useEffect(() => {
     if (!workflow?.id) {
@@ -432,6 +413,25 @@ function WorkflowCanvasInner({
     setSelectedNode(null)
     setDirty(true)
   }, [setNodes, setEdges])
+
+  // ── Keyboard delete handler ──
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Delete' && e.key !== 'Backspace') return
+      const tag = (e.target as HTMLElement)?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
+      if (!selectedNode) return
+      if (selectedNode.type === 'trigger') {
+        setCanvasMessage({ text: 'Triggers cannot be deleted', type: 'warning' })
+        setTimeout(() => setCanvasMessage(null), 3000)
+        return
+      }
+      e.preventDefault()
+      deleteNode(selectedNode.id)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedNode, deleteNode])
 
   // ── Tidy up (auto-arrange) ──
   const tidyUp = useCallback(() => {
