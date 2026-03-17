@@ -4522,7 +4522,7 @@ export default function Home() {
       if (!dist) {
         // 3. No row at all — create one
         const autoSlug = email.split('@')[0].toLowerCase().replace(/[^a-z0-9-]/g, '')
-        const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId, slug: autoSlug }).select().maybeSingle()
+        const { data: newDist, error } = await supabase.from('distributors').insert({ name: email.split('@')[0], email, user_id: userId, slug: autoSlug, ib_status: 'pending' }).select().maybeSingle()
         if (error) { showToast(t.errorPrefix + error.message); return }
         dist = newDist
       }
@@ -4957,6 +4957,54 @@ export default function Home() {
       </div>
     </>
   )
+
+  // ── IB Approval Gate ──
+  if (distributor && distributor.ib_status !== 'approved') {
+    const isPending = distributor.ib_status === 'pending' || !distributor.ib_status
+    return (
+      <>
+        <style dangerouslySetInnerHTML={{ __html: styles }} />
+        <div className="marble-bg" />
+        <div style={{
+          position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: 'Arial, sans-serif', zIndex: 9999,
+        }}>
+          <div style={{
+            background: '#16162a', border: '1px solid #2a2a4a', borderRadius: 16,
+            padding: '48px 40px', maxWidth: 480, width: '90%', textAlign: 'center',
+          }}>
+            <div style={{ fontSize: '3rem', marginBottom: 16 }}>{isPending ? '\u23F3' : '\u274C'}</div>
+            <h1 style={{ color: '#D4A843', fontSize: '1.4rem', fontWeight: 700, margin: '0 0 12px' }}>
+              {isPending ? 'Application Under Review' : 'Application Not Approved'}
+            </h1>
+            <p style={{ color: '#aaa', fontSize: '0.92rem', lineHeight: 1.6, margin: '0 0 20px' }}>
+              {isPending
+                ? 'Your IB application is being reviewed by the 1Move team. You will receive an email once approved.'
+                : (distributor.ib_status_note || 'Your application was not approved at this time. Please contact support for more information.')}
+            </p>
+            <div style={{ color: '#888', fontSize: '0.82rem', marginBottom: 24 }}>
+              <div style={{ fontWeight: 600, color: '#ccc' }}>{distributor.name}</div>
+              <div>{distributor.email}</div>
+            </div>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="mailto:support@1move.global" style={{
+                background: 'rgba(212,168,67,0.12)', color: '#D4A843', border: '1px solid rgba(212,168,67,0.3)',
+                borderRadius: 8, padding: '10px 24px', textDecoration: 'none', fontWeight: 600, fontSize: '0.88rem',
+              }}>
+                Contact Support
+              </a>
+              <button onClick={handleLogout} style={{
+                background: 'rgba(239,68,68,0.1)', color: '#f87171', border: '1px solid rgba(239,68,68,0.25)',
+                borderRadius: 8, padding: '10px 24px', fontWeight: 600, fontSize: '0.88rem', cursor: 'pointer',
+              }}>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </>
+    )
+  }
 
   const pending = leads.filter(l => !l.uid_verified)
   const approved = leads.filter(l => l.uid_verified)
