@@ -233,6 +233,7 @@ function WorkflowCanvasInner({
   const [dirty, setDirty] = useState(false)
   const [templatesOpen, setTemplatesOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [canvasMessage, setCanvasMessage] = useState<{ text: string; type: 'error' | 'warning' } | null>(null)
   const lastSavedRef = useRef<string>('')
 
   // ── Mobile detection ──
@@ -360,25 +361,13 @@ function WorkflowCanvasInner({
     event.preventDefault()
     const typeId = event.dataTransfer.getData('application/reactflow')
     if (!typeId) return
-    const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
-    const cat = getNodeCategory(typeId)
-
-    // BUG 3 FIX: Only allow ONE trigger node — replace existing trigger's type instead of adding
-    if (cat === 'trigger') {
-      const existingTrigger = nodes.find(n => n.type === 'trigger')
-      if (existingTrigger) {
-        const triggerInfo = TRIGGER_TYPES.find(t => t.id === typeId)
-        // Update the existing trigger node's type instead of adding a new one
-        setNodes(nds => nds.map(n => {
-          if (n.id !== existingTrigger.id) return n
-          const d = n.data as NodeData
-          return { ...n, data: { ...d, config: { ...(d.config || {}), triggerType: typeId } } }
-        }))
-        setDirty(true)
-        showToast(`Trigger updated to ${triggerInfo?.label || typeId}`, 'info')
-        return
-      }
+    const cat = getNodeCategory(typeId) 
+    if (cat === 'trigger' && nodes.some(n => n.type === 'trigger')) {
+      setCanvasMessage({ text: 'A workflow can only have one trigger', type: 'error' })
+      setTimeout(() => setCanvasMessage(null), 3000)
+      return
     }
+    const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
 
     const id = `${typeId}-${Date.now()}`
     const allTypes = [...TRIGGER_TYPES, ...ACTION_TYPES, ...CONDITION_TYPES, ...FLOW_CONTROL_TYPES]
@@ -395,8 +384,6 @@ function WorkflowCanvasInner({
     }
     setNodes(nds => [...nds, newNode])
     setDirty(true)
-  }, [screenToFlowPosition, setNodes, nodes, showToast])
-
   // ── Node click ──
   const onNodeClick = useCallback((_: any, node: Node) => {
     setSelectedNode(node as Node<NodeData>)
@@ -452,6 +439,25 @@ function WorkflowCanvasInner({
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedNode, deleteNode])
 
+  // ── Keyboard delete handler ──
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Delete' && e.key !== 'Backspace') return
+      const tag = (e.target as HTMLElement)?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
+      if (!selectedNode) return
+      if (selectedNode.type === 'trigger') {
+        setCanvasMessage({ text: 'Triggers cannot be deleted', type: 'warning' })
+        setTimeout(() => setCanvasMessage(null), 3000)
+        return
+      }
+      e.preventDefault()
+      deleteNode(selectedNode.id)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedNode, deleteNode])
+
   // ── Tidy up (auto-arrange) ──
   const tidyUp = useCallback(() => {
     const triggerNode = nodes.find(n => n.type === 'trigger')
@@ -489,12 +495,21 @@ function WorkflowCanvasInner({
 
   // ── Save ──
   const handleSave = useCallback(async (activate?: boolean) => {
-    if (!distributor?.user_id || !wfName.trim()) {
+    if (!wfName.trim()) {
       showToast('Please enter a workflow name')
       return
     }
     setSaving(true)
     try {
+      const { data: { user }, error: authError } = await supabase.auth.getUser()
+      if (authError || !user) {
+        console.error('Auth error:', authError)
+        showToast('Not authenticated — please sign in again')
+        setSaving(false)
+        return
+      }
+      console.log('Saving workflow as user:', user.id)
+
       const triggerNode = nodes.find(n => n.type === 'trigger')
       const triggerConfig = ((triggerNode?.data as NodeData)?.config || {}) as Record<string, any>
       const triggerType = triggerConfig.triggerType || 'lead_signup'
@@ -506,7 +521,7 @@ function WorkflowCanvasInner({
       }
 
       const wfData: Record<string, any> = {
-        owner_id: distributor.user_id,
+        owner_id: user.id,
         name: wfName.trim(),
         description: '',
         trigger_type: triggerType,
@@ -515,35 +530,22 @@ function WorkflowCanvasInner({
         is_template: false,
         is_global: false,
       }
-
-      let wfId: string
-      if (workflow?.id) {
-        const { error: updateErr } = await supabase.from('email_workflows').update(wfData).eq('id', workflow.id)
-        if (updateErr) {
-          console.error('[WorkflowCanvas] update workflow error:', updateErr)
-          showToast(`Save failed: ${updateErr.message}`)
           setSaving(false)
           return
         }
         wfId = workflow.id
-        const { error: deleteErr } = await supabase.from('workflow_steps').delete().eq('workflow_id', wfId)
-        if (deleteErr) console.error('[WorkflowCanvas] delete steps error:', deleteErr)
-      } else {
-        const { data, error } = await supabase.from('email_workflows').insert(wfData).select('id').single()
-        if (error || !data) {
-          console.error('[WorkflowCanvas] insert workflow error:', error)
-          showToast(`Save failed: ${error?.message || 'Unknown error'}`)
           setSaving(false)
           return
         }
         wfId = data.id
+        console.log('Created workflow id:', wfId)
       }
 
       // Build steps from non-trigger nodes
       const stepNodes = nodes.filter(n => n.type !== 'trigger')
       if (stepNodes.length > 0) {
+        console.log('Saving steps for workflow_id:', wfId)
         const stepsToInsert = stepNodes.map((n, i) => {
-          // Build connections map
           const connections: Record<string, string> = {}
           edges.filter(e => e.source === n.id).forEach(e => {
             if (e.sourceHandle === 'yes') connections.yes = e.target
@@ -563,27 +565,14 @@ function WorkflowCanvasInner({
             step_order: i + 1,
             step_type: stepType,
             config: { ...(nd.config || {}), _nodeType: nd.nodeType, position: n.position, connections },
-          }
-        })
-        const { error: stepsErr } = await supabase.from('workflow_steps').insert(stepsToInsert)
-        if (stepsErr) {
-          console.error('[WorkflowCanvas] insert steps error:', stepsErr)
-          showToast(`Steps save failed: ${stepsErr.message}`)
-          setSaving(false)
-          return
-        }
-      }
-
+    
       if (activate !== undefined) setWfStatus(activate ? 'active' : 'paused')
       setDirty(false)
       showToast(activate ? (t.wfActivated || 'Workflow activated!') : (t.wfSaved || 'Workflow saved!'), 'info')
       onSaved()
-    } catch (err: any) {
-      console.error('[WorkflowCanvas] save error:', err)
-      showToast(`Save failed: ${err?.message || 'Unknown error'}`)
     }
     setSaving(false)
-  }, [distributor, wfName, wfStatus, nodes, edges, workflow, supabase, showToast, t, onSaved])
+  }, [wfName, wfStatus, nodes, edges, workflow, supabase, showToast, t, onSaved])
 
   // ── Use template ──
   const useTemplate = useCallback(async (template: any) => {
@@ -725,7 +714,12 @@ function WorkflowCanvasInner({
         )}
 
         {/* CANVAS */}
-        <div ref={reactFlowWrapper} style={{ flex: 1, background: '#1A1A2E' }}>
+        <div ref={reactFlowWrapper} style={{ flex: 1, background: '#1A1A2E', position: 'relative' }}>
+          {canvasMessage && (
+            <div style={{ position: 'absolute', top: 16, left: '50%', transform: 'translateX(-50%)', zIndex: 50, background: canvasMessage.type === 'error' ? 'rgba(248,113,113,0.15)' : 'rgba(212,168,67,0.15)', color: canvasMessage.type === 'error' ? '#f87171' : '#D4A843', border: `1px solid ${canvasMessage.type === 'error' ? 'rgba(248,113,113,0.4)' : 'rgba(212,168,67,0.4)'}`, borderRadius: 8, padding: '8px 16px', fontSize: '0.82rem', fontWeight: 600, pointerEvents: 'none' }}>
+              {canvasMessage.text}
+            </div>
+          )}
           <ReactFlow
             nodes={nodes}
             edges={edges}
