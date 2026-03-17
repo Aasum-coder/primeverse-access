@@ -3782,28 +3782,8 @@ const styles = `
     .share-dropdown { right: 0; left: auto; max-width: calc(100vw - 2rem); }
   }
 
-  /* Live page banner */
-  .live-banner {
-    background: linear-gradient(135deg, rgba(212,165,55,0.08) 0%, rgba(212,165,55,0.04) 100%);
-    border: 1px solid rgba(212,165,55,0.25);
-    border-radius: 12px; padding: 1.1rem 1.5rem;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 1rem; margin-bottom: 1.75rem; flex-wrap: wrap;
-  }
-  .live-banner-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
-  .live-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #4acd63; flex-shrink: 0;
-    box-shadow: 0 0 6px rgba(74,205,99,0.6);
-    animation: livePulse 2s ease infinite;
-  }
+  /* Live dot animation */
   @keyframes livePulse { 0%,100%{box-shadow:0 0 6px rgba(74,205,99,0.6)} 50%{box-shadow:0 0 14px rgba(74,205,99,0.9)} }
-  .live-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #4acd63; font-weight: 600; }
-  .live-url {
-    font-family: 'Outfit', sans-serif; font-size: 0.88rem; color: var(--gold-light);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;
-  }
-  .live-banner-actions { display: flex; gap: 8px; flex-shrink: 0; }
   .copy-btn {
     padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
     font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.2s;
@@ -5032,7 +5012,10 @@ export default function Home() {
               <div className="avatar-placeholder" aria-hidden="true">👤</div>
             )}
             <div>
-              <div className="dash-username">{distributor?.name || 'Dashboard'}</div>
+              <div className="dash-username">
+                {distributor?.name || 'Dashboard'}
+                {distributor?.landing_page_published && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#22c55e', marginLeft: 6, verticalAlign: 'middle', animation: 'livePulse 2s ease infinite' }} title="Page is live" />}
+              </div>
               <div className="dash-email">{distributor?.email}</div>
             </div>
           </div>
@@ -5110,36 +5093,6 @@ export default function Home() {
             <button onClick={handleLogout} className="logout-link">{t.logout}</button>
           </div>
         </header>
-
-        {/* LIVE PAGE BANNER */}
-        {distributor?.slug && (
-          <div className="live-banner">
-            <div className="live-banner-left">
-              <div className="live-dot" />
-              <div>
-                <div className="live-label">
-                  {lang === 'no' ? 'Din side er live' : lang === 'sv' ? 'Din sida är live' : lang === 'es' ? 'Tu página está activa' : lang === 'ru' ? 'Ваша страница активна' : lang === 'ar' ? 'صفحتك نشطة' : 'Your page is live'}
-                </div>
-                <div className="live-url">{typeof window !== 'undefined' ? `${window.location.origin}/${distributor.slug}` : `/${distributor.slug}`}</div>
-              </div>
-            </div>
-            <div className="live-banner-actions">
-              <button
-                className={`copy-btn${urlCopied ? ' copy-btn-done' : ''}`}
-                onClick={copyPageUrl}
-                aria-label={urlCopied ? 'Copied!' : 'Copy page URL'}
-              >
-                {urlCopied
-                  ? (lang === 'no' ? '✓ Kopiert!' : lang === 'sv' ? '✓ Kopierat!' : lang === 'es' ? '✓ Copiado!' : '✓ Copied!')
-                  : (lang === 'no' ? 'Kopier lenke' : lang === 'sv' ? 'Kopiera länk' : lang === 'es' ? 'Copiar enlace' : 'Copy link')}
-              </button>
-              <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="copy-btn" style={{ textDecoration: 'none' }}>
-                {lang === 'no' ? 'Åpne ↗' : lang === 'sv' ? 'Öppna ↗' : lang === 'es' ? 'Abrir ↗' : 'Open ↗'}
-                <span className="sr-only">(opens in new tab)</span>
-              </a>
-            </div>
-          </div>
-        )}
 
         {/* TABS */}
         <div className="tabs" role="tablist" aria-label="Dashboard sections">
