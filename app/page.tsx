@@ -5082,15 +5082,15 @@ export default function Home() {
 
       {/* Impersonation Banner */}
       {impersonating && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: 'rgba(212,165,55,0.12)', borderBottom: '1px solid rgba(212,165,55,0.3)', backdropFilter: 'blur(12px)', fontFamily: "'Outfit', sans-serif" }}>
-          <span style={{ fontSize: '0.85rem', color: '#d4a537' }}>👁 Admin view — viewing as <strong style={{ color: '#f0e6d0' }}>{impersonating}</strong></span>
-          <button onClick={() => { document.cookie = 'impersonate_user_id=; path=/; max-age=0'; window.location.reload() }} style={{ padding: '6px 16px', borderRadius: 8, border: '1px solid rgba(239,68,68,0.3)', background: 'rgba(239,68,68,0.1)', color: '#f87171', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 16px', background: 'rgba(120,53,15,0.8)', borderBottom: '1px solid rgba(217,119,6,0.4)', backdropFilter: 'blur(8px)', fontFamily: "'Outfit', sans-serif" }}>
+          <span style={{ fontSize: '0.75rem', color: '#fcd34d' }}>👁 Admin view — viewing as <strong>{distributor?.full_name || distributor?.name || impersonating}</strong></span>
+          <button onClick={() => { document.cookie = 'impersonate_user_id=; path=/; max-age=0'; window.location.reload() }} style={{ padding: '4px 12px', borderRadius: 4, border: '1px solid rgba(245,158,11,0.4)', background: 'transparent', color: '#fcd34d', fontSize: '0.75rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
             Exit
           </button>
         </div>
       )}
 
-      <div className="dash-wrap" id="main-content" style={impersonating ? { paddingTop: 48 } : undefined}
+      <div className="dash-wrap" id="main-content" style={impersonating ? { paddingTop: 40 } : undefined}>
 
         {/* HEADER */}
         <header className="dash-header">
