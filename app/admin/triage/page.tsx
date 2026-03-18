@@ -11,17 +11,14 @@ const ADMIN_EMAILS = ['aasum85@gmail.com', 'bitaasum@gmail.com']
 
 interface BugReport {
   id: string
-  title: string
   description: string
   severity: string
   status: string
-  reporter_email: string
-  reporter_name: string
+  email: string
   screenshot_url: string | null
-  steps_to_reproduce: string | null
-  agent_prompt: string | null
+  expected: string | null
+  user_id: string | null
   created_at: string
-  updated_at: string
 }
 
 interface TestResult {
@@ -82,7 +79,6 @@ export default function TriagePage() {
   const [bugs, setBugs] = useState<BugReport[]>([])
   const [triaging, setTriaging] = useState(false)
   const [triageResult, setTriageResult] = useState<string | null>(null)
-  const [copied, setCopied] = useState<string | null>(null)
   const [filter, setFilter] = useState<string>('all')
   const [mainTab, setMainTab] = useState<'bugs' | 'test-results'>('bugs')
   const [testData, setTestData] = useState<TestResultsData | null>(null)
@@ -165,12 +161,6 @@ export default function TriagePage() {
       })
       setBugs(prev => prev.map(b => b.id === id ? { ...b, status } : b))
     } catch { /* ignore */ }
-  }
-
-  const copyPrompt = (id: string, prompt: string) => {
-    navigator.clipboard.writeText(prompt)
-    setCopied(id)
-    setTimeout(() => setCopied(null), 2000)
   }
 
   if (loading) return <div style={{ background: '#1A1A2E', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D4A843', fontFamily: 'Arial, sans-serif' }}>Loading...</div>
@@ -297,14 +287,14 @@ export default function TriagePage() {
                     <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                          <span style={{ fontWeight: 600, fontSize: '0.92rem', color: '#E0E0E0' }}>{bug.title}</span>
+                          <span style={{ fontWeight: 600, fontSize: '0.92rem', color: '#E0E0E0' }}>{bug.description}</span>
                           <span style={{ fontSize: '0.7rem', padding: '2px 8px', borderRadius: 10, background: STATUS_COLORS[bug.status] + '22', color: STATUS_COLORS[bug.status], fontWeight: 600 }}>
                             {bug.status}
                           </span>
                         </div>
-                        <p style={{ color: '#999', fontSize: '0.82rem', margin: '0 0 6px', lineHeight: 1.5 }}>{bug.description}</p>
+                        {bug.expected && <p style={{ color: '#999', fontSize: '0.82rem', margin: '0 0 6px', lineHeight: 1.5 }}>Expected: {bug.expected}</p>}
                         <div style={{ fontSize: '0.72rem', color: '#666' }}>
-                          {bug.reporter_name || bug.reporter_email} · {new Date(bug.created_at).toLocaleDateString()}
+                          {bug.email} · {new Date(bug.created_at).toLocaleDateString()}
                           {bug.screenshot_url && <> · <a href={bug.screenshot_url} target="_blank" rel="noopener noreferrer" style={{ color: '#D4A843' }}>Screenshot</a></>}
                         </div>
                       </div>
@@ -329,23 +319,6 @@ export default function TriagePage() {
                       </div>
                     </div>
 
-                    {/* Agent prompt */}
-                    {bug.agent_prompt && (
-                      <div style={{ borderTop: '1px solid #2a2a4a', padding: '10px 16px', background: '#0f0f23' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                          <span style={{ color: '#D4A843', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.5px' }}>AGENT PROMPT</span>
-                          <button
-                            onClick={() => copyPrompt(bug.id, bug.agent_prompt!)}
-                            style={{ background: copied === bug.id ? '#22c55e' : '#D4A843', color: '#1A1A2E', border: 'none', borderRadius: 4, padding: '3px 10px', fontSize: '0.72rem', fontWeight: 600, cursor: 'pointer' }}
-                          >
-                            {copied === bug.id ? 'Copied!' : 'Copy Prompt'}
-                          </button>
-                        </div>
-                        <pre style={{ color: '#ccc', fontSize: '0.75rem', lineHeight: 1.5, margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'monospace' }}>
-                          {bug.agent_prompt}
-                        </pre>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
