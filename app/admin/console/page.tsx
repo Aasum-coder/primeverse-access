@@ -421,7 +421,10 @@ export default function AdminConsolePage() {
         .update({ ib_status: 'approved', ib_approved_at: new Date().toISOString() })
         .eq('id', distributor.id)
 
-      if (error) throw error
+      if (error) {
+        console.error('Approve update error:', error.message, '| code:', error.code, '| details:', error.details, '| hint:', error.hint)
+        throw error
+      }
 
       // Send approval email
       await fetch('/api/send-email', {
@@ -439,7 +442,8 @@ export default function AdminConsolePage() {
       setPendingIBs((prev: Distributor[]) => prev.filter((d: Distributor) => d.id !== distributor.id))
       setApprovedIBs((prev: Distributor[]) => [{ ...distributor, ib_status: 'approved', ib_approved_at: new Date().toISOString() }, ...prev])
       showToast(`${distributor.name || distributor.email} approved successfully`)
-    } catch {
+    } catch (err) {
+      console.error('handleApprove failed:', err)
       showToast('Failed to approve user', 'error')
     }
     setActionLoading(null)
@@ -454,7 +458,10 @@ export default function AdminConsolePage() {
         .update({ ib_status: 'rejected' })
         .eq('id', distributor.id)
 
-      if (error) throw error
+      if (error) {
+        console.error('Reject update error:', error.message, '| code:', error.code, '| details:', error.details, '| hint:', error.hint)
+        throw error
+      }
 
       // Send rejection email
       await fetch('/api/send-email', {
@@ -473,7 +480,8 @@ export default function AdminConsolePage() {
       setRejectingId(null)
       setRejectReason('')
       showToast(`${distributor.name || distributor.email} rejected`)
-    } catch {
+    } catch (err) {
+      console.error('handleReject failed:', err)
       showToast('Failed to reject user', 'error')
     }
     setActionLoading(null)
