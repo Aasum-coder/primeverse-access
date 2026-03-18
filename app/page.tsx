@@ -4595,8 +4595,18 @@ export default function Home() {
       if (!dist) {
         // 3. No row at all — create one (no slug or landing_active until profile is completed)
         const { data: newDist, error } = await supabase.from('distributors').insert({ email, user_id: userId, ib_status: 'pending', landing_active: false }).select().maybeSingle()
-        if (error) { showToast(t.errorPrefix + error.message); return }
+        if (error) {
+          console.error('Failed to create distributor:', error.message, '| code:', error.code, '| details:', error.details, '| hint:', error.hint)
+          showToast(t.errorPrefix + error.message)
+          setLoading(false)
+          return
+        }
         dist = newDist
+      }
+      if (!dist) {
+        console.error('Distributor record is null after init')
+        setLoading(false)
+        return
       }
       setDistributor(dist)
       // Auto-create default pipeline stages if they don't exist yet
