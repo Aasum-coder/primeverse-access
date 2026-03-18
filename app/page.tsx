@@ -5075,10 +5075,18 @@ export default function Home() {
           </div>
           <div className="header-actions">
             {distributor?.slug && (
-              <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-btn gold-btn-sm">
-                {t.viewPage} <span aria-hidden="true">↗</span>
-                <span className="sr-only">(opens in new tab)</span>
-              </a>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {distributor?.landing_page_published && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'center', marginBottom: 4 }}>
+                    <div style={{ width: 8, height: 8, background: '#4ade80', borderRadius: '50%', animation: 'livePulse 2s ease infinite' }} />
+                    <span style={{ color: '#4ade80', fontSize: '0.75rem', fontWeight: 500 }}>Live</span>
+                  </div>
+                )}
+                <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-btn gold-btn-sm">
+                  {t.viewPage} <span aria-hidden="true">↗</span>
+                  <span className="sr-only">(opens in new tab)</span>
+                </a>
+              </div>
             )}
 
             {distributor?.slug && (
