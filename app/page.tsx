@@ -5124,11 +5124,32 @@ export default function Home() {
           </div>
           <div className="header-actions">
             {distributor?.slug && (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
                 {(distributor?.landing_page_published || distributor?.slug) && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'center', marginBottom: 4 }}>
-                    <div style={{ width: 8, height: 8, background: '#4ade80', borderRadius: '50%', animation: 'livePulse 2s ease infinite' }} />
-                    <span style={{ color: '#4ade80', fontSize: '0.75rem', fontWeight: 500 }}>Live</span>
+                  <div style={{
+                    position: 'absolute',
+                    top: -18,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    whiteSpace: 'nowrap'
+                  }}>
+                    <div style={{
+                      width: 7,
+                      height: 7,
+                      background: distributor?.landing_page_published ? '#4ade80' : '#f87171',
+                      borderRadius: '50%',
+                      animation: 'livePulse 2s ease infinite'
+                    }} />
+                    <span style={{
+                      color: distributor?.landing_page_published ? '#4ade80' : '#f87171',
+                      fontSize: '0.7rem',
+                      fontWeight: 500
+                    }}>
+                      {distributor?.landing_page_published ? 'Live' : 'Pending'}
+                    </span>
                   </div>
                 )}
                 <a href={`/${distributor.slug}`} target="_blank" rel="noopener noreferrer" className="gold-btn gold-btn-sm">
