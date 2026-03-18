@@ -117,9 +117,21 @@ function buildPrompt(bug: GroupedBug): string {
   return lines.join('\n')
 }
 
+const ADMIN_EMAILS = ['aasum85@gmail.com', 'bitaasum@gmail.com']
+
 export async function POST(request: Request) {
-  const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.TRIAGE_SECRET}`) {
+  // Verify admin via Supabase auth token
+  const authHeader = request.headers.get('authorization') || ''
+  const token = authHeader.replace('Bearer ', '')
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  const anonClient = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
+  )
+  const { data: userData } = await anonClient.auth.getUser(token)
+  if (!userData.user || !ADMIN_EMAILS.includes(userData.user.email || '')) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

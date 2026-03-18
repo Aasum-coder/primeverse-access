@@ -9,13 +9,14 @@ const supabaseAdmin = createClient(
 const ADMIN_EMAILS = ['aasum85@gmail.com', 'bitaasum@gmail.com']
 
 async function verifyAdmin(request: Request): Promise<boolean> {
-  const cookieHeader = request.headers.get('cookie') || ''
+  const authHeader = request.headers.get('authorization') || ''
+  const token = authHeader.replace('Bearer ', '')
+  if (!token) return false
   const anonClient = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
-    { global: { headers: { cookie: cookieHeader } } }
   )
-  const { data: userData } = await anonClient.auth.getUser()
+  const { data: userData } = await anonClient.auth.getUser(token)
   return !!(userData.user && ADMIN_EMAILS.includes(userData.user.email || ''))
 }
 

@@ -103,9 +103,17 @@ export default function TriagePage() {
     init()
   }, [])
 
+  const getAuthHeaders = async (): Promise<Record<string, string>> => {
+    const { data } = await supabase.auth.getSession()
+    const token = data.session?.access_token
+    if (!token) return {}
+    return { Authorization: `Bearer ${token}` }
+  }
+
   const fetchBugs = async () => {
     try {
-      const res = await fetch('/api/admin/bugs')
+      const headers = await getAuthHeaders()
+      const res = await fetch('/api/admin/bugs', { headers })
       if (res.ok) {
         const { bugs: data } = await res.json()
         setBugs(data || [])
@@ -116,7 +124,8 @@ export default function TriagePage() {
   const fetchTestResults = async () => {
     setTestLoading(true)
     try {
-      const res = await fetch('/api/admin/test-results')
+      const headers = await getAuthHeaders()
+      const res = await fetch('/api/admin/test-results', { headers })
       if (res.ok) {
         const data = await res.json()
         setTestData(data)
@@ -129,9 +138,10 @@ export default function TriagePage() {
     setTriaging(true)
     setTriageResult(null)
     try {
+      const headers = await getAuthHeaders()
       const res = await fetch('/api/triage-bugs', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${prompt('Enter TRIAGE_SECRET:')}` },
+        headers,
       })
       const data = await res.json()
       if (res.ok) {

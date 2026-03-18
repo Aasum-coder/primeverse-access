@@ -12,15 +12,17 @@ const ADMIN_EMAILS = ['aasum85@gmail.com', 'bitaasum@gmail.com']
 const TOTAL_TEST_ITEMS = 38
 
 export async function GET(request: Request) {
-  // Verify admin via auth cookie
-  const authHeader = request.headers.get('cookie') || ''
-  // Use the anon client to check the user from the request
+  // Verify admin via auth token
+  const authHeader = request.headers.get('authorization') || ''
+  const token = authHeader.replace('Bearer ', '')
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
   const anonClient = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
-    { global: { headers: { cookie: authHeader } } }
   )
-  const { data: userData } = await anonClient.auth.getUser()
+  const { data: userData } = await anonClient.auth.getUser(token)
   if (!userData.user || !ADMIN_EMAILS.includes(userData.user.email || '')) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
