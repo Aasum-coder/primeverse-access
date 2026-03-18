@@ -482,18 +482,39 @@ export default function AdminConsolePage() {
   async function handleUpgrade(distributor: Distributor) {
     setActionLoading(distributor.id)
     try {
-      const { error } = await supabase
+      // First get the correct user_id from the distributors table
+      const { data: distRecord, error: fetchError } = await supabase
+        .from('distributors')
+        .select('user_id, email')
+        .eq('id', distributor.id)
+        .single()
+
+      if (fetchError || !distRecord) throw fetchError || new Error('Distributor not found')
+
+      const userId = distRecord.user_id
+      const email = distRecord.email
+
+      // Insert into admin_users with the correct user_id
+      const { error: insertError } = await supabase
         .from('admin_users')
         .insert({
-          user_id: distributor.user_id,
-          email: distributor.email,
+          user_id: userId,
+          email: email,
           granted_by: ADMIN_EMAIL,
         })
 
-      if (error) throw error
+      if (insertError) throw insertError
+
+      // Also mark the distributor as admin
+      const { error: updateError } = await supabase
+        .from('distributors')
+        .update({ is_admin: true })
+        .eq('id', distributor.id)
+
+      if (updateError) throw updateError
 
       setAdminUsers((prev: AdminUser[]) => [
-        { id: crypto.randomUUID(), user_id: distributor.user_id, email: distributor.email, granted_at: new Date().toISOString() },
+        { id: crypto.randomUUID(), user_id: userId, email: email, granted_at: new Date().toISOString() },
         ...prev,
       ])
       setUpgradeModal(null)
@@ -626,9 +647,15 @@ export default function AdminConsolePage() {
                         <td className="td-mono hide-mobile">{ib.referral_link || '—'}</td>
                         <td><span className="badge badge-approved">Approved</span></td>
                         <td style={{ textAlign: 'right' }}>
-                          <a href={`/admin/users?id=${ib.user_id}`} className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem' }}>
-                            View
-                          </a>
+                          {ib.slug ? (
+                            <a href={`https://primeverseaccess.com/${ib.slug}`} target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem' }}>
+                              View Page
+                            </a>
+                          ) : (
+                            <span className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', opacity: 0.4, cursor: 'default' }}>
+                              No Page
+                            </span>
+                          )}
                         </td>
                       </tr>
                     ))}
