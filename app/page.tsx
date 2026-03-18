@@ -5121,7 +5121,6 @@ export default function Home() {
             <div>
               <div className="dash-username">
                 {distributor?.name || 'Dashboard'}
-                {distributor?.landing_active && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#4ade80', marginLeft: 6, verticalAlign: 'middle', boxShadow: '0 0 6px rgba(74,205,99,0.6)', animation: 'livePulse 2s ease infinite' }} title="Page is live" />}
               </div>
               <div className="dash-email">{distributor?.email}</div>
               {distributor?.landing_active === true && (
