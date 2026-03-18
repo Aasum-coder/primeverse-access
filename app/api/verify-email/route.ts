@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     type: 'magiclink',
     email,
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://primeverseaccess.com'}/login`,
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://primeverseaccess.com'}/auth/callback`,
     },
   })
 

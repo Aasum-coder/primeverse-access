@@ -762,6 +762,15 @@ export default function LoginPage() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // If user already has an active session (e.g. after magic link redirect), go to dashboard
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        router.push("/");
+      }
+    });
+  }, [router]);
+
   const clearMessages = () => {
     setError("");
     setSuccess("");
