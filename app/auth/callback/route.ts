@@ -14,8 +14,12 @@ export async function GET(request: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
     )
-    await supabase.auth.exchangeCodeForSession(code)
-    return NextResponse.redirect(`${origin}/`)
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    if (error) {
+      console.error('Code exchange failed:', error.message)
+      return NextResponse.redirect(`${origin}/login?error=confirmation_failed`)
+    }
+    return NextResponse.redirect(`${origin}/login?confirmed=true`)
   }
 
   // Handle token_hash (email verification / magic link)
@@ -24,8 +28,12 @@ export async function GET(request: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
     )
-    await supabase.auth.verifyOtp({ token_hash, type: type as any })
-    return NextResponse.redirect(`${origin}/`)
+    const { error } = await supabase.auth.verifyOtp({ token_hash, type: type as any })
+    if (error) {
+      console.error('OTP verification failed:', error.message)
+      return NextResponse.redirect(`${origin}/login?error=confirmation_failed`)
+    }
+    return NextResponse.redirect(`${origin}/login?confirmed=true`)
   }
 
   // Fallback: redirect to login
