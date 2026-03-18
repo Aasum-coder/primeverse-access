@@ -4253,9 +4253,9 @@ export default function Home() {
       }
       let wfId: string
       if (wfEditing) {
-        const { error: updateError } = await supabase.from('email_workflows').update(wfData).eq('id', wfEditing.id)
+        const { error: updateError } = await supabase.from('email_workflows').update(wfData).eq('id', wfEditing.id).eq('owner_id', user.id)
         if (updateError) {
-          console.error('Workflow save error:', JSON.stringify(updateError))
+          console.error('Workflow update error:', updateError.message, '| code:', updateError.code, '| details:', updateError.details, '| hint:', updateError.hint)
           showToast(t.wfSaveError)
           setWfSaving(false)
           return
@@ -4265,7 +4265,7 @@ export default function Home() {
       } else {
         const { data, error } = await supabase.from('email_workflows').insert(wfData).select('id').single()
         if (error || !data) {
-          console.error('Workflow save error:', JSON.stringify(error))
+          console.error('Workflow insert error:', error?.message, '| code:', error?.code, '| details:', error?.details, '| hint:', error?.hint)
           showToast(t.wfSaveError)
           setWfSaving(false)
           return
@@ -4283,7 +4283,7 @@ export default function Home() {
           config: s.config,
         }))
         const { error: stepsError } = await supabase.from('workflow_steps').insert(stepsToInsert)
-        if (stepsError) console.error('Workflow save error:', JSON.stringify(stepsError))
+        if (stepsError) console.error('Workflow steps insert error:', stepsError.message, '| code:', stepsError.code, '| details:', stepsError.details, '| hint:', stepsError.hint)
       }
       showToast(activate ? t.wfActivated : t.wfSaved, 'info')
       setWfView('list')
@@ -4315,7 +4315,7 @@ export default function Home() {
       created_from: template.id,
     }).select('id').single()
     if (error || !wf) {
-      console.error('Workflow save error:', JSON.stringify(error))
+      console.error('Workflow template insert error:', error?.message, '| code:', error?.code, '| details:', error?.details, '| hint:', error?.hint)
       showToast(t.wfSaveError)
       return
     }
