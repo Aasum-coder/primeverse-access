@@ -650,17 +650,17 @@ export default function AdminConsolePage() {
                         <td style={{ textAlign: 'right' }}>
                           <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                             {ib.slug ? (
-                              <a href={`https://primeverseaccess.com/${ib.slug}`} target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', borderColor: 'rgba(212,165,55,0.3)', color: '#d4a537' }}>
+                              <button onClick={() => window.open(`https://primeverseaccess.com/${ib.slug}`, '_blank')} className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', borderColor: 'rgba(212,165,55,0.3)', color: '#d4a537' }}>
                                 View Page
-                              </a>
+                              </button>
                             ) : (
                               <span className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', opacity: 0.4, cursor: 'default' }}>
                                 No Page
                               </span>
                             )}
-                            <a href={`/admin/impersonate?userId=${ib.user_id}`} className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem' }}>
+                            <button onClick={() => router.push(`/admin/impersonate?userId=${ib.user_id}`)} className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem' }}>
                               View Dashboard
-                            </a>
+                            </button>
                           </div>
                         </td>
                       </tr>
