@@ -50,7 +50,7 @@ export async function PATCH(request: Request) {
 
   const { error } = await supabaseAdmin
     .from('bug_reports')
-    .update({ status, updated_at: new Date().toISOString() })
+    .update({ status })
     .eq('id', id)
 
   if (error) {

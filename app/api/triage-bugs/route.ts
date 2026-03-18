@@ -8,15 +8,13 @@ const supabaseAdmin = createClient(
 
 interface BugReport {
   id: string
-  reporter_email: string
-  reporter_name: string
-  title: string
+  email: string
   description: string
   severity: string
+  status: string
   screenshot_url: string | null
-  steps_to_reproduce: string | null
-  device_info: string | null
-  language: string | null
+  expected: string | null
+  user_id: string | null
 }
 
 interface FailedTest {
@@ -138,7 +136,7 @@ export async function POST(request: Request) {
   // 1. Read all new bug reports
   const { data: newBugs, error: bugsError } = await supabaseAdmin
     .from('bug_reports')
-    .select('id, reporter_email, reporter_name, title, description, severity, screenshot_url, steps_to_reproduce, device_info, language')
+    .select('id, email, description, severity, screenshot_url, expected, user_id')
     .eq('status', 'new')
 
   if (bugsError) {
@@ -155,11 +153,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: testsError.message }, { status: 500 })
   }
 
-  // Find failed tests that don't have matching bug reports (by title similarity)
-  const bugTitles = (newBugs || []).map(b => normalize(b.title))
+  // Find failed tests that don't have matching bug reports (by description similarity)
+  const bugDescriptions = (newBugs || []).map(b => normalize(b.description))
   const unmatchedTests = (failedTests || []).filter(t => {
     const nt = normalize(t.test_item)
-    return !bugTitles.some(bt => isSimilar(nt, bt))
+    return !bugDescriptions.some(bd => isSimilar(nt, bd))
   })
 
   // 3. Group similar reports
@@ -171,22 +169,22 @@ export async function POST(request: Request) {
 
   // Process bug reports
   for (const bug of (newBugs || []) as BugReport[]) {
-    const existing = findGroup(bug.title)
+    const existing = findGroup(bug.description)
     if (existing) {
       existing.descriptions.push(bug.description)
-      existing.reporters.push(bug.reporter_name || bug.reporter_email)
+      existing.reporters.push(bug.email)
       existing.severity = higherSeverity(existing.severity, bug.severity)
       if (bug.screenshot_url) existing.screenshots.push(bug.screenshot_url)
-      if (bug.steps_to_reproduce) existing.steps.push(bug.steps_to_reproduce)
+      if (bug.expected) existing.steps.push(bug.expected)
       existing.bugReportIds.push(bug.id)
     } else {
       groups.push({
-        title: bug.title,
+        title: bug.description,
         descriptions: [bug.description],
-        reporters: [bug.reporter_name || bug.reporter_email],
+        reporters: [bug.email],
         severity: bug.severity || 'major',
         screenshots: bug.screenshot_url ? [bug.screenshot_url] : [],
-        steps: bug.steps_to_reproduce ? [bug.steps_to_reproduce] : [],
+        steps: bug.expected ? [bug.expected] : [],
         section: null,
         bugReportIds: [bug.id],
         testResultIds: [],
@@ -235,7 +233,7 @@ export async function POST(request: Request) {
     if (group.bugReportIds.length > 0) {
       await supabaseAdmin
         .from('bug_reports')
-        .update({ status: 'triaging', agent_prompt: prompt, updated_at: new Date().toISOString() })
+        .update({ status: 'triaging' })
         .in('id', group.bugReportIds)
     }
   }
