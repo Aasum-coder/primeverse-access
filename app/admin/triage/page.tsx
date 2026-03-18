@@ -23,22 +23,17 @@ interface BugReport {
 
 interface TestResult {
   id: string
-  tester_id: string
-  tester_email: string
-  tester_name: string
-  section: string
-  test_item: string
+  user_id: string
+  test_item_id: string
   status: string
-  comment: string | null
+  notes: string | null
   screenshot_url: string | null
   created_at: string
   updated_at: string
 }
 
 interface TesterSummary {
-  tester_id: string
-  tester_email: string
-  tester_name: string
+  user_id: string
   passCount: number
   failCount: number
   skipCount: number
@@ -52,7 +47,7 @@ interface TestResultsData {
     totalTesters: number
     avgCompletion: number
     totalTestItems: number
-    mostFailed: { test_item: string; section: string; count: number }[]
+    mostFailed: { test_item_id: string; count: number }[]
   }
   testers: TesterSummary[]
 }
@@ -377,8 +372,7 @@ export default function TriagePage() {
                               {item.count}
                             </span>
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontSize: '0.82rem', color: '#E0E0E0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.test_item}</div>
-                              <div style={{ fontSize: '0.7rem', color: '#666' }}>{item.section}</div>
+                              <div style={{ fontSize: '0.82rem', color: '#E0E0E0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.test_item_id}</div>
                             </div>
                           </div>
                         ))}
@@ -391,9 +385,8 @@ export default function TriagePage() {
                 <h2 style={{ color: '#D4A843', fontSize: '1rem', fontWeight: 700, margin: '0 0 12px' }}>Testers Summary</h2>
                 <div style={{ background: '#16213E', border: '1px solid #2a2a4a', borderRadius: 10, overflow: 'hidden', marginBottom: 28 }}>
                   {/* Table header */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 80px 70px 70px', gap: 8, padding: '12px 16px', background: '#0f0f23', borderBottom: '1px solid #2a2a4a', fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    <span>Name</span>
-                    <span>Email</span>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 80px 70px 70px', gap: 8, padding: '12px 16px', background: '#0f0f23', borderBottom: '1px solid #2a2a4a', fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    <span>User ID</span>
                     <span style={{ textAlign: 'center' }}>Progress</span>
                     <span style={{ textAlign: 'center', color: '#4ade80' }}>Pass</span>
                     <span style={{ textAlign: 'center', color: '#f87171' }}>Fail</span>
@@ -404,14 +397,13 @@ export default function TriagePage() {
                   )}
 
                   {testData.testers.map(tester => (
-                    <div key={tester.tester_id}>
+                    <div key={tester.user_id}>
                       {/* Tester row */}
                       <button
-                        onClick={() => setExpandedTester(expandedTester === tester.tester_id ? null : tester.tester_id)}
-                        style={{ width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr 80px 70px 70px', gap: 8, padding: '12px 16px', background: expandedTester === tester.tester_id ? '#1a1a3a' : 'transparent', border: 'none', borderBottom: '1px solid #1a1a2e', cursor: 'pointer', textAlign: 'left', color: '#E0E0E0', fontSize: '0.84rem' }}
+                        onClick={() => setExpandedTester(expandedTester === tester.user_id ? null : tester.user_id)}
+                        style={{ width: '100%', display: 'grid', gridTemplateColumns: '1fr 80px 70px 70px', gap: 8, padding: '12px 16px', background: expandedTester === tester.user_id ? '#1a1a3a' : 'transparent', border: 'none', borderBottom: '1px solid #1a1a2e', cursor: 'pointer', textAlign: 'left', color: '#E0E0E0', fontSize: '0.84rem' }}
                       >
-                        <span style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tester.tester_name}</span>
-                        <span style={{ color: '#999', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tester.tester_email}</span>
+                        <span style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tester.user_id}</span>
                         <span style={{ textAlign: 'center' }}>
                           <span style={{ display: 'inline-block', background: '#2a2a4a', borderRadius: 10, padding: '2px 10px', fontSize: '0.75rem', fontWeight: 700, color: tester.completionPct >= 80 ? '#4ade80' : tester.completionPct >= 40 ? '#D4A843' : '#f87171' }}>
                             {tester.completionPct}%
@@ -422,7 +414,7 @@ export default function TriagePage() {
                       </button>
 
                       {/* Expanded: per-tester detailed results */}
-                      {expandedTester === tester.tester_id && (
+                      {expandedTester === tester.user_id && (
                         <div style={{ padding: '12px 16px 16px', background: '#0f0f23', borderBottom: '1px solid #2a2a4a' }}>
                           <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: 10 }}>
                             {tester.totalCompleted} of {testData.overview.totalTestItems} items completed · {tester.passCount} passed · {tester.failCount} failed{tester.skipCount > 0 ? ` · ${tester.skipCount} skipped` : ''}
@@ -440,11 +432,10 @@ export default function TriagePage() {
                                   {r.status === 'pass' ? '✓' : r.status === 'fail' ? '✕' : '—'}
                                 </span>
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                  <div style={{ fontSize: '0.8rem', color: '#E0E0E0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.test_item}</div>
-                                  <div style={{ fontSize: '0.68rem', color: '#666' }}>
-                                    {r.section}
-                                    {r.comment && <span style={{ color: '#999' }}> — {r.comment}</span>}
-                                  </div>
+                                  <div style={{ fontSize: '0.8rem', color: '#E0E0E0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.test_item_id}</div>
+                                  {r.notes && (
+                                    <div style={{ fontSize: '0.68rem', color: '#999' }}>{r.notes}</div>
+                                  )}
                                 </div>
                                 {r.screenshot_url && (
                                   <a href={r.screenshot_url} target="_blank" rel="noopener noreferrer" style={{ color: '#D4A843', fontSize: '0.7rem', flexShrink: 0 }}>

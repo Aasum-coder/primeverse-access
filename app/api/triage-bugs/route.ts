@@ -19,11 +19,9 @@ interface BugReport {
 
 interface FailedTest {
   id: string
-  tester_email: string
-  tester_name: string
-  section: string
-  test_item: string
-  comment: string | null
+  user_id: string
+  test_item_id: string
+  notes: string | null
   screenshot_url: string | null
 }
 
@@ -146,7 +144,7 @@ export async function POST(request: Request) {
   // 2. Read all failed test results that don't have a matching bug report
   const { data: failedTests, error: testsError } = await supabaseAdmin
     .from('test_results')
-    .select('id, tester_email, tester_name, section, test_item, comment, screenshot_url')
+    .select('id, user_id, test_item_id, notes, screenshot_url')
     .eq('status', 'fail')
 
   if (testsError) {
@@ -156,7 +154,7 @@ export async function POST(request: Request) {
   // Find failed tests that don't have matching bug reports (by description similarity)
   const bugDescriptions = (newBugs || []).map(b => normalize(b.description))
   const unmatchedTests = (failedTests || []).filter(t => {
-    const nt = normalize(t.test_item)
+    const nt = normalize(t.test_item_id)
     return !bugDescriptions.some(bd => isSimilar(nt, bd))
   })
 
@@ -194,21 +192,21 @@ export async function POST(request: Request) {
 
   // Process unmatched failed tests
   for (const test of unmatchedTests as FailedTest[]) {
-    const existing = findGroup(test.test_item)
+    const existing = findGroup(test.test_item_id)
     if (existing) {
-      if (test.comment) existing.descriptions.push(test.comment)
-      existing.reporters.push(test.tester_name || test.tester_email)
+      if (test.notes) existing.descriptions.push(test.notes)
+      existing.reporters.push(test.user_id)
       if (test.screenshot_url) existing.screenshots.push(test.screenshot_url)
       existing.testResultIds.push(test.id)
     } else {
       groups.push({
-        title: test.test_item,
-        descriptions: test.comment ? [test.comment] : [`Test item "${test.test_item}" in section "${test.section}" marked as failed.`],
-        reporters: [test.tester_name || test.tester_email],
+        title: test.test_item_id,
+        descriptions: test.notes ? [test.notes] : [`Test item "${test.test_item_id}" marked as failed.`],
+        reporters: [test.user_id],
         severity: 'major',
         screenshots: test.screenshot_url ? [test.screenshot_url] : [],
         steps: [],
-        section: test.section,
+        section: null,
         bugReportIds: [],
         testResultIds: [test.id],
       })
