@@ -5111,10 +5111,10 @@ export default function Home() {
             <div>
               <div className="dash-username">
                 {distributor?.name || 'Dashboard'}
-                {distributor?.landing_page_published && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#4ade80', marginLeft: 6, verticalAlign: 'middle', boxShadow: '0 0 6px rgba(74,205,99,0.6)', animation: 'livePulse 2s ease infinite' }} title="Page is live" />}
+                {distributor?.landing_active && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#4ade80', marginLeft: 6, verticalAlign: 'middle', boxShadow: '0 0 6px rgba(74,205,99,0.6)', animation: 'livePulse 2s ease infinite' }} title="Page is live" />}
               </div>
               <div className="dash-email">{distributor?.email}</div>
-              {distributor?.landing_page_published === true && (
+              {distributor?.landing_active === true && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
                   <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px rgba(74,205,99,0.6)', animation: 'livePulse 2s ease infinite' }} />
                   <span style={{ fontSize: '0.7rem', color: '#4ade80', fontWeight: 500, letterSpacing: '0.03em' }}>Your page is live</span>
@@ -5125,7 +5125,7 @@ export default function Home() {
           <div className="header-actions">
             {distributor?.slug && (
               <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-                {(distributor?.landing_page_published || distributor?.slug) && (
+                {(distributor?.landing_active || distributor?.slug) && (
                   <div style={{
                     position: 'absolute',
                     top: -18,
@@ -5139,16 +5139,16 @@ export default function Home() {
                     <div style={{
                       width: 7,
                       height: 7,
-                      background: distributor?.landing_page_published ? '#4ade80' : '#f87171',
+                      background: distributor?.landing_active ? '#4ade80' : '#f87171',
                       borderRadius: '50%',
                       animation: 'livePulse 2s ease infinite'
                     }} />
                     <span style={{
-                      color: distributor?.landing_page_published ? '#4ade80' : '#f87171',
+                      color: distributor?.landing_active ? '#4ade80' : '#f87171',
                       fontSize: '0.7rem',
                       fontWeight: 500
                     }}>
-                      {distributor?.landing_page_published ? 'Live' : 'Pending'}
+                      {distributor?.landing_active ? 'Live' : 'Pending'}
                     </span>
                   </div>
                 )}
