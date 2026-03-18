@@ -3787,6 +3787,12 @@ const styles = `
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.5; transform: scale(1.3); }
   }
+  @keyframes liveCelebrate {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74,222,128,0.7); }
+    30% { transform: scale(2); box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+    60% { transform: scale(1.5); }
+    100% { transform: scale(1); box-shadow: 0 0 6px rgba(74,222,128,0.4); }
+  }
   .copy-btn {
     padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
     font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.2s;
@@ -4782,7 +4788,8 @@ export default function Home() {
     } catch { /* network error — allow save with frontend validation only */ }
     const isFirstSave = !distributor.slug
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
+    const wasLive = !!distributor.landing_active
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -4796,7 +4803,8 @@ export default function Home() {
       fetch('/api/welcome-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: profileName, email: distributor.email, slug: profileSlug, lang }) }).catch(() => {})
       fetch('/api/page-live-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
+    if (!wasLive) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -4818,8 +4826,9 @@ export default function Home() {
       const valRes = await fetch('/api/validate-referral', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ referral_link: normalizedLink }) })
       if (!valRes.ok) { const d = await valRes.json().catch(() => ({})); setReferralError('referralInvalid'); showToast(d.error || t.referralInvalid); setUpdatingProfile(false); return }
     } catch { /* network error — allow save with frontend validation only */ }
+    const wasLiveUpdate = !!distributor.landing_active
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -4829,7 +4838,8 @@ export default function Home() {
       setUpdatingProfile(false)
       return
     }
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
+    if (!wasLiveUpdate) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
     setUpdatingProfile(false)
     setUpdateSaved(true)
     setTimeout(() => setUpdateSaved(false), 3000)
@@ -5141,7 +5151,8 @@ export default function Home() {
                       height: 7,
                       background: distributor?.landing_active ? '#4ade80' : '#f87171',
                       borderRadius: '50%',
-                      animation: 'livePulse 2s ease infinite'
+                      transition: 'background 0.6s ease',
+                      animation: distributor?.landing_active ? 'liveCelebrate 0.8s ease forwards, livePulse 2s ease 0.8s infinite' : 'livePulse 2s ease infinite'
                     }} />
                     <span style={{
                       color: distributor?.landing_active ? '#4ade80' : '#f87171',
