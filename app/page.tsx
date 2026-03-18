@@ -83,6 +83,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'View in other languages',
     aiStepOf: 'of',
     fillAll: 'Fill in all fields',
+    fieldRequired: 'This field is required',
     referralRequired: 'This field must be filled in',
     referralInvalid: 'Only PuPrime partner links are accepted (must start with https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'A referral link is required to publish your landing page. Your landing page connects visitors directly to your broker account — without it, leads cannot be tracked or credited to you. Please add your PuPrime referral link in the form above.',
@@ -395,6 +396,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'Se på andre språk',
     aiStepOf: 'av',
     fillAll: 'Fyll inn alle feltene',
+    fieldRequired: 'Dette feltet er påkrevd',
     referralRequired: 'Dette feltet må fylles ut',
     referralInvalid: 'Kun PuPrime-partnerlenker godtas (må starte med https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'En referral-lenke er påkrevd for å publisere landingssiden din. Landingssiden kobler besøkende direkte til din meglerkonto — uten den kan ikke leads spores eller krediteres deg. Vennligst legg til din PuPrime referral-lenke i skjemaet ovenfor.',
@@ -705,6 +707,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'Visa på andra språk',
     aiStepOf: 'av',
     fillAll: 'Fyll i alla fält',
+    fieldRequired: 'Detta fält är obligatoriskt',
     referralRequired: 'Detta fält måste fyllas i',
     referralInvalid: 'Endast PuPrime-partnerlänkar accepteras (måste börja med https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'En referral-länk krävs för att publicera din landningssida. Din landningssida kopplar besökare direkt till ditt mäklarkonto — utan den kan leads inte spåras eller krediteras dig. Vänligen lägg till din PuPrime referral-länk i formuläret ovan.',
@@ -1015,6 +1018,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'Ver en otros idiomas',
     aiStepOf: 'de',
     fillAll: 'Completa todos los campos',
+    fieldRequired: 'Este campo es obligatorio',
     referralRequired: 'Este campo debe completarse',
     referralInvalid: 'Solo se aceptan enlaces de socios PuPrime (debe comenzar con https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'Se requiere un enlace de referral para publicar tu landing page. Tu landing page conecta a los visitantes directamente con tu cuenta de broker — sin él, los leads no pueden ser rastreados ni acreditados a ti. Por favor, agrega tu enlace de referral PuPrime en el formulario de arriba.',
@@ -1325,6 +1329,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'Посмотреть на других языках',
     aiStepOf: 'из',
     fillAll: 'Заполните все поля',
+    fieldRequired: 'Это поле обязательно',
     referralRequired: 'Это поле обязательно для заполнения',
     referralInvalid: 'Принимаются только партнёрские ссылки PuPrime (должна начинаться с https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'Для публикации лендинга требуется реферальная ссылка. Ваш лендинг связывает посетителей напрямую с вашим брокерским аккаунтом — без неё лиды не могут быть отслежены или засчитаны вам. Пожалуйста, добавьте вашу реферальную ссылку PuPrime в форме выше.',
@@ -1635,6 +1640,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'عرض بلغات أخرى',
     aiStepOf: 'من',
     fillAll: 'املأ جميع الحقول',
+    fieldRequired: 'هذا الحقل مطلوب',
     referralRequired: 'يجب ملء هذا الحقل',
     referralInvalid: 'يتم قبول روابط شركاء PuPrime فقط (يجب أن تبدأ بـ https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'رابط الإحالة مطلوب لنشر صفحتك. صفحتك تربط الزوار مباشرة بحساب الوسيط الخاص بك — بدونه لا يمكن تتبع العملاء المحتملين أو نسبهم إليك. يرجى إضافة رابط إحالة PuPrime في النموذج أعلاه.',
@@ -1945,6 +1951,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'Tingnan sa ibang wika',
     aiStepOf: 'ng',
     fillAll: 'Punan lahat ng fields',
+    fieldRequired: 'Kinakailangan ang field na ito',
     referralRequired: 'Kailangang punan ang field na ito',
     referralInvalid: 'Tanging mga PuPrime partner link lang ang tinatanggap (dapat magsimula sa https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'Kailangan ng referral link para ma-publish ang iyong landing page. Ang landing page mo ay kumokonekta sa mga bisita direkta sa iyong broker account — kung wala ito, hindi masusubaybayan o maikredito sa iyo ang mga leads. Pakidagdag ang iyong PuPrime referral link sa form sa itaas.',
@@ -2255,6 +2262,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'Ver em outros idiomas',
     aiStepOf: 'de',
     fillAll: 'Preencha todos os campos',
+    fieldRequired: 'Este campo é obrigatório',
     referralRequired: 'Este campo deve ser preenchido',
     referralInvalid: 'Somente links de parceiros PuPrime são aceitos (deve começar com https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'Um link de referral é necessário para publicar sua landing page. Sua landing page conecta visitantes diretamente à sua conta de corretora — sem ele, os leads não podem ser rastreados ou creditados a você. Por favor, adicione seu link de referral PuPrime no formulário acima.',
@@ -2565,6 +2573,7 @@ const translations: Record<string, Record<string, string>> = {
     aiOtherLangs: 'ดูในภาษาอื่น',
     aiStepOf: 'จาก',
     fillAll: 'กรุณากรอกข้อมูลทุกช่อง',
+    fieldRequired: 'จำเป็นต้องกรอกช่องนี้',
     referralRequired: 'ต้องกรอกช่องนี้',
     referralInvalid: 'รับเฉพาะลิงก์พาร์ทเนอร์ PuPrime เท่านั้น (ต้องขึ้นต้นด้วย https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'จำเป็นต้องมีลิงก์แนะนำเพื่อเผยแพร่แลนดิ้งเพจของคุณ แลนดิ้งเพจของคุณเชื่อมต่อผู้เยี่ยมชมโดยตรงกับบัญชีโบรกเกอร์ของคุณ — หากไม่มี จะไม่สามารถติดตามหรือเครดิตลีดให้คุณได้ กรุณาเพิ่มลิงก์แนะนำ PuPrime ในแบบฟอร์มด้านบน',
@@ -3398,6 +3407,13 @@ const styles = `
   .lead-detail { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
   .lead-uid { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
   .lead-uid strong { color: var(--text-secondary); }
+  .lead-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 2rem; padding: 16px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+  .lead-form-title { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .lead-form-field { display: flex; flex-direction: column; gap: 4px; }
+  .lead-form-field input { padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.2); color: var(--text-primary); font-size: 0.88rem; font-family: 'Outfit', sans-serif; outline: none; transition: border-color 0.2s; }
+  .lead-form-field input:focus { border-color: var(--gold); }
+  .lead-form-field input.field-invalid { border-color: #e74c3c; }
+  .lead-field-error { font-size: 0.75rem; color: #e74c3c; margin: 0; line-height: 1.3; }
   .lead-date { font-size: 0.72rem; color: var(--text-dim); margin-top: 4px; }
 
   .section-header {
@@ -4001,6 +4017,7 @@ export default function Home() {
   const [leadName, setLeadName] = useState('')
   const [leadEmail, setLeadEmail] = useState('')
   const [leadUid, setLeadUid] = useState('')
+  const [leadFormTouched, setLeadFormTouched] = useState(false)
   const [leads, setLeads] = useState<any[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
@@ -4696,14 +4713,15 @@ export default function Home() {
   }, [distributor?.id, activeTab, chartPeriod])
 
   const addLead = async () => {
-    if (!distributor || !leadName || !leadEmail || !leadUid) { showToast(t.fillAll); return }
+    setLeadFormTouched(true)
+    if (!distributor || !leadName.trim() || !leadEmail.trim() || !leadUid.trim()) return
     setSubmitting(true)
     const { data: insertedLead, error } = await supabase.from('leads').insert({ distributor_id: distributor.id, name: leadName, email: leadEmail, uid: leadUid, uid_verified: false }).select('id').single()
     if (error) { showToast(t.errorPrefix + error.message); setSubmitting(false); return }
     await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName, leadEmail, leadUid, distributorName: distributor.name, distributorEmail: distributor.email }) })
     fetch('/api/milestone-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     if (insertedLead?.id) { fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId: insertedLead.id, distributorId: distributor.id }) }).catch(() => {}) }
-    setLeadName(''); setLeadEmail(''); setLeadUid('')
+    setLeadName(''); setLeadEmail(''); setLeadUid(''); setLeadFormTouched(false)
     setSubmitting(false)
     await fetchLeads(distributor.id)
   }
@@ -5429,6 +5447,62 @@ export default function Home() {
                       {lang === 'no' ? 'Gå til profil →' : lang === 'sv' ? 'Gå till profil →' : lang === 'es' ? 'Ir a perfil →' : 'Go to profile →'}
                     </button>
                   </div>
+                </div>
+              )
+            })()}
+
+            {/* ADD LEAD FORM */}
+            {(() => {
+              const nameEmpty = leadFormTouched && !leadName.trim()
+              const emailEmpty = leadFormTouched && !leadEmail.trim()
+              const uidEmpty = leadFormTouched && !leadUid.trim()
+              const allFilled = !!leadName.trim() && !!leadEmail.trim() && !!leadUid.trim()
+              return (
+                <div className="lead-form">
+                  <div className="lead-form-title">{t.registerLead}</div>
+                  <div className="lead-form-field">
+                    <input
+                      className={nameEmpty ? 'field-invalid' : ''}
+                      placeholder={t.fullName}
+                      value={leadName}
+                      onChange={e => setLeadName(e.target.value)}
+                      aria-label={t.fullName}
+                      aria-invalid={nameEmpty}
+                    />
+                    {nameEmpty && <p className="lead-field-error">{t.fieldRequired}</p>}
+                  </div>
+                  <div className="lead-form-field">
+                    <input
+                      className={emailEmpty ? 'field-invalid' : ''}
+                      type="email"
+                      placeholder={t.emailAddress}
+                      value={leadEmail}
+                      onChange={e => setLeadEmail(e.target.value)}
+                      aria-label={t.emailAddress}
+                      aria-invalid={emailEmpty}
+                    />
+                    {emailEmpty && <p className="lead-field-error">{t.fieldRequired}</p>}
+                  </div>
+                  <div className="lead-form-field">
+                    <input
+                      className={uidEmpty ? 'field-invalid' : ''}
+                      placeholder={t.uidPlaceholder}
+                      value={leadUid}
+                      onChange={e => setLeadUid(e.target.value)}
+                      aria-label={t.uidPlaceholder}
+                      aria-invalid={uidEmpty}
+                    />
+                    {uidEmpty && <p className="lead-field-error">{t.fieldRequired}</p>}
+                  </div>
+                  <button
+                    className="gold-btn gold-btn-sm"
+                    onClick={addLead}
+                    disabled={submitting || (!allFilled && leadFormTouched)}
+                    style={!allFilled ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
+                    aria-disabled={!allFilled}
+                  >
+                    {submitting ? t.sending : t.addLead}
+                  </button>
                 </div>
               )
             })()}
