@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 
@@ -144,7 +144,7 @@ const styles = `
   }
 `
 
-export default function ImpersonatePage() {
+function ImpersonateContent() {
   const searchParams = useSearchParams()
   const userId = searchParams.get('userId')
 
@@ -315,5 +315,21 @@ export default function ImpersonatePage() {
         </div>
       </div>
     </>
+  )
+}
+
+export default function ImpersonatePage() {
+  return (
+    <Suspense fallback={
+      <>
+        <style dangerouslySetInnerHTML={{ __html: styles }} />
+        <div className="imp-bg" />
+        <div className="imp-loading">
+          <div className="imp-spinner" />
+        </div>
+      </>
+    }>
+      <ImpersonateContent />
+    </Suspense>
   )
 }
