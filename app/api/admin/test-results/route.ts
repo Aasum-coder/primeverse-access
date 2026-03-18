@@ -37,11 +37,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  // Group by tester
+  // Group by user
   const testerMap = new Map<string, {
-    tester_id: string
-    tester_email: string
-    tester_name: string
+    user_id: string
     results: typeof results
     passCount: number
     failCount: number
@@ -49,12 +47,10 @@ export async function GET(request: Request) {
   }>()
 
   for (const r of results || []) {
-    const key = r.tester_id
+    const key = r.user_id
     if (!testerMap.has(key)) {
       testerMap.set(key, {
-        tester_id: r.tester_id,
-        tester_email: r.tester_email,
-        tester_name: r.tester_name || r.tester_email,
+        user_id: r.user_id,
         results: [],
         passCount: 0,
         failCount: 0,
@@ -69,9 +65,7 @@ export async function GET(request: Request) {
   }
 
   const testers = Array.from(testerMap.values()).map(t => ({
-    tester_id: t.tester_id,
-    tester_email: t.tester_email,
-    tester_name: t.tester_name,
+    user_id: t.user_id,
     passCount: t.passCount,
     failCount: t.failCount,
     skipCount: t.skipCount,
@@ -81,12 +75,12 @@ export async function GET(request: Request) {
   }))
 
   // Most-failed test items
-  const failCountMap = new Map<string, { test_item: string; section: string; count: number }>()
+  const failCountMap = new Map<string, { test_item_id: string; count: number }>()
   for (const r of results || []) {
     if (r.status === 'fail') {
-      const key = r.test_item
+      const key = r.test_item_id
       if (!failCountMap.has(key)) {
-        failCountMap.set(key, { test_item: r.test_item, section: r.section, count: 0 })
+        failCountMap.set(key, { test_item_id: r.test_item_id, count: 0 })
       }
       failCountMap.get(key)!.count++
     }
