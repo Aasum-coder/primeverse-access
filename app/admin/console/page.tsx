@@ -627,7 +627,6 @@ export default function AdminConsolePage() {
                     <tr>
                       <th>Full Name</th>
                       <th>Email</th>
-                      <th className="hide-mobile">Landing Page</th>
                       <th className="hide-mobile">UID</th>
                       <th>Status</th>
                       <th style={{ textAlign: 'right' }}>Action</th>
@@ -638,13 +637,6 @@ export default function AdminConsolePage() {
                       <tr key={ib.id}>
                         <td>{ib.name || ib.full_name || '—'}</td>
                         <td className="td-secondary">{ib.email}</td>
-                        <td className="hide-mobile">
-                          {ib.slug ? (
-                            <a href={`https://primeverseaccess.com/${ib.slug}`} target="_blank" rel="noopener noreferrer" className="td-link">
-                              /{ib.slug}
-                            </a>
-                          ) : '—'}
-                        </td>
                         <td className="td-mono hide-mobile">{ib.referral_link || '—'}</td>
                         <td><span className="badge badge-approved">Approved</span></td>
                         <td style={{ textAlign: 'right' }}>
@@ -658,7 +650,7 @@ export default function AdminConsolePage() {
                                 No Page
                               </span>
                             )}
-                            <button onClick={() => router.push(`/admin/impersonate?userId=${ib.user_id}`)} className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem' }}>
+                            <button onClick={() => router.push(`/admin/impersonate?userId=${ib.user_id}`)} className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', borderColor: 'rgba(212,165,55,0.3)', color: '#d4a537' }}>
                               View Dashboard
                             </button>
                           </div>
@@ -666,7 +658,7 @@ export default function AdminConsolePage() {
                       </tr>
                     ))}
                     {approvedIBs.length === 0 && (
-                      <tr><td colSpan={6} className="empty-state">No approved IBs yet</td></tr>
+                      <tr><td colSpan={5} className="empty-state">No approved IBs yet</td></tr>
                     )}
                   </tbody>
                 </table>
