@@ -85,6 +85,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'Fill in all fields',
     referralRequired: 'This field must be filled in',
     referralInvalid: 'Only PuPrime partner links are accepted (must start with https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'A referral link is required to publish your landing page. Your landing page connects visitors directly to your broker account — without it, leads cannot be tracked or credited to you. Please add your PuPrime referral link in the form above.',
     slugTaken: 'This URL is already in use. Please choose another.',
     socialMedia: 'Social media',
     metricsTab: 'Metrics',
@@ -394,6 +395,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'Fyll inn alle feltene',
     referralRequired: 'Dette feltet må fylles ut',
     referralInvalid: 'Kun PuPrime-partnerlenker godtas (må starte med https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'En referral-lenke er påkrevd for å publisere landingssiden din. Landingssiden kobler besøkende direkte til din meglerkonto — uten den kan ikke leads spores eller krediteres deg. Vennligst legg til din PuPrime referral-lenke i skjemaet ovenfor.',
     slugTaken: 'Denne URL-en er allerede i bruk. Velg en annen.',
     socialMedia: 'Sosiale medier',
     metricsTab: 'Metrikk',
@@ -701,6 +703,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'Fyll i alla fält',
     referralRequired: 'Detta fält måste fyllas i',
     referralInvalid: 'Endast PuPrime-partnerlänkar accepteras (måste börja med https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'En referral-länk krävs för att publicera din landningssida. Din landningssida kopplar besökare direkt till ditt mäklarkonto — utan den kan leads inte spåras eller krediteras dig. Vänligen lägg till din PuPrime referral-länk i formuläret ovan.',
     slugTaken: 'Denna URL används redan. Välj en annan.',
     socialMedia: 'Sociala medier',
     metricsTab: 'Statistik',
@@ -1008,6 +1011,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'Completa todos los campos',
     referralRequired: 'Este campo debe completarse',
     referralInvalid: 'Solo se aceptan enlaces de socios PuPrime (debe comenzar con https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'Se requiere un enlace de referral para publicar tu landing page. Tu landing page conecta a los visitantes directamente con tu cuenta de broker — sin él, los leads no pueden ser rastreados ni acreditados a ti. Por favor, agrega tu enlace de referral PuPrime en el formulario de arriba.',
     slugTaken: 'Esta URL ya está en uso. Elige otra.',
     socialMedia: 'Redes sociales',
     metricsTab: 'Métricas',
@@ -1315,6 +1319,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'Заполните все поля',
     referralRequired: 'Это поле обязательно для заполнения',
     referralInvalid: 'Принимаются только партнёрские ссылки PuPrime (должна начинаться с https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'Для публикации лендинга требуется реферальная ссылка. Ваш лендинг связывает посетителей напрямую с вашим брокерским аккаунтом — без неё лиды не могут быть отслежены или засчитаны вам. Пожалуйста, добавьте вашу реферальную ссылку PuPrime в форме выше.',
     slugTaken: 'Этот URL уже используется. Выберите другой.',
     socialMedia: 'Социальные сети',
     metricsTab: 'Метрики',
@@ -1622,6 +1627,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'املأ جميع الحقول',
     referralRequired: 'يجب ملء هذا الحقل',
     referralInvalid: 'يتم قبول روابط شركاء PuPrime فقط (يجب أن تبدأ بـ https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'رابط الإحالة مطلوب لنشر صفحتك. صفحتك تربط الزوار مباشرة بحساب الوسيط الخاص بك — بدونه لا يمكن تتبع العملاء المحتملين أو نسبهم إليك. يرجى إضافة رابط إحالة PuPrime في النموذج أعلاه.',
     slugTaken: 'هذا الرابط مستخدم بالفعل. اختر رابطاً آخر.',
     socialMedia: 'وسائل التواصل الاجتماعي',
     metricsTab: 'المقاييس',
@@ -1929,6 +1935,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'Punan lahat ng fields',
     referralRequired: 'Kailangang punan ang field na ito',
     referralInvalid: 'Tanging mga PuPrime partner link lang ang tinatanggap (dapat magsimula sa https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'Kailangan ng referral link para ma-publish ang iyong landing page. Ang landing page mo ay kumokonekta sa mga bisita direkta sa iyong broker account — kung wala ito, hindi masusubaybayan o maikredito sa iyo ang mga leads. Pakidagdag ang iyong PuPrime referral link sa form sa itaas.',
     slugTaken: 'Ginagamit na ang URL na ito. Pumili ng iba.',
     socialMedia: 'Social media',
     metricsTab: 'Metrics',
@@ -2236,6 +2243,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'Preencha todos os campos',
     referralRequired: 'Este campo deve ser preenchido',
     referralInvalid: 'Somente links de parceiros PuPrime são aceitos (deve começar com https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'Um link de referral é necessário para publicar sua landing page. Sua landing page conecta visitantes diretamente à sua conta de corretora — sem ele, os leads não podem ser rastreados ou creditados a você. Por favor, adicione seu link de referral PuPrime no formulário acima.',
     slugTaken: 'Este URL já está em uso. Escolha outro.',
     socialMedia: 'Redes sociais',
     metricsTab: 'Métricas',
@@ -2543,6 +2551,7 @@ const translations: Record<string, Record<string, string>> = {
     fillAll: 'กรุณากรอกข้อมูลทุกช่อง',
     referralRequired: 'ต้องกรอกช่องนี้',
     referralInvalid: 'รับเฉพาะลิงก์พาร์ทเนอร์ PuPrime เท่านั้น (ต้องขึ้นต้นด้วย https://puvip.co/la-partners/)',
+    referralLinkPublishBlock: 'จำเป็นต้องมีลิงก์แนะนำเพื่อเผยแพร่แลนดิ้งเพจของคุณ แลนดิ้งเพจของคุณเชื่อมต่อผู้เยี่ยมชมโดยตรงกับบัญชีโบรกเกอร์ของคุณ — หากไม่มี จะไม่สามารถติดตามหรือเครดิตลีดให้คุณได้ กรุณาเพิ่มลิงก์แนะนำ PuPrime ในแบบฟอร์มด้านบน',
     slugTaken: 'URL นี้ถูกใช้แล้ว กรุณาเลือกอันอื่น',
     socialMedia: 'โซเชียลมีเดีย',
     metricsTab: 'สถิติ',
@@ -4771,6 +4780,10 @@ export default function Home() {
   }
 
   const saveProfile = async () => {
+    if (!profileReferralLink.trim()) {
+      setReferralError('referralLinkPublishBlock')
+      return
+    }
     const rv = validateReferralLink(profileReferralLink)
     if (!rv.valid) {
       setReferralError(rv.error)
@@ -4811,6 +4824,10 @@ export default function Home() {
   }
 
   const updateProfile = async () => {
+    if (!profileReferralLink.trim()) {
+      setReferralError('referralLinkPublishBlock')
+      return
+    }
     const rv = validateReferralLink(profileReferralLink)
     if (!rv.valid) {
       setReferralError(rv.error)
@@ -5508,7 +5525,7 @@ export default function Home() {
               <div className="field-group">
                 <label className="field-label" htmlFor="profile-referral">IB / Referral-link</label>
                 <input id="profile-referral" type="url" className="field-input" value={profileReferralLink} onChange={e => { setProfileReferralLink(e.target.value); setReferralError('') }} onBlur={() => { if (profileReferralLink.trim()) { const rv = validateReferralLink(profileReferralLink); if (!rv.valid) setReferralError(rv.error) } }} placeholder="https://puvip.co/la-partners/..." style={referralError ? { borderColor: '#d44a37' } : undefined} aria-invalid={!!referralError} />
-                {referralError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{referralError === 'referralInvalid' ? t.referralInvalid : t.referralRequired}</p>}
+                {referralError && referralError !== 'referralLinkPublishBlock' && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{referralError === 'referralInvalid' ? t.referralInvalid : t.referralRequired}</p>}
               </div>
 
               <div className="field-group">
@@ -5547,6 +5564,16 @@ export default function Home() {
                 </div>
                 <textarea id="profile-bio" className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
               </div>
+
+              {referralError === 'referralLinkPublishBlock' && (
+                <div style={{
+                  padding: '12px 16px', borderRadius: 10, marginBottom: 8,
+                  background: 'rgba(212,74,55,0.08)', border: '1px solid rgba(212,74,55,0.3)',
+                  color: '#d44a37', fontSize: '0.82rem', lineHeight: 1.6,
+                }}>
+                  {t.referralLinkPublishBlock}
+                </div>
+              )}
 
               {distributor?.slug ? (
                 <button onClick={updateProfile} disabled={updatingProfile || !!referralError} className="btn-outline" style={{ width: '100%', fontSize: '1rem', padding: '14px', letterSpacing: '0.05em' }} aria-busy={updatingProfile}>
