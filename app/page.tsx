@@ -3961,6 +3961,7 @@ export default function Home() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [distributor, setDistributor] = useState<any>(null)
+  const [impersonating, setImpersonating] = useState<string | null>(null)
   const [leadName, setLeadName] = useState('')
   const [leadEmail, setLeadEmail] = useState('')
   const [leadUid, setLeadUid] = useState('')
@@ -4503,6 +4504,41 @@ export default function Home() {
     const init = async () => {
       const { data: userData } = await supabase.auth.getUser()
       if (!userData.user) { router.push('/login'); return }
+
+      // Check for impersonation cookie
+      const impCookie = document.cookie.split('; ').find(c => c.startsWith('impersonate_user_id='))
+      const impUserId = impCookie ? impCookie.split('=')[1] : null
+
+      if (impUserId) {
+        // Impersonation mode: load the impersonated user's distributor record
+        const { data: impDist } = await supabase.from('distributors').select('*').eq('user_id', impUserId).maybeSingle()
+        if (impDist) {
+          setImpersonating(impDist.name || impDist.email || impUserId)
+          setDistributor(impDist)
+          setProfileName(impDist.name || '')
+          setProfileBio(impDist.bio || '')
+          setProfileSlug(impDist.slug || '')
+          setProfileReferralLink(impDist.referral_link || '')
+          setProfileDirection(impDist.direction || '')
+          setSocialTelegram(impDist.social_telegram || '')
+          setSocialWhatsapp(impDist.social_whatsapp || '')
+          setSocialTiktok(impDist.social_tiktok || '')
+          setSocialInstagram(impDist.social_instagram || '')
+          setSocialFacebook(impDist.social_facebook || '')
+          setSocialSnapchat(impDist.social_snapchat || '')
+          setSocialLinkedin(impDist.social_linkedin || '')
+          setSocialYoutube(impDist.social_youtube || '')
+          setSocialOther(impDist.social_other || '')
+          const pi = parseProfileImage(impDist.profile_image)
+          setProfileImage(pi.url || null)
+          setImgX(pi.x)
+          setImgY(pi.y)
+          await fetchLeads(impDist.id)
+          setLoading(false)
+          return
+        }
+      }
+
       const userId = userData.user.id
       const email = userData.user.email!
       // 1. Try to find by user_id
@@ -5044,7 +5080,17 @@ export default function Home() {
         </div>
       )}
 
-      <div className="dash-wrap" id="main-content">
+      {/* Impersonation Banner */}
+      {impersonating && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: 'rgba(212,165,55,0.12)', borderBottom: '1px solid rgba(212,165,55,0.3)', backdropFilter: 'blur(12px)', fontFamily: "'Outfit', sans-serif" }}>
+          <span style={{ fontSize: '0.85rem', color: '#d4a537' }}>👁 Admin view — viewing as <strong style={{ color: '#f0e6d0' }}>{impersonating}</strong></span>
+          <button onClick={() => { document.cookie = 'impersonate_user_id=; path=/; max-age=0'; window.location.reload() }} style={{ padding: '6px 16px', borderRadius: 8, border: '1px solid rgba(239,68,68,0.3)', background: 'rgba(239,68,68,0.1)', color: '#f87171', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
+            Exit
+          </button>
+        </div>
+      )}
+
+      <div className="dash-wrap" id="main-content" style={impersonating ? { paddingTop: 48 } : undefined}
 
         {/* HEADER */}
         <header className="dash-header">
