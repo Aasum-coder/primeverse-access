@@ -5123,12 +5123,6 @@ export default function Home() {
                 {distributor?.name || 'Dashboard'}
               </div>
               <div className="dash-email">{distributor?.email}</div>
-              {distributor?.landing_active === true && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
-                  <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px rgba(74,205,99,0.6)', animation: 'livePulse 2s ease infinite' }} />
-                  <span style={{ fontSize: '0.7rem', color: '#4ade80', fontWeight: 500, letterSpacing: '0.03em' }}>Your page is live</span>
-                </div>
-              )}
             </div>
           </div>
           <div className="header-actions">
