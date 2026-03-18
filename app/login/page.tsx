@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 /* ─────────────────────────────────────────────
@@ -32,6 +32,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "Something went wrong. Please try again.",
     loading: "Please wait...",
     passwordHint: "Must contain at least 6 characters",
+    emailConfirmed: "Email confirmed! You can now sign in.",
+    confirmationFailed: "Email confirmation failed. Please try again or request a new link.",
   },
   no: {
     title: "1Move Academy Tilgangsportal",
@@ -57,6 +59,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "Noe gikk galt. Vennligst prøv igjen.",
     loading: "Vennligst vent...",
     passwordHint: "Må inneholde minst 6 tegn",
+    emailConfirmed: "E-post bekreftet! Du kan nå logge inn.",
+    confirmationFailed: "E-postbekreftelse mislyktes. Prøv igjen eller be om en ny lenke.",
   },
   sv: {
     title: "1Move Academy Åtkomstportal",
@@ -82,6 +86,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "Något gick fel. Försök igen.",
     loading: "Vänta...",
     passwordHint: "Måste innehålla minst 6 tecken",
+    emailConfirmed: "E-post bekräftad! Du kan nu logga in.",
+    confirmationFailed: "E-postbekräftelse misslyckades. Försök igen eller begär en ny länk.",
   },
   es: {
     title: "Portal de Acceso 1Move Academy",
@@ -107,6 +113,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "Algo salió mal. Inténtalo de nuevo.",
     loading: "Espera...",
     passwordHint: "Debe contener al menos 6 caracteres",
+    emailConfirmed: "¡Correo confirmado! Ya puedes iniciar sesión.",
+    confirmationFailed: "La confirmación del correo falló. Intenta de nuevo o solicita un nuevo enlace.",
   },
   ru: {
     title: "Портал доступа 1Move Academy",
@@ -132,6 +140,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "Что-то пошло не так. Попробуйте снова.",
     loading: "Подождите...",
     passwordHint: "Должен содержать не менее 6 символов",
+    emailConfirmed: "Электронная почта подтверждена! Теперь вы можете войти.",
+    confirmationFailed: "Не удалось подтвердить электронную почту. Попробуйте снова или запросите новую ссылку.",
   },
   ar: {
     title: "بوابة الوصول 1Move Academy",
@@ -157,6 +167,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "حدث خطأ. حاول مرة أخرى.",
     loading: "يرجى الانتظار...",
     passwordHint: "يجب أن تحتوي على 6 أحرف على الأقل",
+    emailConfirmed: "تم تأكيد البريد الإلكتروني! يمكنك الآن تسجيل الدخول.",
+    confirmationFailed: "فشل تأكيد البريد الإلكتروني. حاول مرة أخرى أو اطلب رابطاً جديداً.",
   },
   tl: {
     title: "1Move Academy Access Portal",
@@ -182,6 +194,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "May nangyaring mali. Subukan muli.",
     loading: "Sandali lang...",
     passwordHint: "Dapat may hindi bababa sa 6 na character",
+    emailConfirmed: "Na-confirm ang email! Maaari ka nang mag-sign in.",
+    confirmationFailed: "Nabigo ang email confirmation. Subukan ulit o humiling ng bagong link.",
   },
   pt: {
     title: "Portal de Acesso 1Move Academy",
@@ -207,6 +221,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "Algo deu errado. Tente novamente.",
     loading: "Aguarde...",
     passwordHint: "Deve conter pelo menos 6 caracteres",
+    emailConfirmed: "E-mail confirmado! Agora você pode entrar.",
+    confirmationFailed: "A confirmação do e-mail falhou. Tente novamente ou solicite um novo link.",
   },
   th: {
     title: "พอร์ทัลเข้าถึง 1Move Academy",
@@ -232,6 +248,8 @@ const translations: Record<string, Record<string, string>> = {
     errorGeneric: "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง",
     loading: "กรุณารอ...",
     passwordHint: "ต้องมีอย่างน้อย 6 ตัวอักษร",
+    emailConfirmed: "ยืนยันอีเมลแล้ว! คุณสามารถลงชื่อเข้าใช้ได้แล้ว",
+    confirmationFailed: "การยืนยันอีเมลล้มเหลว กรุณาลองใหม่หรือขอลิงก์ใหม่",
   },
 };
 
@@ -735,7 +753,16 @@ const styles = `
    COMPONENT
    ───────────────────────────────────────────── */
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginPageInner />
+    </Suspense>
+  );
+}
+
+function LoginPageInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [mode, setMode] = useState<AuthMode>("login");
   const [lang, setLang] = useState("en");
@@ -751,6 +778,15 @@ export default function LoginPage() {
   const t = translations[lang] || translations.en;
   const isRTL = lang === "ar";
 
+  // Show confirmation message from URL params (after auth callback redirect)
+  useEffect(() => {
+    if (searchParams.get("confirmed") === "true") {
+      setSuccess(t.emailConfirmed);
+    } else if (searchParams.get("error") === "confirmation_failed") {
+      setError(t.confirmationFailed);
+    }
+  }, [searchParams, t.emailConfirmed, t.confirmationFailed]);
+
   // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -763,13 +799,15 @@ export default function LoginPage() {
   }, []);
 
   // If user already has an active session (e.g. after magic link redirect), go to dashboard
+  // Skip if ?confirmed=true — let user see the confirmation message first
   useEffect(() => {
+    if (searchParams.get("confirmed") === "true") return;
     supabase.auth.getUser().then(({ data }) => {
       if (data.user) {
         router.push("/");
       }
     });
-  }, [router]);
+  }, [router, searchParams]);
 
   const clearMessages = () => {
     setError("");
