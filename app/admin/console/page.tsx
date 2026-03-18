@@ -519,7 +519,8 @@ export default function AdminConsolePage() {
       ])
       setUpgradeModal(null)
       showToast(`${distributor.name || distributor.email} upgraded to admin`)
-    } catch {
+    } catch (err) {
+      console.error('Upgrade to admin failed:', err)
       showToast('Failed to upgrade user', 'error')
     }
     setActionLoading(null)
@@ -647,15 +648,20 @@ export default function AdminConsolePage() {
                         <td className="td-mono hide-mobile">{ib.referral_link || '—'}</td>
                         <td><span className="badge badge-approved">Approved</span></td>
                         <td style={{ textAlign: 'right' }}>
-                          {ib.slug ? (
-                            <a href={`https://primeverseaccess.com/${ib.slug}`} target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem' }}>
-                              View Page
+                          <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                            {ib.slug ? (
+                              <a href={`https://primeverseaccess.com/${ib.slug}`} target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', borderColor: 'rgba(212,165,55,0.3)', color: '#d4a537' }}>
+                                View Page
+                              </a>
+                            ) : (
+                              <span className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', opacity: 0.4, cursor: 'default' }}>
+                                No Page
+                              </span>
+                            )}
+                            <a href={`/admin/impersonate?userId=${ib.user_id}`} className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem' }}>
+                              View Dashboard
                             </a>
-                          ) : (
-                            <span className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', opacity: 0.4, cursor: 'default' }}>
-                              No Page
-                            </span>
-                          )}
+                          </div>
                         </td>
                       </tr>
                     ))}
