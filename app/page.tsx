@@ -3783,7 +3783,10 @@ const styles = `
   }
 
   /* Live dot animation */
-  @keyframes livePulse { 0%,100%{box-shadow:0 0 6px rgba(74,205,99,0.6)} 50%{box-shadow:0 0 14px rgba(74,205,99,0.9)} }
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
   .copy-btn {
     padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
     font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.2s;
@@ -5122,7 +5125,7 @@ export default function Home() {
           <div className="header-actions">
             {distributor?.slug && (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                {distributor?.landing_page_published && (
+                {(distributor?.landing_page_published || distributor?.slug) && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'center', marginBottom: 4 }}>
                     <div style={{ width: 8, height: 8, background: '#4ade80', borderRadius: '50%', animation: 'livePulse 2s ease infinite' }} />
                     <span style={{ color: '#4ade80', fontSize: '0.75rem', fontWeight: 500 }}>Live</span>
