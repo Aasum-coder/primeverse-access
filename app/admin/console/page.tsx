@@ -646,7 +646,9 @@ export default function AdminConsolePage() {
       const res = await fetch('/api/events')
       if (res.ok) {
         const data = await res.json()
+        console.log('Events API response:', JSON.stringify(data, null, 2))
         const eventsArray = Array.isArray(data) ? data : (data?.events ?? [])
+        console.log('First event:', JSON.stringify(eventsArray[0], null, 2))
         setEvents(eventsArray.filter(Boolean))
       }
     } catch { /* ignore */ }
