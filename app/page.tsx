@@ -87,8 +87,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'Only PuPrime partner links are accepted (must start with https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'A referral link is required to publish your landing page. Your landing page connects visitors directly to your broker account — without it, leads cannot be tracked or credited to you. Please add your PuPrime referral link in the form above.',
     nameRequired: 'Please enter your full name',
-    completeProfileToGoLive: 'Add your name and referral link to unlock your page',
+    completeProfileToGoLive: 'Add your name, referral link, and custom URL to unlock your page',
     slugTaken: 'This URL is already in use. Please choose another.',
+    slugRequired: 'A custom URL is required to publish your landing page. Please choose your unique URL in the field above.',
     socialMedia: 'Social media',
     metricsTab: 'Metrics',
     daily: 'Daily',
@@ -399,8 +400,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'Kun PuPrime-partnerlenker godtas (må starte med https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'En referral-lenke er påkrevd for å publisere landingssiden din. Landingssiden kobler besøkende direkte til din meglerkonto — uten den kan ikke leads spores eller krediteres deg. Vennligst legg til din PuPrime referral-lenke i skjemaet ovenfor.',
     nameRequired: 'Vennligst skriv inn ditt fulle navn',
-    completeProfileToGoLive: 'Legg til navn og referral-lenke for å aktivere siden din',
+    completeProfileToGoLive: 'Legg til navn, referral-lenke og egendefinert URL for å aktivere siden din',
     slugTaken: 'Denne URL-en er allerede i bruk. Velg en annen.',
+    slugRequired: 'En egendefinert URL er påkrevd for å publisere landingssiden din. Velg din unike URL i feltet ovenfor.',
     socialMedia: 'Sosiale medier',
     metricsTab: 'Metrikk',
     daily: 'Daglig',
@@ -709,8 +711,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'Endast PuPrime-partnerlänkar accepteras (måste börja med https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'En referral-länk krävs för att publicera din landningssida. Din landningssida kopplar besökare direkt till ditt mäklarkonto — utan den kan leads inte spåras eller krediteras dig. Vänligen lägg till din PuPrime referral-länk i formuläret ovan.',
     nameRequired: 'Vänligen ange ditt fullständiga namn',
-    completeProfileToGoLive: 'Lägg till namn och referral-länk för att aktivera din sida',
+    completeProfileToGoLive: 'Lägg till namn, referral-länk och anpassad URL för att aktivera din sida',
     slugTaken: 'Denna URL används redan. Välj en annan.',
+    slugRequired: 'En anpassad URL krävs för att publicera din landningssida. Välj din unika URL i fältet ovan.',
     socialMedia: 'Sociala medier',
     metricsTab: 'Statistik',
     daily: 'Dagligen',
@@ -1019,8 +1022,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'Solo se aceptan enlaces de socios PuPrime (debe comenzar con https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'Se requiere un enlace de referral para publicar tu landing page. Tu landing page conecta a los visitantes directamente con tu cuenta de broker — sin él, los leads no pueden ser rastreados ni acreditados a ti. Por favor, agrega tu enlace de referral PuPrime en el formulario de arriba.',
     nameRequired: 'Por favor, ingresa tu nombre completo',
-    completeProfileToGoLive: 'Agrega tu nombre y enlace de referral para activar tu página',
+    completeProfileToGoLive: 'Agrega tu nombre, enlace de referral y URL personalizada para activar tu página',
     slugTaken: 'Esta URL ya está en uso. Elige otra.',
+    slugRequired: 'Se requiere una URL personalizada para publicar tu landing page. Elige tu URL única en el campo de arriba.',
     socialMedia: 'Redes sociales',
     metricsTab: 'Métricas',
     daily: 'Diario',
@@ -1329,8 +1333,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'Принимаются только партнёрские ссылки PuPrime (должна начинаться с https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'Для публикации лендинга требуется реферальная ссылка. Ваш лендинг связывает посетителей напрямую с вашим брокерским аккаунтом — без неё лиды не могут быть отслежены или засчитаны вам. Пожалуйста, добавьте вашу реферальную ссылку PuPrime в форме выше.',
     nameRequired: 'Пожалуйста, введите ваше полное имя',
-    completeProfileToGoLive: 'Добавьте имя и реферальную ссылку, чтобы активировать страницу',
+    completeProfileToGoLive: 'Добавьте имя, реферальную ссылку и уникальный URL, чтобы активировать страницу',
     slugTaken: 'Этот URL уже используется. Выберите другой.',
+    slugRequired: 'Для публикации лендинга требуется уникальный URL. Пожалуйста, выберите свой уникальный URL в поле выше.',
     socialMedia: 'Социальные сети',
     metricsTab: 'Метрики',
     daily: 'За день',
@@ -1639,8 +1644,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'يتم قبول روابط شركاء PuPrime فقط (يجب أن تبدأ بـ https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'رابط الإحالة مطلوب لنشر صفحتك. صفحتك تربط الزوار مباشرة بحساب الوسيط الخاص بك — بدونه لا يمكن تتبع العملاء المحتملين أو نسبهم إليك. يرجى إضافة رابط إحالة PuPrime في النموذج أعلاه.',
     nameRequired: 'يرجى إدخال اسمك الكامل',
-    completeProfileToGoLive: 'أضف اسمك ورابط الإحالة لتفعيل صفحتك',
+    completeProfileToGoLive: 'أضف اسمك ورابط الإحالة ورابط مخصص لتفعيل صفحتك',
     slugTaken: 'هذا الرابط مستخدم بالفعل. اختر رابطاً آخر.',
+    slugRequired: 'مطلوب رابط مخصص لنشر صفحتك. يرجى اختيار رابطك الفريد في الحقل أعلاه.',
     socialMedia: 'وسائل التواصل الاجتماعي',
     metricsTab: 'المقاييس',
     daily: 'يومي',
@@ -1949,8 +1955,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'Tanging mga PuPrime partner link lang ang tinatanggap (dapat magsimula sa https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'Kailangan ng referral link para ma-publish ang iyong landing page. Ang landing page mo ay kumokonekta sa mga bisita direkta sa iyong broker account — kung wala ito, hindi masusubaybayan o maikredito sa iyo ang mga leads. Pakidagdag ang iyong PuPrime referral link sa form sa itaas.',
     nameRequired: 'Pakiusap ilagay ang iyong buong pangalan',
-    completeProfileToGoLive: 'Idagdag ang pangalan at referral link para ma-unlock ang iyong page',
+    completeProfileToGoLive: 'Idagdag ang pangalan, referral link, at custom URL para ma-unlock ang iyong page',
     slugTaken: 'Ginagamit na ang URL na ito. Pumili ng iba.',
+    slugRequired: 'Kailangan ng custom URL para ma-publish ang iyong landing page. Pakipili ang iyong unique URL sa field sa itaas.',
     socialMedia: 'Social media',
     metricsTab: 'Metrics',
     daily: 'Araw-araw',
@@ -2259,8 +2266,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'Somente links de parceiros PuPrime são aceitos (deve começar com https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'Um link de referral é necessário para publicar sua landing page. Sua landing page conecta visitantes diretamente à sua conta de corretora — sem ele, os leads não podem ser rastreados ou creditados a você. Por favor, adicione seu link de referral PuPrime no formulário acima.',
     nameRequired: 'Por favor, insira seu nome completo',
-    completeProfileToGoLive: 'Adicione seu nome e link de referral para ativar sua página',
+    completeProfileToGoLive: 'Adicione seu nome, link de referral e URL personalizado para ativar sua página',
     slugTaken: 'Este URL já está em uso. Escolha outro.',
+    slugRequired: 'Um URL personalizado é necessário para publicar sua landing page. Escolha seu URL único no campo acima.',
     socialMedia: 'Redes sociais',
     metricsTab: 'Métricas',
     daily: 'Diário',
@@ -2569,8 +2577,9 @@ const translations: Record<string, Record<string, string>> = {
     referralInvalid: 'รับเฉพาะลิงก์พาร์ทเนอร์ PuPrime เท่านั้น (ต้องขึ้นต้นด้วย https://puvip.co/la-partners/)',
     referralLinkPublishBlock: 'จำเป็นต้องมีลิงก์แนะนำเพื่อเผยแพร่แลนดิ้งเพจของคุณ แลนดิ้งเพจของคุณเชื่อมต่อผู้เยี่ยมชมโดยตรงกับบัญชีโบรกเกอร์ของคุณ — หากไม่มี จะไม่สามารถติดตามหรือเครดิตลีดให้คุณได้ กรุณาเพิ่มลิงก์แนะนำ PuPrime ในแบบฟอร์มด้านบน',
     nameRequired: 'กรุณากรอกชื่อ-นามสกุล',
-    completeProfileToGoLive: 'เพิ่มชื่อและลิงก์แนะนำเพื่อปลดล็อกหน้าของคุณ',
+    completeProfileToGoLive: 'เพิ่มชื่อ ลิงก์แนะนำ และ URL ที่กำหนดเองเพื่อปลดล็อกหน้าของคุณ',
     slugTaken: 'URL นี้ถูกใช้แล้ว กรุณาเลือกอันอื่น',
+    slugRequired: 'ต้องมี URL ที่กำหนดเองเพื่อเผยแพร่หน้า landing page ของคุณ กรุณาเลือก URL เฉพาะของคุณในช่องด้านบน',
     socialMedia: 'โซเชียลมีเดีย',
     metricsTab: 'สถิติ',
     daily: 'รายวัน',
@@ -4022,6 +4031,7 @@ export default function Home() {
   const [profileBio, setProfileBio] = useState('')
   const [profileSlug, setProfileSlug] = useState('')
   const [slugError, setSlugError] = useState(false)
+  const [slugErrorMsg, setSlugErrorMsg] = useState<'slugTaken' | 'slugRequired'>('slugTaken')
   const [nameError, setNameError] = useState('')
   const [profileReferralLink, setProfileReferralLink] = useState('')
   const [profileDirection, setProfileDirection] = useState('')
@@ -4594,7 +4604,8 @@ export default function Home() {
 
       if (!dist) {
         // 3. No row at all — create one (no slug or landing_active until profile is completed)
-        const { data: newDist, error } = await supabase.from('distributors').insert({ email, user_id: userId, ib_status: 'pending', landing_active: false }).select().maybeSingle()
+        const metaName = userData.user?.user_metadata?.full_name || ''
+        const { data: newDist, error } = await supabase.from('distributors').insert({ email, user_id: userId, name: metaName || null, ib_status: 'pending', landing_active: false }).select().maybeSingle()
         if (error) {
           console.error('Failed to create distributor:', error.message, '| code:', error.code, '| details:', error.details, '| hint:', error.hint)
           showToast(t.errorPrefix + error.message)
@@ -4820,6 +4831,11 @@ export default function Home() {
     setProfileReferralLink(normalizedLink)
     setReferralError('')
     setSlugError(false)
+    if (!profileSlug.trim()) {
+      setSlugError(true)
+      setSlugErrorMsg('slugRequired')
+      return
+    }
     setSavingProfile(true)
     // Server-side validation
     try {
@@ -4833,6 +4849,7 @@ export default function Home() {
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
+        setSlugErrorMsg('slugTaken')
       } else {
         showToast(t.errorPrefix + error.message)
       }
@@ -4869,6 +4886,11 @@ export default function Home() {
     setProfileReferralLink(normalizedLink)
     setReferralError('')
     setSlugError(false)
+    if (!profileSlug.trim()) {
+      setSlugError(true)
+      setSlugErrorMsg('slugRequired')
+      return
+    }
     setUpdatingProfile(true)
     // Server-side validation
     try {
@@ -4881,6 +4903,7 @@ export default function Home() {
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
+        setSlugErrorMsg('slugTaken')
       } else {
         showToast(t.errorPrefix + error.message)
       }
@@ -5176,7 +5199,7 @@ export default function Home() {
           </div>
           <div className="header-actions">
             {distributor?.slug && (() => {
-              const profileComplete = !!(distributor?.name && distributor?.referral_link)
+              const profileComplete = !!(distributor?.name && distributor?.referral_link && distributor?.slug)
               return (
                 <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
                   <div style={{
@@ -5567,7 +5590,7 @@ export default function Home() {
                   <span className="url-prefix" aria-hidden="true">primeverseaccess.com/</span>
                   <input id="profile-slug" value={profileSlug} onChange={e => { setProfileSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '')); setSlugError(false) }} placeholder="ditt-navn" aria-label={`${t.yourUrl}: primeverseaccess.com/`} aria-invalid={slugError} />
                 </div>
-                {slugError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{t.slugTaken}</p>}
+                {slugError && <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{(t as any)[slugErrorMsg] || t.slugTaken}</p>}
               </div>
 
               <div className="field-group">
