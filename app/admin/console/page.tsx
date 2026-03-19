@@ -442,9 +442,9 @@ export default function AdminConsolePage() {
       setPendingIBs((prev: Distributor[]) => prev.filter((d: Distributor) => d.id !== distributor.id))
       setApprovedIBs((prev: Distributor[]) => [{ ...distributor, ib_status: 'approved', ib_approved_at: new Date().toISOString() }, ...prev])
       showToast(`${distributor.name || distributor.email} approved successfully`)
-    } catch (err) {
+    } catch (err: any) {
       console.error('handleApprove failed:', err)
-      showToast('Failed to approve user', 'error')
+      showToast(`Failed to approve: ${err?.message || 'Unknown error'}`, 'error')
     }
     setActionLoading(null)
   }
@@ -480,9 +480,9 @@ export default function AdminConsolePage() {
       setRejectingId(null)
       setRejectReason('')
       showToast(`${distributor.name || distributor.email} rejected`)
-    } catch (err) {
+    } catch (err: any) {
       console.error('handleReject failed:', err)
-      showToast('Failed to reject user', 'error')
+      showToast(`Failed to reject: ${err?.message || 'Unknown error'}`, 'error')
     }
     setActionLoading(null)
   }
@@ -497,12 +497,22 @@ export default function AdminConsolePage() {
         .eq('id', distributor.id)
         .single()
 
-      if (fetchError || !distRecord) throw fetchError || new Error('Distributor not found')
+      if (fetchError || !distRecord) {
+        const msg = fetchError?.message || 'Distributor not found'
+        showToast(`Upgrade failed: ${msg}`, 'error')
+        setActionLoading(null)
+        return
+      }
 
       const userId = distRecord.user_id
+      if (!userId) {
+        showToast('Upgrade failed: user has no auth user_id linked', 'error')
+        setActionLoading(null)
+        return
+      }
       const email = distRecord.email
 
-      // Insert into admin_users with the correct user_id
+      // Insert into admin_users with the correct user_id (from distributors.user_id, NOT distributors.id)
       const { error: insertError } = await supabase
         .from('admin_users')
         .insert({
@@ -511,7 +521,11 @@ export default function AdminConsolePage() {
           granted_by: ADMIN_EMAIL,
         })
 
-      if (insertError) throw insertError
+      if (insertError) {
+        showToast(`Upgrade failed (admin_users insert): ${insertError.message}`, 'error')
+        setActionLoading(null)
+        return
+      }
 
       // Also mark the distributor as admin
       const { error: updateError } = await supabase
@@ -519,17 +533,20 @@ export default function AdminConsolePage() {
         .update({ is_admin: true })
         .eq('id', distributor.id)
 
-      if (updateError) throw updateError
+      if (updateError) {
+        console.error('is_admin update failed (non-blocking):', updateError.message)
+        // Non-blocking: admin_users insert succeeded, so the user IS an admin
+      }
 
       setAdminUsers((prev: AdminUser[]) => [
         { id: crypto.randomUUID(), user_id: userId, email: email, granted_at: new Date().toISOString() },
         ...prev,
       ])
       setUpgradeModal(null)
-      showToast(`${distributor.name || distributor.email} upgraded to admin`)
-    } catch (err) {
+      showToast(`✅ ${distributor.name || distributor.email} upgraded to admin`)
+    } catch (err: any) {
       console.error('Upgrade to admin failed:', err)
-      showToast('Failed to upgrade user', 'error')
+      showToast(`Upgrade failed: ${err?.message || 'Unknown error'}`, 'error')
     }
     setActionLoading(null)
   }
