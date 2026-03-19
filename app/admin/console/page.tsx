@@ -696,6 +696,21 @@ export default function AdminConsolePage() {
     setEvtCreating(false)
   }
 
+  async function handleDeleteEvent(evt: EventRecord) {
+    const confirmed = window.confirm('Are you sure you want to delete this event? This cannot be undone.')
+    if (!confirmed) return
+    setActionLoading(evt.id)
+    const { error } = await supabase.from('events').delete().eq('id', evt.id)
+    if (error) {
+      showToast(`Failed to delete event: ${error.message}`, 'error')
+    } else {
+      showToast(`✅ "${evt.title}" deleted`)
+      if (selectedEventId === evt.id) setSelectedEventId(null)
+      fetchEvents()
+    }
+    setActionLoading(null)
+  }
+
   function startEditEvent(evt: EventRecord) {
     setEditingEventId(evt.id)
     setEditZoom(evt.zoom_link || '')
@@ -1039,7 +1054,7 @@ export default function AdminConsolePage() {
                             </td>
                             <td className="td-secondary hide-mobile">
                               {evt.event_date
-                                ? new Date(evt.event_date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo' })
+                                ? new Date(evt.event_date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC'
                                 : <span style={{ color: '#f87171' }}>Not set</span>
                               }
                             </td>
@@ -1061,13 +1076,23 @@ export default function AdminConsolePage() {
                               </span>
                             </td>
                             <td style={{ textAlign: 'right' }}>
-                              <button
-                                onClick={() => editingEventId === evt.id ? setEditingEventId(null) : startEditEvent(evt)}
-                                className="btn-outline"
-                                style={{ padding: '5px 12px', fontSize: '0.72rem' }}
-                              >
-                                {editingEventId === evt.id ? 'Cancel' : 'Edit'}
-                              </button>
+                              <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
+                                <button
+                                  onClick={() => editingEventId === evt.id ? setEditingEventId(null) : startEditEvent(evt)}
+                                  className="btn-outline"
+                                  style={{ padding: '5px 12px', fontSize: '0.72rem' }}
+                                >
+                                  {editingEventId === evt.id ? 'Cancel' : 'Edit'}
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteEvent(evt)}
+                                  disabled={actionLoading === evt.id}
+                                  className="btn-reject"
+                                  style={{ padding: '5px 12px', fontSize: '0.72rem' }}
+                                >
+                                  {actionLoading === evt.id ? <span className="spinner" /> : 'Delete'}
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}
