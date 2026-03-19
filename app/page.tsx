@@ -4100,7 +4100,7 @@ export default function Home() {
   const [aiToolTopic, setAiToolTopic] = useState('')
   const [aiToolTone, setAiToolTone] = useState('Professional')
   const [aiToolStyle, setAiToolStyle] = useState('Engaging')
-  const [aiToolLang, setAiToolLang] = useState(lang)
+  const [aiToolLang, setAiToolLang] = useState('en')
   const [aiToolLoading, setAiToolLoading] = useState(false)
   const [aiToolResult, setAiToolResult] = useState('')
   const [aiToolHashtags, setAiToolHashtags] = useState<{ top: string[]; medium: string[]; niche: string[] } | null>(null)
@@ -4521,6 +4521,9 @@ export default function Home() {
   const [lang, setLangState] = useState('en')
   const [langOpen, setLangOpen] = useState(false)
   const t = translations[lang] || translations.en
+
+  // Sync AI tool language with dashboard language
+  useEffect(() => { setAiToolLang(lang) }, [lang])
 
   // Persist language to localStorage + Supabase
   const setLang = useCallback((code: string) => {
