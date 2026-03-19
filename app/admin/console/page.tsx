@@ -647,7 +647,7 @@ export default function AdminConsolePage() {
       const res = await fetch('/api/events')
       if (res.ok) {
         const data = await res.json()
-        setEvents(data.events || [])
+        setEvents(Array.isArray(data) ? data : data.events || [])
       }
     } catch { /* ignore */ }
   }, [])
