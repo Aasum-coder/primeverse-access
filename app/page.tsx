@@ -4100,6 +4100,7 @@ export default function Home() {
   const [aiToolTopic, setAiToolTopic] = useState('')
   const [aiToolTone, setAiToolTone] = useState('Professional')
   const [aiToolStyle, setAiToolStyle] = useState('Engaging')
+  const [aiToolLang, setAiToolLang] = useState(lang)
   const [aiToolLoading, setAiToolLoading] = useState(false)
   const [aiToolResult, setAiToolResult] = useState('')
   const [aiToolHashtags, setAiToolHashtags] = useState<{ top: string[]; medium: string[]; niche: string[] } | null>(null)
@@ -4120,7 +4121,7 @@ export default function Home() {
           topic: aiToolTopic,
           tone: aiToolTone,
           style: aiToolStyle,
-          language: lang,
+          language: aiToolLang,
           name: profileName,
         }),
       })
@@ -4150,6 +4151,7 @@ export default function Home() {
     setAiToolResult('')
     setAiToolHashtags(null)
     setAiToolCopied('')
+    setAiToolLang(lang)
     setAiToolPlatform('Facebook')
     setAiToolTone('Professional')
     setAiToolStyle('Engaging')
@@ -6032,7 +6034,7 @@ export default function Home() {
               {/* Language selector */}
               <div className="ai-modal-field">
                 <div className="ai-modal-label">{t.selectLanguage}</div>
-                <select className="ai-modal-select" value={lang} disabled>
+                <select className="ai-modal-select" value={aiToolLang} onChange={e => setAiToolLang(e.target.value)}>
                   {Object.entries(languageLabels).map(([code, label]) => (
                     <option key={code} value={code}>{languageFlags[code]} {label}</option>
                   ))}
