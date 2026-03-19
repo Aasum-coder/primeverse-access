@@ -35,7 +35,12 @@ export async function POST(request: Request) {
       if (!platform || !topic || !tone) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
       }
+      const langInstruction = langLabel !== 'English'
+        ? `CRITICAL LANGUAGE RULE: You MUST write your entire response in ${langLabel}. Do NOT use English at all. Every single word must be in ${langLabel}.`
+        : ''
+
       systemPrompt = `You are a social media marketing expert for 1Move Academy, a premium trading education and financial services ecosystem powered by PrimeVerse. You create engaging social media posts for IB (Introducing Broker) partners.
+${langInstruction}
 
 Write content that:
 - Is optimized for ${platform}
@@ -44,17 +49,23 @@ Write content that:
 - Is engaging and designed for high interaction
 - Relates to trading, finance, wealth building, or the 1Move/PrimeVerse ecosystem
 - Feels authentic and personal, not corporate
+- Brand names (1Move, PrimeVerse, PuPrime, SYSTM8) must stay in English — everything else must be in ${langLabel}
 ${nameNote}
 
-Write in ${langLabel}. Return ONLY the post text, nothing else. No quotes around it.`
+Return ONLY the post text, nothing else. No quotes around it.`
 
-      userPrompt = `Write a ${platform} post about: ${topic}`
+      userPrompt = `Write a ${platform} post in ${langLabel} about: ${topic}`
     } else if (type === 'caption') {
       const { topic, style } = body
       if (!topic) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
       }
+      const captionLangInstruction = langLabel !== 'English'
+        ? `CRITICAL LANGUAGE RULE: You MUST write your entire response in ${langLabel}. Do NOT use English at all. Every single word must be in ${langLabel}.`
+        : ''
+
       systemPrompt = `You are a social media caption specialist for 1Move Academy / PrimeVerse trading ecosystem. You write scroll-stopping captions for images and videos.
+${captionLangInstruction}
 
 Write a caption that:
 - Is short and punchy (1-3 sentences max)
@@ -62,22 +73,25 @@ Write a caption that:
 - Creates curiosity or engagement
 - Relates to trading, finance, wealth building, or lifestyle
 - Style: ${style || 'engaging'}
+- Brand names (1Move, PrimeVerse, PuPrime, SYSTM8) must stay in English — everything else must be in ${langLabel}
 ${nameNote}
 
-Write in ${langLabel}. Return ONLY the caption text. Then on a new line, add "---" and suggest 5 emoji combinations that would work well with this caption (one per line).`
+Return ONLY the caption text in ${langLabel}. Then on a new line, add "---" and suggest 5 emoji combinations that would work well with this caption (one per line).`
 
-      userPrompt = `Write a caption for: ${topic}`
+      userPrompt = `Write a caption in ${langLabel} for: ${topic}`
     } else if (type === 'hashtags') {
       const { topic, platform } = body
       if (!topic) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
       }
-      const mixLangNote = language !== 'en' ? `Mix both English and ${langLabel} hashtags for maximum reach.` : ''
+      const hashtagLangNote = language !== 'en'
+        ? `CRITICAL LANGUAGE RULE: You MUST include hashtags in ${langLabel}. At least half of the hashtags in each category should be in ${langLabel}. Mix ${langLabel} and English hashtags for maximum reach in ${langLabel}-speaking markets.`
+        : ''
 
       systemPrompt = `You are a hashtag research expert for trading, finance, and the 1Move Academy / PrimeVerse ecosystem.
 
 Research and suggest 30 relevant hashtags for the given niche/topic, optimized for ${platform || 'Instagram'}.
-${mixLangNote}
+${hashtagLangNote}
 
 Return the hashtags in this exact JSON format (no markdown, no code fences):
 {
@@ -92,7 +106,7 @@ Return the hashtags in this exact JSON format (no markdown, no code fences):
 
 Each hashtag must start with #. Make them realistic and currently trending.`
 
-      userPrompt = `Find hashtags for: ${topic}`
+      userPrompt = `Find hashtags in ${langLabel} for: ${topic}`
     } else {
       return NextResponse.json({ error: 'Unknown type' }, { status: 400 })
     }

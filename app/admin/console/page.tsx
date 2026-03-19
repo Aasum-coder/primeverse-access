@@ -400,12 +400,28 @@ export default function AdminConsolePage() {
         router.push('/login')
         return
       }
-      if (user.email !== ADMIN_EMAIL) {
+
+      // Allow access if primary admin email OR distributor.is_admin === true
+      let isAllowed = user.email === ADMIN_EMAIL
+
+      if (!isAllowed) {
+        const { data: dist } = await supabase
+          .from('distributors')
+          .select('is_admin')
+          .eq('user_id', user.id)
+          .single()
+        if (dist?.is_admin === true) {
+          isAllowed = true
+        }
+      }
+
+      if (!isAllowed) {
         setDenied(true)
         setLoading(false)
         return
       }
-      setUserEmail(user.email)
+
+      setUserEmail(user.email || '')
       setAuthorized(true)
       setLoading(false)
       await fetchData()
