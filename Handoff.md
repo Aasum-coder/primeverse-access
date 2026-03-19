@@ -1,205 +1,121 @@
-# Handoff — 17. mars 2026
+# Handoff — 19. mars 2026
 
-## Session: IB Approval System + Admin Users Panel + WorkflowCanvas Fix
+## Session: Fix new-user onboarding bugs + add lead form validation
+
+This session focused on two critical onboarding bugs (email confirmation hang + 400 error for new users) and adding inline validation to the lead registration form.
 
 ---
 
 ## Hva ble bygget / fikset
 
-### 1. WorkflowCanvas.tsx Syntax Fix (commit `7d8709f`)
-- **Problem**: The `handleSave` function in `components/WorkflowCanvas.tsx` was corrupted by a bad merge. The `if/else` block for creating vs updating workflows was broken — `wfId = workflow.id` was left as a bare statement outside valid scope, the `catch` block was missing, and the closing `useCallback` dependencies were mangled.
-- **Fix**: Rewrote the entire `handleSave` callback (lines ~480–582) with correct structure: `let wfId: string` declaration, proper `if (workflow?.id) { update } else { insert }` branches, step saving, and `catch` block.
+### BUG 1 — Email confirmation hangs on loading (`e0023bc`, `db1203d`)
+- **Problem:** After clicking the email confirmation link, users were redirected to `primeverseaccess.com/#` and saw an infinite loading spinner.
+- **Root cause:** The auth callback route (`/auth/callback/route.ts`) used a server-side `createClient()` that exchanged the code for a session, but that session wasn't persisted to the browser. Then it redirected to `/` which tried `getUser()`, got null, and bounced to `/login` in a loop.
+- **Fix:**
+  - `app/auth/callback/route.ts` — Now catches errors from both `exchangeCodeForSession()` and `verifyOtp()`. On success redirects to `/login?confirmed=true`. On error redirects to `/login?error=confirmation_failed`.
+  - `app/login/page.tsx` — Reads URL search params via `useSearchParams()` (wrapped in `<Suspense>`). Shows green "Email confirmed! You can now sign in." message when `?confirmed=true`. Shows red error when `?error=confirmation_failed`. Session auto-redirect is **skipped** when `?confirmed=true` so the user sees the message before signing in.
+  - Added `emailConfirmed` and `confirmationFailed` translation keys for all 9 languages.
 
-### 2. Admin Users Panel (commit `e896103`)
+### BUG 2 — 400 error on distributors query for new users (`e0023bc`)
+- **Problem:** New users who just confirmed their email had no distributor record, causing a Supabase 400 error and infinite loading on the dashboard.
+- **Root cause:** The init flow in `app/page.tsx` queried the `distributors` table, got null, and didn't handle that case. Also, RLS INSERT policy was missing so new users couldn't create their own row.
+- **Fix:**
+  - `app/page.tsx` — When distributor query returns null/empty, auto-creates a minimal record: `{ user_id, email, ib_status: 'pending', landing_active: false }`. No slug is generated. Then shows the IB gate "Application Under Review" screen.
+  - Added null guard and detailed error logging (`error.message`, `error.code`, `error.details`, `error.hint`).
+  - Added RLS INSERT policy migration so `auth.uid()` can insert their own distributor row.
 
-#### Frontend: `app/admin/users/page.tsx`
-- Full admin user management page at `/admin/users`
-- Access restricted to `bitaasum@gmail.com` and `aasum85@gmail.com` (redirects to `/` if not admin)
-- SYSTM8 dark gold theme (background `#1A1A2E`, gold accents `#D4A843`)
-- **Header**: "SYSTM8 Users" with total user count badge
-- **Search bar**: Filters by name or email in real-time
-- **Table columns**: Avatar (circular), Name (clickable), Email, Landing Page URL, Leads count, Referral link, Joined date, Status badge
-- **Status badges**: Green "Active" (landing_active=true), Yellow "Setup" (has slug but not active), Red "Incomplete" (no slug)
-- **Impersonation / View as User**: Click user name → sticky top banner with "👁 Viewing as [Name] — [email]" + READ-ONLY badge + Exit button. Shows distributor profile details in a card below.
-
-#### Backend API: `app/api/admin/users/route.ts`
-- GET endpoint with Bearer token auth check against admin email list
-- Uses `SUPABASE_SERVICE_ROLE_KEY` to bypass RLS and fetch all distributors
-- Fetches lead counts per distributor from `leads` table
-- Returns array of users with `lead_count` field
-- Ordered by `created_at` DESC (newest first)
-
-### 3. IB Approval System (commit `07919f1`)
-
-#### Task 1: Dashboard Access Gating (`app/page.tsx`)
-- Added IB approval gate after loading screen, before main dashboard render
-- **Pending users** (ib_status='pending' or null): Full-screen "Application Under Review" page with:
-  - Hourglass icon
-  - Title: "Application Under Review"
-  - Text: "Your IB application is being reviewed by the 1Move team..."
-  - User's name and email displayed
-  - "Contact Support" button (mailto:support@1move.global)
-  - "Log Out" button
-- **Rejected users** (ib_status='rejected'): Full-screen "Application Not Approved" page with:
-  - X icon
-  - Shows `ib_status_note` if set, otherwise generic rejection message
-  - Contact Support + Log Out buttons
-- **Approved users** (ib_status='approved'): Normal dashboard access
-
-#### Task 2: Signup Flow (`app/page.tsx`)
-- New distributor rows are now created with `ib_status: 'pending'` in the insert call at line 4525
-- Users start in pending state and cannot access dashboard until admin approves
-
-#### Task 3: Admin Approval Controls (`app/admin/users/page.tsx`)
-- Added **IB Status** column with color-coded badges:
-  - Green "Approved" / Yellow "Pending" / Red "Rejected"
-- Added **Actions** column with context-sensitive buttons:
-  - Pending: Green "Approve" + Red "Reject"
-  - Approved: Red "Revoke"
-  - Rejected: Green "Re-approve"
-- **Confirmation modal**: Opens on action click with:
-  - Action description text
-  - Optional note textarea (visible to user if rejected)
-  - Cancel + Confirm buttons
-- Optimistic UI update after successful API call
-- Updated table to 10 columns (added IB Status + Actions)
-
-#### Task 4: Status API Route (`app/api/admin/users/[id]/status/route.ts`)
-- **PATCH** endpoint at `/api/admin/users/[id]/status`
-- Auth: Bearer token validation + admin email check
-- Body: `{ ib_status: 'approved' | 'rejected' | 'pending', ib_status_note?: string }`
-- When approving: sets `ib_approved_at = now()`
-- Uses `SUPABASE_SERVICE_ROLE_KEY` for database writes
-- Validates ib_status is one of the three allowed values
-
-#### Task 5: Approval Email
-- Sends branded HTML email via Resend when user is approved
-- **From**: `1Move Academy <noreply@primeverseaccess.com>`
-- **Subject**: "You're approved! Welcome to SYSTM8"
-- **Body**: Dark-themed HTML email with personalized greeting, next steps list, and "Open SYSTM8" CTA button
-- Email errors are caught and logged but don't block the status update
+### Lead registration form with inline validation (`fbd9b7d`)
+- **Problem:** The `addLead()` function existed in code but was never wired to any form in the JSX. The Leads tab only showed pending/approved lists with no way to add leads.
+- **Fix:**
+  - Added the full form to the Leads tab with Name, Email, and UID fields.
+  - Inline red "This field is required" error text under each empty field on submit attempt (no `alert()` used).
+  - Submit button visually disabled (`opacity: 0.5`, `cursor: not-allowed`) when any required field is empty after first submit attempt.
+  - `leadFormTouched` state tracks whether submit was attempted — errors only show after first click.
+  - Added `fieldRequired` translation key for all 9 languages.
+  - Added CSS: `.lead-form`, `.lead-form-field`, `.lead-field-error`, `.field-invalid` styles.
 
 ---
 
 ## Filer som ble endret eller opprettet
 
-| Fil | Handling |
-|-----|---------|
-| `components/WorkflowCanvas.tsx` | **Fikset** — Rebuilt corrupted `handleSave` callback (lines ~480–582) |
-| `app/admin/users/page.tsx` | **Opprettet** (e896103), deretter **Oppdatert** (07919f1) — Full admin users panel med IB approval controls |
-| `app/api/admin/users/route.ts` | **Opprettet** (e896103), deretter **Oppdatert** (07919f1) — Lagt til ib_status felter i select |
-| `app/api/admin/users/[id]/status/route.ts` | **Opprettet** — PATCH endpoint for IB status changes + approval email |
-| `app/page.tsx` | **Oppdatert** — Added IB approval gate + ib_status='pending' on signup |
+| Fil | Hva ble gjort |
+|-----|---------------|
+| `app/auth/callback/route.ts` | Created (e0023bc), then rewritten (db1203d) — handles PKCE code exchange + OTP verification, redirects to `/login?confirmed=true` or `/login?error=confirmation_failed` |
+| `app/login/page.tsx` | Added session detection useEffect (e0023bc), then added `useSearchParams`, `Suspense` wrapper, confirmation/error message display, 18 new translation strings across 9 languages (db1203d) |
+| `app/page.tsx` | Added null guard + auto-create distributor record for new users (e0023bc), added lead registration form with full inline validation + 9 fieldRequired translations + CSS (fbd9b7d) |
+| `app/api/verify-email/route.ts` | Changed redirect target from `/login` to `/auth/callback` (e0023bc) |
+| `supabase/migrations/20260318200000_distributors_insert_rls.sql` | New — RLS INSERT policy for distributors table (e0023bc) |
 
 ---
 
 ## Nye DB tabeller / kolonner
 
-Tre nye kolonner paa `distributors`-tabellen:
-
+### RLS Policy (new migration)
 ```sql
--- IB Approval System columns
-ALTER TABLE distributors ADD COLUMN IF NOT EXISTS ib_status text DEFAULT 'pending';
-ALTER TABLE distributors ADD COLUMN IF NOT EXISTS ib_status_note text;
-ALTER TABLE distributors ADD COLUMN IF NOT EXISTS ib_approved_at timestamptz;
-
--- Mulig index for admin-sporringer
-CREATE INDEX IF NOT EXISTS idx_distributors_ib_status ON distributors(ib_status);
+-- supabase/migrations/20260318200000_distributors_insert_rls.sql
+CREATE POLICY "Users can insert their own distributor record"
+  ON public.distributors
+  FOR INSERT
+  WITH CHECK (user_id = auth.uid());
 ```
 
-**VIKTIG**: Disse kolonnene MAA legges til i Supabase for deploy. Uten dem vil:
-- Alle eksisterende brukere ha `ib_status = NULL` (behandles som 'pending' i koden)
-- Dashboard-tilgang blokkeres for alle brukere inntil de godkjennes
-
-**For eksisterende brukere** — kjor denne SQL-en for aa godkjenne alle naavarende brukere:
-```sql
-UPDATE distributors SET ib_status = 'approved', ib_approved_at = NOW() WHERE ib_status IS NULL;
-```
+No new tables or columns were created. The auto-created distributor record uses existing columns:
+- `user_id` (UUID)
+- `email` (text)
+- `ib_status` (text, set to `'pending'`)
+- `landing_active` (boolean, set to `false`)
 
 ---
 
 ## Bugs som ble fikset
 
-### WorkflowCanvas handleSave Corruption
-- **Bug**: Merge conflict mangled the `handleSave` function — `wfId = workflow.id` was a bare assignment outside valid scope, catch block was missing
-- **Aarsak**: Bad merge from PR #58 corrupted the if/else structure in the save callback
-- **Losning**: Rewrote the full `handleSave` useCallback with correct TypeScript: `let wfId: string` declaration, proper branching, step saving, catch block, and correct dependency array
+| Bug | Årsak | Løsning |
+|-----|-------|---------|
+| Email confirmation infinite loading spinner | Server-side `createClient()` exchanged code but session not persisted to browser; redirect to `/` caused loop | Redirect to `/login?confirmed=true` instead, show message, let user sign in manually |
+| 400 error for new users on dashboard | No distributor record existed + no RLS INSERT policy | Auto-create minimal record + add RLS policy migration |
+| Lead form missing from UI | `addLead()` function existed but no JSX form was rendered | Added full form with 3 inputs + validation to Leads tab |
+| No inline validation on lead form | Submit silently failed or used toast only | Added per-field red error messages + visual button disable |
 
 ---
 
 ## Konfigurasjon og oppsett
 
-### Supabase
-- Nye kolonner kreves (se SQL ovenfor)
-- `SUPABASE_SERVICE_ROLE_KEY` env var brukes av admin API-endepunktene (allerede konfigurert)
-- `NEXT_PUBLIC_SUPABASE_URL` og `NEXT_PUBLIC_SUPABASE_ANON_KEY` brukes av frontend (allerede konfigurert)
-
-### Resend (Email)
-- `RESEND_API_KEY` env var brukes for aa sende godkjenningsepost (allerede konfigurert)
-- Fra-adresse: `1Move Academy <noreply@primeverseaccess.com>`
-
-### Vercel
-- Ingen nye env vars kreves (alle eksisterer allerede)
-- Nye ruter deploys automatisk: `/admin/users`, `/api/admin/users`, `/api/admin/users/[id]/status`
-
-### GitHub
-- Branch: `claude/read-claude-md-hjsQa`
-- PR maa opprettes manuelt: https://github.com/Aasum-coder/primeverse-access/compare/main...claude/read-claude-md-hjsQa
+- **No new env vars** required
+- **Supabase migration** must be applied: `20260318200000_distributors_insert_rls.sql`
+- **Vercel** will auto-deploy from branch merge
+- All changes pushed to branch `claude/add-ib-approval-gate-PzJBl`
 
 ---
 
 ## Viktige beslutninger
 
-1. **ib_status NULL = pending**: Koden behandler `null`/undefined ib_status som 'pending'. Alle eksisterende brukere blokkeres fra dashboard inntil enten kolonnene legges til og eksisterende rader oppdateres til 'approved', eller koden deployes etter SQL-migrering.
-
-2. **Read-only impersonation**: Admin kan se brukeres profiler men kan ikke gjore endringer. Ingen skriveoperasjoner i impersonation-modus.
-
-3. **Approval email integrert i status-endepunkt**: Email sendes direkte fra PATCH-endepunktet, ikke som egen jobb. Feil i email-sending blokkerer ikke status-oppdateringen.
-
-4. **Admin email hardkodet**: Admin-listen (`aasum85@gmail.com`, `bitaasum@gmail.com`) er hardkodet i tre filer. Vurder aa flytte til env var eller database-tabell i fremtiden.
-
-5. **Service role brukes i admin API**: Admin-endepunktene bruker `SUPABASE_SERVICE_ROLE_KEY` for aa omgaa RLS. API-autentisering (Bearer token + admin email check) er kritisk sikkerhet.
+1. **Redirect to `/login?confirmed=true` instead of `/`** — Users see a clear success message before signing in. This avoids the session-not-persisted problem entirely.
+2. **No slug auto-generation for new users** — Slug is only created when the user completes their profile. This prevents URL conflicts and keeps the IB gate workflow clean.
+3. **`leadFormTouched` pattern for validation** — Errors only appear after first submit attempt, not while the user is still typing. Better UX than showing errors immediately on load.
+4. **Suspense wrapper for `useSearchParams`** — Required by Next.js App Router for client components using search params. Without it, build would fail.
 
 ---
 
-## Kjente problemer som gjenstaar
+## Kjente problemer som gjenstår
 
-### Kritisk (maa fikses for deploy)
-1. **DB-migrering kreves**: De tre nye kolonnene MAA legges til i Supabase FOR deploy. Uten dem vil ALLE brukere blokkeres fra dashboard.
-2. **Eksisterende brukere maa godkjennes**: Etter at kolonnene er lagt til, kjor `UPDATE distributors SET ib_status = 'approved', ib_approved_at = NOW() WHERE ib_status IS NULL;`
+### Kritisk
+- **Server-side session persistence** — The auth callback creates a Supabase client with `createClient()` (not the Next.js SSR helper), so the session from code exchange may not persist as a cookie. Users must sign in manually after confirmation. A proper fix would use `createServerClient` from `@supabase/ssr` with cookie handling.
 
-### Moderat
-3. **PR ikke opprettet**: GitHub API rate limit hindret PR-opprettelse via CLI. PR maa opprettes manuelt.
-4. **Slug settes automatisk for pending users**: Nye brukere faar auto-generert slug selv om de er pending. Vurder om pending brukere burde blokkeres fra aa ha slug.
+### Middels
+- **No email format validation** on the lead form — only checks for non-empty, not valid email pattern
+- **No duplicate lead detection** — a user can add the same email/UID multiple times
 
 ### Nice-to-have
-5. **Admin email list i database**: Flytt admin-listen fra hardkodet til env var eller database
-6. **Pagination**: Admin users-tabellen viser alle brukere uten paginering
-7. **IB Status filter**: Legg til filter-knapper (All/Pending/Approved/Rejected) i admin-panelet
-8. **Email log**: Logg godkjenningsepost til `email_sends`-tabellen
-9. **Bulk approve**: Mulighet for aa godkjenne flere brukere samtidig
+- **Lead form could auto-focus** the first field when the Leads tab opens
+- **Toast notification** after successful lead addition (currently just clears the form)
+- **Pagination** for leads list when a distributor has many leads
 
 ---
 
 ## Neste prioritet
 
-1. **Legg til DB-kolonner i Supabase** (KRITISK):
-   ```sql
-   ALTER TABLE distributors ADD COLUMN IF NOT EXISTS ib_status text DEFAULT 'pending';
-   ALTER TABLE distributors ADD COLUMN IF NOT EXISTS ib_status_note text;
-   ALTER TABLE distributors ADD COLUMN IF NOT EXISTS ib_approved_at timestamptz;
-   UPDATE distributors SET ib_status = 'approved', ib_approved_at = NOW() WHERE ib_status IS NULL;
-   ```
-
-2. **Opprett og merge PR** fra `claude/read-claude-md-hjsQa` til `main`
-
-3. **Test IB approval flow end-to-end**:
-   - Opprett ny testbruker -> ser pending-skjerm
-   - Godkjenn via admin -> mottar email, ser dashboard
-   - Avvis -> ser avvisningsskjerm med note
-   - Revoke -> tilbake til avvist
-   - Re-approve -> tilbake til godkjent
-
-4. **Legg til IB status filter i admin-panelet**
-
-5. **Vurder om pending brukere skal blokkeres fra aa sette slug og landing page**
+1. **Apply the RLS migration** in Supabase dashboard if not auto-applied
+2. **Test the full onboarding flow end-to-end**: sign up → confirm email → see success message → sign in → see IB gate → admin approves → dashboard loads
+3. **Consider upgrading auth callback** to use `@supabase/ssr` `createServerClient` for proper cookie-based session persistence
+4. **Add email format validation** to the lead registration form
+5. **Add duplicate lead check** before insert
