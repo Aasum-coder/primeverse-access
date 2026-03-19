@@ -42,9 +42,8 @@ type EventRecord = {
   max_attendees: number | null
   is_active: boolean
   created_at: string
-  total_registrations: number
-  pending_count: number
-  registration_counts: { total: number; pending: number; approved: number; rejected: number }
+  total_registrations?: number
+  pending_count?: number
 }
 
 type EventRegistration = {
@@ -647,7 +646,8 @@ export default function AdminConsolePage() {
       const res = await fetch('/api/events')
       if (res.ok) {
         const data = await res.json()
-        setEvents(Array.isArray(data) ? data : data.events || [])
+        const eventsArray = Array.isArray(data) ? data : (data?.events ?? [])
+        setEvents(eventsArray.filter(Boolean))
       }
     } catch { /* ignore */ }
   }, [])
@@ -1050,26 +1050,26 @@ export default function AdminConsolePage() {
                           <tr key={evt.id}>
                             <td style={{ fontWeight: 500 }}>{evt.title}</td>
                             <td>
-                              <a href={`https://www.primeverseaccess.com/event/${evt.slug}`} target="_blank" rel="noopener noreferrer" className="td-link">
-                                /event/{evt.slug}
+                              <a href={`https://www.primeverseaccess.com/event/${evt.slug ?? ''}`} target="_blank" rel="noopener noreferrer" className="td-link">
+                                /event/{evt.slug ?? ''}
                               </a>
                             </td>
                             <td className="td-secondary hide-mobile">
                               {evt.event_date
                                 ? new Date(evt.event_date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC'
-                                : <span style={{ color: '#f87171' }}>Not set</span>
+                                : <span style={{ color: '#f87171' }}>No date set</span>
                               }
                             </td>
                             <td className="td-secondary hide-mobile" style={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                              {evt.zoom_link
-                                ? <a href={evt.zoom_link} target="_blank" rel="noopener noreferrer" className="td-link" title={evt.zoom_link}>{evt.zoom_link.replace(/^https?:\/\//, '').slice(0, 30)}</a>
+                              {(evt.zoom_link ?? '')
+                                ? <a href={evt.zoom_link!} target="_blank" rel="noopener noreferrer" className="td-link" title={evt.zoom_link!}>{evt.zoom_link!.replace(/^https?:\/\//, '').slice(0, 30)}</a>
                                 : <span style={{ color: '#f87171', fontWeight: 500 }}>Not set</span>
                               }
                             </td>
                             <td>
-                              <span style={{ color: 'var(--text-primary)' }}>{evt.registration_counts.total}</span>
-                              {evt.registration_counts.pending > 0 && (
-                                <span style={{ color: 'var(--gold)', fontSize: '0.75rem', marginLeft: 4 }}>({evt.registration_counts.pending} pending)</span>
+                              <span style={{ color: 'var(--text-primary)' }}>{evt.total_registrations ?? 0}</span>
+                              {(evt.pending_count ?? 0) > 0 && (
+                                <span style={{ color: 'var(--gold)', fontSize: '0.75rem', marginLeft: 4 }}>({evt.pending_count ?? 0} pending)</span>
                               )}
                             </td>
                             <td>
@@ -1246,7 +1246,7 @@ export default function AdminConsolePage() {
                       <option value="">— Choose an event —</option>
                       {events.map(evt => (
                         <option key={evt.id} value={evt.id}>
-                          {evt.title} ({evt.total_registrations} registrations, {evt.pending_count} pending)
+                          {evt.title} ({evt.total_registrations ?? 0} registrations, {evt.pending_count ?? 0} pending)
                         </option>
                       ))}
                     </select>
