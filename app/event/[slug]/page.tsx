@@ -302,9 +302,7 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
               <h1 className="event-title">{event.title}</h1>
               {event.event_date && (
                 <div className="event-date">
-                  {new Date(event.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                  {' at '}
-                  {new Date(event.event_date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                  {new Date(event.event_date).toLocaleString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo' })}
                 </div>
               )}
               {event.description && <p className="event-desc">{event.description}</p>}

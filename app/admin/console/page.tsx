@@ -431,6 +431,11 @@ export default function AdminConsolePage() {
   const [evtZoom, setEvtZoom] = useState('')
   const [evtMax, setEvtMax] = useState('')
   const [evtCreating, setEvtCreating] = useState(false)
+  // Inline event editing
+  const [editingEventId, setEditingEventId] = useState<string | null>(null)
+  const [editZoom, setEditZoom] = useState('')
+  const [editDate, setEditDate] = useState('')
+  const [editSaving, setEditSaving] = useState(false)
 
   const showToast = useCallback((message: string, type: 'success' | 'error' = 'success') => {
     setToast({ visible: true, message, type })
@@ -691,9 +696,35 @@ export default function AdminConsolePage() {
     setEvtCreating(false)
   }
 
+  function startEditEvent(evt: EventRecord) {
+    setEditingEventId(evt.id)
+    setEditZoom(evt.zoom_link || '')
+    // Convert ISO date to datetime-local format
+    setEditDate(evt.event_date ? new Date(evt.event_date).toISOString().slice(0, 16) : '')
+  }
+
+  async function saveEditEvent() {
+    if (!editingEventId) return
+    setEditSaving(true)
+    const { error } = await supabase
+      .from('events')
+      .update({
+        zoom_link: editZoom.trim() || null,
+        event_date: editDate || null,
+      })
+      .eq('id', editingEventId)
+    if (error) {
+      showToast(`Failed to update event: ${error.message}`, 'error')
+    } else {
+      showToast('✅ Event updated')
+      setEditingEventId(null)
+      fetchEvents()
+    }
+    setEditSaving(false)
+  }
+
   async function handleEventRegAction(reg: EventRegistration, status: 'approved' | 'rejected', note?: string) {
     setActionLoading(reg.id)
-    const selectedEvent = events.find(e => e.id === reg.event_id)
 
     const updateData: Record<string, unknown> = { status }
     if (status === 'approved') updateData.approved_at = new Date().toISOString()
@@ -710,6 +741,13 @@ export default function AdminConsolePage() {
       return
     }
 
+    // Re-fetch the event to get the latest zoom_link (may have been updated via inline edit)
+    const { data: freshEvent } = await supabase
+      .from('events')
+      .select('title, zoom_link')
+      .eq('id', reg.event_id)
+      .single()
+
     // Send email
     fetch('/api/send-event-approval', {
       method: 'POST',
@@ -717,8 +755,8 @@ export default function AdminConsolePage() {
       body: JSON.stringify({
         email: reg.email,
         full_name: reg.full_name,
-        event_title: selectedEvent?.title || 'Event',
-        zoom_link: selectedEvent?.zoom_link || null,
+        event_title: freshEvent?.title || 'Event',
+        zoom_link: freshEvent?.zoom_link || null,
         status,
         status_note: note || null,
       }),
@@ -969,6 +1007,115 @@ export default function AdminConsolePage() {
           {/* ─── Events ─── */}
           {activeTab === 'events' && (
             <>
+              {/* Upcoming Events Overview */}
+              <div className="card" style={{ marginBottom: 24 }}>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 600, color: '#d4a537', marginBottom: 16 }}>
+                  Upcoming Events
+                </div>
+                {events.length === 0 ? (
+                  <div className="empty-state">No events created yet</div>
+                ) : (
+                  <div style={{ overflow: 'auto' }}>
+                    <table className="data-table">
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Slug</th>
+                          <th className="hide-mobile">Date</th>
+                          <th className="hide-mobile">Zoom Link</th>
+                          <th>Registrations</th>
+                          <th>Status</th>
+                          <th style={{ textAlign: 'right' }}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {events.map(evt => (
+                          <tr key={evt.id}>
+                            <td style={{ fontWeight: 500 }}>{evt.title}</td>
+                            <td>
+                              <a href={`https://www.primeverseaccess.com/event/${evt.slug}`} target="_blank" rel="noopener noreferrer" className="td-link">
+                                /event/{evt.slug}
+                              </a>
+                            </td>
+                            <td className="td-secondary hide-mobile">
+                              {evt.event_date
+                                ? new Date(evt.event_date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo' })
+                                : <span style={{ color: '#f87171' }}>Not set</span>
+                              }
+                            </td>
+                            <td className="td-secondary hide-mobile" style={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {evt.zoom_link
+                                ? <a href={evt.zoom_link} target="_blank" rel="noopener noreferrer" className="td-link" title={evt.zoom_link}>{evt.zoom_link.replace(/^https?:\/\//, '').slice(0, 30)}</a>
+                                : <span style={{ color: '#f87171', fontWeight: 500 }}>Not set</span>
+                              }
+                            </td>
+                            <td>
+                              <span style={{ color: 'var(--text-primary)' }}>{evt.registration_counts.total}</span>
+                              {evt.registration_counts.pending > 0 && (
+                                <span style={{ color: 'var(--gold)', fontSize: '0.75rem', marginLeft: 4 }}>({evt.registration_counts.pending} pending)</span>
+                              )}
+                            </td>
+                            <td>
+                              <span className={`badge ${evt.is_active ? 'badge-approved' : 'badge-rejected'}`}>
+                                {evt.is_active ? 'Active' : 'Inactive'}
+                              </span>
+                            </td>
+                            <td style={{ textAlign: 'right' }}>
+                              <button
+                                onClick={() => editingEventId === evt.id ? setEditingEventId(null) : startEditEvent(evt)}
+                                className="btn-outline"
+                                style={{ padding: '5px 12px', fontSize: '0.72rem' }}
+                              >
+                                {editingEventId === evt.id ? 'Cancel' : 'Edit'}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+
+                    {/* Inline edit form */}
+                    {editingEventId && (() => {
+                      const evt = events.find(e => e.id === editingEventId)
+                      if (!evt) return null
+                      return (
+                        <div className="reject-area">
+                          <div className="reject-label">Editing: {evt.title}</div>
+                          <div className="evt-form-row" style={{ marginTop: 8 }}>
+                            <div>
+                              <label className="evt-label">Zoom Link</label>
+                              <input
+                                className="evt-input"
+                                placeholder="https://zoom.us/j/..."
+                                value={editZoom}
+                                onChange={e => setEditZoom(e.target.value)}
+                              />
+                            </div>
+                            <div>
+                              <label className="evt-label">Event Date</label>
+                              <input
+                                className="evt-input"
+                                type="datetime-local"
+                                value={editDate}
+                                onChange={e => setEditDate(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          <div className="reject-actions">
+                            <button onClick={saveEditEvent} disabled={editSaving} className="btn-gold" style={{ padding: '6px 16px', fontSize: '0.78rem' }}>
+                              {editSaving ? <><span className="spinner" /> Saving...</> : 'Save Changes'}
+                            </button>
+                            <button onClick={() => setEditingEventId(null)} className="btn-outline">
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    })()}
+                  </div>
+                )}
+              </div>
+
               {/* Create Event Form */}
               <div className="card" style={{ marginBottom: 24 }}>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 600, color: '#d4a537', marginBottom: 16 }}>
