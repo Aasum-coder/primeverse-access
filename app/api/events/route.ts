@@ -17,32 +17,37 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    // Get registration counts per event
-    const eventIds = (events || []).map(e => e.id)
+    // Use head:true with count:'exact' to get accurate counts without row limits
+    const eventsWithCounts = await Promise.all(
+      (events || []).map(async (e) => {
+        const [totalRes, pendingRes] = await Promise.all([
+          supabaseAdmin
+            .from('event_registrations')
+            .select('*', { count: 'exact', head: true })
+            .eq('event_id', e.id),
+          supabaseAdmin
+            .from('event_registrations')
+            .select('*', { count: 'exact', head: true })
+            .eq('event_id', e.id)
+            .eq('status', 'pending'),
+        ])
 
-    let regCounts: Record<string, { total: number; pending: number; approved: number; rejected: number }> = {}
+        const total_registrations = totalRes.count ?? 0
+        const pending_count = pendingRes.count ?? 0
 
-    if (eventIds.length > 0) {
-      const { data: regs } = await supabaseAdmin
-        .from('event_registrations')
-        .select('event_id, status')
-        .in('event_id', eventIds)
-
-      for (const reg of (regs || [])) {
-        if (!regCounts[reg.event_id]) {
-          regCounts[reg.event_id] = { total: 0, pending: 0, approved: 0, rejected: 0 }
+        return {
+          ...e,
+          total_registrations,
+          pending_count,
+          registration_counts: {
+            total: total_registrations,
+            pending: pending_count,
+            approved: 0,
+            rejected: 0,
+          },
         }
-        regCounts[reg.event_id].total++
-        if (reg.status === 'pending') regCounts[reg.event_id].pending++
-        else if (reg.status === 'approved') regCounts[reg.event_id].approved++
-        else if (reg.status === 'rejected') regCounts[reg.event_id].rejected++
-      }
-    }
-
-    const eventsWithCounts = (events || []).map(e => ({
-      ...e,
-      registration_counts: regCounts[e.id] || { total: 0, pending: 0, approved: 0, rejected: 0 },
-    }))
+      })
+    )
 
     return NextResponse.json({ events: eventsWithCounts })
   } catch (err: any) {

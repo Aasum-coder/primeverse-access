@@ -42,6 +42,8 @@ type EventRecord = {
   max_attendees: number | null
   is_active: boolean
   created_at: string
+  total_registrations: number
+  pending_count: number
   registration_counts: { total: number; pending: number; approved: number; rejected: number }
 }
 
@@ -1234,18 +1236,28 @@ export default function AdminConsolePage() {
                 {/* Event selector dropdown */}
                 <div style={{ marginBottom: 16 }}>
                   <label className="evt-label">Select Event</label>
-                  <select
-                    className="evt-select"
-                    value={selectedEventId || ''}
-                    onChange={e => setSelectedEventId(e.target.value || null)}
-                  >
-                    <option value="">— Choose an event —</option>
-                    {events.map(evt => (
-                      <option key={evt.id} value={evt.id}>
-                        {evt.title} ({evt.registration_counts.total} registrations, {evt.registration_counts.pending} pending)
-                      </option>
-                    ))}
-                  </select>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <select
+                      className="evt-select"
+                      style={{ flex: 1 }}
+                      value={selectedEventId || ''}
+                      onChange={e => setSelectedEventId(e.target.value || null)}
+                    >
+                      <option value="">— Choose an event —</option>
+                      {events.map(evt => (
+                        <option key={evt.id} value={evt.id}>
+                          {evt.title} ({evt.total_registrations} registrations, {evt.pending_count} pending)
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={() => fetchEvents()}
+                      className="btn-outline"
+                      style={{ padding: '7px 14px', fontSize: '0.75rem', whiteSpace: 'nowrap' }}
+                    >
+                      Refresh
+                    </button>
+                  </div>
                 </div>
 
                 {selectedEventId && (
