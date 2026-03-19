@@ -641,18 +641,37 @@ export default function AdminConsolePage() {
 
   // ─── Events functions ───
 
-  const fetchEvents = useCallback(async () => {
-    try {
-      const res = await fetch('/api/events')
-      if (res.ok) {
-        const data = await res.json()
-        console.log('Events API response:', JSON.stringify(data, null, 2))
-        const eventsArray = Array.isArray(data) ? data : (data?.events ?? [])
-        console.log('First event:', JSON.stringify(eventsArray[0], null, 2))
-        setEvents(eventsArray.filter(Boolean))
-      }
-    } catch { /* ignore */ }
-  }, [])
+  const fetchEvents = async () => {
+    const { data: eventsData } = await supabase
+      .from('events')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (!eventsData) return
+
+    const eventsWithCounts = await Promise.all(
+      eventsData.map(async (event) => {
+        const { count: total } = await supabase
+          .from('event_registrations')
+          .select('*', { count: 'exact', head: true })
+          .eq('event_id', event.id)
+
+        const { count: pending } = await supabase
+          .from('event_registrations')
+          .select('*', { count: 'exact', head: true })
+          .eq('event_id', event.id)
+          .eq('status', 'pending')
+
+        return {
+          ...event,
+          total_registrations: total ?? 0,
+          pending_count: pending ?? 0
+        }
+      })
+    )
+
+    setEvents(eventsWithCounts)
+  }
 
   const fetchEventRegs = useCallback(async (eventId: string) => {
     setEventRegsLoading(true)
@@ -667,7 +686,7 @@ export default function AdminConsolePage() {
 
   useEffect(() => {
     if (activeTab === 'events' && authorized) fetchEvents()
-  }, [activeTab, authorized, fetchEvents])
+  }, [activeTab, authorized])
 
   useEffect(() => {
     if (selectedEventId) fetchEventRegs(selectedEventId)
