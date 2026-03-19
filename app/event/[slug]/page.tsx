@@ -196,6 +196,7 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
   const [uid, setUid] = useState('')
   const [nameError, setNameError] = useState(false)
   const [emailError, setEmailError] = useState(false)
+  const [uidError, setUidError] = useState(false)
   const [formError, setFormError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -223,10 +224,12 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
     setFormError('')
     setNameError(false)
     setEmailError(false)
+    setUidError(false)
 
     let hasError = false
     if (!fullName.trim()) { setNameError(true); hasError = true }
     if (!email.trim()) { setEmailError(true); hasError = true }
+    if (!uid.trim()) { setUidError(true); hasError = true }
     if (hasError) return
 
     if (!event) return
@@ -238,7 +241,7 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
         event_id: event.id,
         full_name: fullName.trim(),
         email: email.trim().toLowerCase(),
-        uid: uid.trim() || null,
+        uid: uid.trim(),
         status: 'pending',
       })
 
@@ -299,9 +302,7 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
               <h1 className="event-title">{event.title}</h1>
               {event.event_date && (
                 <div className="event-date">
-                  {new Date(event.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                  {' at '}
-                  {new Date(event.event_date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                  {new Date(event.event_date).toLocaleString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo' })}
                 </div>
               )}
               {event.description && <p className="event-desc">{event.description}</p>}
@@ -338,22 +339,23 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
               </div>
 
               <div className="field">
-                <label className="field-label" htmlFor="reg-uid">PuPrime UID (optional)</label>
+                <label className="field-label" htmlFor="reg-uid">PuPrime UID *</label>
                 <input
                   id="reg-uid"
-                  className="field-input"
+                  className={`field-input${uidError ? ' field-input-error' : ''}`}
                   type="text"
                   value={uid}
-                  onChange={e => setUid(e.target.value)}
+                  onChange={e => { setUid(e.target.value); setUidError(false) }}
                   placeholder="Your PuPrime UID"
                   onKeyDown={e => e.key === 'Enter' && handleSubmit()}
                 />
+                {uidError && <p className="field-error">This field is required</p>}
               </div>
 
               <button
                 className="gold-btn"
                 onClick={handleSubmit}
-                disabled={submitting}
+                disabled={submitting || !uid.trim()}
               >
                 {submitting ? <><span className="spinner" /> Registering...</> : 'Register Now'}
               </button>
