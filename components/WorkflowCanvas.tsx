@@ -519,7 +519,7 @@ function WorkflowCanvasInner({
 
       let wfId: string
       if (workflow?.id) {
-        const { error: updateError } = await supabase.from('email_workflows').update(wfData).eq('id', workflow.id)
+        const { error: updateError } = await supabase.from('email_workflows').update(wfData).eq('id', workflow.id).eq('owner_id', user.id)
         if (updateError) {
           console.error('Workflow save error:', JSON.stringify(updateError))
           showToast(t.wfSaveError || 'Failed to update workflow')
