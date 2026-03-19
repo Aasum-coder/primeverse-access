@@ -4594,7 +4594,8 @@ export default function Home() {
 
       if (!dist) {
         // 3. No row at all — create one (no slug or landing_active until profile is completed)
-        const { data: newDist, error } = await supabase.from('distributors').insert({ email, user_id: userId, ib_status: 'pending', landing_active: false }).select().maybeSingle()
+        const metaName = userData.user?.user_metadata?.full_name || ''
+        const { data: newDist, error } = await supabase.from('distributors').insert({ email, user_id: userId, name: metaName || null, ib_status: 'pending', landing_active: false }).select().maybeSingle()
         if (error) {
           console.error('Failed to create distributor:', error.message, '| code:', error.code, '| details:', error.details, '| hint:', error.hint)
           showToast(t.errorPrefix + error.message)

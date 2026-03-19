@@ -13,6 +13,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "Email address",
     password: "Password",
     confirmPassword: "Confirm password",
+    fullName: "Full name",
+    fullNamePlaceholder: "Your full name",
+    errorNameRequired: "This field is required",
     login: "Sign In",
     signup: "Create Account",
     reset: "Reset Password",
@@ -40,6 +43,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "E-postadresse",
     password: "Passord",
     confirmPassword: "Bekreft passord",
+    fullName: "Fullt navn",
+    fullNamePlaceholder: "Ditt fulle navn",
+    errorNameRequired: "Dette feltet er obligatorisk",
     login: "Logg inn",
     signup: "Opprett konto",
     reset: "Tilbakestill passord",
@@ -67,6 +73,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "E-postadress",
     password: "Lösenord",
     confirmPassword: "Bekräfta lösenord",
+    fullName: "Fullständigt namn",
+    fullNamePlaceholder: "Ditt fullständiga namn",
+    errorNameRequired: "Det här fältet är obligatoriskt",
     login: "Logga in",
     signup: "Skapa konto",
     reset: "Återställ lösenord",
@@ -94,6 +103,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "Correo electrónico",
     password: "Contraseña",
     confirmPassword: "Confirmar contraseña",
+    fullName: "Nombre completo",
+    fullNamePlaceholder: "Tu nombre completo",
+    errorNameRequired: "Este campo es obligatorio",
     login: "Iniciar sesión",
     signup: "Crear cuenta",
     reset: "Restablecer contraseña",
@@ -121,6 +133,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "Электронная почта",
     password: "Пароль",
     confirmPassword: "Подтвердите пароль",
+    fullName: "Полное имя",
+    fullNamePlaceholder: "Ваше полное имя",
+    errorNameRequired: "Это поле обязательно для заполнения",
     login: "Войти",
     signup: "Создать аккаунт",
     reset: "Сбросить пароль",
@@ -148,6 +163,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "البريد الإلكتروني",
     password: "كلمة المرور",
     confirmPassword: "تأكيد كلمة المرور",
+    fullName: "الاسم الكامل",
+    fullNamePlaceholder: "اسمك الكامل",
+    errorNameRequired: "هذا الحقل مطلوب",
     login: "تسجيل الدخول",
     signup: "إنشاء حساب",
     reset: "إعادة تعيين كلمة المرور",
@@ -175,6 +193,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "Email address",
     password: "Password",
     confirmPassword: "Kumpirmahin ang password",
+    fullName: "Buong pangalan",
+    fullNamePlaceholder: "Ang iyong buong pangalan",
+    errorNameRequired: "Kinakailangan ang field na ito",
     login: "Mag-sign in",
     signup: "Gumawa ng account",
     reset: "I-reset ang password",
@@ -202,6 +223,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "Endereço de e-mail",
     password: "Senha",
     confirmPassword: "Confirmar senha",
+    fullName: "Nome completo",
+    fullNamePlaceholder: "Seu nome completo",
+    errorNameRequired: "Este campo é obrigatório",
     login: "Entrar",
     signup: "Criar conta",
     reset: "Redefinir senha",
@@ -229,6 +253,9 @@ const translations: Record<string, Record<string, string>> = {
     email: "อีเมล",
     password: "รหัสผ่าน",
     confirmPassword: "ยืนยันรหัสผ่าน",
+    fullName: "ชื่อ-นามสกุล",
+    fullNamePlaceholder: "ชื่อเต็มของคุณ",
+    errorNameRequired: "จำเป็นต้องกรอกช่องนี้",
     login: "เข้าสู่ระบบ",
     signup: "สร้างบัญชี",
     reset: "รีเซ็ตรหัสผ่าน",
@@ -768,6 +795,8 @@ function LoginPageInner() {
   const [lang, setLang] = useState("en");
   const [langOpen, setLangOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [nameError, setNameError] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
   const [loading, setLoading] = useState(false);
@@ -817,6 +846,8 @@ function LoginPageInner() {
   const switchMode = (m: AuthMode) => {
     setMode(m);
     clearMessages();
+    setFullName("");
+    setNameError(false);
     setPassword("");
     setConfirmPw("");
   };
@@ -852,6 +883,11 @@ function LoginPageInner() {
 
   const handleSignup = async () => {
     clearMessages();
+    setNameError(false);
+    if (!fullName.trim()) {
+      setNameError(true);
+      return;
+    }
     if (!email || !password) {
       setError(t.errorGeneric);
       return;
@@ -866,7 +902,7 @@ function LoginPageInner() {
     }
     setLoading(true);
     try {
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName.trim() } } });
       if (error) {
         const msg = error.message?.toLowerCase() ?? "";
         if (msg.includes("fetch") || msg.includes("network") || error.status === 0) {
@@ -1014,6 +1050,28 @@ function LoginPageInner() {
                 onKeyDown={(e) => e.key === "Enter" && onSubmit()}
               />
             </div>
+
+            {/* Full Name (signup only) */}
+            {mode === "signup" && (
+              <div className="field">
+                <label className="field-label" htmlFor="login-fullname">{t.fullName}</label>
+                <input
+                  id="login-fullname"
+                  className="field-input"
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => { setFullName(e.target.value); setNameError(false); }}
+                  placeholder={t.fullNamePlaceholder}
+                  autoComplete="name"
+                  aria-required="true"
+                  aria-invalid={nameError}
+                  onKeyDown={(e) => e.key === "Enter" && onSubmit()}
+                />
+                {nameError && (
+                  <p style={{ margin: "0.35rem 0 0", fontSize: "0.75rem", color: "var(--error-color)" }}>{t.errorNameRequired}</p>
+                )}
+              </div>
+            )}
 
             {/* Password (login + signup) */}
             {mode !== "reset" && (
