@@ -32,7 +32,32 @@ type AdminUser = {
   granted_at: string
 }
 
-type Tab = 'overview' | 'pending' | 'upgrade'
+type EventRecord = {
+  id: string
+  slug: string
+  title: string
+  description: string | null
+  event_date: string | null
+  zoom_link: string | null
+  max_attendees: number | null
+  is_active: boolean
+  created_at: string
+  registration_counts: { total: number; pending: number; approved: number; rejected: number }
+}
+
+type EventRegistration = {
+  id: string
+  event_id: string
+  full_name: string
+  email: string
+  uid: string | null
+  status: string
+  status_note: string | null
+  approved_at: string | null
+  created_at: string
+}
+
+type Tab = 'overview' | 'pending' | 'upgrade' | 'events'
 
 function buildApprovalEmail(name: string): string {
   return `<!DOCTYPE html>
@@ -205,6 +230,31 @@ const styles = `
   }
   .badge-approved { background: rgba(74,157,90,0.12); color: #6dc07f; border: 1px solid rgba(74,157,90,0.25); }
   .badge-pending { background: rgba(212,165,55,0.08); color: var(--gold-light); border: 1px solid rgba(212,165,55,0.2); }
+  .badge-rejected { background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+
+  .evt-form { display: grid; gap: 14px; margin-bottom: 24px; }
+  .evt-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .evt-label {
+    display: block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px;
+  }
+  .evt-input {
+    width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
+    border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.85rem;
+    font-family: 'Outfit', sans-serif; outline: none;
+  }
+  .evt-input:focus { border-color: rgba(212,165,55,0.5); }
+  .evt-input::placeholder { color: var(--text-dim); }
+  .evt-select {
+    width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
+    border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.85rem;
+    font-family: 'Outfit', sans-serif; outline: none; cursor: pointer;
+  }
+  .evt-select option { background: #0a0a0a; color: var(--text-primary); }
+
+  @media (max-width: 768px) {
+    .evt-form-row { grid-template-columns: 1fr; }
+  }
 
   .card {
     background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px;
@@ -365,6 +415,22 @@ export default function AdminConsolePage() {
   const [upgradeModal, setUpgradeModal] = useState<Distributor | null>(null)
   const [toast, setToast] = useState({ visible: false, message: '', type: 'success' as 'success' | 'error' })
   const [actionLoading, setActionLoading] = useState<string | null>(null)
+
+  // Events state
+  const [events, setEvents] = useState<EventRecord[]>([])
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null)
+  const [eventRegs, setEventRegs] = useState<EventRegistration[]>([])
+  const [eventRegsLoading, setEventRegsLoading] = useState(false)
+  const [evtRejectingId, setEvtRejectingId] = useState<string | null>(null)
+  const [evtRejectReason, setEvtRejectReason] = useState('')
+  // Create event form
+  const [evtTitle, setEvtTitle] = useState('')
+  const [evtSlug, setEvtSlug] = useState('')
+  const [evtDesc, setEvtDesc] = useState('')
+  const [evtDate, setEvtDate] = useState('')
+  const [evtZoom, setEvtZoom] = useState('')
+  const [evtMax, setEvtMax] = useState('')
+  const [evtCreating, setEvtCreating] = useState(false)
 
   const showToast = useCallback((message: string, type: 'success' | 'error' = 'success') => {
     setToast({ visible: true, message, type })
@@ -567,6 +633,106 @@ export default function AdminConsolePage() {
     setActionLoading(null)
   }
 
+  // ─── Events functions ───
+
+  const fetchEvents = useCallback(async () => {
+    try {
+      const res = await fetch('/api/events')
+      if (res.ok) {
+        const data = await res.json()
+        setEvents(data.events || [])
+      }
+    } catch { /* ignore */ }
+  }, [])
+
+  const fetchEventRegs = useCallback(async (eventId: string) => {
+    setEventRegsLoading(true)
+    const { data, error } = await supabase
+      .from('event_registrations')
+      .select('*')
+      .eq('event_id', eventId)
+      .order('created_at', { ascending: false })
+    if (!error) setEventRegs(data || [])
+    setEventRegsLoading(false)
+  }, [])
+
+  useEffect(() => {
+    if (activeTab === 'events' && authorized) fetchEvents()
+  }, [activeTab, authorized, fetchEvents])
+
+  useEffect(() => {
+    if (selectedEventId) fetchEventRegs(selectedEventId)
+  }, [selectedEventId, fetchEventRegs])
+
+  async function handleCreateEvent() {
+    if (!evtTitle.trim() || !evtSlug.trim()) {
+      showToast('Title and slug are required', 'error')
+      return
+    }
+    setEvtCreating(true)
+    const { error } = await supabase.from('events').insert({
+      title: evtTitle.trim(),
+      slug: evtSlug.trim().toLowerCase().replace(/[^a-z0-9-]/g, ''),
+      description: evtDesc.trim() || null,
+      event_date: evtDate || null,
+      zoom_link: evtZoom.trim() || null,
+      max_attendees: evtMax ? parseInt(evtMax) : null,
+      is_active: true,
+      created_by: userEmail,
+    })
+    if (error) {
+      if (error.code === '23505') showToast('An event with this slug already exists', 'error')
+      else showToast(`Failed to create event: ${error.message}`, 'error')
+    } else {
+      showToast('✅ Event created')
+      setEvtTitle(''); setEvtSlug(''); setEvtDesc(''); setEvtDate(''); setEvtZoom(''); setEvtMax('')
+      fetchEvents()
+    }
+    setEvtCreating(false)
+  }
+
+  async function handleEventRegAction(reg: EventRegistration, status: 'approved' | 'rejected', note?: string) {
+    setActionLoading(reg.id)
+    const selectedEvent = events.find(e => e.id === reg.event_id)
+
+    const updateData: Record<string, unknown> = { status }
+    if (status === 'approved') updateData.approved_at = new Date().toISOString()
+    if (note) updateData.status_note = note
+
+    const { error } = await supabase
+      .from('event_registrations')
+      .update(updateData)
+      .eq('id', reg.id)
+
+    if (error) {
+      showToast(`Failed to update: ${error.message}`, 'error')
+      setActionLoading(null)
+      return
+    }
+
+    // Send email
+    fetch('/api/send-event-approval', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: reg.email,
+        full_name: reg.full_name,
+        event_title: selectedEvent?.title || 'Event',
+        zoom_link: selectedEvent?.zoom_link || null,
+        status,
+        status_note: note || null,
+      }),
+    }).catch(() => {})
+
+    // Optimistic update
+    setEventRegs(prev => prev.map(r => r.id === reg.id ? { ...r, status, status_note: note || r.status_note, approved_at: status === 'approved' ? new Date().toISOString() : r.approved_at } : r))
+    setEvtRejectingId(null)
+    setEvtRejectReason('')
+    showToast(status === 'approved' ? `✅ ${reg.full_name} approved` : `${reg.full_name} rejected`)
+    setActionLoading(null)
+    fetchEvents() // refresh counts
+  }
+
   if (loading) {
     return (
       <>
@@ -610,6 +776,7 @@ export default function AdminConsolePage() {
     { key: 'overview', label: 'IB Overview' },
     { key: 'pending', label: `Pending (${pendingIBs.length})` },
     { key: 'upgrade', label: 'Upgrade to Admin' },
+    { key: 'events', label: 'Events' },
   ]
 
   return (
@@ -796,6 +963,213 @@ export default function AdminConsolePage() {
                   </div>
                 )
               })}
+            </>
+          )}
+
+          {/* ─── Events ─── */}
+          {activeTab === 'events' && (
+            <>
+              {/* Create Event Form */}
+              <div className="card" style={{ marginBottom: 24 }}>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 600, color: '#d4a537', marginBottom: 16 }}>
+                  Create New Event
+                </div>
+                <div className="evt-form">
+                  <div className="evt-form-row">
+                    <div>
+                      <label className="evt-label">Title *</label>
+                      <input
+                        className="evt-input"
+                        placeholder="e.g. SYSTM8 Launch Call"
+                        value={evtTitle}
+                        onChange={e => {
+                          setEvtTitle(e.target.value)
+                          if (!evtSlug || evtSlug === evtTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')) {
+                            setEvtSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''))
+                          }
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label className="evt-label">Slug *</label>
+                      <input
+                        className="evt-input"
+                        placeholder="launch-call"
+                        value={evtSlug}
+                        onChange={e => setEvtSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="evt-label">Description</label>
+                    <textarea
+                      className="evt-input"
+                      placeholder="What is this event about?"
+                      value={evtDesc}
+                      onChange={e => setEvtDesc(e.target.value)}
+                      rows={2}
+                      style={{ resize: 'none' }}
+                    />
+                  </div>
+                  <div className="evt-form-row">
+                    <div>
+                      <label className="evt-label">Event Date</label>
+                      <input
+                        className="evt-input"
+                        type="datetime-local"
+                        value={evtDate}
+                        onChange={e => setEvtDate(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="evt-label">Zoom Link</label>
+                      <input
+                        className="evt-input"
+                        placeholder="https://zoom.us/j/..."
+                        value={evtZoom}
+                        onChange={e => setEvtZoom(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ maxWidth: 200 }}>
+                    <label className="evt-label">Max Attendees</label>
+                    <input
+                      className="evt-input"
+                      type="number"
+                      placeholder="Optional"
+                      value={evtMax}
+                      onChange={e => setEvtMax(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      className="btn-gold"
+                      onClick={handleCreateEvent}
+                      disabled={evtCreating || !evtTitle.trim() || !evtSlug.trim()}
+                    >
+                      {evtCreating ? <><span className="spinner" /> Creating...</> : 'Create Event'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Event Registrations */}
+              <div className="card">
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 600, color: '#d4a537', marginBottom: 16 }}>
+                  Event Registrations
+                </div>
+
+                {/* Event selector dropdown */}
+                <div style={{ marginBottom: 16 }}>
+                  <label className="evt-label">Select Event</label>
+                  <select
+                    className="evt-select"
+                    value={selectedEventId || ''}
+                    onChange={e => setSelectedEventId(e.target.value || null)}
+                  >
+                    <option value="">— Choose an event —</option>
+                    {events.map(evt => (
+                      <option key={evt.id} value={evt.id}>
+                        {evt.title} ({evt.registration_counts.total} registrations, {evt.registration_counts.pending} pending)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {selectedEventId && (
+                  <>
+                    {eventRegsLoading ? (
+                      <div className="empty-state"><span className="spinner" /></div>
+                    ) : eventRegs.length === 0 ? (
+                      <div className="empty-state">No registrations yet</div>
+                    ) : (
+                      <div style={{ overflow: 'auto' }}>
+                        <table className="data-table">
+                          <thead>
+                            <tr>
+                              <th>Full Name</th>
+                              <th>Email</th>
+                              <th className="hide-mobile">UID</th>
+                              <th>Registered</th>
+                              <th>Status</th>
+                              <th style={{ textAlign: 'right' }}>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {eventRegs.map(reg => (
+                              <tr key={reg.id}>
+                                <td>{reg.full_name}</td>
+                                <td className="td-secondary">{reg.email}</td>
+                                <td className="td-mono hide-mobile">{reg.uid || '—'}</td>
+                                <td className="td-secondary">{new Date(reg.created_at).toLocaleDateString()}</td>
+                                <td>
+                                  <span className={`badge ${reg.status === 'approved' ? 'badge-approved' : reg.status === 'rejected' ? 'badge-rejected' : 'badge-pending'}`}>
+                                    {reg.status}
+                                  </span>
+                                </td>
+                                <td style={{ textAlign: 'right' }}>
+                                  {reg.status === 'pending' && (
+                                    <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                                      <button
+                                        onClick={() => handleEventRegAction(reg, 'approved')}
+                                        disabled={actionLoading === reg.id}
+                                        className="btn-approve"
+                                        style={{ padding: '5px 12px', fontSize: '0.72rem' }}
+                                      >
+                                        {actionLoading === reg.id ? <span className="spinner" /> : null} Approve
+                                      </button>
+                                      <button
+                                        onClick={() => { setEvtRejectingId(reg.id); setEvtRejectReason('') }}
+                                        className="btn-reject"
+                                        style={{ padding: '5px 12px', fontSize: '0.72rem' }}
+                                      >
+                                        Reject
+                                      </button>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+
+                        {/* Inline reject reason */}
+                        {evtRejectingId && (() => {
+                          const reg = eventRegs.find(r => r.id === evtRejectingId)
+                          if (!reg) return null
+                          return (
+                            <div className="reject-area">
+                              <div className="reject-label">Rejection reason for {reg.full_name}</div>
+                              <textarea
+                                value={evtRejectReason}
+                                onChange={e => setEvtRejectReason(e.target.value)}
+                                placeholder="Enter the reason for rejection..."
+                                className="reject-input"
+                                rows={2}
+                              />
+                              <div className="reject-actions">
+                                <button
+                                  onClick={() => handleEventRegAction(reg, 'rejected', evtRejectReason)}
+                                  disabled={actionLoading === reg.id}
+                                  className="btn-reject"
+                                >
+                                  {actionLoading === reg.id ? <span className="spinner" /> : null} Confirm Reject
+                                </button>
+                                <button
+                                  onClick={() => { setEvtRejectingId(null); setEvtRejectReason('') }}
+                                  className="btn-outline"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          )
+                        })()}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
             </>
           )}
         </div>
