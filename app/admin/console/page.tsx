@@ -475,12 +475,13 @@ export default function AdminConsolePage() {
         console.log('First event:', JSON.stringify(eventsArray[0], null, 2))
         setEvents(eventsArray.filter(Boolean))
       }
-    } catch { /* ignore */ }
+    } catch (_err) { /* ignore */ }
   }, [])
 
   useEffect(() => {
     async function checkAuth() {
-      const { data: { user }, error } = await supabase.auth.getUser()
+      const { data, error } = await supabase.auth.getUser()
+      const user = data?.user
       if (error || !user) {
         router.push('/login')
         return
@@ -509,7 +510,11 @@ export default function AdminConsolePage() {
       setUserEmail(user.email || '')
       setAuthorized(true)
       setLoading(false)
-      await Promise.all([fetchData(), fetchEvents()])
+      try {
+        await Promise.all([fetchData(), fetchEvents()])
+      } catch (_err) {
+        console.error('Failed to load initial data:', _err)
+      }
     }
     checkAuth()
   }, [router, fetchData, fetchEvents])
