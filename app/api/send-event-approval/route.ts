@@ -5,10 +5,24 @@ const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
 const SYSTM8_LOGO = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png'
 
-function buildEventApprovalEmail(full_name: string, event_title: string, zoom_link: string | null): string {
+function formatEventDateCET(dateStr: string | null): string {
+  if (!dateStr) return ''
+  const d = new Date(dateStr)
+  const formatted = d.toLocaleString('en-GB', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'
+  })
+  return formatted
+}
+
+function buildEventApprovalEmail(full_name: string, event_title: string, zoom_link: string | null, event_date: string | null): string {
   const zoomButton = zoom_link
     ? `<a href="${zoom_link}" style="display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#c9a227,#e8c975,#d4a537,#c9a227);color:#0a0804;font-weight:700;font-size:14px;text-decoration:none;border-radius:8px;letter-spacing:0.04em;">JOIN ZOOM CALL</a>`
     : '<p style="font-size:13px;color:#9a917e;">The meeting link will be shared closer to the event date.</p>'
+
+  const dateBlock = event_date
+    ? `<p style="font-size:15px;color:#d4a537;line-height:1.7;margin:0 0 20px;">📅 ${formatEventDateCET(event_date)} — CET (Central European Time)</p>`
+    : ''
 
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
@@ -26,6 +40,7 @@ function buildEventApprovalEmail(full_name: string, event_title: string, zoom_li
       <p style="font-size:15px;color:#9a917e;line-height:1.7;margin:0 0 24px;">
         Your registration for <strong style="color:#d4a537;">${event_title}</strong> has been approved! You're all set to join.
       </p>
+      ${dateBlock}
       ${zoomButton}
       <p style="font-size:12px;color:#5a5347;margin-top:24px;line-height:1.6;">
         Need help? Contact your team leader or use the Report feature in your dashboard.
@@ -79,7 +94,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 
-  const { email, full_name, event_title, zoom_link, status, status_note } = body
+  const { email, full_name, event_title, zoom_link, status, status_note, event_date } = body
 
   if (!email || !event_title || !status) {
     return NextResponse.json({ error: 'Missing required fields: email, event_title, status' }, { status: 400 })
@@ -91,7 +106,7 @@ export async function POST(request: Request) {
         from: '1Move Academy <noreply@primeverseaccess.com>',
         to: [email],
         subject: `You're in! ${event_title} — Access Details Inside`,
-        html: buildEventApprovalEmail(full_name || '', event_title, zoom_link || null),
+        html: buildEventApprovalEmail(full_name || '', event_title, zoom_link || null, event_date || null),
       })
       if (error) {
         console.error('[send-event-approval] Resend error:', error)
