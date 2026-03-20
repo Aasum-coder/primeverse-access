@@ -7058,9 +7058,10 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
   }
   const start = startOf(period as 'day' | 'week' | 'month' | 'all')
   const filtered = start ? leads.filter(l => new Date(l.created_at) >= start) : leads
-  const registered = filtered.length
-  const approved = filtered.filter(l => l.uid_verified).length
-  const pending = filtered.filter(l => !l.uid_verified).length
+  // Always show totals for leads card and conversion rate (so older leads aren't hidden)
+  const registered = leads.length
+  const approved = leads.filter(l => l.uid_verified).length
+  const pending = leads.filter(l => !l.uid_verified).length
   const convRate = registered > 0 ? Math.round((approved / registered) * 100) : 0
 
   // Profile strength
