@@ -465,6 +465,19 @@ export default function AdminConsolePage() {
     setAdminUsers(admins || [])
   }, [])
 
+  const fetchEvents = useCallback(async () => {
+    try {
+      const res = await fetch('/api/events')
+      if (res.ok) {
+        const data = await res.json()
+        console.log('Events API response:', JSON.stringify(data, null, 2))
+        const eventsArray = Array.isArray(data) ? data : (data?.events ?? [])
+        console.log('First event:', JSON.stringify(eventsArray[0], null, 2))
+        setEvents(eventsArray.filter(Boolean))
+      }
+    } catch { /* ignore */ }
+  }, [])
+
   useEffect(() => {
     async function checkAuth() {
       const { data: { user }, error } = await supabase.auth.getUser()
@@ -496,10 +509,10 @@ export default function AdminConsolePage() {
       setUserEmail(user.email || '')
       setAuthorized(true)
       setLoading(false)
-      await fetchData()
+      await Promise.all([fetchData(), fetchEvents()])
     }
     checkAuth()
-  }, [router, fetchData])
+  }, [router, fetchData, fetchEvents])
 
   async function handleApprove(distributor: Distributor) {
     setActionLoading(distributor.id)
@@ -640,19 +653,6 @@ export default function AdminConsolePage() {
   }
 
   // ─── Events functions ───
-
-  const fetchEvents = useCallback(async () => {
-    try {
-      const res = await fetch('/api/events')
-      if (res.ok) {
-        const data = await res.json()
-        console.log('Events API response:', JSON.stringify(data, null, 2))
-        const eventsArray = Array.isArray(data) ? data : (data?.events ?? [])
-        console.log('First event:', JSON.stringify(eventsArray[0], null, 2))
-        setEvents(eventsArray.filter(Boolean))
-      }
-    } catch { /* ignore */ }
-  }, [])
 
   const fetchEventRegs = useCallback(async (eventId: string) => {
     setEventRegsLoading(true)
@@ -1069,7 +1069,9 @@ export default function AdminConsolePage() {
                               }
                             </td>
                             <td>
-                              <span style={{ color: 'var(--text-primary)' }}>{evt.total_registrations ?? 0}</span>
+                              <span style={{ color: 'var(--text-primary)' }}>
+                                {evt.total_registrations ?? 0}{evt.max_attendees ? ` / ${evt.max_attendees}` : ''}
+                              </span>
                               {(evt.pending_count ?? 0) > 0 && (
                                 <span style={{ color: 'var(--gold)', fontSize: '0.75rem', marginLeft: 4 }}>({evt.pending_count ?? 0} pending)</span>
                               )}
@@ -1248,7 +1250,7 @@ export default function AdminConsolePage() {
                       <option value="">— Choose an event —</option>
                       {events.map(evt => (
                         <option key={evt.id} value={evt.id}>
-                          {evt.title} ({evt.total_registrations ?? 0} registrations, {evt.pending_count ?? 0} pending)
+                          {evt.title} ({evt.total_registrations ?? 0}{evt.max_attendees ? ` / ${evt.max_attendees}` : ''} registered, {evt.pending_count ?? 0} pending)
                         </option>
                       ))}
                     </select>
