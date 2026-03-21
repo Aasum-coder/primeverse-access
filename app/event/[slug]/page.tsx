@@ -202,6 +202,11 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
+    document.documentElement.setAttribute('translate', 'no')
+    document.documentElement.setAttribute('lang', 'en')
+  }, [])
+
+  useEffect(() => {
     async function loadEvent() {
       const { data, error } = await supabase
         .from('events')
