@@ -177,60 +177,11 @@ const styles = `
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .cal-btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.65rem 1.25rem; margin: 0 auto 1.5rem; cursor: pointer;
-    border: 1.5px solid var(--gold); border-radius: 8px;
-    background: transparent; color: var(--gold);
-    font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 500;
-    letter-spacing: 0.04em; text-transform: uppercase;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-  }
-  .cal-btn:hover {
-    background: rgba(212, 165, 55, 0.1);
-    box-shadow: 0 4px 16px rgba(160, 120, 24, 0.2);
-  }
-
   @media (max-width: 480px) {
     .event-card { padding: 2rem 1.5rem; border-radius: 12px; }
     .event-title { font-size: 1.3rem; }
   }
 `
-
-function downloadICS(event: Event) {
-  if (!event.event_date) return
-  const start = new Date(event.event_date)
-  const end = new Date(start.getTime() + 60 * 60 * 1000) // 1 hour duration
-  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
-  const zoomLink = (event as any).zoom_link || ''
-  const ics = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//PrimeverseAccess//Event//EN',
-    'BEGIN:VEVENT',
-    `DTSTART:${fmt(start)}`,
-    `DTEND:${fmt(end)}`,
-    `SUMMARY:${event.title}`,
-    `DESCRIPTION:${(event.description || '').replace(/\n/g, '\\n')}`,
-    `LOCATION:${zoomLink}`,
-    'BEGIN:VALARM',
-    'TRIGGER:-PT60M',
-    'ACTION:DISPLAY',
-    'DESCRIPTION:Event starts in 1 hour',
-    'END:VALARM',
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ].join('\r\n')
-  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `${event.slug || 'event'}.ics`
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
-}
 
 export default function EventRegistrationPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
@@ -355,13 +306,6 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
                 </div>
               )}
               {event.description && <p className="event-desc">{event.description}</p>}
-              {event.event_date && (
-                <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                  <button className="cal-btn" onClick={() => downloadICS(event)}>
-                    📅 Add to Calendar
-                  </button>
-                </div>
-              )}
               <div className="event-divider" />
 
               {formError && <div className="msg-error">{formError}</div>}

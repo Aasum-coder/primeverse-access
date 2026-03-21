@@ -5,6 +5,29 @@ const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
 const SYSTM8_LOGO = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png'
 
+function buildICSContent(event_title: string, event_date: string, zoom_link: string | null): string {
+  const start = new Date(event_date)
+  const end = new Date(start.getTime() + 60 * 60 * 1000)
+  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+  return [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//SYSTM8//PrimeverseAccess//EN',
+    'BEGIN:VEVENT',
+    `DTSTART:${fmt(start)}`,
+    `DTEND:${fmt(end)}`,
+    `SUMMARY:${event_title}`,
+    `LOCATION:${zoom_link || ''}`,
+    'BEGIN:VALARM',
+    'TRIGGER:-PT60M',
+    'ACTION:DISPLAY',
+    'DESCRIPTION:Event starts in 1 hour',
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n')
+}
+
 function formatEventDateCET(dateStr: string | null): string {
   if (!dateStr) return ''
   const d = new Date(dateStr)
@@ -102,11 +125,18 @@ export async function POST(request: Request) {
 
   try {
     if (status === 'approved') {
+      const attachments: { filename: string; content: string }[] = []
+      if (event_date) {
+        const icsContent = buildICSContent(event_title, event_date, zoom_link || null)
+        const base64IcsContent = Buffer.from(icsContent).toString('base64')
+        attachments.push({ filename: 'SYSTM8-Launch-Call.ics', content: base64IcsContent })
+      }
       const { error } = await resend.emails.send({
         from: '1Move Academy <noreply@primeverseaccess.com>',
         to: [email],
         subject: `You're in! ${event_title} — Access Details Inside`,
         html: buildEventApprovalEmail(full_name || '', event_title, zoom_link || null, event_date || null),
+        attachments,
       })
       if (error) {
         console.error('[send-event-approval] Resend error:', error)
