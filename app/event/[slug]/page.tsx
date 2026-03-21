@@ -202,6 +202,11 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
+    document.documentElement.setAttribute('translate', 'no')
+    document.documentElement.setAttribute('lang', 'en')
+  }, [])
+
+  useEffect(() => {
     async function loadEvent() {
       const { data, error } = await supabase
         .from('events')
@@ -320,6 +325,7 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
                   onChange={e => { setFullName(e.target.value); setNameError(false) }}
                   placeholder="Your full name"
                   onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                  onFocus={e => setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300)}
                 />
                 {nameError && <p className="field-error">This field is required</p>}
               </div>
@@ -334,6 +340,7 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
                   onChange={e => { setEmail(e.target.value); setEmailError(false) }}
                   placeholder="name@example.com"
                   onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                  onFocus={e => setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300)}
                 />
                 {emailError && <p className="field-error">This field is required</p>}
               </div>
@@ -348,6 +355,7 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
                   onChange={e => { setUid(e.target.value); setUidError(false) }}
                   placeholder="Your PuPrime UID"
                   onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                  onFocus={e => setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300)}
                 />
                 {uidError && <p className="field-error">This field is required</p>}
               </div>
