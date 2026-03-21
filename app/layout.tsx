@@ -19,11 +19,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "1Move Academy Access Portal",
+  title: "SYSTM8 by 1Move",
   description: "Your gateway to the world's best trading community — powered by 1Move × PrimeVerse",
   manifest: '/manifest.json',
   icons: {
-    icon: logoUrl,
+    icon: '/favicon.ico',
     apple: logoUrl,
   },
   appleWebApp: {
@@ -32,15 +32,15 @@ export const metadata: Metadata = {
     title: 'SYSTM8',
   },
   openGraph: {
-    title: "1Move Academy Access Portal",
+    title: "SYSTM8 by 1Move",
     description: "Your gateway to the world's best trading community — powered by 1Move × PrimeVerse",
-    siteName: "1Move Academy",
-    images: [{ url: logoUrl, width: 512, height: 512, alt: '1Move Academy' }],
+    siteName: "SYSTM8 by 1Move",
+    images: [{ url: logoUrl, width: 512, height: 512, alt: 'SYSTM8 by 1Move' }],
     type: 'website',
   },
   twitter: {
     card: 'summary',
-    title: "1Move Academy Access Portal",
+    title: "SYSTM8 by 1Move",
     description: "Your gateway to the world's best trading community — powered by 1Move × PrimeVerse",
     images: [logoUrl],
   },
