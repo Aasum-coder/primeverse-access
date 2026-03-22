@@ -1097,6 +1097,27 @@ export default function AdminConsolePage() {
                                   {editingEventId === evt.id ? 'Cancel' : 'Edit'}
                                 </button>
                                 <button
+                                  onClick={async () => {
+                                    if (!confirm('Send reminder to all approved registrants?')) return
+                                    try {
+                                      const res = await fetch('/api/send-event-reminder', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ event_id: evt.id, secret: 'systm8-reminder-2026' }),
+                                      })
+                                      const data = await res.json()
+                                      if (!res.ok) throw new Error(data.error || 'Failed to send reminders')
+                                      showToast(`✅ Reminder sent to ${data.sent} registrants`)
+                                    } catch (err: any) {
+                                      showToast(err?.message || 'Failed to send reminder', 'error')
+                                    }
+                                  }}
+                                  className="btn-outline"
+                                  style={{ padding: '5px 12px', fontSize: '0.72rem' }}
+                                >
+                                  Reminder
+                                </button>
+                                <button
                                   onClick={() => handleDeleteEvent(evt)}
                                   disabled={actionLoading === evt.id}
                                   className="btn-reject"
