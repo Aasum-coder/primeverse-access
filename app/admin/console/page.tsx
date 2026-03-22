@@ -1098,7 +1098,7 @@ export default function AdminConsolePage() {
                                 </button>
                                 <button
                                   onClick={async () => {
-                                    if (!confirm('Send reminder email to all approved registrants?')) return
+                                    if (!confirm('Send reminder to all approved registrants?')) return
                                     try {
                                       const res = await fetch('/api/send-event-reminder', {
                                         method: 'POST',
@@ -1115,7 +1115,7 @@ export default function AdminConsolePage() {
                                   className="btn-outline"
                                   style={{ padding: '5px 12px', fontSize: '0.72rem' }}
                                 >
-                                  Send Reminder
+                                  Reminder
                                 </button>
                                 <button
                                   onClick={() => handleDeleteEvent(evt)}
