@@ -768,7 +768,7 @@ export default function AdminConsolePage() {
     // Re-fetch the event to get the latest zoom_link (may have been updated via inline edit)
     const { data: freshEvent } = await supabase
       .from('events')
-      .select('title, zoom_link')
+      .select('title, zoom_link, event_date')
       .eq('id', reg.event_id)
       .single()
 
@@ -783,6 +783,7 @@ export default function AdminConsolePage() {
         zoom_link: freshEvent?.zoom_link || null,
         status,
         status_note: note || null,
+        event_date: freshEvent?.event_date || null,
       }),
     }).catch(() => {})
 
