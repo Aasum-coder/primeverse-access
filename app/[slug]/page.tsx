@@ -593,7 +593,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
     fetch('/api/milestone-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     if (insertedLead?.id) { fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId: insertedLead.id, distributorId: distributor.id }) }).catch(() => {}) }
     // Notify IB instantly via email, Telegram, and in-app notification
-    fetch('/api/uid-submitted-notification', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadName: uidForm.name, leadUid: uidForm.uid, distributorId: distributor.id }) }).catch(() => {})
+    fetch('/api/uid-submitted-notification', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId: insertedLead?.id || '', leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorId: distributor.id }) }).catch(() => {})
     setSubmitting(false)
     setSubmitted(true)
   }
