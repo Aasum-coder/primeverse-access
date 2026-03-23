@@ -45,6 +45,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'Approved members',
     noApproved: 'No approved members yet.',
     approve: 'Approve',
+    disapprove: 'Disapprove',
+    leadDisapproved: 'Lead disapproved. Verification email sent.',
     approvedDate: 'Approved',
     notProvided: 'Not provided',
     editProfile: 'Edit profile',
@@ -358,6 +360,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'Godkjente members',
     noApproved: 'Ingen godkjente ennå.',
     approve: 'Godkjenn',
+    disapprove: 'Avslå',
+    leadDisapproved: 'Lead avslått. Avvisnings-epost sendt.',
     approvedDate: 'Godkjent',
     notProvided: 'Ikke oppgitt',
     editProfile: 'Rediger profil',
@@ -669,6 +673,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'Godkända members',
     noApproved: 'Inga godkända ännu.',
     approve: 'Godkänn',
+    disapprove: 'Avslå',
+    leadDisapproved: 'Lead avslagen. Avvisningsmail skickat.',
     approvedDate: 'Godkänd',
     notProvided: 'Ej angiven',
     editProfile: 'Redigera profil',
@@ -980,6 +986,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'Miembros aprobados',
     noApproved: 'Ningún aprobado aún.',
     approve: 'Aprobar',
+    disapprove: 'Rechazar',
+    leadDisapproved: 'Lead rechazado. Email de verificación enviado.',
     approvedDate: 'Aprobado',
     notProvided: 'No proporcionado',
     editProfile: 'Editar perfil',
@@ -1291,6 +1299,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'Одобренные участники',
     noApproved: 'Пока нет одобренных.',
     approve: 'Одобрить',
+    disapprove: 'Отклонить',
+    leadDisapproved: 'Лид отклонён. Письмо с уведомлением отправлено.',
     approvedDate: 'Одобрен',
     notProvided: 'Не указан',
     editProfile: 'Редактировать профиль',
@@ -1602,6 +1612,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'الأعضاء المعتمدون',
     noApproved: 'لا يوجد معتمدون بعد.',
     approve: 'اعتماد',
+    disapprove: 'رفض',
+    leadDisapproved: 'تم رفض العميل المحتمل. تم إرسال بريد التحقق.',
     approvedDate: 'معتمد',
     notProvided: 'غير متوفر',
     editProfile: 'تعديل الملف الشخصي',
@@ -1913,6 +1925,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'Approved members',
     noApproved: 'Wala pang approved.',
     approve: 'I-approve',
+    disapprove: 'I-disapprove',
+    leadDisapproved: 'Lead na-disapprove. Verification email naipadala.',
     approvedDate: 'Na-approve',
     notProvided: 'Hindi ibinigay',
     editProfile: 'I-edit ang profile',
@@ -2224,6 +2238,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'Membros aprovados',
     noApproved: 'Nenhum aprovado ainda.',
     approve: 'Aprovar',
+    disapprove: 'Reprovar',
+    leadDisapproved: 'Lead reprovado. Email de verificação enviado.',
     approvedDate: 'Aprovado',
     notProvided: 'Não informado',
     editProfile: 'Editar perfil',
@@ -2535,6 +2551,8 @@ const translations: Record<string, Record<string, string>> = {
     approvedHeader: 'สมาชิกที่อนุมัติแล้ว',
     noApproved: 'ยังไม่มีสมาชิกที่อนุมัติ',
     approve: 'อนุมัติ',
+    disapprove: 'ปฏิเสธ',
+    leadDisapproved: 'ปฏิเสธ Lead แล้ว ส่งอีเมลแจ้งเตือนแล้ว',
     approvedDate: 'อนุมัติแล้ว',
     notProvided: 'ไม่ได้ระบุ',
     editProfile: 'แก้ไขโปรไฟล์',
@@ -4013,6 +4031,7 @@ export default function Home() {
   const [leads, setLeads] = useState<any[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
+  const [disapprovingId, setDisapprovingId] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources' | 'marketing' | 'beta'>('metrics')
   const [isBetaTester, setIsBetaTester] = useState(false)
   const [betaResults, setBetaResults] = useState<Record<string, { status: string; comment: string; id?: string }>>({})
@@ -4733,6 +4752,29 @@ export default function Home() {
     await fetchLeads(distributor.id)
   }
 
+  const disapproveLead = async (lead: any) => {
+    setDisapprovingId(lead.id)
+    try {
+      const res = await fetch('/api/disapprove-lead-dashboard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lead_id: lead.id }),
+      })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        showToast(d.error || 'Failed to disapprove lead')
+        setDisapprovingId(null)
+        return
+      }
+      showToast(t.leadDisapproved, 'info')
+      setDisapprovingId(null)
+      await fetchLeads(distributor.id)
+    } catch (err: any) {
+      showToast(err?.message || 'Failed to disapprove lead')
+      setDisapprovingId(null)
+    }
+  }
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file || !distributor?.id) return
@@ -5132,7 +5174,7 @@ export default function Home() {
     )
   }
 
-  const pending = leads.filter(l => !l.uid_verified)
+  const pending = leads.filter(l => !l.uid_verified && l.status !== 'rejected')
   const approved = leads.filter(l => l.uid_verified)
 
   return (
@@ -5480,15 +5522,27 @@ export default function Home() {
                         </time>
                       </div>
                     </div>
-                    <button
-                      onClick={() => approveLead(lead)}
-                      disabled={approvingId === lead.id}
-                      className="btn-success"
-                      aria-label={`${t.approve} ${lead.name}`}
-                      aria-busy={approvingId === lead.id}
-                    >
-                      {approvingId === lead.id ? t.sending : <><span aria-hidden="true">✓ </span>{t.approve}</>}
-                    </button>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <button
+                        onClick={() => approveLead(lead)}
+                        disabled={approvingId === lead.id}
+                        className="btn-success"
+                        aria-label={`${t.approve} ${lead.name}`}
+                        aria-busy={approvingId === lead.id}
+                      >
+                        {approvingId === lead.id ? t.sending : <><span aria-hidden="true">✓ </span>{t.approve}</>}
+                      </button>
+                      <button
+                        onClick={() => disapproveLead(lead)}
+                        disabled={disapprovingId === lead.id}
+                        className="btn-danger"
+                        aria-label={`${t.disapprove} ${lead.name}`}
+                        aria-busy={disapprovingId === lead.id}
+                        style={{ background: '#8b2020', color: '#f0e6d0', border: 'none', padding: '6px 14px', borderRadius: '6px', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', opacity: disapprovingId === lead.id ? 0.6 : 1 }}
+                      >
+                        {disapprovingId === lead.id ? t.sending : <><span aria-hidden="true">✗ </span>{t.disapprove}</>}
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
