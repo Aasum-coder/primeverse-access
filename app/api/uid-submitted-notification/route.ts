@@ -46,6 +46,7 @@ export async function POST(request: Request) {
       : ''
 
     // Run all notifications in parallel
+    console.log('[uid-submitted-notification] Sending notifications for lead:', { leadId, leadName, leadEmail, distributorId, distributorEmail: distributor.email })
     const results = await Promise.allSettled([
       // A — Email to IB via Resend
       sendIBEmail(distributor.email, distributor.name, leadName, leadEmail || '', leadUid, disapproveUrl),
@@ -55,6 +56,16 @@ export async function POST(request: Request) {
       createInAppNotification(distributor.user_id, leadName, leadUid),
     ])
 
+    // Log results for debugging
+    results.forEach((r, i) => {
+      const label = ['email', 'telegram', 'notification'][i]
+      if (r.status === 'rejected') {
+        console.error(`[uid-submitted-notification] ${label} FAILED:`, r.reason)
+      } else {
+        console.log(`[uid-submitted-notification] ${label} OK:`, JSON.stringify(r.value).slice(0, 200))
+      }
+    })
+
     return NextResponse.json({
       success: true,
       email: results[0].status,
@@ -62,6 +73,7 @@ export async function POST(request: Request) {
       notification: results[2].status,
     })
   } catch (err: any) {
+    console.error('[uid-submitted-notification] Unhandled error:', err)
     return NextResponse.json({ error: err?.message || 'Internal error' }, { status: 500 })
   }
 }
