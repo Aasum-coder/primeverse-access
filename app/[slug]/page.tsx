@@ -2,7 +2,7 @@
 
 import { useEffect, useState, use, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import { useRouter } from 'next/navigation'
+import { useRouter, notFound as triggerNotFound } from 'next/navigation'
 
 function parseProfileImage(value: string | null) {
   if (!value) return { url: '', x: 50, y: 50 }
@@ -476,9 +476,15 @@ const T: Record<LangKey, Record<string, string>> = {
   },
 }
 
+const RESERVED_SLUGS = ['reset-password', 'login', 'signup', 'admin', 'auth', 'api', 'beta', 'factory']
+
 export default function DistributorPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
   const router = useRouter()
+
+  if (RESERVED_SLUGS.includes(slug)) {
+    triggerNotFound()
+  }
   const [distributor, setDistributor] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
