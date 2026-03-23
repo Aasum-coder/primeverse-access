@@ -15,6 +15,8 @@ const GCAL_LINK = 'https://calendar.google.com/calendar/render?action=TEMPLATE&t
 const EVENT_PAGE = 'https://www.primeverseaccess.com/event/systm8-lauch-call'
 const EVENT_ID = '91b4982d-243f-4401-a054-81d4b72faeaf'
 
+const UNSUBSCRIBE_FOOTER = `<p style="text-align:center;font-size:10px;color:#3a3630;margin-top:16px;line-height:1.5;">You received this email because you registered on primeverseaccess.com.<br/>To unsubscribe, reply with 'unsubscribe' in the subject line.</p>`
+
 function goldButton(text: string, href: string): string {
   return `<a href="${href}" style="display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#c9a227,#e8c975,#d4a537,#c9a227);color:#0a0804;font-weight:700;font-size:14px;text-decoration:none;border-radius:8px;letter-spacing:0.04em;margin:8px 0;">${text}</a>`
 }
@@ -33,6 +35,7 @@ function emailWrapper(content: string): string {
     <p style="text-align:center;font-size:11px;color:#5a5347;margin-top:24px;">
       &copy; 1Move Academy &mdash; <a href="https://www.primeverseaccess.com" style="color:#5a5347;text-decoration:none;">primeverseaccess.com</a>
     </p>
+    ${UNSUBSCRIBE_FOOTER}
   </div>
 </body></html>`
 }
@@ -57,6 +60,20 @@ function buildRegistrantEmail(name: string): string {
       See you tonight \uD83D\uDE80 &mdash; The 1Move Team
     </p>
   `)
+}
+
+function buildRegistrantText(name: string): string {
+  return `Hey ${name || 'there'},
+
+The SYSTM8 Launch Call is tonight. We start at 8PM sharp CET. Don't miss it!
+
+Join Call: ${ZOOM_LINK}
+Add to Calendar: ${GCAL_LINK}
+
+See you tonight — The 1Move Team
+
+You received this email because you registered on primeverseaccess.com.
+To unsubscribe, reply with 'unsubscribe' in the subject line.`
 }
 
 function buildIBEmail(name: string): string {
@@ -91,6 +108,24 @@ function buildIBEmail(name: string): string {
   `)
 }
 
+function buildIBText(name: string): string {
+  return `Hey ${name || 'there'},
+
+The SYSTM8 Launch Call is tonight. We start at 8PM sharp CET. Make sure you're ready.
+
+Join Call: ${ZOOM_LINK}
+Add to Calendar: ${GCAL_LINK}
+
+Share this with your organisation:
+Make sure everyone from your team joins tonight. Forward this or share the link directly.
+Event Page: ${EVENT_PAGE}
+
+See you tonight — The 1Move Team
+
+You received this email because you registered on primeverseaccess.com.
+To unsubscribe, reply with 'unsubscribe' in the subject line.`
+}
+
 export async function POST(request: Request) {
   // Bearer token auth
   const authHeader = request.headers.get('authorization') || ''
@@ -123,6 +158,10 @@ export async function POST(request: Request) {
           to: [reg.email],
           subject: 'Today — SYSTM8 Launch Call starts 8PM CET \uD83D\uDD14',
           html: buildRegistrantEmail(reg.full_name || ''),
+          text: buildRegistrantText(reg.full_name || ''),
+          headers: {
+            'X-Entity-Ref-ID': `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          },
         })
 
         if (sendError) {
@@ -155,6 +194,10 @@ export async function POST(request: Request) {
           to: [dist.email],
           subject: 'Tonight — invite your whole team \uD83C\uDFC6',
           html: buildIBEmail(dist.name || ''),
+          text: buildIBText(dist.name || ''),
+          headers: {
+            'X-Entity-Ref-ID': `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          },
         })
 
         if (sendError) {

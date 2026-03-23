@@ -5,6 +5,8 @@ const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
 const SYSTM8_LOGO = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png'
 
+const UNSUBSCRIBE_FOOTER = `<p style="text-align:center;font-size:10px;color:#3a3630;margin-top:16px;line-height:1.5;">You received this email because you registered on primeverseaccess.com.<br/>To unsubscribe, reply with 'unsubscribe' in the subject line.</p>`
+
 export async function POST(request: Request) {
   try {
     const { name, email, event_title, zoom_link, event_date } = await request.json()
@@ -60,14 +62,31 @@ export async function POST(request: Request) {
     <p style="text-align:center;font-size:11px;color:#5a5347;margin-top:24px;">
       &copy; 1Move Academy &mdash; <a href="https://www.primeverseaccess.com" style="color:#5a5347;text-decoration:none;">primeverseaccess.com</a>
     </p>
+    ${UNSUBSCRIBE_FOOTER}
   </div>
 </body></html>`
+
+    const text = `You're in, ${displayName}!
+
+${event_title}
+${formattedDate ? formattedDate + ' CET' : ''}
+${zoom_link ? '\nJoin Call: ' + zoom_link : ''}
+${gcalLink ? '\nAdd to Calendar: ' + gcalLink : ''}
+
+See you there — The 1Move Team
+
+You received this email because you registered on primeverseaccess.com.
+To unsubscribe, reply with 'unsubscribe' in the subject line.`
 
     const { error: sendError } = await resend.emails.send({
       from: '1Move Academy <noreply@primeverseaccess.com>',
       to: [email],
       subject: `You're registered — ${event_title} ✅`,
       html,
+      text,
+      headers: {
+        'X-Entity-Ref-ID': `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      },
     })
 
     if (sendError) {
