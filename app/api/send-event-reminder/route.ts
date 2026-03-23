@@ -138,7 +138,7 @@ export async function POST(request: Request) {
     // ── 2. Send IB invite emails to approved distributors ──
     const { data: distributors, error: distError } = await supabase
       .from('distributors')
-      .select('email, full_name')
+      .select('email, name')
       .eq('ib_status', 'approved')
 
     if (distError) {
@@ -154,7 +154,7 @@ export async function POST(request: Request) {
           from: '1Move Academy <noreply@primeverseaccess.com>',
           to: [dist.email],
           subject: 'Tonight — invite your whole team \uD83C\uDFC6',
-          html: buildIBEmail(dist.full_name || ''),
+          html: buildIBEmail(dist.name || ''),
         })
 
         if (sendError) {

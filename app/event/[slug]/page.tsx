@@ -16,6 +16,7 @@ type Event = {
   title: string
   description: string | null
   event_date: string | null
+  zoom_link: string | null
   max_attendees: number | null
   is_active: boolean
 }
@@ -210,7 +211,7 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
     async function loadEvent() {
       const { data, error } = await supabase
         .from('events')
-        .select('id, slug, title, description, event_date, max_attendees, is_active')
+        .select('id, slug, title, description, event_date, zoom_link, max_attendees, is_active')
         .eq('slug', slug)
         .eq('is_active', true)
         .single()
@@ -259,6 +260,19 @@ export default function EventRegistrationPage({ params }: { params: Promise<{ sl
       setSubmitting(false)
       return
     }
+
+    // Send confirmation email (fire-and-forget)
+    fetch('/api/event-confirmation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: fullName.trim(),
+        email: email.trim().toLowerCase(),
+        event_title: event.title,
+        zoom_link: event.zoom_link || '',
+        event_date: event.event_date || '',
+      }),
+    }).catch(() => {})
 
     setSuccess(true)
     setSubmitting(false)
