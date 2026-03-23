@@ -1,9 +1,18 @@
 import { Resend } from 'resend'
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 
 const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
+
+const supabaseAnon = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
+)
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder',
+)
 
 const SYSTM8_LOGO = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png'
 
@@ -11,25 +20,17 @@ const UNSUBSCRIBE_FOOTER = `<p style="text-align:center;font-size:10px;color:#3a
 
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies()
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-      process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-    )
+    // Verify user is logged in via Authorization header
+    const authHeader = request.headers.get('authorization') || ''
+    const token = authHeader.replace('Bearer ', '')
 
-    // Verify user is logged in via access token cookie
-    const accessToken = cookieStore.get('sb-access-token')?.value
-      || cookieStore.get('sb-rzlbpudnorjqgqsonweg-auth-token')?.value
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
-    // Also try the Authorization header
-    const authHeader = request.headers.get('authorization')
-    const token = accessToken || authHeader?.replace(/^Bearer\s+/i, '')
-
-    if (token) {
-      const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-      if (authError || !user) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-      }
+    const { data: { user }, error: authError } = await supabaseAnon.auth.getUser(token)
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const { lead_id } = await request.json()
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
     }
 
     // Fetch lead details
-    const { data: lead, error: leadError } = await supabase
+    const { data: lead, error: leadError } = await supabaseAdmin
       .from('leads')
       .select('id, name, email')
       .eq('id', lead_id)
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
     }
 
     // Update lead status
-    const { error: updateError } = await supabase
+    const { error: updateError } = await supabaseAdmin
       .from('leads')
       .update({ uid_verified: false, status: 'rejected' })
       .eq('id', lead_id)

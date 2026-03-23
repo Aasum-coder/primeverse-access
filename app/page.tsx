@@ -3113,6 +3113,16 @@ const styles = `
   }
   .btn-success:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(46,125,50,0.4); }
   .btn-success:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-danger {
+    padding: 0.6rem 1.2rem; border: none; border-radius: 8px;
+    font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; color: #fff;
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #dc2626 100%);
+    box-shadow: 0 2px 10px rgba(220,38,38,0.3);
+    transition: transform 0.2s, box-shadow 0.3s;
+  }
+  .btn-danger:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(220,38,38,0.4); background: linear-gradient(135deg, #b91c1c 0%, #dc2626 50%, #b91c1c 100%); }
+  .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
   /* Tabs */
   .tabs { display: flex; margin-bottom: 2rem; border-bottom: 1px solid var(--card-border); overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
@@ -4755,9 +4765,13 @@ export default function Home() {
   const disapproveLead = async (lead: any) => {
     setDisapprovingId(lead.id)
     try {
+      const { data: { session } } = await supabase.auth.getSession()
       const res = await fetch('/api/disapprove-lead-dashboard', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({ lead_id: lead.id }),
       })
       if (!res.ok) {
@@ -5538,7 +5552,6 @@ export default function Home() {
                         className="btn-danger"
                         aria-label={`${t.disapprove} ${lead.name}`}
                         aria-busy={disapprovingId === lead.id}
-                        style={{ background: '#8b2020', color: '#f0e6d0', border: 'none', padding: '6px 14px', borderRadius: '6px', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', opacity: disapprovingId === lead.id ? 0.6 : 1 }}
                       >
                         {disapprovingId === lead.id ? t.sending : <><span aria-hidden="true">✗ </span>{t.disapprove}</>}
                       </button>
