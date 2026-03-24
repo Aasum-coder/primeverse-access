@@ -5137,7 +5137,7 @@ export default function Home() {
 
   const handleShare = async () => {
     if (!distributor?.slug) return
-    const url = `https://www.primeverseaccess.com/${distributor.slug}`
+    const url = `https://www.primeverseaccess.com/${distributor.slug}?s=share`
     const title = `${distributor.name || ''} ${t.shareTitle}`
     const text = t.shareText
 
@@ -5160,7 +5160,7 @@ export default function Home() {
 
   const copyShareLink = async () => {
     if (!distributor?.slug) return
-    const url = `https://www.primeverseaccess.com/${distributor.slug}`
+    const url = `https://www.primeverseaccess.com/${distributor.slug}?s=share`
     await navigator.clipboard.writeText(url)
     showToast(t.copied)
     setShareOpen(false)
@@ -7627,17 +7627,20 @@ function TrafficModal({ open, onClose, t }: { open: boolean; onClose: () => void
             {/* SECTION 1 — Top Sources */}
             <div style={{ marginBottom: '1.75rem' }}>
               <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '0.75rem' }}>{t.topSources}</h3>
-              {data.bySource.slice(0, 8).map((s: any) => (
+              {data.bySource.slice(0, 8).map((s: any) => {
+                const sourceIcons: Record<string, string> = { 'Direct': '🔗', 'Shared Link': '📤', 'Facebook': '📘', 'Instagram': '📸', 'TikTok': '🎵', 'WhatsApp': '💬', 'Telegram': '✈️', 'LinkedIn': '💼', 'Google': '🔍', 'X / Twitter': '🐦' }
+                const icon = sourceIcons[s.source] || '🌐'
+                return (
                 <div key={s.source} style={{ marginBottom: '0.5rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: 3 }}>
-                    <span style={{ color: '#fff' }}>{s.source}</span>
+                    <span style={{ color: '#fff' }}>{icon} {s.source}</span>
                     <span style={{ color: 'rgba(255,255,255,0.5)' }}>{s.count} ({s.percentage}%)</span>
                   </div>
                   <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
                     <div style={{ height: '100%', width: `${s.percentage}%`, background: 'linear-gradient(90deg, #d4a537, #e8c975)', borderRadius: 3, transition: 'width 0.6s ease' }} />
                   </div>
                 </div>
-              ))}
+              )})}
             </div>
 
             {/* SECTION 2 — Device Breakdown */}
