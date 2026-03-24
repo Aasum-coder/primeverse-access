@@ -5188,7 +5188,7 @@ export default function Home() {
     )
   }
 
-  const pending = leads.filter(l => !l.uid_verified && l.status !== 'rejected')
+  const pending = leads.filter(l => !l.uid_verified && l.uid)
   const approved = leads.filter(l => l.uid_verified)
 
   return (

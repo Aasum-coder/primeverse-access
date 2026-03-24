@@ -71,7 +71,7 @@ export async function GET(request: Request) {
   // Update leads table: mark as rejected
   await supabase
     .from('leads')
-    .update({ uid_verified: false, status: 'rejected' })
+    .update({ uid_verified: false })
     .eq('id', leadId)
 
   // Send rejection email to the lead
