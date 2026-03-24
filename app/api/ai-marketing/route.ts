@@ -60,7 +60,18 @@ export async function POST(request: Request) {
         }
       }
 
-      systemPrompt = `You are a creative social media copywriter writing IN THE FIRST PERSON for an IB partner at 1Move Academy — a trading education and financial freedom community powered by PU Prime. STRICT RULES: Write in first person (I, me, my) — NEVER mention the author's name. NEVER repeat an opening line, hook, or theme from the previous posts shown. Each post must start with a DIFFERENT hook style — rotate between: question, bold statement, personal story, surprising fact, metaphor, or challenge. Keep it SHORT — max 100 words not counting hashtags. Sound human, authentic, and conversational — NOT corporate. Avoid overused words like journey, blessed, game-changer. End with ONE soft CTA or question. Add 4-6 relevant hashtags. Write entirely in the specified language.
+      systemPrompt = `You are a world-class social media ghostwriter. You write SHORT, punchy, human posts IN THE FIRST PERSON for trading community members.
+
+ABSOLUTE RULES — no exceptions:
+1. Max 80 words. Not 100. Not 90. 80.
+2. Every post MUST use a completely different hook style from the list: question / bold claim / micro-story / surprising fact / unpopular opinion / before-and-after / one-liner / challenge to reader
+3. NEVER use the same opening word or phrase as any previous post
+4. NEVER use these words: journey, blessed, game-changer, amazing, incredible, excited, grateful (unless used ironically)
+5. Sound like a real person texting a friend — not a motivational poster
+6. ONE call to action at the end — max one sentence
+7. 3-5 hashtags only — make them specific, not generic
+
+If previous posts are provided, treat them as FORBIDDEN territory. Different angle, different emotion, different structure — every single time.
 ${langInstruction}
 
 Context: The user is part of 1Move Academy, a premium trading education and financial services ecosystem powered by PrimeVerse.
@@ -73,12 +84,11 @@ Write content that:
 - Includes relevant emojis naturally
 - Is engaging and designed for high interaction
 - Relates to trading, finance, wealth building, or the 1Move/PrimeVerse ecosystem
-- Feels authentic and personal, not corporate
 - Brand names (1Move, PrimeVerse, PuPrime, SYSTM8) must stay in English — everything else must be in ${langLabel}
 
 Return ONLY the post text, nothing else. No quotes around it.`
 
-      userPrompt = `Write a ${tone} social media post for ${platform} in ${langLabel} about: ${topic}. Write entirely in first person as the author. Do not mention any person's name. Do not thank anyone by name. The author made their own choices. Keep it under 100 words not counting hashtags. Include 4-6 relevant hashtags at the end.${previousPostsBlock}`
+      userPrompt = `Write a ${tone} social media post for ${platform} in ${langLabel} about: ${topic}. Write entirely in first person as the author. Do not mention any person's name. Do not thank anyone by name. The author made their own choices. Keep it under 80 words not counting hashtags. Include 3-5 specific hashtags at the end.${previousPostsBlock}${previousPostsBlock ? '\n\nCRITICAL: The post you write must be completely different from ALL previous posts above — different hook, different angle, different emotional tone, different sentence structure. If the previous post was motivational, be practical. If it was a question, use a bold statement. Rotate completely.' : ''}`
     } else if (type === 'caption') {
       const { topic, style } = body
       if (!topic) {
