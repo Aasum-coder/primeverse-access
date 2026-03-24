@@ -1,5 +1,11 @@
 import Groq from 'groq-sdk'
 import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+)
 
 const langNames: Record<string, string> = {
   en: 'English', no: 'Norwegian', sv: 'Swedish',
@@ -20,7 +26,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 
-  const { type, language } = body
+  const { type, language, distributorId } = body
   const langLabel = langNames[language] || 'English'
 
   const groq = new Groq({ apiKey })
@@ -38,7 +44,23 @@ export async function POST(request: Request) {
         ? `CRITICAL LANGUAGE RULE: You MUST write your entire response in ${langLabel}. Do NOT use English at all. Every single word must be in ${langLabel}.`
         : ''
 
-      systemPrompt = `You are a social media copywriter. You write posts IN THE FIRST PERSON on behalf of the user. The user IS the IB/entrepreneur writing about their own life and business. NEVER mention the user's name. NEVER refer to the user in third person. NEVER say things like "thanks to [name]" as if someone else introduced them. The user made their own choice to join this opportunity. Write as if YOU ARE the user — use "I", "me", "my" throughout. Keep it authentic, personal and natural.
+      // Fetch last 5 posts for anti-repetition
+      let previousPostsBlock = ''
+      if (distributorId) {
+        const { data: prevPosts } = await supabaseAdmin
+          .from('generated_posts')
+          .select('content')
+          .eq('distributor_id', distributorId)
+          .eq('platform', platform)
+          .order('created_at', { ascending: false })
+          .limit(5)
+        if (prevPosts && prevPosts.length > 0) {
+          const postTexts = prevPosts.map((p, i) => `--- Post ${i + 1}: ${p.content}`).join('\n')
+          previousPostsBlock = `\n\nPREVIOUS POSTS — DO NOT repeat these openings, structures, or themes:\n${postTexts}`
+        }
+      }
+
+      systemPrompt = `You are a creative social media copywriter writing IN THE FIRST PERSON for an IB partner at 1Move Academy — a trading education and financial freedom community powered by PU Prime. STRICT RULES: Write in first person (I, me, my) — NEVER mention the author's name. NEVER repeat an opening line, hook, or theme from the previous posts shown. Each post must start with a DIFFERENT hook style — rotate between: question, bold statement, personal story, surprising fact, metaphor, or challenge. Keep it SHORT — max 100 words not counting hashtags. Sound human, authentic, and conversational — NOT corporate. Avoid overused words like journey, blessed, game-changer. End with ONE soft CTA or question. Add 4-6 relevant hashtags. Write entirely in the specified language.
 ${langInstruction}
 
 Context: The user is part of 1Move Academy, a premium trading education and financial services ecosystem powered by PrimeVerse.
@@ -56,7 +78,7 @@ Write content that:
 
 Return ONLY the post text, nothing else. No quotes around it.`
 
-      userPrompt = `Write a ${tone} social media post for ${platform} in ${langLabel} about: ${topic}. Write entirely in first person as the author. Do not mention any person's name. Do not thank anyone by name. The author made their own choices. Keep it under 300 words. Include relevant hashtags at the end.`
+      userPrompt = `Write a ${tone} social media post for ${platform} in ${langLabel} about: ${topic}. Write entirely in first person as the author. Do not mention any person's name. Do not thank anyone by name. The author made their own choices. Keep it under 100 words not counting hashtags. Include 4-6 relevant hashtags at the end.${previousPostsBlock}`
     } else if (type === 'caption') {
       const { topic, style } = body
       if (!topic) {
@@ -66,15 +88,16 @@ Return ONLY the post text, nothing else. No quotes around it.`
         ? `CRITICAL LANGUAGE RULE: You MUST write your entire response in ${langLabel}. Do NOT use English at all. Every single word must be in ${langLabel}.`
         : ''
 
-      systemPrompt = `You are a social media caption specialist. You write scroll-stopping captions in FIRST PERSON on behalf of the user. The user IS the author — NEVER mention anyone by name, NEVER refer to the user in third person. Use "I", "me", "my" throughout.
+      systemPrompt = `You are a social media caption specialist. You write scroll-stopping captions in FIRST PERSON on behalf of the user. The user IS the author — NEVER mention anyone by name, NEVER refer to the user in third person. Use "I", "me", "my" throughout. Max 50 words not counting hashtags. Sound human and authentic. NEVER start with "I just" or "Excited to".
 ${captionLangInstruction}
 
 Context: The user is part of 1Move Academy / PrimeVerse trading ecosystem.
 
 Write a caption that:
-- Is short and punchy (1-3 sentences max)
+- Is short and punchy (1-3 sentences max, 50 words max not counting hashtags)
 - Is written in FIRST PERSON (I, me, my)
 - Does NOT mention anyone by name
+- Does NOT start with "I just" or "Excited to"
 - Includes 2-4 relevant emojis
 - Creates curiosity or engagement
 - Relates to trading, finance, wealth building, or lifestyle
@@ -142,6 +165,19 @@ Each hashtag must start with #. Make them realistic and currently trending.`
       } catch {
         return NextResponse.json({ error: 'Failed to parse hashtag data. Please try again.' }, { status: 500 })
       }
+    }
+
+    // Save generated post to history for anti-repetition
+    if (type === 'post' && distributorId) {
+      const { platform, topic, tone } = body
+      supabaseAdmin.from('generated_posts').insert({
+        distributor_id: distributorId,
+        platform,
+        topic,
+        tone,
+        language: language || 'en',
+        content: content.trim(),
+      }).then(() => {}, () => {})
     }
 
     return NextResponse.json({ content: content.trim() })
