@@ -137,6 +137,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'Find the best hashtags for your niche to maximize reach and engagement.',
     contentCalendar: 'Content Calendar',
     contentCalendarDesc: 'Get a weekly posting schedule tailored to your audience and timezone.',
+    aiWeeklyPlan: 'AI Weekly Plan',
+    connectAccounts: 'Connect Accounts',
+    addPost: 'Add Post',
+    generatePlan: 'Generate My Week',
+    addToCalendar: 'Add to Calendar',
+    generateFullPost: 'Generate Full Post',
+    ccDraft: 'Draft',
+    ccScheduled: 'Scheduled',
+    ccPosted: 'Posted',
+    ccFailed: 'Failed',
+    selectPlatforms: 'Which platforms do you post on?',
+    yourTimezone: 'Your timezone',
+    yourGoal: 'Your main goal',
+    goalLeads: 'Get leads',
+    goalAudience: 'Build audience',
+    goalAuthority: 'Establish authority',
+    goalSignups: 'Drive signups',
+    addAllToCalendar: 'Add All to Calendar',
+    autoPostingComingSoon: 'Auto-posting coming soon. Connect your accounts to let SYSTM8 post for you automatically.',
+    prevWeek: 'Previous Week',
+    nextWeek: 'Next Week',
+    calendarView: 'Calendar',
+    savePost: 'Save',
+    deletePost: 'Delete',
+    editPost: 'Edit Post',
     aiPowered: 'AI Powered',
     selectPlatform: 'Select platform',
     topicLabel: 'Topic / product',
@@ -478,6 +503,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'Finn de beste hashtaggene for din nisje for å maksimere rekkevidde og engasjement.',
     contentCalendar: 'Innholdskalender',
     contentCalendarDesc: 'Få en ukentlig publiseringsplan tilpasset ditt publikum og tidssone.',
+    aiWeeklyPlan: 'AI Ukesplan',
+    connectAccounts: 'Koble til kontoer',
+    addPost: 'Legg til innlegg',
+    generatePlan: 'Generer min uke',
+    addToCalendar: 'Legg til i kalender',
+    generateFullPost: 'Generer fullt innlegg',
+    ccDraft: 'Utkast',
+    ccScheduled: 'Planlagt',
+    ccPosted: 'Publisert',
+    ccFailed: 'Feilet',
+    selectPlatforms: 'Hvilke plattformer poster du på?',
+    yourTimezone: 'Din tidssone',
+    yourGoal: 'Ditt hovedmål',
+    goalLeads: 'Få leads',
+    goalAudience: 'Bygg publikum',
+    goalAuthority: 'Etabler autoritet',
+    goalSignups: 'Driv registreringer',
+    addAllToCalendar: 'Legg alle til kalender',
+    autoPostingComingSoon: 'Automatisk publisering kommer snart. Koble til kontoene dine for at SYSTM8 poster for deg automatisk.',
+    prevWeek: 'Forrige uke',
+    nextWeek: 'Neste uke',
+    calendarView: 'Kalender',
+    savePost: 'Lagre',
+    deletePost: 'Slett',
+    editPost: 'Rediger innlegg',
     aiPowered: 'AI-drevet',
     selectPlatform: 'Velg plattform',
     topicLabel: 'Emne / produkt',
@@ -817,6 +867,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'Hitta de bästa hashtaggarna för din nisch för att maximera räckvidd och engagemang.',
     contentCalendar: 'Innehållskalender',
     contentCalendarDesc: 'Få ett veckoschema för publicering anpassat efter din publik och tidszon.',
+    aiWeeklyPlan: 'AI Veckoplan',
+    connectAccounts: 'Anslut konton',
+    addPost: 'Lägg till inlägg',
+    generatePlan: 'Generera min vecka',
+    addToCalendar: 'Lägg till i kalender',
+    generateFullPost: 'Generera helt inlägg',
+    ccDraft: 'Utkast',
+    ccScheduled: 'Schemalagd',
+    ccPosted: 'Publicerad',
+    ccFailed: 'Misslyckades',
+    selectPlatforms: 'Vilka plattformar postar du på?',
+    yourTimezone: 'Din tidszon',
+    yourGoal: 'Ditt huvudmål',
+    goalLeads: 'Få leads',
+    goalAudience: 'Bygg publik',
+    goalAuthority: 'Etablera auktoritet',
+    goalSignups: 'Driv registreringar',
+    addAllToCalendar: 'Lägg alla till kalender',
+    autoPostingComingSoon: 'Automatisk publicering kommer snart. Anslut dina konton för att SYSTM8 postar åt dig automatiskt.',
+    prevWeek: 'Föregående vecka',
+    nextWeek: 'Nästa vecka',
+    calendarView: 'Kalender',
+    savePost: 'Spara',
+    deletePost: 'Ta bort',
+    editPost: 'Redigera inlägg',
     aiPowered: 'AI-driven',
     selectPlatform: 'Välj plattform',
     topicLabel: 'Ämne / produkt',
@@ -1156,6 +1231,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'Encuentra los mejores hashtags para tu nicho y maximiza el alcance y la interacción.',
     contentCalendar: 'Calendario de Contenido',
     contentCalendarDesc: 'Obtén un calendario semanal de publicaciones adaptado a tu audiencia y zona horaria.',
+    aiWeeklyPlan: 'Plan Semanal IA',
+    connectAccounts: 'Conectar cuentas',
+    addPost: 'Añadir publicación',
+    generatePlan: 'Generar mi semana',
+    addToCalendar: 'Añadir al calendario',
+    generateFullPost: 'Generar publicación completa',
+    ccDraft: 'Borrador',
+    ccScheduled: 'Programado',
+    ccPosted: 'Publicado',
+    ccFailed: 'Fallido',
+    selectPlatforms: '¿En qué plataformas publicas?',
+    yourTimezone: 'Tu zona horaria',
+    yourGoal: 'Tu objetivo principal',
+    goalLeads: 'Conseguir leads',
+    goalAudience: 'Construir audiencia',
+    goalAuthority: 'Establecer autoridad',
+    goalSignups: 'Impulsar registros',
+    addAllToCalendar: 'Añadir todo al calendario',
+    autoPostingComingSoon: 'Publicación automática próximamente. Conecta tus cuentas para que SYSTM8 publique por ti automáticamente.',
+    prevWeek: 'Semana anterior',
+    nextWeek: 'Semana siguiente',
+    calendarView: 'Calendario',
+    savePost: 'Guardar',
+    deletePost: 'Eliminar',
+    editPost: 'Editar publicación',
     aiPowered: 'Con IA',
     selectPlatform: 'Seleccionar plataforma',
     topicLabel: 'Tema / producto',
@@ -1495,6 +1595,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'Найдите лучшие хештеги для вашей ниши для максимального охвата.',
     contentCalendar: 'Контент-календарь',
     contentCalendarDesc: 'Получите недельный план публикаций, адаптированный под вашу аудиторию.',
+    aiWeeklyPlan: 'ИИ Недельный план',
+    connectAccounts: 'Подключить аккаунты',
+    addPost: 'Добавить пост',
+    generatePlan: 'Сгенерировать мою неделю',
+    addToCalendar: 'Добавить в календарь',
+    generateFullPost: 'Сгенерировать полный пост',
+    ccDraft: 'Черновик',
+    ccScheduled: 'Запланирован',
+    ccPosted: 'Опубликован',
+    ccFailed: 'Ошибка',
+    selectPlatforms: 'На каких платформах вы публикуете?',
+    yourTimezone: 'Ваш часовой пояс',
+    yourGoal: 'Ваша главная цель',
+    goalLeads: 'Получить лиды',
+    goalAudience: 'Построить аудиторию',
+    goalAuthority: 'Установить авторитет',
+    goalSignups: 'Привлечь регистрации',
+    addAllToCalendar: 'Добавить всё в календарь',
+    autoPostingComingSoon: 'Автопостинг скоро. Подключите аккаунты, чтобы SYSTM8 публиковал за вас автоматически.',
+    prevWeek: 'Предыдущая неделя',
+    nextWeek: 'Следующая неделя',
+    calendarView: 'Календарь',
+    savePost: 'Сохранить',
+    deletePost: 'Удалить',
+    editPost: 'Редактировать пост',
     aiPowered: 'На базе ИИ',
     selectPlatform: 'Выберите платформу',
     topicLabel: 'Тема / продукт',
@@ -1834,6 +1959,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'اعثر على أفضل الهاشتاغات لمجالك لتعظيم الوصول والتفاعل.',
     contentCalendar: 'تقويم المحتوى',
     contentCalendarDesc: 'احصل على جدول نشر أسبوعي مصمم لجمهورك ومنطقتك الزمنية.',
+    aiWeeklyPlan: 'خطة أسبوعية بالذكاء الاصطناعي',
+    connectAccounts: 'ربط الحسابات',
+    addPost: 'إضافة منشور',
+    generatePlan: 'إنشاء خطتي الأسبوعية',
+    addToCalendar: 'إضافة إلى التقويم',
+    generateFullPost: 'إنشاء منشور كامل',
+    ccDraft: 'مسودة',
+    ccScheduled: 'مجدول',
+    ccPosted: 'منشور',
+    ccFailed: 'فشل',
+    selectPlatforms: 'على أي منصات تنشر؟',
+    yourTimezone: 'منطقتك الزمنية',
+    yourGoal: 'هدفك الرئيسي',
+    goalLeads: 'الحصول على عملاء محتملين',
+    goalAudience: 'بناء جمهور',
+    goalAuthority: 'تأسيس سلطة',
+    goalSignups: 'زيادة التسجيلات',
+    addAllToCalendar: 'إضافة الكل إلى التقويم',
+    autoPostingComingSoon: 'النشر التلقائي قريباً. اربط حساباتك ليقوم SYSTM8 بالنشر نيابة عنك تلقائياً.',
+    prevWeek: 'الأسبوع السابق',
+    nextWeek: 'الأسبوع التالي',
+    calendarView: 'التقويم',
+    savePost: 'حفظ',
+    deletePost: 'حذف',
+    editPost: 'تعديل المنشور',
     aiPowered: 'مدعوم بالذكاء الاصطناعي',
     selectPlatform: 'اختر المنصة',
     topicLabel: 'الموضوع / المنتج',
@@ -2173,6 +2323,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'Hanapin ang pinakamahusay na hashtag para sa iyong niche para ma-maximize ang reach at engagement.',
     contentCalendar: 'Content Calendar',
     contentCalendarDesc: 'Kumuha ng lingguhang posting schedule na naaangkop sa iyong audience at timezone.',
+    aiWeeklyPlan: 'AI Lingguhang Plano',
+    connectAccounts: 'Ikonekta ang Accounts',
+    addPost: 'Magdagdag ng Post',
+    generatePlan: 'Gumawa ng Aking Linggo',
+    addToCalendar: 'Idagdag sa Calendar',
+    generateFullPost: 'Gumawa ng Buong Post',
+    ccDraft: 'Draft',
+    ccScheduled: 'Naka-schedule',
+    ccPosted: 'Na-post na',
+    ccFailed: 'Nabigo',
+    selectPlatforms: 'Saang mga platform ka nagpo-post?',
+    yourTimezone: 'Iyong timezone',
+    yourGoal: 'Iyong pangunahing layunin',
+    goalLeads: 'Kumuha ng leads',
+    goalAudience: 'Bumuo ng audience',
+    goalAuthority: 'Magtatag ng authority',
+    goalSignups: 'Mag-drive ng signups',
+    addAllToCalendar: 'Idagdag Lahat sa Calendar',
+    autoPostingComingSoon: 'Auto-posting malapit na. Ikonekta ang iyong mga account para mag-post ang SYSTM8 para sa iyo nang awtomatiko.',
+    prevWeek: 'Nakaraang Linggo',
+    nextWeek: 'Susunod na Linggo',
+    calendarView: 'Calendar',
+    savePost: 'I-save',
+    deletePost: 'I-delete',
+    editPost: 'I-edit ang Post',
     aiPowered: 'AI Powered',
     selectPlatform: 'Pumili ng platform',
     topicLabel: 'Paksa / produkto',
@@ -2512,6 +2687,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'Encontre as melhores hashtags para seu nicho e maximize o alcance e engajamento.',
     contentCalendar: 'Calendário de Conteúdo',
     contentCalendarDesc: 'Obtenha um cronograma semanal de postagens adaptado ao seu público e fuso horário.',
+    aiWeeklyPlan: 'Plano Semanal IA',
+    connectAccounts: 'Conectar contas',
+    addPost: 'Adicionar post',
+    generatePlan: 'Gerar minha semana',
+    addToCalendar: 'Adicionar ao calendário',
+    generateFullPost: 'Gerar post completo',
+    ccDraft: 'Rascunho',
+    ccScheduled: 'Agendado',
+    ccPosted: 'Publicado',
+    ccFailed: 'Falhou',
+    selectPlatforms: 'Em quais plataformas você posta?',
+    yourTimezone: 'Seu fuso horário',
+    yourGoal: 'Seu objetivo principal',
+    goalLeads: 'Conseguir leads',
+    goalAudience: 'Construir audiência',
+    goalAuthority: 'Estabelecer autoridade',
+    goalSignups: 'Gerar cadastros',
+    addAllToCalendar: 'Adicionar tudo ao calendário',
+    autoPostingComingSoon: 'Postagem automática em breve. Conecte suas contas para o SYSTM8 postar automaticamente por você.',
+    prevWeek: 'Semana anterior',
+    nextWeek: 'Próxima semana',
+    calendarView: 'Calendário',
+    savePost: 'Salvar',
+    deletePost: 'Excluir',
+    editPost: 'Editar post',
     aiPowered: 'Com IA',
     selectPlatform: 'Selecionar plataforma',
     topicLabel: 'Tema / produto',
@@ -2851,6 +3051,31 @@ const translations: Record<string, Record<string, string>> = {
     hashtagResearchDesc: 'ค้นหาแฮชแท็กที่ดีที่สุดสำหรับกลุ่มเฉพาะของคุณเพื่อเพิ่มการเข้าถึง',
     contentCalendar: 'ปฏิทินเนื้อหา',
     contentCalendarDesc: 'รับตารางโพสต์รายสัปดาห์ที่เหมาะกับผู้ชมและเขตเวลาของคุณ',
+    aiWeeklyPlan: 'แผนรายสัปดาห์ AI',
+    connectAccounts: 'เชื่อมต่อบัญชี',
+    addPost: 'เพิ่มโพสต์',
+    generatePlan: 'สร้างแผนสัปดาห์ของฉัน',
+    addToCalendar: 'เพิ่มในปฏิทิน',
+    generateFullPost: 'สร้างโพสต์เต็ม',
+    ccDraft: 'แบบร่าง',
+    ccScheduled: 'กำหนดการแล้ว',
+    ccPosted: 'โพสต์แล้ว',
+    ccFailed: 'ล้มเหลว',
+    selectPlatforms: 'คุณโพสต์บนแพลตฟอร์มใด?',
+    yourTimezone: 'เขตเวลาของคุณ',
+    yourGoal: 'เป้าหมายหลักของคุณ',
+    goalLeads: 'รับลีด',
+    goalAudience: 'สร้างผู้ชม',
+    goalAuthority: 'สร้างความน่าเชื่อถือ',
+    goalSignups: 'กระตุ้นการสมัคร',
+    addAllToCalendar: 'เพิ่มทั้งหมดในปฏิทิน',
+    autoPostingComingSoon: 'โพสต์อัตโนมัติเร็วๆ นี้ เชื่อมต่อบัญชีของคุณเพื่อให้ SYSTM8 โพสต์ให้คุณอัตโนมัติ',
+    prevWeek: 'สัปดาห์ก่อน',
+    nextWeek: 'สัปดาห์หน้า',
+    calendarView: 'ปฏิทิน',
+    savePost: 'บันทึก',
+    deletePost: 'ลบ',
+    editPost: 'แก้ไขโพสต์',
     aiPowered: 'ขับเคลื่อนด้วย AI',
     selectPlatform: 'เลือกแพลตฟอร์ม',
     topicLabel: 'หัวข้อ / ผลิตภัณฑ์',
@@ -4358,6 +4583,7 @@ export default function Home() {
   const bugFileRef = useRef<HTMLInputElement>(null)
 
   // AI Marketing Tools state
+  const [calendarOpen, setCalendarOpen] = useState(false)
   const [aiToolModal, setAiToolModal] = useState<'post' | 'caption' | 'hashtags' | null>(null)
   const [aiToolPlatform, setAiToolPlatform] = useState('Facebook')
   const [aiToolTopic, setAiToolTopic] = useState('')
@@ -6263,8 +6489,8 @@ export default function Home() {
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </div>
               {/* Content Calendar */}
-              <div className="ib-resource-card ib-resource-card-disabled">
-                <div className="ib-resource-badge">{t.comingSoon}</div>
+              <div className="ib-resource-card" onClick={() => setCalendarOpen(true)} style={{ cursor: 'pointer' }}>
+                <div className="ib-resource-badge" style={{ background: 'rgba(212,165,55,0.15)', color: '#d4a537' }}>{t.aiPowered}</div>
                 <div className="ib-resource-icon">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -6277,6 +6503,8 @@ export default function Home() {
                 </div>
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </div>
+              <ContentCalendarModal open={calendarOpen} onClose={() => setCalendarOpen(false)} t={t} lang={lang}
+                distributorId={distributor?.id || null} onOpenPostWriter={(topic) => { setAiToolTopic(topic); setAiToolModal('post') }} />
             </div>
 
             {/* Resources Section */}
@@ -7572,6 +7800,351 @@ function ViewsChart({ data, noDataLabel }: { data: { date: string; count: number
         return <text key={idx} x={p.x} y={h - 6} className="chart-x-label" textAnchor="middle">{label}</text>
       })}
     </svg>
+  )
+}
+
+/* ─── Content Calendar Modal ────────────────────────────────────────────────── */
+const PLATFORM_ICONS: Record<string, string> = { facebook: '📘', instagram: '📸', tiktok: '🎵', linkedin: '💼', twitter: '🐦', whatsapp: '💬', telegram: '✈️' }
+const PLATFORM_LIST = ['facebook', 'instagram', 'tiktok', 'linkedin', 'twitter', 'whatsapp', 'telegram'] as const
+const TZ_OPTIONS = ['UTC', 'CET', 'EET', 'GMT', 'EST', 'CST', 'MST', 'PST', 'GST', 'IST', 'SGT', 'JST', 'AEST']
+const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPostWriter }: {
+  open: boolean; onClose: () => void; t: Record<string, string>; lang: string;
+  distributorId: string | null; onOpenPostWriter: (topic: string) => void;
+}) {
+  const [tab, setTab] = useState<'calendar' | 'ai' | 'connect'>('calendar')
+  const [posts, setPosts] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [weekStart, setWeekStart] = useState(() => {
+    const d = new Date(); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); d.setHours(0,0,0,0); return d
+  })
+  const [showAdd, setShowAdd] = useState<string | null>(null) // date string for add
+  const [editingPost, setEditingPost] = useState<any>(null)
+  const [addForm, setAddForm] = useState({ platform: 'facebook', content: '', time: '12:00', post_type: 'post' })
+
+  // AI Plan state
+  const [aiPlatforms, setAiPlatforms] = useState<string[]>(['facebook', 'instagram'])
+  const [aiTimezone, setAiTimezone] = useState('CET')
+  const [aiGoal, setAiGoal] = useState('Get leads')
+  const [aiPlan, setAiPlan] = useState<any[]>([])
+  const [aiLoading, setAiLoading] = useState(false)
+
+  const getToken = async () => {
+    const supabaseClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '')
+    const { data } = await supabaseClient.auth.getSession()
+    return data?.session?.access_token || ''
+  }
+
+  const fetchPosts = async () => {
+    setLoading(true)
+    const token = await getToken()
+    if (!token) { setLoading(false); return }
+    try {
+      const res = await fetch('/api/content-calendar/posts', { headers: { Authorization: `Bearer ${token}` } })
+      const data = await res.json()
+      setPosts(data.posts || [])
+    } catch {}
+    setLoading(false)
+  }
+
+  useEffect(() => { if (open) fetchPosts() }, [open])
+
+  const savePost = async (platform: string, content: string, scheduled_for: string, post_type: string) => {
+    const token = await getToken()
+    if (!token) return
+    await fetch('/api/content-calendar/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ platform, content, scheduled_for, post_type }),
+    })
+    fetchPosts()
+    setShowAdd(null)
+    setAddForm({ platform: 'facebook', content: '', time: '12:00', post_type: 'post' })
+  }
+
+  const deletePost = async (id: string) => {
+    const token = await getToken()
+    if (!token) return
+    await fetch(`/api/content-calendar/posts?id=${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } })
+    fetchPosts()
+    setEditingPost(null)
+  }
+
+  const updatePost = async (id: string, fields: Record<string, string>) => {
+    const token = await getToken()
+    if (!token) return
+    await fetch('/api/content-calendar/posts', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id, ...fields }),
+    })
+    fetchPosts()
+    setEditingPost(null)
+  }
+
+  const generateAiPlan = async () => {
+    setAiLoading(true)
+    setAiPlan([])
+    try {
+      const res = await fetch('/api/content-calendar/ai-plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ platforms: aiPlatforms, timezone: aiTimezone, language: lang, goals: aiGoal }),
+      })
+      const data = await res.json()
+      if (data.plan) setAiPlan(data.plan)
+    } catch {}
+    setAiLoading(false)
+  }
+
+  const addPlanToCalendar = async (item: any) => {
+    const dayIndex = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].indexOf(item.day)
+    if (dayIndex === -1) return
+    const date = new Date(weekStart)
+    date.setDate(date.getDate() + dayIndex)
+    const [h, m] = (item.time || '12:00').split(':')
+    date.setHours(parseInt(h) || 12, parseInt(m) || 0, 0, 0)
+    await savePost(item.platform?.toLowerCase() || 'facebook', `${item.hook}\n\n${item.topic}`, date.toISOString(), item.post_type || 'post')
+  }
+
+  const addAllToCalendar = async () => {
+    for (const item of aiPlan) await addPlanToCalendar(item)
+    setTab('calendar')
+  }
+
+  // Week helpers
+  const weekDays = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(weekStart); d.setDate(d.getDate() + i); return d
+  })
+  const fmtDate = (d: Date) => d.toISOString().slice(0, 10)
+  const prevWeek = () => setWeekStart(prev => { const d = new Date(prev); d.setDate(d.getDate() - 7); return d })
+  const nextWeek = () => setWeekStart(prev => { const d = new Date(prev); d.setDate(d.getDate() + 7); return d })
+
+  const weekLabel = `${weekDays[0].toLocaleDateString(undefined, { day: 'numeric', month: 'short' })} — ${weekDays[6].toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}`
+
+  if (!open) return null
+
+  const modalBg = { position: 'fixed' as const, inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }
+  const modalBox = { background: '#1a1a1f', border: '1px solid rgba(212,165,55,0.25)', borderRadius: 20, maxWidth: 1000, width: '92vw', maxHeight: '90vh', overflow: 'auto', padding: '1.5rem 2rem', boxShadow: '0 24px 80px rgba(0,0,0,0.6)' }
+  const pillBtn = (active: boolean) => ({ padding: '6px 14px', borderRadius: 20, fontSize: '0.75rem', fontWeight: 600, border: active ? '1px solid #d4a537' : '1px solid rgba(255,255,255,0.1)', background: active ? 'rgba(212,165,55,0.15)' : 'transparent', color: active ? '#d4a537' : 'rgba(255,255,255,0.5)', cursor: 'pointer' as const })
+  const goldBtn = { padding: '10px 24px', borderRadius: 10, fontSize: '0.82rem', fontWeight: 600, background: 'linear-gradient(135deg, #d4a537, #c9963a)', color: '#1a1a1f', border: 'none', cursor: 'pointer' as const }
+  const cardStyle = { background: 'rgba(212,165,55,0.06)', border: '1px solid rgba(212,165,55,0.12)', borderRadius: 10, padding: '0.75rem' }
+
+  return (
+    <div style={modalBg} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={modalBox}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', color: '#fff', margin: 0 }}>📅 {t.contentCalendar}</h2>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '1.5rem', cursor: 'pointer', padding: 4 }}>&times;</button>
+        </div>
+
+        {/* Tabs */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: 12 }}>
+          {([['calendar', `📅 ${t.calendarView}`], ['ai', `✨ ${t.aiWeeklyPlan}`], ['connect', `🔗 ${t.connectAccounts}`]] as const).map(([key, label]) => (
+            <button key={key} onClick={() => setTab(key as any)} style={{ ...pillBtn(tab === key), fontSize: '0.78rem', padding: '8px 16px' }}>{label}</button>
+          ))}
+        </div>
+
+        {/* TAB 1 — Calendar */}
+        {tab === 'calendar' && (
+          <div>
+            {/* Week navigation */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <button onClick={prevWeek} style={{ background: 'none', border: 'none', color: '#d4a537', cursor: 'pointer', fontSize: '0.82rem' }}>← {t.prevWeek}</button>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem', color: '#fff' }}>{weekLabel}</span>
+              <button onClick={nextWeek} style={{ background: 'none', border: 'none', color: '#d4a537', cursor: 'pointer', fontSize: '0.82rem' }}>{t.nextWeek} →</button>
+            </div>
+
+            {/* Grid */}
+            {loading ? (
+              <div style={{ textAlign: 'center', padding: '2rem', color: 'rgba(255,255,255,0.4)' }}>
+                <div style={{ width: 28, height: 28, border: '2px solid rgba(212,165,55,0.3)', borderTopColor: '#d4a537', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 0.75rem' }} />
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6, marginBottom: '1.5rem' }}>
+                {weekDays.map((day, i) => {
+                  const dateStr = fmtDate(day)
+                  const dayPosts = posts.filter(p => p.scheduled_for?.slice(0, 10) === dateStr)
+                  const isToday = fmtDate(new Date()) === dateStr
+                  return (
+                    <div key={i} style={{ background: isToday ? 'rgba(212,165,55,0.06)' : 'rgba(255,255,255,0.02)', border: isToday ? '1px solid rgba(212,165,55,0.2)' : '1px solid rgba(255,255,255,0.05)', borderRadius: 10, padding: '0.5rem', minHeight: 120 }}>
+                      <div style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: isToday ? '#d4a537' : 'rgba(255,255,255,0.4)', marginBottom: 4, textAlign: 'center' }}>
+                        {DAY_NAMES[i]} {day.getDate()}
+                      </div>
+                      {dayPosts.map(p => (
+                        <div key={p.id} onClick={() => setEditingPost(p)} style={{ ...cardStyle, marginBottom: 4, cursor: 'pointer', fontSize: '0.68rem' }}>
+                          <div style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 2 }}>
+                            <span>{PLATFORM_ICONS[p.platform] || '📝'}</span>
+                            <span style={{ color: 'rgba(255,255,255,0.4)' }}>{p.scheduled_for?.slice(11, 16)}</span>
+                          </div>
+                          <div style={{ color: '#fff', lineHeight: 1.3 }}>{p.content?.slice(0, 30)}{p.content?.length > 30 ? '…' : ''}</div>
+                        </div>
+                      ))}
+                      <button onClick={() => { setShowAdd(dateStr); setAddForm({ platform: 'facebook', content: '', time: '12:00', post_type: 'post' }) }}
+                        style={{ width: '100%', background: 'none', border: '1px dashed rgba(212,165,55,0.2)', borderRadius: 6, color: '#d4a537', fontSize: '0.75rem', padding: '4px', cursor: 'pointer', marginTop: 4 }}>
+                        +
+                      </button>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* Add Post Form */}
+            {showAdd && (
+              <div style={{ ...cardStyle, marginBottom: '1rem', padding: '1rem' }}>
+                <div style={{ fontSize: '0.75rem', color: '#d4a537', marginBottom: 8, fontWeight: 600 }}>{t.addPost} — {showAdd}</div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
+                  {PLATFORM_LIST.map(p => (
+                    <button key={p} onClick={() => setAddForm({ ...addForm, platform: p })} style={pillBtn(addForm.platform === p)}>
+                      {PLATFORM_ICONS[p]} {p}
+                    </button>
+                  ))}
+                </div>
+                <textarea value={addForm.content} onChange={e => setAddForm({ ...addForm, content: e.target.value })}
+                  rows={4} placeholder={t.topicPlaceholder} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', padding: 10, fontSize: '0.82rem', resize: 'vertical', marginBottom: 8 }} />
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <input type="time" value={addForm.time} onChange={e => setAddForm({ ...addForm, time: e.target.value })}
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: '#fff', padding: '6px 10px', fontSize: '0.82rem' }} />
+                  <select value={addForm.post_type} onChange={e => setAddForm({ ...addForm, post_type: e.target.value })}
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: '#fff', padding: '6px 10px', fontSize: '0.82rem' }}>
+                    <option value="post">Post</option>
+                    <option value="story">Story</option>
+                    <option value="reel">Reel</option>
+                  </select>
+                  <button onClick={() => {
+                    if (!addForm.content.trim()) return
+                    const [h, m] = addForm.time.split(':')
+                    const dt = new Date(showAdd + 'T00:00:00')
+                    dt.setHours(parseInt(h) || 12, parseInt(m) || 0, 0, 0)
+                    savePost(addForm.platform, addForm.content, dt.toISOString(), addForm.post_type)
+                  }} style={goldBtn}>{t.savePost}</button>
+                  <button onClick={() => setShowAdd(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.82rem' }}>✕</button>
+                </div>
+              </div>
+            )}
+
+            {/* Edit Post Modal */}
+            {editingPost && (
+              <div style={{ ...cardStyle, marginBottom: '1rem', padding: '1rem' }}>
+                <div style={{ fontSize: '0.75rem', color: '#d4a537', marginBottom: 8, fontWeight: 600 }}>{t.editPost}</div>
+                <textarea value={editingPost.content} onChange={e => setEditingPost({ ...editingPost, content: e.target.value })}
+                  rows={4} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', padding: 10, fontSize: '0.82rem', resize: 'vertical', marginBottom: 8 }} />
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={() => updatePost(editingPost.id, { content: editingPost.content })} style={goldBtn}>{t.savePost}</button>
+                  <button onClick={() => deletePost(editingPost.id)} style={{ ...goldBtn, background: 'rgba(232,85,85,0.15)', color: '#e85555' }}>{t.deletePost}</button>
+                  <button onClick={() => setEditingPost(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }}>✕</button>
+                </div>
+              </div>
+            )}
+
+            {/* List View */}
+            {posts.length > 0 && (
+              <div>
+                <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.4)', marginBottom: 8 }}>All Scheduled ({posts.length})</div>
+                {posts.slice(0, 20).map(p => (
+                  <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: '0.8rem' }}>
+                    <span>{PLATFORM_ICONS[p.platform] || '📝'}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.4)', minWidth: 90 }}>{p.scheduled_for?.slice(0, 10)} {p.scheduled_for?.slice(11, 16)}</span>
+                    <span style={{ color: '#fff', flex: 1 }}>{p.content?.slice(0, 50)}{p.content?.length > 50 ? '…' : ''}</span>
+                    <span style={{ fontSize: '0.65rem', padding: '2px 8px', borderRadius: 10, background: p.status === 'posted' ? 'rgba(109,192,127,0.1)' : p.status === 'failed' ? 'rgba(232,85,85,0.1)' : 'rgba(212,165,55,0.1)', color: p.status === 'posted' ? '#6dc07f' : p.status === 'failed' ? '#e85555' : '#d4a537' }}>
+                      {t[`cc${p.status?.charAt(0).toUpperCase()}${p.status?.slice(1)}`] || p.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 2 — AI Plan */}
+        {tab === 'ai' && (
+          <div>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>{t.selectPlatforms}</div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {PLATFORM_LIST.map(p => (
+                  <button key={p} onClick={() => setAiPlatforms(prev => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p])}
+                    style={pillBtn(aiPlatforms.includes(p))}>
+                    {PLATFORM_ICONS[p]} {p}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: '1.25rem' }}>
+              <div>
+                <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>{t.yourTimezone}</div>
+                <select value={aiTimezone} onChange={e => setAiTimezone(e.target.value)}
+                  style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', padding: '8px 10px', fontSize: '0.82rem' }}>
+                  {TZ_OPTIONS.map(tz => <option key={tz} value={tz}>{tz}</option>)}
+                </select>
+              </div>
+              <div>
+                <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>{t.yourGoal}</div>
+                <select value={aiGoal} onChange={e => setAiGoal(e.target.value)}
+                  style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', padding: '8px 10px', fontSize: '0.82rem' }}>
+                  <option value="Get leads">{t.goalLeads}</option>
+                  <option value="Build audience">{t.goalAudience}</option>
+                  <option value="Establish authority">{t.goalAuthority}</option>
+                  <option value="Drive signups">{t.goalSignups}</option>
+                </select>
+              </div>
+            </div>
+
+            <button onClick={generateAiPlan} disabled={aiLoading || aiPlatforms.length === 0} style={{ ...goldBtn, opacity: aiLoading ? 0.6 : 1, marginBottom: '1.5rem' }}>
+              {aiLoading ? '✨ ...' : `✨ ${t.generatePlan} →`}
+            </button>
+
+            {/* AI Plan Cards */}
+            {aiPlan.length > 0 && (
+              <div>
+                <div style={{ display: 'grid', gap: 8, marginBottom: '1rem' }}>
+                  {aiPlan.map((item, i) => (
+                    <div key={i} style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ minWidth: 60, textAlign: 'center' }}>
+                        <div style={{ fontSize: '0.68rem', color: '#d4a537', fontWeight: 600 }}>{item.day}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>{item.time}</div>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 2 }}>
+                          <span>{PLATFORM_ICONS[item.platform?.toLowerCase()] || '📝'}</span>
+                          <span style={{ fontSize: '0.78rem', color: '#fff', fontWeight: 500 }}>{item.hook}</span>
+                        </div>
+                        <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)' }}>{item.topic}</div>
+                      </div>
+                      <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                        <button onClick={() => addPlanToCalendar(item)} style={{ ...pillBtn(false), fontSize: '0.68rem', border: '1px solid rgba(212,165,55,0.3)', color: '#d4a537' }}>{t.addToCalendar}</button>
+                        <button onClick={() => { onOpenPostWriter(item.topic); onClose() }} style={{ ...pillBtn(false), fontSize: '0.68rem' }}>{t.generateFullPost}</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <button onClick={addAllToCalendar} style={goldBtn}>{t.addAllToCalendar}</button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 3 — Connect Accounts */}
+        {tab === 'connect' && (
+          <div>
+            <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)', marginBottom: '1.25rem' }}>{t.autoPostingComingSoon}</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
+              {['Facebook', 'Instagram', 'TikTok', 'LinkedIn', 'X / Twitter'].map(name => (
+                <div key={name} style={{ ...cardStyle, textAlign: 'center', padding: '1.25rem 1rem', opacity: 0.6 }}>
+                  <div style={{ fontSize: '2rem', marginBottom: 8 }}>{PLATFORM_ICONS[name.toLowerCase().replace(' / twitter', '').replace('x', 'twitter')] || '🌐'}</div>
+                  <div style={{ fontSize: '0.82rem', color: '#fff', fontWeight: 500, marginBottom: 6 }}>{name}</div>
+                  <span style={{ fontSize: '0.65rem', padding: '3px 10px', borderRadius: 10, background: 'rgba(212,165,55,0.1)', color: '#d4a537' }}>{t.comingSoon}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 
