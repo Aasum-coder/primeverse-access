@@ -20,9 +20,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 
-  const { type, language, name } = body
+  const { type, language } = body
   const langLabel = langNames[language] || 'English'
-  const nameNote = name ? `The IB partner's name is "${name}".` : ''
 
   const groq = new Groq({ apiKey })
 
@@ -39,22 +38,25 @@ export async function POST(request: Request) {
         ? `CRITICAL LANGUAGE RULE: You MUST write your entire response in ${langLabel}. Do NOT use English at all. Every single word must be in ${langLabel}.`
         : ''
 
-      systemPrompt = `You are a social media marketing expert for 1Move Academy, a premium trading education and financial services ecosystem powered by PrimeVerse. You create engaging social media posts for IB (Introducing Broker) partners.
+      systemPrompt = `You are a social media copywriter. You write posts IN THE FIRST PERSON on behalf of the user. The user IS the IB/entrepreneur writing about their own life and business. NEVER mention the user's name. NEVER refer to the user in third person. NEVER say things like "thanks to [name]" as if someone else introduced them. The user made their own choice to join this opportunity. Write as if YOU ARE the user — use "I", "me", "my" throughout. Keep it authentic, personal and natural.
 ${langInstruction}
+
+Context: The user is part of 1Move Academy, a premium trading education and financial services ecosystem powered by PrimeVerse.
 
 Write content that:
 - Is optimized for ${platform}
 - Uses a ${tone} tone
+- Is written entirely in FIRST PERSON (I, me, my)
+- Does NOT mention anyone by name — no "thanks to [person]", no third-person references
 - Includes relevant emojis naturally
 - Is engaging and designed for high interaction
 - Relates to trading, finance, wealth building, or the 1Move/PrimeVerse ecosystem
 - Feels authentic and personal, not corporate
 - Brand names (1Move, PrimeVerse, PuPrime, SYSTM8) must stay in English — everything else must be in ${langLabel}
-${nameNote}
 
 Return ONLY the post text, nothing else. No quotes around it.`
 
-      userPrompt = `Write a ${platform} post in ${langLabel} about: ${topic}`
+      userPrompt = `Write a ${tone} social media post for ${platform} in ${langLabel} about: ${topic}. Write entirely in first person as the author. Do not mention any person's name. Do not thank anyone by name. The author made their own choices. Keep it under 300 words. Include relevant hashtags at the end.`
     } else if (type === 'caption') {
       const { topic, style } = body
       if (!topic) {
@@ -64,21 +66,24 @@ Return ONLY the post text, nothing else. No quotes around it.`
         ? `CRITICAL LANGUAGE RULE: You MUST write your entire response in ${langLabel}. Do NOT use English at all. Every single word must be in ${langLabel}.`
         : ''
 
-      systemPrompt = `You are a social media caption specialist for 1Move Academy / PrimeVerse trading ecosystem. You write scroll-stopping captions for images and videos.
+      systemPrompt = `You are a social media caption specialist. You write scroll-stopping captions in FIRST PERSON on behalf of the user. The user IS the author — NEVER mention anyone by name, NEVER refer to the user in third person. Use "I", "me", "my" throughout.
 ${captionLangInstruction}
+
+Context: The user is part of 1Move Academy / PrimeVerse trading ecosystem.
 
 Write a caption that:
 - Is short and punchy (1-3 sentences max)
+- Is written in FIRST PERSON (I, me, my)
+- Does NOT mention anyone by name
 - Includes 2-4 relevant emojis
 - Creates curiosity or engagement
 - Relates to trading, finance, wealth building, or lifestyle
 - Style: ${style || 'engaging'}
 - Brand names (1Move, PrimeVerse, PuPrime, SYSTM8) must stay in English — everything else must be in ${langLabel}
-${nameNote}
 
 Return ONLY the caption text in ${langLabel}. Then on a new line, add "---" and suggest 5 emoji combinations that would work well with this caption (one per line).`
 
-      userPrompt = `Write a caption in ${langLabel} for: ${topic}`
+      userPrompt = `Write a first-person caption in ${langLabel} for: ${topic}. Do not mention any person's name.`
     } else if (type === 'hashtags') {
       const { topic, platform } = body
       if (!topic) {
