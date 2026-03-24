@@ -4463,6 +4463,7 @@ export default function Home() {
           style: aiToolStyle,
           language: aiToolLang,
           name: profileName,
+          distributorId: distributor?.id || null,
         }),
       })
       const data = await res.json()
