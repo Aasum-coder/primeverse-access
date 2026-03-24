@@ -166,7 +166,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'Medium (Balanced)',
     nicheHashtags: 'Niche (Low competition)',
     copyAll: 'Copy All',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'Reply Assistant',
+    replyAssistantDesc: 'Paste a conversation or objection — get a ready-to-send reply.',
+    replyPasteConversation: 'Paste the conversation or objection',
+    replyPastePlaceholder: "E.g. 'I'm interested but I don't have time to trade...' or paste a full chat conversation",
+    replyAttachScreenshot: 'Attach screenshot',
+    replyAddContext: 'Add context (optional)',
+    replyContextPlaceholder: "E.g. 'This person is a nurse, 35 years old, interested in passive income'",
+    replyContextHelper: 'Extra context helps the AI craft a more personalized reply',
+    replyToneProfessional: 'Professional',
+    replyToneEmpathetic: 'Empathetic',
+    replyToneDirect: 'Direct',
+    replyToneMotivational: 'Motivational',
+    replyGenerate: 'Generate Reply',
+    replyAnalysisTitle: 'Objection Analysis',
+    replyReadyTitle: 'Your Ready-to-Send Reply',
+    replyCopy: 'Copy Reply',
+    replyRegenerate: 'Regenerate',
+    replyEditTip: 'Tip: You can edit the reply before sending',
     otherUrl: 'Other URL',
     telegramUrl: 'https://t.me/yourusername',
     whatsappPhone: '+1234567890',
@@ -481,7 +498,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'Medium (Balansert)',
     nicheHashtags: 'Nisje (Lav konkurranse)',
     copyAll: 'Kopier alle',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'Svarassistent',
+    replyAssistantDesc: 'Lim inn en samtale eller innvending — få et ferdig svar.',
+    replyPasteConversation: 'Lim inn samtalen eller innvendingen',
+    replyPastePlaceholder: "F.eks. 'Jeg er interessert, men har ikke tid til å trade...' eller lim inn en hel chat",
+    replyAttachScreenshot: 'Legg ved skjermbilde',
+    replyAddContext: 'Legg til kontekst (valgfritt)',
+    replyContextPlaceholder: "F.eks. 'Denne personen er sykepleier, 35 år, interessert i passiv inntekt'",
+    replyContextHelper: 'Ekstra kontekst hjelper AI-en å lage et mer personlig svar',
+    replyToneProfessional: 'Profesjonell',
+    replyToneEmpathetic: 'Empatisk',
+    replyToneDirect: 'Direkte',
+    replyToneMotivational: 'Motiverende',
+    replyGenerate: 'Generer svar',
+    replyAnalysisTitle: 'Innvendingsanalyse',
+    replyReadyTitle: 'Ditt ferdige svar',
+    replyCopy: 'Kopier svar',
+    replyRegenerate: 'Generer på nytt',
+    replyEditTip: 'Tips: Du kan redigere svaret før du sender',
     otherUrl: 'Annen URL',
     updateInfo: 'Oppdater mine opplysninger',
     updating: 'Oppdaterer...',
@@ -794,7 +828,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'Medium (Balanserad)',
     nicheHashtags: 'Nisch (Låg konkurrens)',
     copyAll: 'Kopiera alla',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'Svarsassistent',
+    replyAssistantDesc: 'Klistra in en konversation eller invändning — få ett färdigt svar.',
+    replyPasteConversation: 'Klistra in konversationen eller invändningen',
+    replyPastePlaceholder: "T.ex. 'Jag är intresserad men har inte tid att handla...' eller klistra in en hel chatt",
+    replyAttachScreenshot: 'Bifoga skärmbild',
+    replyAddContext: 'Lägg till kontext (valfritt)',
+    replyContextPlaceholder: "T.ex. 'Denna person är sjuksköterska, 35 år, intresserad av passiv inkomst'",
+    replyContextHelper: 'Extra kontext hjälper AI:n skapa ett mer personligt svar',
+    replyToneProfessional: 'Professionell',
+    replyToneEmpathetic: 'Empatisk',
+    replyToneDirect: 'Direkt',
+    replyToneMotivational: 'Motiverande',
+    replyGenerate: 'Generera svar',
+    replyAnalysisTitle: 'Invändningsanalys',
+    replyReadyTitle: 'Ditt färdiga svar',
+    replyCopy: 'Kopiera svar',
+    replyRegenerate: 'Generera igen',
+    replyEditTip: 'Tips: Du kan redigera svaret innan du skickar',
     otherUrl: 'Annan URL',
     updateInfo: 'Uppdatera mina uppgifter',
     updating: 'Uppdaterar...',
@@ -1107,7 +1158,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'Medio (Equilibrado)',
     nicheHashtags: 'Nicho (Baja competencia)',
     copyAll: 'Copiar todo',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'Asistente de Respuestas',
+    replyAssistantDesc: 'Pega una conversación u objeción — obtén una respuesta lista para enviar.',
+    replyPasteConversation: 'Pega la conversación o la objeción',
+    replyPastePlaceholder: "Ej. 'Me interesa pero no tengo tiempo para hacer trading...' o pega una conversación completa",
+    replyAttachScreenshot: 'Adjuntar captura',
+    replyAddContext: 'Agregar contexto (opcional)',
+    replyContextPlaceholder: "Ej. 'Esta persona es enfermera, 35 años, interesada en ingresos pasivos'",
+    replyContextHelper: 'El contexto extra ayuda a la IA a crear una respuesta más personalizada',
+    replyToneProfessional: 'Profesional',
+    replyToneEmpathetic: 'Empático',
+    replyToneDirect: 'Directo',
+    replyToneMotivational: 'Motivacional',
+    replyGenerate: 'Generar respuesta',
+    replyAnalysisTitle: 'Análisis de objeción',
+    replyReadyTitle: 'Tu respuesta lista para enviar',
+    replyCopy: 'Copiar respuesta',
+    replyRegenerate: 'Regenerar',
+    replyEditTip: 'Consejo: Puedes editar la respuesta antes de enviarla',
     otherUrl: 'Otra URL',
     updateInfo: 'Actualizar mis datos',
     updating: 'Actualizando...',
@@ -1420,7 +1488,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'Средние (Сбалансированные)',
     nicheHashtags: 'Нишевые (Низкая конкуренция)',
     copyAll: 'Копировать все',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'Ассистент ответов',
+    replyAssistantDesc: 'Вставьте разговор или возражение — получите готовый ответ.',
+    replyPasteConversation: 'Вставьте разговор или возражение',
+    replyPastePlaceholder: "Напр. 'Мне интересно, но у меня нет времени на трейдинг...' или вставьте весь чат",
+    replyAttachScreenshot: 'Прикрепить скриншот',
+    replyAddContext: 'Добавить контекст (необязательно)',
+    replyContextPlaceholder: "Напр. 'Этот человек — медсестра, 35 лет, интересуется пассивным доходом'",
+    replyContextHelper: 'Дополнительный контекст помогает ИИ создать более персонализированный ответ',
+    replyToneProfessional: 'Профессиональный',
+    replyToneEmpathetic: 'Эмпатичный',
+    replyToneDirect: 'Прямой',
+    replyToneMotivational: 'Мотивирующий',
+    replyGenerate: 'Сгенерировать ответ',
+    replyAnalysisTitle: 'Анализ возражения',
+    replyReadyTitle: 'Ваш готовый ответ',
+    replyCopy: 'Копировать ответ',
+    replyRegenerate: 'Сгенерировать заново',
+    replyEditTip: 'Совет: Вы можете отредактировать ответ перед отправкой',
     otherUrl: 'Другая URL',
     updateInfo: 'Обновить мои данные',
     updating: 'Обновление...',
@@ -1733,7 +1818,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'متوسط (متوازن)',
     nicheHashtags: 'متخصص (منافسة منخفضة)',
     copyAll: 'نسخ الكل',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'مساعد الردود',
+    replyAssistantDesc: 'الصق محادثة أو اعتراض — واحصل على رد جاهز للإرسال.',
+    replyPasteConversation: 'الصق المحادثة أو الاعتراض',
+    replyPastePlaceholder: "مثال: 'أنا مهتم لكن ليس لدي وقت للتداول...' أو الصق محادثة كاملة",
+    replyAttachScreenshot: 'إرفاق لقطة شاشة',
+    replyAddContext: 'إضافة سياق (اختياري)',
+    replyContextPlaceholder: "مثال: 'هذا الشخص ممرض، 35 سنة، مهتم بالدخل السلبي'",
+    replyContextHelper: 'السياق الإضافي يساعد الذكاء الاصطناعي في صياغة رد أكثر تخصيصاً',
+    replyToneProfessional: 'احترافي',
+    replyToneEmpathetic: 'متعاطف',
+    replyToneDirect: 'مباشر',
+    replyToneMotivational: 'تحفيزي',
+    replyGenerate: 'إنشاء رد',
+    replyAnalysisTitle: 'تحليل الاعتراض',
+    replyReadyTitle: 'ردك الجاهز للإرسال',
+    replyCopy: 'نسخ الرد',
+    replyRegenerate: 'إعادة الإنشاء',
+    replyEditTip: 'نصيحة: يمكنك تعديل الرد قبل إرساله',
     otherUrl: 'رابط آخر',
     updateInfo: 'تحديث بياناتي',
     updating: 'جاري التحديث...',
@@ -2046,7 +2148,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'Medium (Balansado)',
     nicheHashtags: 'Niche (Mababang kompetisyon)',
     copyAll: 'Kopyahin Lahat',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'Reply Assistant',
+    replyAssistantDesc: 'I-paste ang usapan o objection — makakuha ng handang i-send na reply.',
+    replyPasteConversation: 'I-paste ang usapan o objection',
+    replyPastePlaceholder: "Hal. 'Interested ako pero wala akong oras mag-trade...' o i-paste ang buong usapan",
+    replyAttachScreenshot: 'Mag-attach ng screenshot',
+    replyAddContext: 'Magdagdag ng context (opsyonal)',
+    replyContextPlaceholder: "Hal. 'Nurse siya, 35 years old, interesado sa passive income'",
+    replyContextHelper: 'Ang dagdag na context ay nakakatulong sa AI na gumawa ng mas personalized na reply',
+    replyToneProfessional: 'Professional',
+    replyToneEmpathetic: 'Empatiko',
+    replyToneDirect: 'Direkta',
+    replyToneMotivational: 'Motivational',
+    replyGenerate: 'Gumawa ng Reply',
+    replyAnalysisTitle: 'Pagsusuri ng Objection',
+    replyReadyTitle: 'Ang Iyong Handang Reply',
+    replyCopy: 'Kopyahin ang Reply',
+    replyRegenerate: 'Gumawa Ulit',
+    replyEditTip: 'Tip: Maaari mong i-edit ang reply bago i-send',
     otherUrl: 'Ibang URL',
     updateInfo: 'I-update ang aking impormasyon',
     updating: 'Ina-update...',
@@ -2359,7 +2478,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'Médio (Equilibrado)',
     nicheHashtags: 'Nicho (Baixa competição)',
     copyAll: 'Copiar tudo',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'Assistente de Respostas',
+    replyAssistantDesc: 'Cole uma conversa ou objeção — receba uma resposta pronta para enviar.',
+    replyPasteConversation: 'Cole a conversa ou objeção',
+    replyPastePlaceholder: "Ex. 'Estou interessado mas não tenho tempo para fazer trading...' ou cole uma conversa inteira",
+    replyAttachScreenshot: 'Anexar captura de tela',
+    replyAddContext: 'Adicionar contexto (opcional)',
+    replyContextPlaceholder: "Ex. 'Esta pessoa é enfermeira, 35 anos, interessada em renda passiva'",
+    replyContextHelper: 'Contexto extra ajuda a IA a criar uma resposta mais personalizada',
+    replyToneProfessional: 'Profissional',
+    replyToneEmpathetic: 'Empático',
+    replyToneDirect: 'Direto',
+    replyToneMotivational: 'Motivacional',
+    replyGenerate: 'Gerar resposta',
+    replyAnalysisTitle: 'Análise da objeção',
+    replyReadyTitle: 'Sua resposta pronta para enviar',
+    replyCopy: 'Copiar resposta',
+    replyRegenerate: 'Regenerar',
+    replyEditTip: 'Dica: Você pode editar a resposta antes de enviar',
     otherUrl: 'Outro URL',
     updateInfo: 'Atualizar minhas informações',
     updating: 'Atualizando...',
@@ -2672,7 +2808,24 @@ const translations: Record<string, Record<string, string>> = {
     mediumHashtags: 'ปานกลาง (สมดุล)',
     nicheHashtags: 'เฉพาะกลุ่ม (แข่งขันต่ำ)',
     copyAll: 'คัดลอกทั้งหมด',
-    youtubeUrl: 'YouTube URL',
+    replyAssistant: 'ผู้ช่วยตอบกลับ',
+    replyAssistantDesc: 'วางบทสนทนาหรือข้อโต้แย้ง — รับคำตอบพร้อมส่ง',
+    replyPasteConversation: 'วางบทสนทนาหรือข้อโต้แย้ง',
+    replyPastePlaceholder: "เช่น 'ฉันสนใจแต่ไม่มีเวลาเทรด...' หรือวางบทสนทนาทั้งหมด",
+    replyAttachScreenshot: 'แนบภาพหน้าจอ',
+    replyAddContext: 'เพิ่มบริบท (ไม่บังคับ)',
+    replyContextPlaceholder: "เช่น 'คนนี้เป็นพยาบาล อายุ 35 ปี สนใจรายได้แบบ passive'",
+    replyContextHelper: 'บริบทเพิ่มเติมช่วยให้ AI สร้างคำตอบที่เหมาะสมยิ่งขึ้น',
+    replyToneProfessional: 'มืออาชีพ',
+    replyToneEmpathetic: 'เห็นอกเห็นใจ',
+    replyToneDirect: 'ตรงไปตรงมา',
+    replyToneMotivational: 'สร้างแรงบันดาลใจ',
+    replyGenerate: 'สร้างคำตอบ',
+    replyAnalysisTitle: 'การวิเคราะห์ข้อโต้แย้ง',
+    replyReadyTitle: 'คำตอบพร้อมส่งของคุณ',
+    replyCopy: 'คัดลอกคำตอบ',
+    replyRegenerate: 'สร้างใหม่',
+    replyEditTip: 'เคล็ดลับ: คุณสามารถแก้ไขคำตอบก่อนส่ง',
     otherUrl: 'URL อื่น',
     updateInfo: 'อัปเดตข้อมูลของฉัน',
     updating: 'กำลังอัปเดต...',
@@ -4134,6 +4287,83 @@ export default function Home() {
   const [aiToolResult, setAiToolResult] = useState('')
   const [aiToolHashtags, setAiToolHashtags] = useState<{ top: string[]; medium: string[]; niche: string[] } | null>(null)
   const [aiToolCopied, setAiToolCopied] = useState('')
+
+  // Reply Assistant state
+  const [replyOpen, setReplyOpen] = useState(false)
+  const [replyConversation, setReplyConversation] = useState('')
+  const [replyContext, setReplyContext] = useState('')
+  const [replyTone, setReplyTone] = useState('Empathetic')
+  const [replyLang, setReplyLang] = useState('en')
+  const [replyImageBase64, setReplyImageBase64] = useState<string | null>(null)
+  const [replyImageName, setReplyImageName] = useState('')
+  const [replyLoading, setReplyLoading] = useState(false)
+  const [replyAnalysis, setReplyAnalysis] = useState('')
+  const [replyResult, setReplyResult] = useState('')
+  const [replyCopied, setReplyCopied] = useState(false)
+  const [replyAnalysisOpen, setReplyAnalysisOpen] = useState(false)
+
+  const replyImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setReplyImageName(file.name)
+    const reader = new FileReader()
+    reader.onload = () => {
+      const result = reader.result as string
+      setReplyImageBase64(result.split(',')[1] || result)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const replyGenerate = async () => {
+    if (!replyConversation.trim()) return
+    setReplyLoading(true)
+    setReplyResult('')
+    setReplyAnalysis('')
+    setReplyCopied(false)
+    try {
+      const res = await fetch('/api/ai-reply-assistant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          conversationText: replyConversation,
+          contextText: replyContext,
+          language: replyLang,
+          tone: replyTone,
+          imageBase64: replyImageBase64,
+        }),
+      })
+      const data = await res.json()
+      if (data.error) {
+        setReplyResult('Error: ' + data.error)
+      } else {
+        setReplyAnalysis(data.analysis || '')
+        setReplyResult(data.reply || '')
+      }
+    } catch (e) {
+      setReplyResult('Network error: ' + String(e))
+    }
+    setReplyLoading(false)
+  }
+
+  const replyCopyText = () => {
+    navigator.clipboard.writeText(replyResult)
+    setReplyCopied(true)
+    setTimeout(() => setReplyCopied(false), 2000)
+  }
+
+  const replyReset = () => {
+    setReplyOpen(false)
+    setReplyConversation('')
+    setReplyContext('')
+    setReplyTone('Empathetic')
+    setReplyImageBase64(null)
+    setReplyImageName('')
+    setReplyResult('')
+    setReplyAnalysis('')
+    setReplyCopied(false)
+    setReplyAnalysisOpen(false)
+    setReplyLang(lang)
+  }
 
   const aiToolGenerate = async () => {
     if (!aiToolTopic.trim()) return
@@ -5936,6 +6166,20 @@ export default function Home() {
                 </div>
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </div>
+              {/* Reply Assistant */}
+              <div className="ib-resource-card" onClick={() => { setReplyOpen(true); setReplyLang(lang) }} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setReplyOpen(true)}>
+                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                <div className="ib-resource-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                  </svg>
+                </div>
+                <div className="ib-resource-text">
+                  <div className="ib-resource-title">{t.replyAssistant}</div>
+                  <div className="ib-resource-desc">{t.replyAssistantDesc}</div>
+                </div>
+                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+              </div>
               {/* Content Calendar */}
               <div className="ib-resource-card ib-resource-card-disabled">
                 <div className="ib-resource-badge">{t.comingSoon}</div>
@@ -6178,6 +6422,149 @@ export default function Home() {
               {/* Hashtag error */}
               {aiToolResult && aiToolModal === 'hashtags' && (
                 <div className="ai-result-box" style={{ color: 'var(--warning-text)' }}>{aiToolResult}</div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* REPLY ASSISTANT MODAL */}
+        {replyOpen && (
+          <div className="ai-modal-overlay" onClick={e => { if (e.target === e.currentTarget) replyReset() }}>
+            <div className="ai-modal" style={{ maxWidth: '540px' }}>
+              <div className="ai-modal-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                {t.replyAssistant}
+                <button className="ai-modal-close" onClick={replyReset}>&times;</button>
+              </div>
+
+              {/* Conversation input */}
+              <div className="ai-modal-field">
+                <div className="ai-modal-label">{t.replyPasteConversation}</div>
+                <textarea
+                  className="field-input"
+                  rows={6}
+                  placeholder={t.replyPastePlaceholder}
+                  value={replyConversation}
+                  onChange={e => setReplyConversation(e.target.value)}
+                  style={{ resize: 'vertical', minHeight: '120px' }}
+                />
+                <div style={{ marginTop: '0.5rem' }}>
+                  <label className="reply-attach-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', cursor: 'pointer', fontSize: '0.82rem', color: 'var(--gold)', padding: '0.35rem 0.7rem', border: '1px solid rgba(201,168,76,0.3)', borderRadius: '6px', background: 'rgba(201,168,76,0.05)' }}>
+                    <span>📎</span> {t.replyAttachScreenshot}
+                    <input type="file" accept="image/*" onChange={replyImageUpload} style={{ display: 'none' }} />
+                  </label>
+                  {replyImageName && (
+                    <span style={{ marginLeft: '0.6rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                      {replyImageName}
+                      <button onClick={() => { setReplyImageBase64(null); setReplyImageName('') }} style={{ marginLeft: '0.3rem', background: 'none', border: 'none', color: 'var(--error-text)', cursor: 'pointer', fontSize: '0.82rem' }}>&times;</button>
+                    </span>
+                  )}
+                </div>
+                {replyImageBase64 && (
+                  <div style={{ marginTop: '0.5rem' }}>
+                    <img src={`data:image/png;base64,${replyImageBase64}`} alt="Screenshot" style={{ maxWidth: '120px', maxHeight: '80px', borderRadius: '6px', border: '1px solid rgba(201,168,76,0.2)' }} />
+                  </div>
+                )}
+              </div>
+
+              {/* Context input */}
+              <div className="ai-modal-field">
+                <div className="ai-modal-label">{t.replyAddContext}</div>
+                <textarea
+                  className="field-input"
+                  rows={3}
+                  placeholder={t.replyContextPlaceholder}
+                  value={replyContext}
+                  onChange={e => setReplyContext(e.target.value)}
+                  style={{ resize: 'vertical' }}
+                />
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '0.3rem', opacity: 0.7 }}>
+                  {t.replyContextHelper}
+                </div>
+              </div>
+
+              {/* Tone selector */}
+              <div className="ai-modal-field">
+                <div className="ai-modal-label">{t.toneLabel}</div>
+                <div className="ai-pills">
+                  {[
+                    { key: 'Professional', label: t.replyToneProfessional },
+                    { key: 'Empathetic', label: t.replyToneEmpathetic },
+                    { key: 'Direct', label: t.replyToneDirect },
+                    { key: 'Motivational', label: t.replyToneMotivational },
+                  ].map(item => (
+                    <button key={item.key} className={`ai-pill${replyTone === item.key ? ' ai-pill-active' : ''}`} onClick={() => setReplyTone(item.key)}>{item.label}</button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Language selector */}
+              <div className="ai-modal-field">
+                <div className="ai-modal-label">{t.selectLanguage}</div>
+                <select className="ai-modal-select" value={replyLang} onChange={e => setReplyLang(e.target.value)}>
+                  {Object.entries(languageLabels).map(([code, label]) => (
+                    <option key={code} value={code}>{languageFlags[code]} {label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Generate button */}
+              <button
+                className="gold-btn"
+                style={{ width: '100%', marginTop: '0.5rem' }}
+                onClick={replyGenerate}
+                disabled={replyLoading || !replyConversation.trim()}
+              >
+                {replyLoading ? t.generating : `${t.replyGenerate} →`}
+              </button>
+
+              {/* Analysis section (collapsible) */}
+              {replyAnalysis && !replyResult.startsWith('Error') && (
+                <div style={{ marginTop: '1rem', border: '1px solid rgba(201,168,76,0.15)', borderRadius: '10px', overflow: 'hidden' }}>
+                  <button
+                    onClick={() => setReplyAnalysisOpen(!replyAnalysisOpen)}
+                    style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.7rem 1rem', background: 'rgba(201,168,76,0.06)', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontFamily: 'Outfit, sans-serif', fontSize: '0.85rem', fontWeight: 600 }}
+                  >
+                    <span>📊 {t.replyAnalysisTitle}</span>
+                    <span style={{ transform: replyAnalysisOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>▼</span>
+                  </button>
+                  {replyAnalysisOpen && (
+                    <div style={{ padding: '0.75rem 1rem', fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      {replyAnalysis}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Reply result */}
+              {replyResult && (
+                <div style={{ marginTop: '1rem' }}>
+                  {!replyResult.startsWith('Error') && (
+                    <div className="ai-modal-label" style={{ marginBottom: '0.5rem' }}>{t.replyReadyTitle}</div>
+                  )}
+                  <textarea
+                    className="field-input"
+                    rows={6}
+                    value={replyResult}
+                    onChange={e => setReplyResult(e.target.value)}
+                    style={{ resize: 'vertical', minHeight: '100px', fontSize: '0.88rem', lineHeight: 1.6, color: replyResult.startsWith('Error') ? 'var(--error-text, #e57373)' : 'var(--text-primary)' }}
+                  />
+                  {!replyResult.startsWith('Error') && (
+                    <>
+                      <div className="ai-result-actions" style={{ marginTop: '0.6rem' }}>
+                        <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem' }} onClick={replyCopyText}>
+                          {replyCopied ? t.copied : `📋 ${t.replyCopy}`}
+                        </button>
+                        <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} onClick={replyGenerate} disabled={replyLoading}>
+                          🔄 {t.replyRegenerate}
+                        </button>
+                      </div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '0.5rem', opacity: 0.6, textAlign: 'center' }}>
+                        {t.replyEditTip}
+                      </div>
+                    </>
+                  )}
+                </div>
               )}
             </div>
           </div>
