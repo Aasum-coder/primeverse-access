@@ -476,7 +476,7 @@ const T: Record<LangKey, Record<string, string>> = {
   },
 }
 
-const RESERVED_SLUGS = ['reset-password', 'login', 'signup', 'admin', 'auth', 'api', 'beta', 'factory']
+const RESERVED_SLUGS = ['reset-password', 'login', 'signup', 'admin', 'auth', 'api', 'beta', 'factory', 'event']
 
 export default function DistributorPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
