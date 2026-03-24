@@ -200,7 +200,7 @@ export async function POST(request: Request) {
   // Fetch all approved IBs
   const { data: distributors, error: dbError } = await supabaseAdmin
     .from('distributors')
-    .select('id, email, full_name')
+    .select('id, email, name')
     .eq('ib_status', 'approved')
 
   if (dbError) {
@@ -223,8 +223,8 @@ export async function POST(request: Request) {
         from: '1Move Academy <noreply@primeverseaccess.com>',
         to: [dist.email],
         subject: 'New in SYSTM8 — Your AI Reply Assistant is live 🤖',
-        html: buildAnnouncementHtml(dist.full_name || ''),
-        text: buildAnnouncementText(dist.full_name || ''),
+        html: buildAnnouncementHtml(dist.name || ''),
+        text: buildAnnouncementText(dist.name || ''),
         headers: {
           'X-Entity-Ref-ID': `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         },
