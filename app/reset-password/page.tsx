@@ -21,34 +21,68 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    // Check for recovery flow (type=recovery in hash or code param in query)
+    // Check for recovery flow
     const params = new URLSearchParams(window.location.search);
-    if (hash.includes("type=recovery") || params.get("code")) {
-      // If there's a code param, exchange it for a session
-      const code = params.get("code");
-      if (code) {
-        supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
-          if (error) {
-            setErrorMsg(error.message);
-            setStatus("expired");
-          } else {
-            setStatus("form");
-          }
-        });
-      } else {
+    const hashParams = new URLSearchParams(hash.replace("#", ""));
+
+    // Handle code param (PKCE flow — session already established by callback)
+    const code = params.get("code");
+    if (code) {
+      supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
+        if (error) {
+          setErrorMsg(error.message);
+          setStatus("expired");
+        } else {
+          setStatus("form");
+        }
+      });
+      return;
+    }
+
+    // Handle hash-based recovery (type=recovery with access_token in hash)
+    const accessToken = hashParams.get("access_token");
+    const refreshToken = hashParams.get("refresh_token");
+    const type = hashParams.get("type");
+
+    if (type === "recovery" && accessToken) {
+      supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken || "",
+      }).then(({ error }) => {
+        if (error) {
+          setErrorMsg(error.message);
+          setStatus("expired");
+        } else {
+          setStatus("form");
+        }
+      });
+      return;
+    }
+
+    // Hash contains access_token without type (old-style)
+    if (accessToken) {
+      supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken || "",
+      }).then(({ error }) => {
+        if (error) {
+          setErrorMsg(error.message);
+          setStatus("expired");
+        } else {
+          setStatus("form");
+        }
+      });
+      return;
+    }
+
+    // Check if session already exists (callback already set it)
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
         setStatus("form");
+      } else {
+        setStatus("expired");
       }
-      return;
-    }
-
-    // If hash contains access_token (old-style recovery links)
-    if (hash.includes("access_token")) {
-      setStatus("form");
-      return;
-    }
-
-    // No valid params — show expired
-    setStatus("expired");
+    });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -83,6 +117,7 @@ export default function ResetPasswordPage() {
       <div className="marble-bg" />
       <div className="reset-page">
         <div className="logo-container">
+          {/* <img className="logo-img" src="/images/1move-logo.png" alt="1Move Academy" width={180} /> */}
           <div className="portal-title">Reset Password</div>
         </div>
 
@@ -138,8 +173,12 @@ export default function ResetPasswordPage() {
 
           {status === "success" && (
             <div className="message-block">
+              <svg className="success-check" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
               <p className="success-text">
-                Password updated! Redirecting...
+                Password updated! Redirecting to login...
               </p>
             </div>
           )}
@@ -166,7 +205,7 @@ const pageStyles = `
     --input-border: rgba(212, 165, 55, 0.2);
     --input-focus: rgba(212, 165, 55, 0.5);
     --error-color: #d44a37;
-    --success-color: #4a9d5a;
+    --success-color: #c9a84c;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -208,6 +247,12 @@ const pageStyles = `
   .logo-container {
     margin-bottom: 1.5rem;
     text-align: center;
+  }
+
+  .logo-img {
+    display: block;
+    margin: 0 auto 0.75rem;
+    filter: drop-shadow(0 2px 8px rgba(212, 165, 55, 0.15));
   }
 
   .portal-title {
@@ -336,6 +381,17 @@ const pageStyles = `
     margin-bottom: 0.75rem;
     text-align: center;
     line-height: 1.5;
+  }
+
+  .success-check {
+    display: block;
+    margin: 0 auto 1rem;
+    animation: checkPop 0.4s ease;
+  }
+
+  @keyframes checkPop {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   .success-text {

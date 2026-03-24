@@ -19,6 +19,10 @@ export async function GET(request: NextRequest) {
       console.error('Code exchange failed:', error.message)
       return NextResponse.redirect(`${origin}/login?error=confirmation_failed`)
     }
+    // Recovery flow: redirect to reset-password page so user can set new password
+    if (type === 'recovery') {
+      return NextResponse.redirect(`${origin}/reset-password?code=${code}`)
+    }
     return NextResponse.redirect(`${origin}/login?confirmed=true`)
   }
 
@@ -28,6 +32,15 @@ export async function GET(request: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
     )
+    // Recovery flow: redirect to reset-password page
+    if (type === 'recovery') {
+      const { error } = await supabase.auth.verifyOtp({ token_hash, type: 'recovery' })
+      if (error) {
+        console.error('Recovery OTP verification failed:', error.message)
+        return NextResponse.redirect(`${origin}/reset-password#error=access_denied`)
+      }
+      return NextResponse.redirect(`${origin}/reset-password`)
+    }
     const { error } = await supabase.auth.verifyOtp({ token_hash, type: type as any })
     if (error) {
       console.error('OTP verification failed:', error.message)
