@@ -530,16 +530,39 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         setLoading(false)
         return
       }
-      // Track page view with source info (fire-and-forget)
-      const urlParams = new URLSearchParams(window.location.search)
-      const rawReferrer = document.referrer || ''
+      // Track page view with smart source detection (fire-and-forget)
+      const params = new URLSearchParams(window.location.search)
+      const sourceTag = params.get('s')
+      const utmSource = params.get('utm_source')
+      let referrer = 'Direct'
+      if (sourceTag === 'share') referrer = 'Shared Link'
+      else if (sourceTag === 'fb') referrer = 'Facebook'
+      else if (sourceTag === 'ig') referrer = 'Instagram'
+      else if (sourceTag === 'tt') referrer = 'TikTok'
+      else if (sourceTag === 'wa') referrer = 'WhatsApp'
+      else if (sourceTag === 'tg') referrer = 'Telegram'
+      else if (utmSource) referrer = utmSource
+      else if (document.referrer) {
+        const ref = document.referrer.toLowerCase()
+        if (ref.includes('facebook')) referrer = 'Facebook'
+        else if (ref.includes('instagram')) referrer = 'Instagram'
+        else if (ref.includes('tiktok')) referrer = 'TikTok'
+        else if (ref.includes('whatsapp')) referrer = 'WhatsApp'
+        else if (ref.includes('t.me') || ref.includes('telegram')) referrer = 'Telegram'
+        else if (ref.includes('linkedin')) referrer = 'LinkedIn'
+        else if (ref.includes('google')) referrer = 'Google'
+        else if (ref.includes('twitter') || ref.includes('x.com')) referrer = 'X / Twitter'
+        else {
+          try { referrer = new URL(document.referrer).hostname } catch { referrer = 'Other' }
+        }
+      }
       supabase.from('page_views').insert({
         distributor_id: data.id,
         slug: slug,
         created_at: new Date().toISOString(),
-        referrer: rawReferrer || 'direct',
-        utm_source: urlParams.get('utm_source') || null,
-        utm_medium: urlParams.get('utm_medium') || null,
+        referrer: referrer,
+        utm_source: utmSource || null,
+        utm_medium: params.get('utm_medium') || null,
         device: window.innerWidth < 768 ? 'mobile' : 'desktop',
       }).then(() => {}, () => {})
       // Ensure bio_translations is a parsed object (handle string edge case)
