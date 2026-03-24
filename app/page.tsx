@@ -201,6 +201,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'Answer 5 questions, choose a tone, and AI will create a professional bio for you — in all languages.',
     somethingWentWrong: 'Something went wrong',
     noDataYet: 'No data yet',
+    trafficSources: 'Traffic Sources',
+    trafficSubtitle: 'Where your visitors are coming from',
+    topSources: 'Top Sources',
+    deviceLabel: 'Device',
+    mobileLabel: 'Mobile',
+    desktopLabel: 'Desktop',
+    last30Days: 'Last 30 Days',
+    directLabel: 'Direct',
+    noTrafficData: 'No data yet',
     errorPrefix: 'Error: ',
     uploadErrorPrefix: 'Upload error: ',
     reportBug: 'Report a bug',
@@ -531,6 +540,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'Svar på 5 spørsmål, velg en tone, og AI lager en profesjonell bio for deg — på alle språk.',
     somethingWentWrong: 'Noe gikk galt',
     noDataYet: 'Ingen data ennå',
+    trafficSources: 'Trafikkkilder',
+    trafficSubtitle: 'Hvor besøkende kommer fra',
+    topSources: 'Toppkilder',
+    deviceLabel: 'Enhet',
+    mobileLabel: 'Mobil',
+    desktopLabel: 'Desktop',
+    last30Days: 'Siste 30 dager',
+    directLabel: 'Direkte',
+    noTrafficData: 'Ingen data ennå',
     errorPrefix: 'Feil: ',
     uploadErrorPrefix: 'Feil ved opplasting: ',
     reportBug: 'Rapporter en feil',
@@ -861,6 +879,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'Svara på 5 frågor, välj en ton, så skapar AI en professionell bio åt dig — på alla språk.',
     somethingWentWrong: 'Något gick fel',
     noDataYet: 'Ingen data ännu',
+    trafficSources: 'Trafikkällor',
+    trafficSubtitle: 'Var dina besökare kommer ifrån',
+    topSources: 'Toppkällor',
+    deviceLabel: 'Enhet',
+    mobileLabel: 'Mobil',
+    desktopLabel: 'Desktop',
+    last30Days: 'Senaste 30 dagarna',
+    directLabel: 'Direkt',
+    noTrafficData: 'Ingen data ännu',
     errorPrefix: 'Fel: ',
     uploadErrorPrefix: 'Uppladdningsfel: ',
     reportBug: 'Rapportera en bugg',
@@ -1191,6 +1218,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'Responde 5 preguntas, elige un tono, y la IA creará una bio profesional para ti — en todos los idiomas.',
     somethingWentWrong: 'Algo salió mal',
     noDataYet: 'Aún no hay datos',
+    trafficSources: 'Fuentes de tráfico',
+    trafficSubtitle: 'De dónde vienen tus visitantes',
+    topSources: 'Principales fuentes',
+    deviceLabel: 'Dispositivo',
+    mobileLabel: 'Móvil',
+    desktopLabel: 'Escritorio',
+    last30Days: 'Últimos 30 días',
+    directLabel: 'Directo',
+    noTrafficData: 'Aún no hay datos',
     errorPrefix: 'Error: ',
     uploadErrorPrefix: 'Error de carga: ',
     reportBug: 'Reportar un error',
@@ -1521,6 +1557,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'Ответьте на 5 вопросов, выберите тон, и AI создаст профессиональную биографию — на всех языках.',
     somethingWentWrong: 'Что-то пошло не так',
     noDataYet: 'Данных пока нет',
+    trafficSources: 'Источники трафика',
+    trafficSubtitle: 'Откуда приходят ваши посетители',
+    topSources: 'Топ источники',
+    deviceLabel: 'Устройство',
+    mobileLabel: 'Мобильный',
+    desktopLabel: 'Десктоп',
+    last30Days: 'Последние 30 дней',
+    directLabel: 'Прямой',
+    noTrafficData: 'Данных пока нет',
     errorPrefix: 'Ошибка: ',
     uploadErrorPrefix: 'Ошибка загрузки: ',
     reportBug: 'Сообщить об ошибке',
@@ -1851,6 +1896,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'أجب على 5 أسئلة، اختر نغمة، وسيقوم AI بإنشاء نبذة احترافية لك — بجميع اللغات.',
     somethingWentWrong: 'حدث خطأ',
     noDataYet: 'لا توجد بيانات بعد',
+    trafficSources: 'مصادر الزيارات',
+    trafficSubtitle: 'من أين يأتي زوارك',
+    topSources: 'أهم المصادر',
+    deviceLabel: 'الجهاز',
+    mobileLabel: 'الجوال',
+    desktopLabel: 'سطح المكتب',
+    last30Days: 'آخر 30 يوم',
+    directLabel: 'مباشر',
+    noTrafficData: 'لا توجد بيانات بعد',
     errorPrefix: 'خطأ: ',
     uploadErrorPrefix: 'خطأ في التحميل: ',
     reportBug: 'الإبلاغ عن خطأ',
@@ -2181,6 +2235,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'Sagutin ang 5 tanong, pumili ng tono, at gagawa ang AI ng professional bio para sa iyo — sa lahat ng wika.',
     somethingWentWrong: 'May nangyaring mali',
     noDataYet: 'Wala pang data',
+    trafficSources: 'Mga Pinagmulan ng Trapiko',
+    trafficSubtitle: 'Kung saan nanggagaling ang iyong mga bisita',
+    topSources: 'Nangungunang Pinagmulan',
+    deviceLabel: 'Device',
+    mobileLabel: 'Mobile',
+    desktopLabel: 'Desktop',
+    last30Days: 'Huling 30 Araw',
+    directLabel: 'Direkta',
+    noTrafficData: 'Wala pang data',
     errorPrefix: 'Error: ',
     uploadErrorPrefix: 'Error sa pag-upload: ',
     reportBug: 'Mag-report ng bug',
@@ -2511,6 +2574,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'Responda 5 perguntas, escolha um tom, e a IA criará uma bio profissional para você — em todos os idiomas.',
     somethingWentWrong: 'Algo deu errado',
     noDataYet: 'Ainda não há dados',
+    trafficSources: 'Fontes de Tráfego',
+    trafficSubtitle: 'De onde vêm os seus visitantes',
+    topSources: 'Principais Fontes',
+    deviceLabel: 'Dispositivo',
+    mobileLabel: 'Celular',
+    desktopLabel: 'Desktop',
+    last30Days: 'Últimos 30 Dias',
+    directLabel: 'Direto',
+    noTrafficData: 'Ainda não há dados',
     errorPrefix: 'Erro: ',
     uploadErrorPrefix: 'Erro no upload: ',
     reportBug: 'Reportar um bug',
@@ -2841,6 +2913,15 @@ const translations: Record<string, Record<string, string>> = {
     aiDescription: 'ตอบ 5 คำถาม เลือกโทน แล้ว AI จะสร้างไบโอมืออาชีพให้คุณ — ในทุกภาษา',
     somethingWentWrong: 'เกิดข้อผิดพลาด',
     noDataYet: 'ยังไม่มีข้อมูล',
+    trafficSources: 'แหล่งที่มาของการเข้าชม',
+    trafficSubtitle: 'ผู้เยี่ยมชมของคุณมาจากไหน',
+    topSources: 'แหล่งยอดนิยม',
+    deviceLabel: 'อุปกรณ์',
+    mobileLabel: 'มือถือ',
+    desktopLabel: 'เดสก์ท็อป',
+    last30Days: '30 วันล่าสุด',
+    directLabel: 'โดยตรง',
+    noTrafficData: 'ยังไม่มีข้อมูล',
     errorPrefix: 'ข้อผิดพลาด: ',
     uploadErrorPrefix: 'ข้อผิดพลาดในการอัปโหลด: ',
     reportBug: 'รายงานบัก',
@@ -7493,6 +7574,124 @@ function ViewsChart({ data, noDataLabel }: { data: { date: string; count: number
   )
 }
 
+/* ─── Traffic Sources Modal ─────────────────────────────────────────────────── */
+function TrafficModal({ open, onClose, t }: { open: boolean; onClose: () => void; t: Record<string, string> }) {
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [hoveredDay, setHoveredDay] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (!open) return
+    setLoading(true)
+    const supabaseClient = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+    )
+    supabaseClient.auth.getSession().then(({ data: session }) => {
+      const token = session?.session?.access_token
+      if (!token) { setLoading(false); return }
+      fetch('/api/page-views-breakdown', { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => r.json())
+        .then(d => { setData(d); setLoading(false) })
+        .catch(() => setLoading(false))
+    })
+  }, [open])
+
+  if (!open) return null
+  const maxDay = data?.byDay ? Math.max(...data.byDay.map((d: any) => d.count), 1) : 1
+  const mobileEntry = data?.byDevice?.find((d: any) => d.device === 'mobile')
+  const desktopEntry = data?.byDevice?.find((d: any) => d.device === 'desktop')
+  const mobilePct = mobileEntry?.percentage || 0
+  const desktopPct = desktopEntry?.percentage || 0
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ background: '#1a1a1f', border: '1px solid rgba(212,165,55,0.25)', borderRadius: 20, maxWidth: 560, width: '92vw', maxHeight: '85vh', overflow: 'auto', padding: '2rem', boxShadow: '0 24px 80px rgba(0,0,0,0.6)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+          <div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', color: '#fff', margin: 0 }}>📊 {t.trafficSources}</h2>
+            <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', margin: '0.25rem 0 0' }}>{t.trafficSubtitle}</p>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '1.5rem', cursor: 'pointer', padding: 4 }}>&times;</button>
+        </div>
+
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '3rem 0', color: 'rgba(255,255,255,0.4)' }}>
+            <div style={{ width: 32, height: 32, border: '2px solid rgba(212,165,55,0.3)', borderTopColor: '#d4a537', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1rem' }} />
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
+        ) : !data || data.total === 0 ? (
+          <div style={{ textAlign: 'center', padding: '3rem 0', color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem' }}>{t.noTrafficData}</div>
+        ) : (
+          <>
+            {/* SECTION 1 — Top Sources */}
+            <div style={{ marginBottom: '1.75rem' }}>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '0.75rem' }}>{t.topSources}</h3>
+              {data.bySource.slice(0, 8).map((s: any) => (
+                <div key={s.source} style={{ marginBottom: '0.5rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: 3 }}>
+                    <span style={{ color: '#fff' }}>{s.source}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.5)' }}>{s.count} ({s.percentage}%)</span>
+                  </div>
+                  <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${s.percentage}%`, background: 'linear-gradient(90deg, #d4a537, #e8c975)', borderRadius: 3, transition: 'width 0.6s ease' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* SECTION 2 — Device Breakdown */}
+            <div style={{ marginBottom: '1.75rem' }}>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '0.75rem' }}>{t.deviceLabel}</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                <div style={{ background: 'rgba(212,165,55,0.08)', border: '1px solid rgba(212,165,55,0.15)', borderRadius: 12, padding: '1.25rem', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>📱</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', fontWeight: 600, color: '#d4a537' }}>{mobilePct}%</div>
+                  <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t.mobileLabel}</div>
+                </div>
+                <div style={{ background: 'rgba(192,192,192,0.06)', border: '1px solid rgba(192,192,192,0.12)', borderRadius: 12, padding: '1.25rem', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>🖥️</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', fontWeight: 600, color: '#c0c0c0' }}>{desktopPct}%</div>
+                  <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t.desktopLabel}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 3 — Last 30 Days Sparkline */}
+            <div style={{ marginBottom: '1.75rem' }}>
+              <h3 style={{ fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '0.75rem' }}>{t.last30Days}</h3>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2, height: 80, position: 'relative' }}>
+                {data.byDay.map((d: any, i: number) => (
+                  <div key={d.date} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}
+                    onMouseEnter={() => setHoveredDay(i)} onMouseLeave={() => setHoveredDay(null)}>
+                    {hoveredDay === i && (
+                      <div style={{ position: 'absolute', bottom: '100%', marginBottom: 4, background: '#2a2a30', border: '1px solid rgba(212,165,55,0.2)', borderRadius: 6, padding: '3px 7px', fontSize: '0.65rem', color: '#fff', whiteSpace: 'nowrap', zIndex: 2 }}>
+                        {d.date.slice(5)} · {d.count}
+                      </div>
+                    )}
+                    <div style={{ width: '100%', height: Math.max(2, (d.count / maxDay) * 70), background: hoveredDay === i ? '#e8c975' : 'linear-gradient(to top, #d4a537, #e8c975)', borderRadius: '2px 2px 0 0', transition: 'height 0.3s ease', cursor: 'pointer', minHeight: 2 }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* SECTION 4 — Total Stats */}
+            <div style={{ background: 'rgba(212,165,55,0.06)', border: '1px solid rgba(212,165,55,0.1)', borderRadius: 12, padding: '1rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 600, color: '#fff' }}>{data.total.toLocaleString()}</div>
+                <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t.uniqueVisitors} ({t.last30Days.toLowerCase()})</div>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>{data.byDay?.[0]?.date || ''}</div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 /* ─── Metrics tab ──────────────────────────────────────────────────────────── */
 function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor, chartPeriod, setChartPeriod, pageViewHistory, t }: {
   leads: any[]; pageViews: number; period: string;
@@ -7502,6 +7701,7 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
   pageViewHistory: { date: string; count: number }[];
   t: Record<string, string>;
 }) {
+  const [trafficOpen, setTrafficOpen] = useState(false)
   const now = new Date()
   const cutoff = (days: number) => { const d = new Date(now); d.setDate(d.getDate() - days); return d }
   const startOf = (unit: 'day' | 'week' | 'month' | 'all'): Date | null => {
@@ -7551,9 +7751,15 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
         ))}
       </div>
 
+      {/* Traffic Sources Modal */}
+      <TrafficModal open={trafficOpen} onClose={() => setTrafficOpen(false)} t={t} />
+
       {/* ── Metric Cards ── */}
       <div className="metric-cards-row">
-        <div className="metric-card">
+        <div className="metric-card" onClick={() => setTrafficOpen(true)}
+          style={{ cursor: 'pointer', transition: 'border-color 0.2s' }}
+          onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(212,165,55,0.5)')}
+          onMouseLeave={e => (e.currentTarget.style.borderColor = '')}>
           <div className="metric-card-label">{t.pageViews}</div>
           <div className="metric-card-value">{loading ? '—' : pageViews.toLocaleString()}</div>
           <div className="metric-card-sub">{t.uniqueVisitors}</div>

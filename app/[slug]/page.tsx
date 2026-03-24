@@ -530,9 +530,18 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         setLoading(false)
         return
       }
-      // Track page view (fire-and-forget)
-      supabase.from('page_views').insert({ distributor_id: data.id, slug: slug, created_at: new Date().toISOString() })
-        .then(() => {}, () => {})
+      // Track page view with source info (fire-and-forget)
+      const urlParams = new URLSearchParams(window.location.search)
+      const rawReferrer = document.referrer || ''
+      supabase.from('page_views').insert({
+        distributor_id: data.id,
+        slug: slug,
+        created_at: new Date().toISOString(),
+        referrer: rawReferrer || 'direct',
+        utm_source: urlParams.get('utm_source') || null,
+        utm_medium: urlParams.get('utm_medium') || null,
+        device: window.innerWidth < 768 ? 'mobile' : 'desktop',
+      }).then(() => {}, () => {})
       // Ensure bio_translations is a parsed object (handle string edge case)
       if (data.bio_translations && typeof data.bio_translations === 'string') {
         try { data.bio_translations = JSON.parse(data.bio_translations) } catch { data.bio_translations = null }
