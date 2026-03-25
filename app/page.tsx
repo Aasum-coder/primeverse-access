@@ -5726,7 +5726,7 @@ export default function Home() {
     )
   }
 
-  const pending = leads.filter(l => !l.uid_verified && l.uid)
+  const pending = leads.filter(l => !l.uid_verified && !l.rejected && l.uid)
   const approved = leads.filter(l => l.uid_verified)
 
   return (
@@ -8292,7 +8292,7 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
   // Always show totals for leads card and conversion rate (so older leads aren't hidden)
   const registered = leads.length
   const approved = leads.filter(l => l.uid_verified).length
-  const pending = leads.filter(l => !l.uid_verified).length
+  const pending = leads.filter(l => !l.uid_verified && !l.rejected).length
   const convRate = registered > 0 ? Math.round((approved / registered) * 100) : 0
 
   // Profile strength
