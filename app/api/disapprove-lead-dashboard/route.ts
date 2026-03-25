@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     // Update lead status
     const { error: updateError } = await supabaseAdmin
       .from('leads')
-      .update({ uid_verified: false })
+      .update({ uid_verified: false, rejected: true })
       .eq('id', lead_id)
 
     if (updateError) {
