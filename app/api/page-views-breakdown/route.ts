@@ -40,20 +40,25 @@ export async function GET(request: Request) {
   )
   const { data: userData, error: authError } = await authClient.auth.getUser(token)
   if (authError || !userData?.user) {
+    console.log('[page-views-breakdown] auth failed:', authError?.message)
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
   }
 
-  const { data: dist } = await supabase
+  console.log('[page-views-breakdown] auth user.id:', userData.user.id, 'email:', userData.user.email)
+
+  const { data: dist, error: distError } = await supabase
     .from('distributors')
-    .select('id')
+    .select('id, user_id, name, slug')
     .eq('user_id', userData.user.id)
     .single()
+
+  console.log('[page-views-breakdown] distributor lookup result:', JSON.stringify({ dist, distError: distError?.message }))
 
   if (!dist) {
     return NextResponse.json({ error: 'Distributor not found' }, { status: 404, headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
   }
 
-  console.log('[page-views-breakdown] distributor_id resolved:', dist.id, 'for user:', userData.user.id)
+  console.log('[page-views-breakdown] using distributor_id:', dist.id, 'user_id:', dist.user_id, 'name:', dist.name, 'slug:', dist.slug)
 
   // Determine date range from period query param
   const { searchParams } = new URL(request.url)
@@ -79,7 +84,9 @@ export async function GET(request: Request) {
   if (fromDate) {
     query = query.gte('created_at', fromDate.toISOString())
   }
-  const { data: views } = await query.order('created_at', { ascending: true })
+  const { data: views, error: viewsError } = await query.order('created_at', { ascending: true })
+
+  console.log('[page-views-breakdown] page_views query for distributor_id:', dist.id, 'period:', period, 'fromDate:', fromDate?.toISOString() || 'none', 'rows returned:', views?.length ?? 0, 'error:', viewsError?.message || 'none')
 
   const rows = views || []
   const total = rows.length
@@ -109,7 +116,7 @@ export async function GET(request: Request) {
     .sort((a, b) => b.count - a.count)
 
   // Fill days based on period
-  const daysToFill = period === 'day' ? 1 : period === 'week' ? 7 : 30
+  const daysToFill = period === 'day' ? 1 : period === 'week' ? 7 : period === 'all' ? 90 : 30
   const byDay: { date: string; count: number }[] = []
   for (let i = daysToFill - 1; i >= 0; i--) {
     const d = new Date()
