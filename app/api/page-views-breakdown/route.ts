@@ -53,15 +53,33 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Distributor not found' }, { status: 404, headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
   }
 
-  const thirtyDaysAgo = new Date()
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  console.log('[page-views-breakdown] distributor_id resolved:', dist.id, 'for user:', userData.user.id)
 
-  const { data: views } = await supabase
+  // Determine date range from period query param
+  const { searchParams } = new URL(request.url)
+  const period = searchParams.get('period') || 'month'
+  let fromDate: Date | null = null
+  const now = new Date()
+  if (period === 'day') {
+    fromDate = new Date(now)
+    fromDate.setHours(0, 0, 0, 0)
+  } else if (period === 'week') {
+    fromDate = new Date(now)
+    fromDate.setDate(fromDate.getDate() - 7)
+  } else if (period === 'month') {
+    fromDate = new Date(now)
+    fromDate.setDate(fromDate.getDate() - 30)
+  }
+  // period === 'all' → fromDate stays null → no date filter
+
+  let query = supabase
     .from('page_views')
     .select('id, created_at, referrer, utm_source, device')
     .eq('distributor_id', dist.id)
-    .gte('created_at', thirtyDaysAgo.toISOString())
-    .order('created_at', { ascending: true })
+  if (fromDate) {
+    query = query.gte('created_at', fromDate.toISOString())
+  }
+  const { data: views } = await query.order('created_at', { ascending: true })
 
   const rows = views || []
   const total = rows.length
@@ -90,9 +108,10 @@ export async function GET(request: Request) {
     .map(([device, count]) => ({ device, count, percentage: total > 0 ? Math.round((count / total) * 100) : 0 }))
     .sort((a, b) => b.count - a.count)
 
-  // Fill all 30 days
+  // Fill days based on period
+  const daysToFill = period === 'day' ? 1 : period === 'week' ? 7 : 30
   const byDay: { date: string; count: number }[] = []
-  for (let i = 29; i >= 0; i--) {
+  for (let i = daysToFill - 1; i >= 0; i--) {
     const d = new Date()
     d.setDate(d.getDate() - i)
     const key = d.toISOString().slice(0, 10)

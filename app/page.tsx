@@ -8149,7 +8149,7 @@ function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPos
 }
 
 /* ─── Traffic Sources Modal ─────────────────────────────────────────────────── */
-function TrafficModal({ open, onClose, t }: { open: boolean; onClose: () => void; t: Record<string, string> }) {
+function TrafficModal({ open, onClose, t, period }: { open: boolean; onClose: () => void; t: Record<string, string>; period: string }) {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [hoveredDay, setHoveredDay] = useState<number | null>(null)
@@ -8164,12 +8164,12 @@ function TrafficModal({ open, onClose, t }: { open: boolean; onClose: () => void
     supabaseClient.auth.getSession().then(({ data: session }) => {
       const token = session?.session?.access_token
       if (!token) { setLoading(false); return }
-      fetch('/api/page-views-breakdown', { headers: { Authorization: `Bearer ${token}` } })
+      fetch(`/api/page-views-breakdown?period=${encodeURIComponent(period)}`, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => r.json())
         .then(d => { setData(d); setLoading(false) })
         .catch(() => setLoading(false))
     })
-  }, [open])
+  }, [open, period])
 
   if (!open) return null
   const maxDay = data?.byDay ? Math.max(...data.byDay.map((d: any) => d.count), 1) : 1
@@ -8329,7 +8329,7 @@ function MetricsTab({ leads, pageViews, period, setPeriod, loading, distributor,
       </div>
 
       {/* Traffic Sources Modal */}
-      <TrafficModal open={trafficOpen} onClose={() => setTrafficOpen(false)} t={t} />
+      <TrafficModal open={trafficOpen} onClose={() => setTrafficOpen(false)} t={t} period={period} />
 
       {/* ── Metric Cards ── */}
       <div className="metric-cards-row">
