@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+export const dynamic = 'force-dynamic'
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -29,7 +31,7 @@ export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization') || ''
   const token = authHeader.replace(/^Bearer\s+/i, '').trim()
   if (!token) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
   }
 
   const authClient = createClient(
@@ -38,7 +40,7 @@ export async function GET(request: Request) {
   )
   const { data: userData, error: authError } = await authClient.auth.getUser(token)
   if (authError || !userData?.user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
   }
 
   const { data: dist } = await supabase
@@ -48,7 +50,7 @@ export async function GET(request: Request) {
     .single()
 
   if (!dist) {
-    return NextResponse.json({ error: 'Distributor not found' }, { status: 404 })
+    return NextResponse.json({ error: 'Distributor not found' }, { status: 404, headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
   }
 
   const thirtyDaysAgo = new Date()
@@ -99,5 +101,8 @@ export async function GET(request: Request) {
 
   const topReferrers = bySource.map(s => ({ referrer: s.source, count: s.count }))
 
-  return NextResponse.json({ total, bySource, byDevice, byDay, topReferrers })
+  return NextResponse.json(
+    { total, bySource, byDevice, byDay, topReferrers },
+    { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } }
+  )
 }
