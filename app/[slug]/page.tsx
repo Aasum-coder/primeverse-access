@@ -618,14 +618,16 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
     e.preventDefault()
     setSubmitError('')
     setSubmitting(true)
-    const { data: insertedLead, error } = await supabase.from('leads').insert({ distributor_id: distributor.id, name: uidForm.name, email: uidForm.email, uid: uidForm.uid, uid_verified: false, referral_link_used: slug }).select('id').single()
-    if (error) { setSubmitError(t.somethingWentWrong); setSubmitting(false); return }
+    const leadId = crypto.randomUUID()
+    const { error } = await supabase.from('leads').insert({ id: leadId, distributor_id: distributor.id, name: uidForm.name, email: uidForm.email, uid: uidForm.uid, uid_verified: false, referral_link_used: slug })
+    if (error) { console.error('[uid-submit] Insert failed:', JSON.stringify(error)); setSubmitError(t.somethingWentWrong); setSubmitting(false); return }
+    console.log('[uid-submit] Lead inserted successfully, id:', leadId)
     await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorName: distributor.name, distributorEmail: distributor.email }) })
     fetch('/api/new-lead-alert', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     fetch('/api/milestone-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
-    if (insertedLead?.id) { fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId: insertedLead.id, distributorId: distributor.id }) }).catch(() => {}) }
+    fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId, distributorId: distributor.id }) }).catch(() => {})
     // Notify IB instantly via email, Telegram, and in-app notification
-    fetch('/api/uid-submitted-notification', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId: insertedLead?.id || '', leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorId: distributor.id }) }).catch(() => {})
+    fetch('/api/uid-submitted-notification', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId, leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorId: distributor.id }) }).catch(() => {})
     setSubmitting(false)
     setSubmitted(true)
   }
