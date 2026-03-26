@@ -6224,6 +6224,27 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Connect Telegram Notifications */}
+              <div className="field-group">
+                <label className="field-label">Telegram Notifications</label>
+                {distributor?.telegram_chat_id ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '12px 16px', background: 'rgba(45,122,58,0.12)', border: '1px solid rgba(45,122,58,0.25)', borderRadius: 10 }}>
+                    <span style={{ fontSize: '1.1rem' }}>✅</span>
+                    <span style={{ color: '#4ade80', fontSize: '0.9rem', fontWeight: 500 }}>Telegram Connected</span>
+                  </div>
+                ) : (
+                  <a
+                    href={`https://t.me/SYSTM8NotifyBot?start=${distributor?.id || ''}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gold-btn"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', textAlign: 'center', justifyContent: 'center', width: '100%', fontSize: '0.95rem', padding: '13px' }}
+                  >
+                    <span aria-hidden="true">✈️</span> Connect Telegram
+                  </a>
+                )}
+              </div>
+
               <div className="field-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <label className="field-label" htmlFor="profile-bio" style={{ marginBottom: 0 }}>{t.bio}</label>
