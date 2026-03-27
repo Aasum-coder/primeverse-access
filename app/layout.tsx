@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',
-    apple: '/icons/icon-192x192.png',
+    apple: '/icons/icon-180x180.png',
   },
   appleWebApp: {
     capable: true,
@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
         <meta name="msapplication-TileColor" content="#1A1A2E" />
         <meta name="msapplication-TileImage" content="https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png" />
         <meta name="format-detection" content="telephone=no" />
