@@ -80,6 +80,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'Visitor IP addresses and form submission timestamps are logged for fraud prevention and security purposes.',
     footer_rights: 'All rights reserved.',
     somethingWentWrong: 'Something went wrong. Please try again.',
+    fieldRequired: 'This field is required',
+    invalidEmail: 'Please enter a valid email address',
     loading: 'Loading…',
   },
   no: {
@@ -129,6 +131,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'Besøkendes IP-adresser logges for svindelforebygging og sikkerhet.',
     footer_rights: 'Alle rettigheter forbeholdt.',
     somethingWentWrong: 'Noe gikk galt. Vennligst prøv igjen.',
+    fieldRequired: 'Dette feltet er påkrevd',
+    invalidEmail: 'Vennligst skriv inn en gyldig e-postadresse',
     loading: 'Laster…',
   },
   sv: {
@@ -178,6 +182,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'Besökarens IP-adresser loggas för bedrägeriförebyggande och säkerhet.',
     footer_rights: 'Alla rättigheter förbehållna.',
     somethingWentWrong: 'Något gick fel. Försök igen.',
+    fieldRequired: 'Detta fält är obligatoriskt',
+    invalidEmail: 'Ange en giltig e-postadress',
     loading: 'Laddar…',
   },
   es: {
@@ -227,6 +233,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'Las direcciones IP de los visitantes se registran con fines de seguridad y prevención del fraude.',
     footer_rights: 'Todos los derechos reservados.',
     somethingWentWrong: 'Algo salió mal. Inténtalo de nuevo.',
+    fieldRequired: 'Este campo es obligatorio',
+    invalidEmail: 'Ingresa un correo electrónico válido',
     loading: 'Cargando…',
   },
   ru: {
@@ -276,6 +284,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'IP-адреса посетителей регистрируются в целях безопасности и предотвращения мошенничества.',
     footer_rights: 'Все права защищены.',
     somethingWentWrong: 'Что-то пошло не так. Попробуйте ещё раз.',
+    fieldRequired: 'Это поле обязательно',
+    invalidEmail: 'Введите действительный адрес электронной почты',
     loading: 'Загрузка…',
   },
   ar: {
@@ -325,6 +335,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'يتم تسجيل عناوين IP الخاصة بالزوار لأغراض أمنية ومنع الاحتيال.',
     footer_rights: 'جميع الحقوق محفوظة.',
     somethingWentWrong: 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
+    fieldRequired: 'هذا الحقل مطلوب',
+    invalidEmail: 'يرجى إدخال بريد إلكتروني صالح',
     loading: '…جاري التحميل',
   },
   tl: {
@@ -374,6 +386,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'Ang mga IP address ng mga bisita ay nire-record para sa fraud prevention at security.',
     footer_rights: 'Lahat ng karapatan ay nakalaan.',
     somethingWentWrong: 'May nangyaring mali. Subukan muli.',
+    fieldRequired: 'Kinakailangan ang field na ito',
+    invalidEmail: 'Maglagay ng wastong email address',
     loading: 'Naglo-load…',
   },
   pt: {
@@ -423,6 +437,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'Os endereços IP dos visitantes são registrados para fins de segurança e prevenção de fraude.',
     footer_rights: 'Todos os direitos reservados.',
     somethingWentWrong: 'Algo deu errado. Tente novamente.',
+    fieldRequired: 'Este campo é obrigatório',
+    invalidEmail: 'Insira um endereço de email válido',
     loading: 'Carregando…',
   },
   th: {
@@ -472,6 +488,8 @@ const T: Record<LangKey, Record<string, string>> = {
     ip_text: 'ที่อยู่ IP ของผู้เยี่ยมชมจะถูกบันทึกเพื่อวัตถุประสงค์ด้านความปลอดภัยและการป้องกันการฉ้อโกง',
     footer_rights: 'สงวนลิขสิทธิ์ทั้งหมด',
     somethingWentWrong: 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง',
+    fieldRequired: 'จำเป็นต้องกรอกช่องนี้',
+    invalidEmail: 'กรุณากรอกอีเมลที่ถูกต้อง',
     loading: 'กำลังโหลด…',
   },
 }
@@ -496,6 +514,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; uid?: string }>({})
   const [lang, setLangState] = useState<LangKey>('en')
   const [langOpen, setLangOpen] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
@@ -614,9 +633,18 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
     setTimeout(() => { window.open(referralLink, '_blank') }, 1200)
   }
 
+  const isFormValid = uidForm.name.trim() !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(uidForm.email.trim()) && uidForm.uid.trim() !== ''
+
   const handleUidSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitError('')
+    const errors: { name?: string; email?: string; uid?: string } = {}
+    if (!uidForm.name.trim()) errors.name = t.fieldRequired
+    if (!uidForm.email.trim()) errors.email = t.fieldRequired
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(uidForm.email.trim())) errors.email = t.invalidEmail
+    if (!uidForm.uid.trim()) errors.uid = t.fieldRequired
+    if (Object.keys(errors).length > 0) { setFieldErrors(errors); return }
+    setFieldErrors({})
     setSubmitting(true)
     const leadId = crypto.randomUUID()
     const { error } = await supabase.from('leads').insert({ id: leadId, distributor_id: distributor.id, name: uidForm.name, email: uidForm.email, uid: uidForm.uid, uid_verified: false, referral_link_used: slug })
@@ -906,10 +934,10 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
                 <h3 className="fh">{t.uid_card_h}</h3>
                 <p className="fsub">{t.uid_card_p}</p>
                 <form onSubmit={handleUidSubmit} noValidate>
-                  <div className="fg"><label className="fl" htmlFor="uid-name">{t.f_name}</label><input id="uid-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={uidForm.name} onChange={e => setUidForm({ ...uidForm, name: e.target.value })} /></div>
-                  <div className="fg"><label className="fl" htmlFor="uid-email">{t.f_email}</label><input id="uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => setUidForm({ ...uidForm, email: e.target.value })} /></div>
-                  <div className="fg"><label className="fl" htmlFor="uid-uid">{t.f_uid}</label><input id="uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => setUidForm({ ...uidForm, uid: e.target.value })} /></div>
-                  <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting}>{submitting ? '…' : t.uid_btn}</button>
+                  <div className="fg"><label className="fl" htmlFor="uid-name">{t.f_name}</label><input id="uid-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={uidForm.name} onChange={e => { setUidForm({ ...uidForm, name: e.target.value }); setFieldErrors(prev => ({ ...prev, name: undefined })) }} style={fieldErrors.name ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.name && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.name}</p>}</div>
+                  <div className="fg"><label className="fl" htmlFor="uid-email">{t.f_email}</label><input id="uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => { setUidForm({ ...uidForm, email: e.target.value }); setFieldErrors(prev => ({ ...prev, email: undefined })) }} style={fieldErrors.email ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.email && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.email}</p>}</div>
+                  <div className="fg"><label className="fl" htmlFor="uid-uid">{t.f_uid}</label><input id="uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => { setUidForm({ ...uidForm, uid: e.target.value }); setFieldErrors(prev => ({ ...prev, uid: undefined })) }} style={fieldErrors.uid ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.uid && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.uid}</p>}</div>
+                  <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting} style={{ opacity: isFormValid ? 1 : 0.5, transition: 'opacity 0.2s' }}>{submitting ? '…' : t.uid_btn}</button>
                   {submitError && <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem', textAlign: 'center' }}>{submitError}</p>}
                 </form>
               </>
@@ -1060,10 +1088,10 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
                 <div className="smsg" role="status" aria-live="polite"><span aria-hidden="true">✦ &nbsp;</span>{t.uid_success} {dist.name} {t.uid_success2}</div>
               ) : (
                 <form onSubmit={handleUidSubmit} noValidate>
-                  <div className="fg"><label className="fl" htmlFor="modal-uid-name">{t.f_name}</label><input id="modal-uid-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={uidForm.name} onChange={e => setUidForm({ ...uidForm, name: e.target.value })} /></div>
-                  <div className="fg"><label className="fl" htmlFor="modal-uid-email">{t.f_email}</label><input id="modal-uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => setUidForm({ ...uidForm, email: e.target.value })} /></div>
-                  <div className="fg"><label className="fl" htmlFor="modal-uid-uid">{t.f_uid}</label><input id="modal-uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => setUidForm({ ...uidForm, uid: e.target.value })} /></div>
-                  <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting}>{submitting ? '…' : t.uid_btn}</button>
+                  <div className="fg"><label className="fl" htmlFor="modal-uid-name">{t.f_name}</label><input id="modal-uid-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={uidForm.name} onChange={e => { setUidForm({ ...uidForm, name: e.target.value }); setFieldErrors(prev => ({ ...prev, name: undefined })) }} style={fieldErrors.name ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.name && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.name}</p>}</div>
+                  <div className="fg"><label className="fl" htmlFor="modal-uid-email">{t.f_email}</label><input id="modal-uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => { setUidForm({ ...uidForm, email: e.target.value }); setFieldErrors(prev => ({ ...prev, email: undefined })) }} style={fieldErrors.email ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.email && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.email}</p>}</div>
+                  <div className="fg"><label className="fl" htmlFor="modal-uid-uid">{t.f_uid}</label><input id="modal-uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => { setUidForm({ ...uidForm, uid: e.target.value }); setFieldErrors(prev => ({ ...prev, uid: undefined })) }} style={fieldErrors.uid ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.uid && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.uid}</p>}</div>
+                  <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting} style={{ opacity: isFormValid ? 1 : 0.5, transition: 'opacity 0.2s' }}>{submitting ? '…' : t.uid_btn}</button>
                   {submitError && <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem', textAlign: 'center' }}>{submitError}</p>}
                 </form>
               )}
