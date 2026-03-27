@@ -517,6 +517,17 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; uid?: string }>({})
   const [lang, setLangState] = useState<LangKey>('en')
   const [langOpen, setLangOpen] = useState(false)
+
+  // Pre-fill UID form from lead registration data
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('lead_registration_data')
+      if (saved) {
+        const { full_name, email } = JSON.parse(saved)
+        setUidForm(prev => ({ ...prev, name: prev.name || full_name || '', email: prev.email || email || '' }))
+      }
+    } catch {}
+  }, [])
   const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -629,6 +640,8 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const handleGetAccess = (e: React.FormEvent) => {
     e.preventDefault()
     setStep('broker')
+    try { localStorage.setItem('lead_registration_data', JSON.stringify({ full_name: form.name, email: form.email })) } catch {}
+    setUidForm(prev => ({ ...prev, name: prev.name || form.name, email: prev.email || form.email }))
     const referralLink = dist?.referral_link || 'https://puvip.co/la-partners/Primesync'
     setTimeout(() => { window.open(referralLink, '_blank') }, 1200)
   }
