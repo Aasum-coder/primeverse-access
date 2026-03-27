@@ -13,16 +13,16 @@ const supabase = createClient(
 )
 
 function parseProfileImage(value: string | null) {
-  if (!value) return { url: '', x: 50, y: 50, zoom: 1 }
+  if (!value) return { url: '', x: 50, y: 50, zoom: 1, brightness: 100 }
   try {
     const p = JSON.parse(value)
-    if (p && typeof p.url === 'string') return { url: p.url, x: p.x ?? 50, y: p.y ?? 50, zoom: p.zoom ?? 1 }
+    if (p && typeof p.url === 'string') return { url: p.url, x: p.x ?? 50, y: p.y ?? 50, zoom: p.zoom ?? 1, brightness: p.brightness ?? 100 }
   } catch {}
-  return { url: value, x: 50, y: 50, zoom: 1 }
+  return { url: value, x: 50, y: 50, zoom: 1, brightness: 100 }
 }
 
-function serializeProfileImage(url: string, x: number, y: number, zoom: number = 1): string {
-  return JSON.stringify({ url, x, y, zoom })
+function serializeProfileImage(url: string, x: number, y: number, zoom: number = 1, brightness: number = 100): string {
+  return JSON.stringify({ url, x, y, zoom, brightness })
 }
 
 const SYSTM8_LOGO = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png'
@@ -4527,6 +4527,9 @@ export default function Home() {
   const [imgX, setImgX] = useState(50)
   const [imgY, setImgY] = useState(50)
   const [imgZoom, setImgZoom] = useState(1)
+  const [imgBrightness, setImgBrightness] = useState(100)
+  const [avatarEditorOpen, setAvatarEditorOpen] = useState(false)
+  const [avatarEditorSrc, setAvatarEditorSrc] = useState<string | null>(null)
   const [savingProfile, setSavingProfile] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
@@ -4545,7 +4548,6 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
-  const lastPinchDist = useRef<number | null>(null)
 
   const [urlCopied, setUrlCopied] = useState(false)
 
@@ -5155,6 +5157,7 @@ export default function Home() {
           setImgX(pi.x)
           setImgY(pi.y)
           setImgZoom(pi.zoom)
+          setImgBrightness(pi.brightness)
           await fetchLeads(impDist.id)
           setLoading(false)
           return
@@ -5234,6 +5237,7 @@ export default function Home() {
       setImgX(pi.x)
       setImgY(pi.y)
       setImgZoom(pi.zoom)
+      setImgBrightness(pi.brightness)
       await fetchLeads(dist.id)
       setLoading(false)
     }
@@ -5340,56 +5344,24 @@ export default function Home() {
     const { error: uploadError } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
     if (uploadError) { showToast(t.uploadErrorPrefix + uploadError.message); setUploadingImage(false); return }
     const { data } = supabase.storage.from('avatars').getPublicUrl(path)
-    const newUrl = data.publicUrl
-    const newX = 50
-    const newY = 30
-    setProfileImage(newUrl)
-    setImgX(newX)
-    setImgY(newY)
-    // Auto-save image immediately to database
-    await supabase.from('distributors').update({ profile_image: serializeProfileImage(newUrl, newX, newY) }).eq('id', distributor.id)
+    const newUrl = data.publicUrl + '?t=' + Date.now()
     setUploadingImage(false)
+    setAvatarEditorSrc(newUrl)
+    setAvatarEditorOpen(true)
   }
 
-  const startDrag = useCallback((clientX: number, clientY: number) => {
-    isDragging.current = true
-    dragStart.current = { clientX, clientY, imgX, imgY }
-  }, [imgX, imgY])
-
-  const moveDrag = useCallback((clientX: number, clientY: number) => {
-    if (!isDragging.current) return
-    const dx = clientX - dragStart.current.clientX
-    const dy = clientY - dragStart.current.clientY
-    setImgX(Math.max(0, Math.min(100, dragStart.current.imgX - dx * 0.4)))
-    setImgY(Math.max(0, Math.min(100, dragStart.current.imgY - dy * 0.4)))
-  }, [])
-
-  const endDrag = useCallback(() => { isDragging.current = false; lastPinchDist.current = null }, [])
-
-  const handleCropTouchStart = useCallback((e: React.TouchEvent) => {
-    e.preventDefault()
-    if (e.touches.length === 2) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX
-      const dy = e.touches[0].clientY - e.touches[1].clientY
-      lastPinchDist.current = Math.hypot(dx, dy)
-    } else if (e.touches.length === 1) {
-      startDrag(e.touches[0].clientX, e.touches[0].clientY)
-    }
-  }, [startDrag])
-
-  const handleCropTouchMove = useCallback((e: React.TouchEvent) => {
-    e.preventDefault()
-    if (e.touches.length === 2 && lastPinchDist.current !== null) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX
-      const dy = e.touches[0].clientY - e.touches[1].clientY
-      const dist = Math.hypot(dx, dy)
-      const delta = dist - lastPinchDist.current
-      setImgZoom(prev => Math.max(1, Math.min(3, prev + delta * 0.008)))
-      lastPinchDist.current = dist
-    } else if (e.touches.length === 1) {
-      moveDrag(e.touches[0].clientX, e.touches[0].clientY)
-    }
-  }, [moveDrag])
+  const handleAvatarEditorSave = async (result: { x: number; y: number; zoom: number; brightness: number }) => {
+    const src = avatarEditorSrc || profileImage
+    if (!src || !distributor?.id) return
+    setProfileImage(src)
+    setImgX(result.x)
+    setImgY(result.y)
+    setImgZoom(result.zoom)
+    setImgBrightness(result.brightness)
+    setAvatarEditorOpen(false)
+    setAvatarEditorSrc(null)
+    await supabase.from('distributors').update({ profile_image: serializeProfileImage(src, result.x, result.y, result.zoom, result.brightness) }).eq('id', distributor.id)
+  }
 
   const handleShare = async () => {
     if (!distributor?.slug) return
@@ -5471,7 +5443,7 @@ export default function Home() {
       if (!valRes.ok) { const d = await valRes.json().catch(() => ({})); setReferralError('referralInvalid'); showToast(d.error || t.referralInvalid); setSavingProfile(false); return }
     } catch { /* network error — allow save with frontend validation only */ }
     const isFirstSave = !distributor.slug
-    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom) : null
+    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom, imgBrightness) : null
     const wasLive = !!distributor.landing_active
     const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
@@ -5526,7 +5498,7 @@ export default function Home() {
       if (!valRes.ok) { const d = await valRes.json().catch(() => ({})); setReferralError('referralInvalid'); showToast(d.error || t.referralInvalid); setUpdatingProfile(false); return }
     } catch { /* network error — allow save with frontend validation only */ }
     const wasLiveUpdate = !!distributor.landing_active
-    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom) : null
+    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom, imgBrightness) : null
     const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
@@ -5813,7 +5785,7 @@ export default function Home() {
             <div className="header-divider" aria-hidden="true" />
             {distributor?.profile_image ? (
               <img src={parseProfileImage(distributor.profile_image).url} className="avatar"
-                style={{ objectPosition: `${parseProfileImage(distributor.profile_image).x}% ${parseProfileImage(distributor.profile_image).y}%`, transform: parseProfileImage(distributor.profile_image).zoom !== 1 ? `scale(${parseProfileImage(distributor.profile_image).zoom})` : undefined }}
+                style={{ objectPosition: `${parseProfileImage(distributor.profile_image).x}% ${parseProfileImage(distributor.profile_image).y}%`, transform: parseProfileImage(distributor.profile_image).zoom !== 1 ? `scale(${parseProfileImage(distributor.profile_image).zoom})` : undefined, filter: parseProfileImage(distributor.profile_image).brightness !== 100 ? `brightness(${parseProfileImage(distributor.profile_image).brightness / 100})` : undefined }}
                 alt={distributor.name ? `Profile picture of ${distributor.name}` : 'Profile picture'} />
             ) : (
               <div className="avatar-placeholder" aria-hidden="true">👤</div>
@@ -6166,26 +6138,29 @@ export default function Home() {
               <div className="field-group" style={{ marginBottom: '1.5rem' }}>
                 <label className="field-label" htmlFor="profile-image-upload">{t.profileImage}</label>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginTop: 6 }}>
+                  <AvatarEditorModal
+                    open={avatarEditorOpen}
+                    src={avatarEditorSrc || profileImage || ''}
+                    initial={{ x: imgX, y: imgY, zoom: imgZoom, brightness: imgBrightness }}
+                    onSave={handleAvatarEditorSave}
+                    onClose={() => { setAvatarEditorOpen(false); setAvatarEditorSrc(null) }}
+                  />
                   {profileImage ? (
                     <div>
                       <div
                         className="upload-area"
-                        style={{ cursor: isDragging.current ? 'grabbing' : 'grab', touchAction: 'none' }}
-                        onMouseDown={e => { e.preventDefault(); startDrag(e.clientX, e.clientY) }}
-                        onMouseMove={e => moveDrag(e.clientX, e.clientY)}
-                        onMouseUp={endDrag}
-                        onMouseLeave={endDrag}
-                        onTouchStart={handleCropTouchStart}
-                        onTouchMove={handleCropTouchMove}
-                        onTouchEnd={endDrag}
-                        role="img"
-                        aria-label={`${profileName ? `Profile picture of ${profileName}` : 'Profile picture'}. Drag to reposition.`}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => { setAvatarEditorSrc(profileImage); setAvatarEditorOpen(true) }}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`${profileName ? `Profile picture of ${profileName}` : 'Profile picture'}. Tap to edit.`}
+                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setAvatarEditorSrc(profileImage); setAvatarEditorOpen(true) } }}
                       >
                         <img src={profileImage} alt=""
-                          style={{ objectPosition: `${imgX}% ${imgY}%`, transform: imgZoom !== 1 ? `scale(${imgZoom})` : undefined }} />
+                          style={{ objectPosition: `${imgX}% ${imgY}%`, transform: imgZoom !== 1 ? `scale(${imgZoom})` : undefined, filter: imgBrightness !== 100 ? `brightness(${imgBrightness / 100})` : undefined }} />
                       </div>
                       <p style={{ margin: '5px 0 0', fontSize: '0.68rem', color: 'var(--text-dim)', display: 'flex', alignItems: 'center', gap: 3 }}>
-                        <span aria-hidden="true">↔</span> {t.dragToReposition}
+                        <span aria-hidden="true">✏️</span> Tap to edit
                       </p>
                     </div>
                   ) : (
@@ -8193,6 +8168,177 @@ function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPos
             </div>
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+/* ─── Avatar Editor Modal ──────────────────────────────────────────────────── */
+function AvatarEditorModal({ open, src, initial, onSave, onClose }: {
+  open: boolean; src: string; initial: { x: number; y: number; zoom: number; brightness: number };
+  onSave: (result: { x: number; y: number; zoom: number; brightness: number }) => void; onClose: () => void;
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const imgRef = useRef<HTMLImageElement | null>(null)
+  const [loaded, setLoaded] = useState(false)
+  const [panX, setPanX] = useState(initial.x)
+  const [panY, setPanY] = useState(initial.y)
+  const [zoom, setZoom] = useState(initial.zoom)
+  const [brightness, setBrightness] = useState(initial.brightness)
+  const dragging = useRef(false)
+  const dragOrigin = useRef({ cx: 0, cy: 0, px: 0, py: 0 })
+  const pinchDist = useRef<number | null>(null)
+  const pinchZoomStart = useRef(1)
+
+  // Reset state when src changes
+  useEffect(() => {
+    if (!open) return
+    setPanX(initial.x); setPanY(initial.y); setZoom(initial.zoom); setBrightness(initial.brightness)
+    setLoaded(false)
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => { imgRef.current = img; setLoaded(true) }
+    img.onerror = () => setLoaded(true)
+    img.src = src
+  }, [open, src])
+
+  // Draw canvas
+  useEffect(() => {
+    if (!loaded || !canvasRef.current || !imgRef.current) return
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    const size = canvas.width
+    const img = imgRef.current
+    ctx.clearRect(0, 0, size, size)
+    ctx.save()
+    // Clip to circle
+    ctx.beginPath()
+    ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2)
+    ctx.closePath()
+    ctx.clip()
+    // Background
+    ctx.fillStyle = '#1A1A2E'
+    ctx.fillRect(0, 0, size, size)
+    // Brightness
+    ctx.filter = `brightness(${brightness / 100})`
+    // Calculate draw position
+    const scale = zoom
+    const aspect = img.width / img.height
+    let dw: number, dh: number
+    if (aspect >= 1) { dh = size * scale; dw = dh * aspect } else { dw = size * scale; dh = dw / aspect }
+    const dx = (size - dw) * (panX / 100)
+    const dy = (size - dh) * (panY / 100)
+    ctx.drawImage(img, dx, dy, dw, dh)
+    ctx.restore()
+    // Circle border
+    ctx.beginPath()
+    ctx.arc(size / 2, size / 2, size / 2 - 1, 0, Math.PI * 2)
+    ctx.strokeStyle = 'rgba(212,165,55,0.4)'
+    ctx.lineWidth = 2
+    ctx.stroke()
+  }, [loaded, panX, panY, zoom, brightness])
+
+  // Mouse handlers
+  const onPointerDown = (cx: number, cy: number) => {
+    dragging.current = true
+    dragOrigin.current = { cx, cy, px: panX, py: panY }
+  }
+  const onPointerMove = (cx: number, cy: number) => {
+    if (!dragging.current) return
+    const canvasSize = canvasRef.current?.width || 240
+    const dx = cx - dragOrigin.current.cx
+    const dy = cy - dragOrigin.current.cy
+    const sensitivity = 100 / canvasSize * 1.5
+    setPanX(Math.max(0, Math.min(100, dragOrigin.current.px - dx * sensitivity)))
+    setPanY(Math.max(0, Math.min(100, dragOrigin.current.py - dy * sensitivity)))
+  }
+  const onPointerUp = () => { dragging.current = false; pinchDist.current = null }
+
+  // Touch handlers
+  const onTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault()
+    if (e.touches.length === 2) {
+      const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY)
+      pinchDist.current = d
+      pinchZoomStart.current = zoom
+    } else if (e.touches.length === 1) {
+      onPointerDown(e.touches[0].clientX, e.touches[0].clientY)
+    }
+  }
+  const onTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault()
+    if (e.touches.length === 2 && pinchDist.current !== null) {
+      const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY)
+      const ratio = d / pinchDist.current
+      setZoom(Math.max(1, Math.min(3, pinchZoomStart.current * ratio)))
+    } else if (e.touches.length === 1) {
+      onPointerMove(e.touches[0].clientX, e.touches[0].clientY)
+    }
+  }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    e.preventDefault()
+    if (e.touches.length === 0) onPointerUp()
+    else if (e.touches.length === 1) {
+      pinchDist.current = null
+      onPointerDown(e.touches[0].clientX, e.touches[0].clientY)
+    }
+  }
+
+  if (!open) return null
+
+  const canvasSize = typeof window !== 'undefined' && window.innerWidth < 500 ? Math.min(window.innerWidth - 64, 280) : 240
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ background: '#1A1A2E', border: '1px solid rgba(212,165,55,0.25)', borderRadius: 20, width: '92vw', maxWidth: 380, padding: '1.5rem', boxShadow: '0 24px 80px rgba(0,0,0,0.7)' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', color: '#fff', margin: 0 }}>Edit Photo</h3>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '1.5rem', cursor: 'pointer', padding: 4, lineHeight: 1 }}>&times;</button>
+        </div>
+
+        {/* Canvas */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
+          <canvas
+            ref={canvasRef}
+            width={canvasSize}
+            height={canvasSize}
+            style={{ width: canvasSize, height: canvasSize, borderRadius: '50%', cursor: dragging.current ? 'grabbing' : 'grab', touchAction: 'none' }}
+            onMouseDown={e => { e.preventDefault(); onPointerDown(e.clientX, e.clientY) }}
+            onMouseMove={e => onPointerMove(e.clientX, e.clientY)}
+            onMouseUp={onPointerUp}
+            onMouseLeave={onPointerUp}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          />
+        </div>
+        <p style={{ textAlign: 'center', fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', margin: '-0.5rem 0 1rem' }}>Drag to reposition. Pinch to zoom.</p>
+
+        {/* Zoom slider */}
+        <div style={{ marginBottom: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>
+            <span>Zoom</span><span>{zoom.toFixed(1)}x</span>
+          </div>
+          <input type="range" min="1" max="3" step="0.05" value={zoom} onChange={e => setZoom(Number(e.target.value))}
+            style={{ width: '100%', accentColor: '#D4A843' }} />
+        </div>
+
+        {/* Brightness slider */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>
+            <span>Brightness</span><span>{brightness}%</span>
+          </div>
+          <input type="range" min="50" max="150" step="1" value={brightness} onChange={e => setBrightness(Number(e.target.value))}
+            style={{ width: '100%', accentColor: '#D4A843' }} />
+        </div>
+
+        {/* Buttons */}
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <button onClick={onClose} style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Cancel</button>
+          <button onClick={() => onSave({ x: panX, y: panY, zoom, brightness })} style={{ flex: 1, padding: '12px', background: 'linear-gradient(135deg, #c9a227, #e8c975, #d4a537)', border: 'none', borderRadius: 10, color: '#0a0804', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Confirm</button>
+        </div>
       </div>
     </div>
   )
