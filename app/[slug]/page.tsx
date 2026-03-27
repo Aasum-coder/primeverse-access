@@ -5,12 +5,12 @@ import { createClient } from '@supabase/supabase-js'
 import { useRouter, notFound as triggerNotFound } from 'next/navigation'
 
 function parseProfileImage(value: string | null) {
-  if (!value) return { url: '', x: 50, y: 50 }
+  if (!value) return { url: '', x: 50, y: 50, zoom: 1 }
   try {
     const p = JSON.parse(value)
-    if (p && typeof p.url === 'string') return { url: p.url, x: p.x ?? 50, y: p.y ?? 50 }
+    if (p && typeof p.url === 'string') return { url: p.url, x: p.x ?? 50, y: p.y ?? 50, zoom: p.zoom ?? 1 }
   } catch {}
-  return { url: value, x: 50, y: 50 }
+  return { url: value, x: 50, y: 50, zoom: 1 }
 }
 
 const supabase = createClient(
@@ -881,7 +881,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
               <div className="dist-card">
                 {(() => { const pi = parseProfileImage(dist.profile_image); return pi.url ? (
                   <img className="dist-portrait" src={pi.url} alt={dist.name}
-                    style={{ objectPosition: `${pi.x}% ${pi.y}%` }} />
+                    style={{ objectPosition: `${pi.x}% ${pi.y}%`, transform: pi.zoom !== 1 ? `scale(${pi.zoom})` : undefined }} />
                 ) : (
                   <div style={{ width: '100%', maxWidth: 240, aspectRatio: '3/4', background: 'var(--border)', borderRadius: 6, margin: '0 auto 1.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--grey)', fontSize: '3rem' }}>✦</div>
                 )})()}
