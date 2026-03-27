@@ -13,16 +13,16 @@ const supabase = createClient(
 )
 
 function parseProfileImage(value: string | null) {
-  if (!value) return { url: '', x: 50, y: 50 }
+  if (!value) return { url: '', x: 50, y: 50, zoom: 1 }
   try {
     const p = JSON.parse(value)
-    if (p && typeof p.url === 'string') return { url: p.url, x: p.x ?? 50, y: p.y ?? 50 }
+    if (p && typeof p.url === 'string') return { url: p.url, x: p.x ?? 50, y: p.y ?? 50, zoom: p.zoom ?? 1 }
   } catch {}
-  return { url: value, x: 50, y: 50 }
+  return { url: value, x: 50, y: 50, zoom: 1 }
 }
 
-function serializeProfileImage(url: string, x: number, y: number): string {
-  return JSON.stringify({ url, x, y })
+function serializeProfileImage(url: string, x: number, y: number, zoom: number = 1): string {
+  return JSON.stringify({ url, x, y, zoom })
 }
 
 const SYSTM8_LOGO = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/b22efab2-ba87-4639-8648-2599cbfffb93.png'
@@ -4526,6 +4526,7 @@ export default function Home() {
   const [profileImage, setProfileImage] = useState<string | null>(null)
   const [imgX, setImgX] = useState(50)
   const [imgY, setImgY] = useState(50)
+  const [imgZoom, setImgZoom] = useState(1)
   const [savingProfile, setSavingProfile] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
@@ -4544,6 +4545,7 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
+  const lastPinchDist = useRef<number | null>(null)
 
   const [urlCopied, setUrlCopied] = useState(false)
 
@@ -5152,6 +5154,7 @@ export default function Home() {
           setProfileImage(pi.url || null)
           setImgX(pi.x)
           setImgY(pi.y)
+          setImgZoom(pi.zoom)
           await fetchLeads(impDist.id)
           setLoading(false)
           return
@@ -5230,6 +5233,7 @@ export default function Home() {
       setProfileImage(pi.url || null)
       setImgX(pi.x)
       setImgY(pi.y)
+      setImgZoom(pi.zoom)
       await fetchLeads(dist.id)
       setLoading(false)
     }
@@ -5360,7 +5364,32 @@ export default function Home() {
     setImgY(Math.max(0, Math.min(100, dragStart.current.imgY - dy * 0.4)))
   }, [])
 
-  const endDrag = useCallback(() => { isDragging.current = false }, [])
+  const endDrag = useCallback(() => { isDragging.current = false; lastPinchDist.current = null }, [])
+
+  const handleCropTouchStart = useCallback((e: React.TouchEvent) => {
+    e.preventDefault()
+    if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX
+      const dy = e.touches[0].clientY - e.touches[1].clientY
+      lastPinchDist.current = Math.hypot(dx, dy)
+    } else if (e.touches.length === 1) {
+      startDrag(e.touches[0].clientX, e.touches[0].clientY)
+    }
+  }, [startDrag])
+
+  const handleCropTouchMove = useCallback((e: React.TouchEvent) => {
+    e.preventDefault()
+    if (e.touches.length === 2 && lastPinchDist.current !== null) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX
+      const dy = e.touches[0].clientY - e.touches[1].clientY
+      const dist = Math.hypot(dx, dy)
+      const delta = dist - lastPinchDist.current
+      setImgZoom(prev => Math.max(1, Math.min(3, prev + delta * 0.008)))
+      lastPinchDist.current = dist
+    } else if (e.touches.length === 1) {
+      moveDrag(e.touches[0].clientX, e.touches[0].clientY)
+    }
+  }, [moveDrag])
 
   const handleShare = async () => {
     if (!distributor?.slug) return
@@ -5442,7 +5471,7 @@ export default function Home() {
       if (!valRes.ok) { const d = await valRes.json().catch(() => ({})); setReferralError('referralInvalid'); showToast(d.error || t.referralInvalid); setSavingProfile(false); return }
     } catch { /* network error — allow save with frontend validation only */ }
     const isFirstSave = !distributor.slug
-    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
+    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom) : null
     const wasLive = !!distributor.landing_active
     const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
@@ -5497,7 +5526,7 @@ export default function Home() {
       if (!valRes.ok) { const d = await valRes.json().catch(() => ({})); setReferralError('referralInvalid'); showToast(d.error || t.referralInvalid); setUpdatingProfile(false); return }
     } catch { /* network error — allow save with frontend validation only */ }
     const wasLiveUpdate = !!distributor.landing_active
-    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY) : null
+    const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom) : null
     const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
@@ -5784,7 +5813,7 @@ export default function Home() {
             <div className="header-divider" aria-hidden="true" />
             {distributor?.profile_image ? (
               <img src={parseProfileImage(distributor.profile_image).url} className="avatar"
-                style={{ objectPosition: `${parseProfileImage(distributor.profile_image).x}% ${parseProfileImage(distributor.profile_image).y}%` }}
+                style={{ objectPosition: `${parseProfileImage(distributor.profile_image).x}% ${parseProfileImage(distributor.profile_image).y}%`, transform: parseProfileImage(distributor.profile_image).zoom !== 1 ? `scale(${parseProfileImage(distributor.profile_image).zoom})` : undefined }}
                 alt={distributor.name ? `Profile picture of ${distributor.name}` : 'Profile picture'} />
             ) : (
               <div className="avatar-placeholder" aria-hidden="true">👤</div>
@@ -6141,19 +6170,19 @@ export default function Home() {
                     <div>
                       <div
                         className="upload-area"
-                        style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}
+                        style={{ cursor: isDragging.current ? 'grabbing' : 'grab', touchAction: 'none' }}
                         onMouseDown={e => { e.preventDefault(); startDrag(e.clientX, e.clientY) }}
                         onMouseMove={e => moveDrag(e.clientX, e.clientY)}
                         onMouseUp={endDrag}
                         onMouseLeave={endDrag}
-                        onTouchStart={e => startDrag(e.touches[0].clientX, e.touches[0].clientY)}
-                        onTouchMove={e => { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY) }}
+                        onTouchStart={handleCropTouchStart}
+                        onTouchMove={handleCropTouchMove}
                         onTouchEnd={endDrag}
                         role="img"
                         aria-label={`${profileName ? `Profile picture of ${profileName}` : 'Profile picture'}. Drag to reposition.`}
                       >
                         <img src={profileImage} alt=""
-                          style={{ objectPosition: `${imgX}% ${imgY}%` }} />
+                          style={{ objectPosition: `${imgX}% ${imgY}%`, transform: imgZoom !== 1 ? `scale(${imgZoom})` : undefined }} />
                       </div>
                       <p style={{ margin: '5px 0 0', fontSize: '0.68rem', color: 'var(--text-dim)', display: 'flex', alignItems: 'center', gap: 3 }}>
                         <span aria-hidden="true">↔</span> {t.dragToReposition}
