@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     // Fetch the IB (distributor) details
     const { data: distributor, error: distError } = await supabase
       .from('distributors')
-      .select('id, user_id, email, name, social_telegram')
+      .select('id, user_id, email, name, social_telegram, telegram_chat_id')
       .eq('id', distributorId)
       .single()
 
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
       // A — Email to IB via Resend
       sendIBEmail(distributor.email, distributor.name, leadName, leadEmail || '', leadUid, disapproveUrl),
       // B — Telegram message to IB (if chat_id available)
-      sendTelegramMessage(distributor, leadName, leadUid),
+      sendTelegramMessage(distributor, leadName, leadEmail || '', leadUid),
       // C — In-app notification via Supabase
       createInAppNotification(distributor.user_id, leadName, leadUid),
     ])
@@ -167,33 +167,32 @@ To unsubscribe, reply with 'unsubscribe' in the subject line.`
   })
 }
 
-async function sendTelegramMessage(distributor: any, leadName: string, uid: string) {
-  const botToken = process.env.TELEGRAM_BOT_TOKEN
-  if (!botToken) return { skipped: true, reason: 'No TELEGRAM_BOT_TOKEN configured' }
+async function sendTelegramMessage(distributor: any, leadName: string, leadEmail: string, uid: string) {
+  const botToken = process.env.SYSTM8_TELEGRAM_BOT_TOKEN
+  if (!botToken) return { skipped: true, reason: 'No SYSTM8_TELEGRAM_BOT_TOKEN configured' }
 
-  // TODO: Telegram Bot API requires a numeric chat_id to send messages.
-  // We cannot send to a @username directly. If the distributors table gets a
-  // telegram_chat_id column in the future, use it here. For now, we skip
-  // Telegram if no chat_id is available.
-  // To collect chat_ids: have IBs message the bot first, then store the chat_id
-  // from the incoming update via a webhook.
-
-  // Check if distributor has a telegram_chat_id (column may not exist yet)
-  const { data: distRow } = await supabase
-    .from('distributors')
-    .select('telegram_chat_id')
-    .eq('id', distributor.id)
-    .single()
-
-  const chatId = (distRow as any)?.telegram_chat_id
+  const chatId = distributor.telegram_chat_id
   if (!chatId) return { skipped: true, reason: 'No telegram_chat_id for this distributor' }
 
-  const message = `🔔 New UID from ${leadName}: ${uid}. Log in to verify: https://www.primeverseaccess.com`
+  const submittedDate = new Date().toLocaleString('en-GB', {
+    weekday: 'short', day: 'numeric', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Amsterdam',
+  })
+
+  const message = [
+    '🔔 New UID Submitted!',
+    `👤 ${leadName}`,
+    `📧 ${leadEmail || 'N/A'}`,
+    `🆔 UID: ${uid}`,
+    `📅 ${submittedDate} CET`,
+    '',
+    '👉 Review in dashboard: https://www.primeverseaccess.com',
+  ].join('\n')
 
   const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' }),
+    body: JSON.stringify({ chat_id: chatId, text: message }),
   })
 
   return res.json()
