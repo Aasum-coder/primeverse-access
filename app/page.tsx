@@ -8218,7 +8218,7 @@ function AvatarEditorModal({ open, src, initial, onSave, onClose }: {
     ctx.closePath()
     ctx.clip()
     // Background
-    ctx.fillStyle = '#1A4731'
+    ctx.fillStyle = '#1A3D2B'
     ctx.fillRect(0, 0, size, size)
     // Brightness
     ctx.filter = `brightness(${brightness / 100})`
@@ -8234,7 +8234,7 @@ function AvatarEditorModal({ open, src, initial, onSave, onClose }: {
     // Circle border
     ctx.beginPath()
     ctx.arc(size / 2, size / 2, size / 2 - 1, 0, Math.PI * 2)
-    ctx.strokeStyle = 'rgba(212,165,55,0.4)'
+    ctx.strokeStyle = '#2D6A4F'
     ctx.lineWidth = 2
     ctx.stroke()
   }, [loaded, panX, panY, zoom, brightness])
@@ -8290,12 +8290,12 @@ function AvatarEditorModal({ open, src, initial, onSave, onClose }: {
   const canvasSize = typeof window !== 'undefined' && window.innerWidth < 500 ? Math.min(window.innerWidth - 64, 280) : 240
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: '#1A4731', border: '1px solid rgba(212,165,55,0.25)', borderRadius: 20, width: '92vw', maxWidth: 380, padding: '1.5rem', boxShadow: '0 24px 80px rgba(0,0,0,0.7)' }}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ background: '#1A3D2B', backgroundImage: 'repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 8px), repeating-linear-gradient(45deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 8px)', border: '1px solid #163326', borderRadius: 20, width: '92vw', maxWidth: 380, padding: '1.5rem', boxShadow: '0 0 0 1px rgba(201,168,76,0.2), 0 20px 60px rgba(0,0,0,0.6)' }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', color: '#fff', margin: 0 }}>Edit Photo</h3>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '1.5rem', cursor: 'pointer', padding: 4, lineHeight: 1 }}>&times;</button>
+          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', color: '#C9A84C', margin: 0 }}>Edit Photo</h3>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#C9A84C', fontSize: '1.5rem', cursor: 'pointer', padding: 4, lineHeight: 1, opacity: 0.6 }}>&times;</button>
         </div>
 
         {/* Canvas */}
@@ -8304,7 +8304,7 @@ function AvatarEditorModal({ open, src, initial, onSave, onClose }: {
             ref={canvasRef}
             width={canvasSize}
             height={canvasSize}
-            style={{ width: canvasSize, height: canvasSize, borderRadius: '50%', cursor: dragging.current ? 'grabbing' : 'grab', touchAction: 'none' }}
+            style={{ width: canvasSize, height: canvasSize, borderRadius: '50%', cursor: dragging.current ? 'grabbing' : 'grab', touchAction: 'none', border: '1px solid #2D6A4F' }}
             onMouseDown={e => { e.preventDefault(); onPointerDown(e.clientX, e.clientY) }}
             onMouseMove={e => onPointerMove(e.clientX, e.clientY)}
             onMouseUp={onPointerUp}
@@ -8317,27 +8317,27 @@ function AvatarEditorModal({ open, src, initial, onSave, onClose }: {
         <p style={{ textAlign: 'center', fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', margin: '-0.5rem 0 1rem' }}>Drag to reposition. Pinch to zoom.</p>
 
         {/* Zoom slider */}
-        <div style={{ marginBottom: '1rem' }}>
+        <div style={{ marginBottom: '1rem', background: '#1F4D35', borderRadius: 10, padding: '10px 14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>
             <span>Zoom</span><span>{zoom.toFixed(1)}x</span>
           </div>
           <input type="range" min="1" max="3" step="0.05" value={zoom} onChange={e => setZoom(Number(e.target.value))}
-            style={{ width: '100%', accentColor: '#D4A843' }} />
+            style={{ width: '100%', accentColor: '#C9A84C' }} />
         </div>
 
         {/* Brightness slider */}
-        <div style={{ marginBottom: '1.5rem' }}>
+        <div style={{ marginBottom: '1.5rem', background: '#1F4D35', borderRadius: 10, padding: '10px 14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>
             <span>Brightness</span><span>{brightness}%</span>
           </div>
           <input type="range" min="50" max="150" step="1" value={brightness} onChange={e => setBrightness(Number(e.target.value))}
-            style={{ width: '100%', accentColor: '#D4A843' }} />
+            style={{ width: '100%', accentColor: '#C9A84C' }} />
         </div>
 
         {/* Buttons */}
         <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button onClick={onClose} style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Cancel</button>
-          <button onClick={() => onSave({ x: panX, y: panY, zoom, brightness })} style={{ flex: 1, padding: '12px', background: 'linear-gradient(135deg, #c9a227, #e8c975, #d4a537)', border: 'none', borderRadius: 10, color: '#0a0804', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Confirm</button>
+          <button onClick={onClose} style={{ flex: 1, padding: '12px', background: 'transparent', border: '1px solid rgba(201,168,76,0.27)', borderRadius: 10, color: '#C9A84C', fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Cancel</button>
+          <button onClick={() => onSave({ x: panX, y: panY, zoom, brightness })} style={{ flex: 1, padding: '12px', background: '#C9A84C', border: 'none', borderRadius: 10, color: '#0a0a0a', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Confirm</button>
         </div>
       </div>
     </div>
