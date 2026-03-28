@@ -8218,7 +8218,7 @@ function AvatarEditorModal({ open, src, initial, onSave, onClose }: {
     ctx.closePath()
     ctx.clip()
     // Background
-    ctx.fillStyle = '#1A1A2E'
+    ctx.fillStyle = '#1A4731'
     ctx.fillRect(0, 0, size, size)
     // Brightness
     ctx.filter = `brightness(${brightness / 100})`
@@ -8291,7 +8291,7 @@ function AvatarEditorModal({ open, src, initial, onSave, onClose }: {
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: '#1A1A2E', border: '1px solid rgba(212,165,55,0.25)', borderRadius: 20, width: '92vw', maxWidth: 380, padding: '1.5rem', boxShadow: '0 24px 80px rgba(0,0,0,0.7)' }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: '#1A4731', border: '1px solid rgba(212,165,55,0.25)', borderRadius: 20, width: '92vw', maxWidth: 380, padding: '1.5rem', boxShadow: '0 24px 80px rgba(0,0,0,0.7)' }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', color: '#fff', margin: 0 }}>Edit Photo</h3>
