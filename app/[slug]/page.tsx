@@ -586,15 +586,17 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
           try { referrer = new URL(document.referrer).hostname } catch { referrer = 'Other' }
         }
       }
-      supabase.from('page_views').insert({
-        distributor_id: data.id,
-        slug: slug,
-        created_at: new Date().toISOString(),
-        referrer: referrer,
-        utm_source: utmSource || null,
-        utm_medium: params.get('utm_medium') || null,
-        device: window.innerWidth < 768 ? 'mobile' : 'desktop',
-      }).then(() => {}, () => {})
+      fetch('/api/log-page-view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          distributor_id: data.id,
+          slug: slug,
+          referrer: referrer,
+          utm_source: utmSource || null,
+          utm_medium: params.get('utm_medium') || null,
+        }),
+      }).catch(() => {})
       // Ensure bio_translations is a parsed object (handle string edge case)
       if (data.bio_translations && typeof data.bio_translations === 'string') {
         try { data.bio_translations = JSON.parse(data.bio_translations) } catch { data.bio_translations = null }
