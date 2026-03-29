@@ -4544,6 +4544,7 @@ export default function Home() {
   const [socialSnapchat, setSocialSnapchat] = useState('')
   const [socialLinkedin, setSocialLinkedin] = useState('')
   const [socialYoutube, setSocialYoutube] = useState('')
+  const [metaConnections, setMetaConnections] = useState<any[]>([])
   const [socialOther, setSocialOther] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
@@ -5198,6 +5199,21 @@ export default function Home() {
         return
       }
       setDistributor(dist)
+      // Fetch social connections (Meta OAuth)
+      supabase.from('social_connections').select('*').eq('distributor_id', dist.id).then(({ data }) => {
+        if (data) setMetaConnections(data)
+      })
+      // Check URL params for Meta OAuth result
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search)
+        if (urlParams.get('meta_connected') === 'true') {
+          showToast('Facebook & Instagram connected!', 'info')
+          window.history.replaceState({}, '', window.location.pathname)
+        } else if (urlParams.get('meta_error') === 'true') {
+          showToast('Connection failed. Please try again.')
+          window.history.replaceState({}, '', window.location.pathname)
+        }
+      }
       // Auto-create default pipeline stages if they don't exist yet
       fetch('/api/create-default-stages', { method: 'POST' }).catch(() => {})
       // Load beta tester flag and existing test results
@@ -7210,6 +7226,66 @@ export default function Home() {
                 />
               </div>
             )}
+
+            {/* ─── Social Media Connections ───────────────────────────────── */}
+            <div style={{ marginTop: '2.5rem', padding: '1.25rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 14 }}>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Social Media
+              </h3>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)', margin: '0 0 1.25rem' }}>Connect your Facebook Page and Instagram to enable auto-posting.</p>
+
+              {/* Facebook */}
+              {(() => {
+                const fb = metaConnections.find((c: any) => c.platform === 'facebook' && c.is_connected)
+                if (fb) return (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', borderRadius: 10, marginBottom: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+                      <div>
+                        <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-primary)' }}>Facebook Connected</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>{fb.platform_username}</div>
+                      </div>
+                    </div>
+                    <button onClick={async () => {
+                      await fetch('/api/auth/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributor_id: distributor!.id, platform: 'facebook' }) })
+                      setMetaConnections(prev => prev.filter((c: any) => c.platform !== 'facebook'))
+                    }} style={{ background: 'none', border: '1px solid rgba(255,100,100,0.3)', borderRadius: 8, color: '#f87171', fontSize: '0.78rem', padding: '6px 14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Disconnect</button>
+                  </div>
+                )
+                return null
+              })()}
+
+              {/* Instagram */}
+              {(() => {
+                const ig = metaConnections.find((c: any) => c.platform === 'instagram' && c.is_connected)
+                if (ig) return (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', borderRadius: 10, marginBottom: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+                      <div>
+                        <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-primary)' }}>Instagram Connected</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>{ig.platform_username}</div>
+                      </div>
+                    </div>
+                    <button onClick={async () => {
+                      await fetch('/api/auth/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributor_id: distributor!.id, platform: 'instagram' }) })
+                      setMetaConnections(prev => prev.filter((c: any) => c.platform !== 'instagram'))
+                    }} style={{ background: 'none', border: '1px solid rgba(255,100,100,0.3)', borderRadius: 8, color: '#f87171', fontSize: '0.78rem', padding: '6px 14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Disconnect</button>
+                  </div>
+                )
+                return null
+              })()}
+
+              {/* Connect button (show if Facebook not connected) */}
+              {!metaConnections.find((c: any) => c.platform === 'facebook' && c.is_connected) && (
+                <button onClick={() => { if (distributor?.id) window.location.href = `/api/auth/meta/connect?distributor_id=${distributor.id}` }}
+                  style={{ width: '100%', padding: '12px', background: '#C9A84C', border: 'none', borderRadius: 10, color: '#0a0a0a', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  Connect Facebook &amp; Instagram
+                </button>
+              )}
+            </div>
           </div>
         )}
 
