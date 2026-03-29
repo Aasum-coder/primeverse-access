@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Missing distributor_id' }, { status: 400 })
   }
 
-  const clientId = process.env.NEXT_PUBLIC_META_APP_ID
+  const clientId = process.env.META_APP_ID ?? process.env.NEXT_PUBLIC_META_APP_ID
   const redirectUri = process.env.META_REDIRECT_URI
   if (!clientId || !redirectUri) {
     return NextResponse.json({ error: 'Meta app not configured' }, { status: 500 })

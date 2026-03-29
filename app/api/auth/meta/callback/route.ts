@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${SITE_URL}/?meta_error=true`)
   }
 
-  const clientId = process.env.NEXT_PUBLIC_META_APP_ID!
+  const clientId = (process.env.META_APP_ID ?? process.env.NEXT_PUBLIC_META_APP_ID)!
   const clientSecret = process.env.META_APP_SECRET!
   const redirectUri = process.env.META_REDIRECT_URI!
 
