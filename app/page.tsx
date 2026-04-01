@@ -7239,18 +7239,34 @@ export default function Home() {
               {(() => {
                 const fb = metaConnections.find((c: any) => c.platform === 'facebook' && c.is_connected)
                 if (fb) return (
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', borderRadius: 10, marginBottom: '0.75rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
-                      <div>
-                        <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-primary)' }}>Facebook Connected</div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>{fb.platform_username}</div>
+                  <div style={{ padding: '0.75rem 1rem', background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', borderRadius: 10, marginBottom: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                        <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+                        <div>
+                          <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-primary)' }}>Facebook Connected</div>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>{fb.platform_username}</div>
+                        </div>
                       </div>
+                      <button onClick={async () => {
+                        await fetch('/api/auth/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributor_id: distributor!.id, platform: 'facebook' }) })
+                        setMetaConnections(prev => prev.filter((c: any) => c.platform !== 'facebook'))
+                      }} style={{ background: 'none', border: '1px solid rgba(255,100,100,0.3)', borderRadius: 8, color: '#f87171', fontSize: '0.78rem', padding: '6px 14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Disconnect</button>
                     </div>
                     <button onClick={async () => {
-                      await fetch('/api/auth/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributor_id: distributor!.id, platform: 'facebook' }) })
-                      setMetaConnections(prev => prev.filter((c: any) => c.platform !== 'facebook'))
-                    }} style={{ background: 'none', border: '1px solid rgba(255,100,100,0.3)', borderRadius: 8, color: '#f87171', fontSize: '0.78rem', padding: '6px 14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Disconnect</button>
+                      try {
+                        const res = await fetch('/api/social/meta/post', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ distributor_id: distributor!.id, message: 'SYSTM8 er koblet til! \u{1F680} Dette er en testpost fra mitt dashboard.' }),
+                        })
+                        const data = await res.json()
+                        if (data.success) showToast('Posted to Facebook!', 'info')
+                        else showToast('Post failed: ' + (data.error || 'Unknown error'))
+                      } catch { showToast('Post failed: Network error') }
+                    }} style={{ width: '100%', padding: '8px', background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 8, color: '#C9A84C', fontSize: '0.8rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif", fontWeight: 600 }}>
+                      Send Test Post
+                    </button>
                   </div>
                 )
                 return null
