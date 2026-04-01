@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Meta app not configured' }, { status: 500 })
   }
 
-  const scope = 'pages_show_list,business_management,instagram_basic,instagram_content_publish'
+  const scope = 'pages_show_list,business_management'
   const metaAuthUrl = new URL('https://www.facebook.com/v19.0/dialog/oauth')
   metaAuthUrl.searchParams.set('client_id', clientId)
   metaAuthUrl.searchParams.set('redirect_uri', redirectUri)
