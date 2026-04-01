@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     })
     const tokenData = await tokenRes.json()
     if (!tokenData.access_token) {
-      console.error('Meta token exchange failed:', tokenData)
+      console.error('META CALLBACK token exchange error:', JSON.stringify(tokenData))
       return NextResponse.redirect(`${SITE_URL}/?meta_error=true`)
     }
     const shortToken = tokenData.access_token
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
     )
     const longTokenData = await longTokenRes.json()
     if (!longTokenData.access_token) {
-      console.error('Meta long-lived token exchange failed:', longTokenData)
+      console.error('META CALLBACK long-lived token error:', JSON.stringify(longTokenData))
       return NextResponse.redirect(`${SITE_URL}/?meta_error=true`)
     }
     const longToken = longTokenData.access_token
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     )
     const pagesData = await pagesRes.json()
     if (!pagesData.data || pagesData.data.length === 0) {
-      console.error('No Facebook Pages found:', pagesData)
+      console.error('META CALLBACK no pages found:', JSON.stringify(pagesData))
       return NextResponse.redirect(`${SITE_URL}/?meta_error=true`)
     }
 
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
     }, { onConflict: 'distributor_id,platform' })
 
     if (fbError) {
-      console.error('Facebook upsert error:', fbError)
+      console.error('META CALLBACK upsert error:', JSON.stringify(fbError))
       return NextResponse.redirect(`${SITE_URL}/?meta_error=true`)
     }
 
@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(`${SITE_URL}/?meta_connected=true`)
   } catch (err) {
-    console.error('Meta OAuth callback error:', err)
+    console.error('META CALLBACK error:', JSON.stringify(err, Object.getOwnPropertyNames(err as object)))
     return NextResponse.redirect(`${SITE_URL}/?meta_error=true`)
   }
 }
