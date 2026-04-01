@@ -5200,7 +5200,8 @@ export default function Home() {
       }
       setDistributor(dist)
       // Fetch social connections (Meta OAuth)
-      supabase.from('social_connections').select('*').eq('distributor_id', dist.id).then(({ data }) => {
+      supabase.from('social_connections').select('*').eq('distributor_id', dist.id).then(({ data, error }) => {
+        console.log('metaConnections loaded:', data, error)
         if (data) setMetaConnections(data)
       })
       // Check URL params for Meta OAuth result
@@ -7295,8 +7296,8 @@ export default function Home() {
 
               {/* Connect button (show if Facebook not connected) */}
               {!metaConnections.find((c: any) => c.platform === 'facebook' && c.is_connected) && (
-                <button onClick={() => { if (distributor?.id) window.location.href = `/api/auth/meta/connect?distributor_id=${distributor.id}` }}
-                  style={{ width: '100%', padding: '12px', background: '#C9A84C', border: 'none', borderRadius: 10, color: '#0a0a0a', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                <button className="gold-btn" onClick={() => { if (distributor?.id) window.location.href = `/api/auth/meta/connect?distributor_id=${distributor.id}` }}
+                  style={{ width: '100%', padding: '12px', textTransform: 'none', letterSpacing: 0 }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                   Connect Facebook &amp; Instagram
                 </button>
