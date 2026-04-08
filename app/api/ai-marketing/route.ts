@@ -26,8 +26,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 
-  const { type, language, distributorId } = body
+  const { type, language, distributorId, voice_profile } = body
   const langLabel = langNames[language] || 'English'
+
+  // Build voice context from profile
+  const vp = voice_profile || {}
+  const voiceContext = vp && Object.keys(vp).length > 0 && (vp.experience || vp.tone || vp.never_say || vp.audience || vp.example1)
+    ? `
+CRITICAL: You are writing on behalf of a real person. Match their voice exactly.
+WHO THEY ARE: ${vp.experience || ''}
+THEIR TONE: ${vp.tone || ''}
+NEVER USE THESE PHRASES OR STYLES: ${vp.never_say || ''}
+THEIR AUDIENCE: ${vp.audience || ''}
+${vp.example1 ? `EXAMPLE OF HOW THEY WRITE:\n${vp.example1}` : ''}
+${vp.example2 ? `SECOND EXAMPLE:\n${vp.example2}` : ''}
+Write as if you ARE this person. Short lines. No emojis unless they use them. No hype. No generic phrases. Sound human and credible.
+` : ''
 
   const groq = new Groq({ apiKey })
 
@@ -60,7 +74,7 @@ export async function POST(request: Request) {
         }
       }
 
-      systemPrompt = `You are a world-class social media ghostwriter. You write SHORT, punchy, human posts IN THE FIRST PERSON for trading community members.
+      systemPrompt = `${voiceContext}You are a world-class social media ghostwriter. You write SHORT, punchy, human posts IN THE FIRST PERSON for trading community members.
 
 ABSOLUTE RULES — no exceptions:
 1. Max 80 words. Not 100. Not 90. 80.
@@ -98,7 +112,7 @@ Return ONLY the post text, nothing else. No quotes around it.`
         ? `CRITICAL LANGUAGE RULE: You MUST write your entire response in ${langLabel}. Do NOT use English at all. Every single word must be in ${langLabel}.`
         : ''
 
-      systemPrompt = `You are a social media caption specialist. You write scroll-stopping captions in FIRST PERSON on behalf of the user. The user IS the author — NEVER mention anyone by name, NEVER refer to the user in third person. Use "I", "me", "my" throughout. Max 50 words not counting hashtags. Sound human and authentic. NEVER start with "I just" or "Excited to".
+      systemPrompt = `${voiceContext}You are a social media caption specialist. You write scroll-stopping captions in FIRST PERSON on behalf of the user. The user IS the author — NEVER mention anyone by name, NEVER refer to the user in third person. Use "I", "me", "my" throughout. Max 50 words not counting hashtags. Sound human and authentic. NEVER start with "I just" or "Excited to".
 ${captionLangInstruction}
 
 Context: The user is part of 1Move Academy / PrimeVerse trading ecosystem.
@@ -126,7 +140,7 @@ Return ONLY the caption text in ${langLabel}. Then on a new line, add "---" and 
         ? `CRITICAL LANGUAGE RULE: You MUST include hashtags in ${langLabel}. At least half of the hashtags in each category should be in ${langLabel}. Mix ${langLabel} and English hashtags for maximum reach in ${langLabel}-speaking markets.`
         : ''
 
-      systemPrompt = `You are a hashtag research expert for trading, finance, and the 1Move Academy / PrimeVerse ecosystem.
+      systemPrompt = `${voiceContext}You are a hashtag research expert for trading, finance, and the 1Move Academy / PrimeVerse ecosystem.
 
 Research and suggest 30 relevant hashtags for the given niche/topic, optimized for ${platform || 'Instagram'}.
 ${hashtagLangNote}
