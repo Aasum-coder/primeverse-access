@@ -4546,6 +4546,12 @@ export default function Home() {
   const [socialYoutube, setSocialYoutube] = useState('')
   const [metaConnections, setMetaConnections] = useState<any[]>([])
   const [socialOther, setSocialOther] = useState('')
+  const [voiceExperience, setVoiceExperience] = useState('')
+  const [voiceTone, setVoiceTone] = useState('')
+  const [voiceNeverSay, setVoiceNeverSay] = useState('')
+  const [voiceAudience, setVoiceAudience] = useState('')
+  const [voiceExample1, setVoiceExample1] = useState('')
+  const [voiceExample2, setVoiceExample2] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
@@ -4695,6 +4701,7 @@ export default function Home() {
           language: aiToolLang,
           name: profileName,
           distributorId: distributor?.id || null,
+          voice_profile: distributor?.voice_profile || null,
         }),
       })
       const data = await res.json()
@@ -5153,6 +5160,9 @@ export default function Home() {
           setSocialLinkedin(impDist.social_linkedin || '')
           setSocialYoutube(impDist.social_youtube || '')
           setSocialOther(impDist.social_other || '')
+          const ivp = impDist.voice_profile || {}
+          setVoiceExperience(ivp.experience || ''); setVoiceTone(ivp.tone || ''); setVoiceNeverSay(ivp.never_say || '')
+          setVoiceAudience(ivp.audience || ''); setVoiceExample1(ivp.example1 || ''); setVoiceExample2(ivp.example2 || '')
           const pi = parseProfileImage(impDist.profile_image)
           setProfileImage(pi.url || null)
           setImgX(pi.x)
@@ -5249,6 +5259,24 @@ export default function Home() {
       setSocialLinkedin(dist.social_linkedin || '')
       setSocialYoutube(dist.social_youtube || '')
       setSocialOther(dist.social_other || '')
+      // Load voice profile
+      const vp = dist.voice_profile || {}
+      // Pre-fill Richard's voice profile if slug is 'richard' and voice_profile is empty
+      if (dist.slug === 'richard' && (!dist.voice_profile || Object.keys(dist.voice_profile).length === 0)) {
+        const richardVP = {
+          experience: 'Nearly 4 years in trading. Focus on copytrading and live sessions with professionals.',
+          tone: 'Calm, direct, no hype. Let facts speak.',
+          never_say: 'I just discovered, I\'m so excited, Amazing opportunity, headfirst, level up, cutting-edge',
+          audience: 'People seeking more from life. Those who want to become more, have more, give more. Norwegian and Spanish speakers.',
+          example1: 'Something interesting is happening right now...\n\nIn just 6 months, we\'ve built a community of over 10,000 members.\nIn March alone, more than $3,000,000 was paid out in trading results to our members.\n\nSo why is this happening?\n\nBecause we chose a completely different model.\n\nWhile others is built around one individual, we\'ve built an environment with 40+ traders.\nNot one voice — but multiple perspectives, strategies, and real experience.\n\nWhile others operate with minimum deposits, closed groups, and monthly subscriptions...\nwe chose the opposite.\n\nEverything is open.\nEverything is accessible.\nNo paywalls.\n\nNo screenshots.\nNo hindsight.\nNo "look what I did yesterday."\n\nJust live execution.\n\nWe\'re building a community — not a fanbase.\n\nPeople Before Profit.',
+          example2: '',
+        }
+        setVoiceExperience(richardVP.experience); setVoiceTone(richardVP.tone); setVoiceNeverSay(richardVP.never_say)
+        setVoiceAudience(richardVP.audience); setVoiceExample1(richardVP.example1); setVoiceExample2(richardVP.example2)
+      } else {
+        setVoiceExperience(vp.experience || ''); setVoiceTone(vp.tone || ''); setVoiceNeverSay(vp.never_say || '')
+        setVoiceAudience(vp.audience || ''); setVoiceExample1(vp.example1 || ''); setVoiceExample2(vp.example2 || '')
+      }
       const pi = parseProfileImage(dist.profile_image)
       setProfileImage(pi.url || null)
       setImgX(pi.x)
@@ -5462,7 +5490,8 @@ export default function Home() {
     const isFirstSave = !distributor.slug
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom, imgBrightness) : null
     const wasLive = !!distributor.landing_active
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
+    const voiceProfileData = { experience: voiceExperience, tone: voiceTone, never_say: voiceNeverSay, audience: voiceAudience, example1: voiceExample1, example2: voiceExample2 }
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -5478,7 +5507,7 @@ export default function Home() {
       fetch('/api/page-live-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     }
     if (!wasLive) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -5516,7 +5545,8 @@ export default function Home() {
     } catch { /* network error — allow save with frontend validation only */ }
     const wasLiveUpdate = !!distributor.landing_active
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom, imgBrightness) : null
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null }).eq('id', distributor.id)
+    const voiceProfileData2 = { experience: voiceExperience, tone: voiceTone, never_say: voiceNeverSay, audience: voiceAudience, example1: voiceExample1, example2: voiceExample2 }
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -5528,7 +5558,7 @@ export default function Home() {
       return
     }
     if (!wasLiveUpdate) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 })
     setUpdatingProfile(false)
     setUpdateSaved(true)
     setTimeout(() => setUpdateSaved(false), 3000)
@@ -6264,6 +6294,26 @@ export default function Home() {
                     <span aria-hidden="true">✈️</span> Connect Telegram
                   </a>
                 )}
+              </div>
+
+              {/* ─── My Voice ───────────────────────────────────────────── */}
+              <div className="field-group" style={{ border: '1px solid rgba(201,168,76,0.15)', borderRadius: 14, padding: '1.25rem', background: 'rgba(201,168,76,0.03)' }}>
+                <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>My Voice</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Help the AI write exactly like you</div>
+                </div>
+                <label className="field-label">Your experience</label>
+                <input className="field-input" value={voiceExperience} onChange={e => setVoiceExperience(e.target.value)} placeholder="e.g. 4 years in trading and copytrading" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Your tone</label>
+                <input className="field-input" value={voiceTone} onChange={e => setVoiceTone(e.target.value)} placeholder="e.g. Direct, calm, no hype" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Never say this</label>
+                <input className="field-input" value={voiceNeverSay} onChange={e => setVoiceNeverSay(e.target.value)} placeholder="e.g. I just discovered, This is crazy, Amazing opportunity" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Your audience</label>
+                <input className="field-input" value={voiceAudience} onChange={e => setVoiceAudience(e.target.value)} placeholder="e.g. People who want more from life, Norwegian and Spanish speakers" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Example post 1</label>
+                <textarea className="field-textarea" rows={5} value={voiceExample1} onChange={e => setVoiceExample1(e.target.value)} placeholder="Paste a post you wrote that sounds like you" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Example post 2</label>
+                <textarea className="field-textarea" rows={5} value={voiceExample2} onChange={e => setVoiceExample2(e.target.value)} placeholder="Optional second example" />
               </div>
 
               <div className="field-group">
