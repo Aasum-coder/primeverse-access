@@ -27,8 +27,13 @@ export async function POST(request: NextRequest) {
     if (!caller) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    const { data: callerDist } = await supabase.from('distributors').select('is_admin').eq('user_id', caller.id).single()
-    if (!callerDist?.is_admin) {
+    // Allow primary admin by email OR is_admin flag on distributor
+    let isAdmin = caller.email === 'bitaasum@gmail.com'
+    if (!isAdmin) {
+      const { data: callerDist } = await supabase.from('distributors').select('is_admin').eq('user_id', caller.id).single()
+      if (callerDist?.is_admin === true) isAdmin = true
+    }
+    if (!isAdmin) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
 
