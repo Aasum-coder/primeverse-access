@@ -416,6 +416,10 @@ export default function AdminConsolePage() {
   const [upgradeModal, setUpgradeModal] = useState<Distributor | null>(null)
   const [toast, setToast] = useState({ visible: false, message: '', type: 'success' as 'success' | 'error' })
   const [actionLoading, setActionLoading] = useState<string | null>(null)
+  const [terminateTarget, setTerminateTarget] = useState<Distributor | null>(null)
+  const [terminateStep, setTerminateStep] = useState<1 | 2>(1)
+  const [terminateInput, setTerminateInput] = useState('')
+  const [terminateLoading, setTerminateLoading] = useState(false)
 
   // Events state
   const [events, setEvents] = useState<EventRecord[]>([])
@@ -924,6 +928,9 @@ export default function AdminConsolePage() {
                             <button onClick={() => router.push(`/admin/impersonate?userId=${ib.user_id}`)} className="btn-outline" style={{ padding: '5px 12px', fontSize: '0.75rem', borderColor: 'rgba(212,165,55,0.3)', color: '#d4a537' }}>
                               View Dashboard
                             </button>
+                            <button onClick={() => { setTerminateTarget(ib); setTerminateStep(1); setTerminateInput('') }} style={{ padding: '5px 12px', fontSize: '0.75rem', background: 'transparent', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 6, color: '#f87171', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
+                              Terminate
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -1407,6 +1414,83 @@ export default function AdminConsolePage() {
                 {actionLoading === upgradeModal.id ? <span className="spinner" /> : 'Confirm'}
               </button>
               <button onClick={() => setUpgradeModal(null)} className="btn-outline">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Terminate IB Modals ─── */}
+      {terminateTarget && terminateStep === 1 && (
+        <div className="modal-backdrop" onClick={() => setTerminateTarget(null)}>
+          <div className="modal-card" onClick={e => e.stopPropagation()}>
+            <div className="modal-title" style={{ color: '#f87171' }}>Terminate IB</div>
+            <p className="modal-text">
+              Are you sure you want to terminate <strong>{terminateTarget.name || terminateTarget.full_name || 'this IB'}</strong>?
+            </p>
+            <p className="modal-text" style={{ fontSize: '0.82rem', color: '#f87171', lineHeight: 1.6 }}>
+              This will permanently delete their account, landing page, leads, and all data. This cannot be undone.
+            </p>
+            <div className="modal-actions">
+              <button onClick={() => setTerminateStep(2)} style={{ background: '#f87171', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', cursor: 'pointer', fontWeight: 600, fontFamily: "'Outfit', sans-serif" }}>
+                Yes, continue
+              </button>
+              <button onClick={() => setTerminateTarget(null)} className="btn-outline">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {terminateTarget && terminateStep === 2 && (
+        <div className="modal-backdrop" onClick={() => setTerminateTarget(null)}>
+          <div className="modal-card" onClick={e => e.stopPropagation()}>
+            <div className="modal-title" style={{ color: '#f87171' }}>Final Warning</div>
+            <p className="modal-text">
+              You are about to permanently delete <strong>{terminateTarget.name || terminateTarget.full_name || 'this IB'}</strong> ({terminateTarget.email}).
+            </p>
+            <p className="modal-text" style={{ fontSize: '0.85rem', marginBottom: 12 }}>
+              Type <strong>TERMINATE</strong> to confirm.
+            </p>
+            <input
+              type="text"
+              value={terminateInput}
+              onChange={e => setTerminateInput(e.target.value)}
+              placeholder="TERMINATE"
+              style={{ width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, color: '#fff', fontSize: '0.9rem', fontFamily: "'Outfit', sans-serif", marginBottom: 16, boxSizing: 'border-box' }}
+            />
+            <div className="modal-actions">
+              <button
+                disabled={terminateInput !== 'TERMINATE' || terminateLoading}
+                onClick={async () => {
+                  setTerminateLoading(true)
+                  try {
+                    const { data: { session } } = await supabase.auth.getSession()
+                    const res = await fetch('/api/admin/terminate-ib', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token}` },
+                      body: JSON.stringify({ distributor_id: terminateTarget.id, user_id: terminateTarget.user_id }),
+                    })
+                    const data = await res.json()
+                    if (data.success) {
+                      setApprovedIBs(prev => prev.filter(ib => ib.id !== terminateTarget.id))
+                      showToast('IB terminated and deleted.', 'success')
+                    } else {
+                      showToast(data.error || 'Failed to terminate IB', 'error')
+                    }
+                  } catch {
+                    showToast('Network error', 'error')
+                  }
+                  setTerminateLoading(false)
+                  setTerminateTarget(null)
+                }}
+                style={{ background: terminateInput === 'TERMINATE' && !terminateLoading ? '#dc2626' : '#555', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', cursor: terminateInput === 'TERMINATE' && !terminateLoading ? 'pointer' : 'not-allowed', fontWeight: 600, fontFamily: "'Outfit', sans-serif", opacity: terminateInput === 'TERMINATE' && !terminateLoading ? 1 : 0.5 }}
+              >
+                {terminateLoading ? 'Deleting...' : 'Delete permanently'}
+              </button>
+              <button onClick={() => setTerminateTarget(null)} className="btn-outline">
                 Cancel
               </button>
             </div>
