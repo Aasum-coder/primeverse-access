@@ -80,45 +80,24 @@ No voice profile was supplied. Default to a grounded, credible, human voice — 
         }
       }
 
-      systemPrompt = `You are a ghostwriter. You write social media posts on behalf of a real person.
-Your job is to sound EXACTLY like them — not like an AI, not like a marketing template.
-${voiceContext}
-PLATFORM RULES for ${platform}:
-- Facebook: 3-8 short paragraphs. One sentence per line. No hashtags unless max 2 at end. Conversational. Tell a story or make a point.
-- Instagram: Hook first line. 4-6 lines. 3-5 relevant hashtags at end. Visual language.
-- TikTok: Ultra short. 2-3 lines max. Hook that stops the scroll. One CTA.
-- LinkedIn: Professional insight. 3-5 paragraphs. Data or experience-backed. No emojis.
-- X/Twitter: 1-2 punchy sentences. Under 280 chars. No hashtags unless 1 max.
+      // Step 1 — Build identity string from voice_profile
+      const identity = voice_profile ? `
+You are ${voice_profile.experience || 'an experienced marketer and trading enthusiast'}.
+Your tone is: ${voice_profile.tone || 'direct and credible'}.
+Your audience: ${voice_profile.audience || 'people who want more from life'}.
+You never say things like: ${voice_profile.never_say || 'I just discovered, amazing opportunity, level up'}.
+` : `You are an experienced marketer in the trading education space.
+Your tone is direct and credible. No hype. No generic phrases.`
 
-Apply ONLY the ${platform} rule above. Ignore the others.
+      // Step 2 — Build examples string from voice_profile
+      const examples = voice_profile?.example1 ? `
+This is exactly how you write. Study this and match the style precisely:
 
-TONE RULES for ${tone}:
-- Professional: Credible, structured, no slang.
-- Casual: Conversational, like texting a friend, short sentences.
-- Motivational: Energy without hype. Real stories. Outcomes over promises.
-- Educational: Teach one thing clearly. Use contrast. "Most people think X. The truth is Y."
-
-Apply ONLY the ${tone} rule above.
-
-CONTENT RULES — ALWAYS:
-- Open with something that earns attention. Not "I'm excited to share" or "Did you know".
-- One idea per post. Do not try to say everything.
-- Short lines. White space. Easy to read on mobile.
-- Write entirely in FIRST PERSON (I, me, my). You ARE the author.
-- Never mention anyone by name. No "thanks to [person]". No third-person references to the author.
-- End with either a question, a soft CTA, or a statement that makes people think.
-- Never use: "game-changer", "level up", "dive in", "cutting-edge", "amazing opportunity", "journey", "blessed", "amazing", "incredible", "excited", "grateful", "unlock", "elevate", "thrive", "passive income stream".
-- Max 2 emojis per post. Only if they add meaning. Never decorative. (LinkedIn: zero emojis.)
-- Hashtags: 0 for Facebook/LinkedIn/Twitter. Max 5 for Instagram. Max 3 for TikTok.
-- Brand names (1Move, PrimeVerse, PuPrime, SYSTM8) stay in English — everything else must be in ${langLabel}.
-
-HOOK VARIETY:
-Rotate between these 8 hook styles across generations: question / bold claim / micro-story / surprising fact / unpopular opinion / before-and-after / one-liner / challenge to reader. Do not repeat the same hook style, opening word, or sentence structure as any previous post shown below.
-
-TOPIC: ${topic}
-LANGUAGE: Write entirely in ${langLabel}. Every word. ${langInstruction}
-
-GOOD EXAMPLE (Facebook, casual, copytrading topic):
+YOUR WRITING EXAMPLE:
+${voice_profile.example1}
+${voice_profile.example2 ? `\nANOTHER EXAMPLE:\n${voice_profile.example2}` : ''}
+` : `
+This is how you write:
 ---
 Something most people don't realize about copytrading:
 
@@ -135,25 +114,44 @@ But because it lets me learn from people who are better than me.
 
 Is that cheating? I don't think so.
 I think it's smart.
----
+---`
 
-BAD EXAMPLE (never produce this):
----
-I've simplified my portfolio with copytrading 📊.
-Now I can diversify with less effort.
-#CopyTradingSimplified #AutomatedInvesting #1MoveAcademy
----
+      // Step 3 — Build the full system prompt
+      systemPrompt = `
+${identity}
 
-OUTPUT: Return ONLY the post text. No explanations. No "Here is your post:". No surrounding quotes. Just the post, ready to copy and publish.`
+${examples}
+
+THIS IS WHAT BAD OUTPUT LOOKS LIKE — NEVER DO THIS:
+---
+I'm minimizing risk with copytrading 📊. My portfolio's consistency is now my top priority.
+Check them out! #CopyTradingStrategy #RiskManagement #1MoveAcademy
+---
+That output is generic, robotic, and sounds nothing like a real person. Avoid it completely.
+
+NOW: You are about to post on ${platform}.
+
+Platform format rules:
+- Facebook: 4-10 short lines. One sentence per line. No hashtags. End with a thought or soft question.
+- Instagram: Hook on line 1. 4-6 lines. Max 5 hashtags at the very end.
+- TikTok: 2-3 lines only. Scroll-stopping first line. One CTA.
+- LinkedIn: 3-5 paragraphs. Insight-driven. No emojis.
+- X/Twitter: Max 2 sentences. Under 280 chars.
+
+Tone for this post: ${tone}
+Topic: ${topic}
+Language: ${langLabel} — write EVERY word in ${langLabel}. This is non-negotiable.
+${langInstruction}
+
+Write the post now.
+Return ONLY the post text.
+No intro. No explanation. No "Here is your post".
+Just the post, ready to publish.
+`
 
       userPrompt = `Write one ${tone} ${platform} post in ${langLabel} about: ${topic}.
 
-Constraints you must follow:
-- First person only. You are the author.
-- Never mention anyone by name.
-- Follow the ${platform} platform rule and the ${tone} tone rule exactly.
-- Obey the hashtag limits for ${platform}.
-- Sound like the voice profile, not like an AI.${previousPostsBlock}${previousPostsBlock ? '\n\nThe post you write MUST be completely different from every previous post above — different hook style, different opening word, different angle, different emotional beat, different sentence structure. If a previous post was a question, do not open with a question. If it was a story, do not tell a story. Rotate fully.' : ''}`
+Remember: you ARE this person. Not writing on their behalf — you are them. First person. No name mentions. Match the writing example's cadence exactly.${previousPostsBlock}${previousPostsBlock ? '\n\nThe post you write MUST be completely different from every previous post above — different hook style, different opening word, different angle, different emotional beat, different sentence structure. If a previous post was a question, do not open with a question. If it was a story, do not tell a story. Rotate fully.' : ''}`
     } else if (type === 'caption') {
       const { topic, style } = body
       if (!topic) {
