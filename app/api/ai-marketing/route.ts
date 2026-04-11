@@ -1,4 +1,4 @@
-import Groq from 'groq-sdk'
+import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
@@ -7,6 +7,8 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 )
 
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
 const langNames: Record<string, string> = {
   en: 'English', no: 'Norwegian', sv: 'Swedish',
   es: 'Spanish', ru: 'Russian', ar: 'Arabic', tl: 'Filipino/Tagalog',
@@ -14,9 +16,9 @@ const langNames: Record<string, string> = {
 }
 
 export async function POST(request: Request) {
-  const apiKey = process.env.GROQ_API_KEY
+  const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
-    return NextResponse.json({ error: 'Groq API key is not configured.' }, { status: 500 })
+    return NextResponse.json({ error: 'Anthropic API key is not configured.' }, { status: 500 })
   }
 
   let body
@@ -48,8 +50,6 @@ You must match this voice exactly. Cadence, vocabulary, sentence length, level o
 VOICE PROFILE — NOT PROVIDED:
 No voice profile was supplied. Default to a grounded, credible, human voice — someone with real experience who speaks plainly. No hype. No marketing-speak. No AI tells. Short sentences. Specific details. Think "experienced practitioner talking to a peer", not "brand account broadcasting to followers".
 `
-
-  const groq = new Groq({ apiKey })
 
   try {
     let systemPrompt = ''
@@ -265,17 +265,16 @@ Return the JSON object only. Nothing before it. Nothing after it.`
       return NextResponse.json({ error: 'Unknown type' }, { status: 400 })
     }
 
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt },
-      ],
-      temperature: 0.85,
-      max_tokens: 2000,
+    const response = await anthropic.messages.create({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1024,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }],
     })
 
-    const content = completion.choices[0]?.message?.content || ''
+    const content = response.content[0].type === 'text'
+      ? response.content[0].text
+      : ''
     if (!content) {
       return NextResponse.json({ error: 'Empty response from AI. Please try again.' }, { status: 500 })
     }
@@ -309,7 +308,7 @@ Return the JSON object only. Nothing before it. Nothing after it.`
     return NextResponse.json({ content: content.trim() })
   } catch (error: unknown) {
     console.error('[ai-marketing] Error:', error)
-    if (error instanceof Groq.APIError) {
+    if (error instanceof Anthropic.APIError) {
       return NextResponse.json({ error: `AI error (${error.status}): ${error.message}` }, { status: error.status || 500 })
     }
     return NextResponse.json({ error: 'Failed to generate content: ' + String(error) }, { status: 500 })
