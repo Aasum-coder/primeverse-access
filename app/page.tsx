@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { createClient } from '@supabase/supabase-js'
+import LeadJourneyDrawer from '@/components/LeadJourneyDrawer'
 
 const WorkflowCanvas = dynamic(() => import('@/components/WorkflowCanvas'), { ssr: false })
 
@@ -4744,12 +4745,11 @@ export default function Home() {
 
   // Pipeline state
   const [pipelineLeads, setPipelineLeads] = useState<any[]>([])
-  const [pipelineEmails, setPipelineEmails] = useState<any[]>([])
   const [pipelineLoading, setPipelineLoading] = useState(false)
   const [pipelineView, setPipelineView] = useState<'table' | 'kanban'>('table')
-  const [pipelineExpandedId, setPipelineExpandedId] = useState<string | null>(null)
   const [pipelineHasReferralClicked, setPipelineHasReferralClicked] = useState(false)
   const [pipelineShareCopied, setPipelineShareCopied] = useState(false)
+  const [selectedLead, setSelectedLead] = useState<any>(null)
   const [bcTitle, setBcTitle] = useState('')
   const [bcMessage, setBcMessage] = useState('')
   const [bcChannels, setBcChannels] = useState<Set<string>>(new Set(['email']))
@@ -5390,15 +5390,6 @@ export default function Home() {
       const hasRefCol = leadsData.length > 0 && Object.prototype.hasOwnProperty.call(leadsData[0], 'referral_link_clicked')
       setPipelineHasReferralClicked(hasRefCol)
       setPipelineLeads(leadsData)
-
-      // email_sends at distributor level (user_id -> distributors.id) for the expanded-row context panel
-      const emailsRes = await supabase
-        .from('email_sends')
-        .select('id, email_type, sent_at')
-        .eq('user_id', distributorId)
-        .order('sent_at', { ascending: false })
-
-      setPipelineEmails(emailsRes.data || [])
     } catch (e) {
       console.error('[pipeline] fetch failed', e)
     } finally {
@@ -7535,79 +7526,54 @@ export default function Home() {
                       {leadsWithStep.map((lead: any) => {
                         const step = lead.__step as Step
                         const color = STEP_COLOR[step]
-                        const isOpen = pipelineExpandedId === lead.id
+                        const emailCount = lead.email_sends?.length || 0
+                        const emailTooltip = (lead.email_sends || []).map((e: any) => `${e.email_type} — ${fmtDate(e.sent_at)}`).join('\n') || 'No emails sent yet'
                         return (
-                          <div key={lead.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                            <div
-                              onClick={() => setPipelineExpandedId(isOpen ? null : lead.id)}
-                              style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'minmax(140px, 1.4fr) minmax(180px, 1.8fr) 110px 150px 120px 130px',
-                                padding: '0.85rem 1rem',
-                                alignItems: 'center',
-                                cursor: 'pointer',
-                                borderLeft: isOpen ? '3px solid #c9a84c' : '3px solid transparent',
-                                background: isOpen ? 'rgba(201,168,76,0.05)' : 'transparent',
-                                transition: 'background 0.15s, border-color 0.15s',
-                              }}
-                              onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLDivElement).style.background = 'rgba(201,168,76,0.04)' }}
-                              onMouseLeave={e => { if (!isOpen) (e.currentTarget as HTMLDivElement).style.background = 'transparent' }}
-                            >
-                              <div style={{ color: 'var(--text-primary)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.name || '—'}</div>
-                              <div style={{ color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.email || '—'}</div>
-                              <div style={{ color: 'var(--text-secondary)' }}>{countryFlag(lead.country)} {lead.country || ''}</div>
-                              <div>
-                                <span style={{
-                                  display: 'inline-block',
-                                  padding: '3px 10px',
-                                  borderRadius: 999,
-                                  fontSize: '0.72rem',
-                                  fontWeight: 600,
-                                  background: color.bg,
-                                  color: color.fg,
-                                  border: `1px solid ${color.border}`,
-                                }}>{STEP_LABEL[step]}</span>
-                              </div>
-                              <div
-                                title="Per-lead email tracking coming soon. See expanded row for your account email history."
-                                style={{ color: 'var(--text-dim)', fontSize: '0.85rem' }}
-                              >—</div>
-                              <div style={{ color: 'var(--text-dim)', fontSize: '0.82rem' }}>{fmtDate(lead.created_at)}</div>
+                          <div
+                            key={lead.id}
+                            onClick={() => setSelectedLead(lead)}
+                            style={{
+                              display: 'grid',
+                              gridTemplateColumns: 'minmax(140px, 1.4fr) minmax(180px, 1.8fr) 110px 150px 120px 130px',
+                              padding: '0.85rem 1rem',
+                              alignItems: 'center',
+                              cursor: 'pointer',
+                              borderLeft: '3px solid transparent',
+                              borderBottom: '1px solid rgba(255,255,255,0.04)',
+                              transition: 'background 0.15s, border-color 0.15s',
+                            }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(201,168,76,0.04)'; (e.currentTarget as HTMLDivElement).style.borderLeft = '3px solid #c9a84c' }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'transparent'; (e.currentTarget as HTMLDivElement).style.borderLeft = '3px solid transparent' }}
+                          >
+                            <div style={{ color: 'var(--text-primary)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.name || '—'}</div>
+                            <div style={{ color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.email || '—'}</div>
+                            <div style={{ color: 'var(--text-secondary)' }}>{countryFlag(lead.country)} {lead.country || ''}</div>
+                            <div>
+                              <span style={{
+                                display: 'inline-block',
+                                padding: '3px 10px',
+                                borderRadius: 999,
+                                fontSize: '0.72rem',
+                                fontWeight: 600,
+                                background: color.bg,
+                                color: color.fg,
+                                border: `1px solid ${color.border}`,
+                              }}>{STEP_LABEL[step]}</span>
                             </div>
-                            {isOpen && (
-                              <div style={{ padding: '0.85rem 1rem 1.1rem', background: 'rgba(0,0,0,0.18)', fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
-                                <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--text-dim)', marginBottom: 8 }}>Lead timeline</div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                                  {lead.created_at && (
-                                    <div>🟦 Registered — {fmtDate(lead.created_at)}</div>
-                                  )}
-                                  {pipelineHasReferralClicked && lead.referral_link_clicked && (
-                                    <div>🟡 Broker link clicked</div>
-                                  )}
-                                  {lead.uid && (
-                                    <div>🟠 UID submitted — {lead.uid}</div>
-                                  )}
-                                  {lead.uid_verified && (
-                                    <div>🟢 Verified</div>
-                                  )}
-                                </div>
-                                {pipelineEmails.length > 0 && (
-                                  <>
-                                    <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--text-dim)', margin: '12px 0 8px' }}>Your account email history (IB-level)</div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 200, overflowY: 'auto' }}>
-                                      {pipelineEmails.slice(0, 10).map(em => (
-                                        <div key={em.id} style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>
-                                          📧 {em.email_type} — {fmtDate(em.sent_at)}
-                                        </div>
-                                      ))}
-                                    </div>
-                                    <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginTop: 8, fontStyle: 'italic' }}>
-                                      Per-lead email tracking coming soon — the email_sends table currently tracks IB-level sends only.
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            )}
+                            <div>
+                              <span
+                                title={emailTooltip}
+                                style={{
+                                  background: '#c9a84c22',
+                                  border: '1px solid #c9a84c44',
+                                  color: '#c9a84c',
+                                  padding: '2px 8px',
+                                  borderRadius: '10px',
+                                  fontSize: '12px',
+                                }}
+                              >{emailCount}</span>
+                            </div>
+                            <div style={{ color: 'var(--text-dim)', fontSize: '0.82rem' }}>{fmtDate(lead.created_at)}</div>
                           </div>
                         )
                       })}
@@ -7629,14 +7595,22 @@ export default function Home() {
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                               {items.map((lead: any) => (
-                                <div key={lead.id} style={{
-                                  background: 'var(--card-bg)',
-                                  borderLeft: '3px solid #c9a84c',
-                                  border: '1px solid var(--card-border)',
-                                  borderLeftWidth: 3,
-                                  borderRadius: 8,
-                                  padding: '0.55rem 0.7rem',
-                                }}>
+                                <div
+                                  key={lead.id}
+                                  onClick={() => setSelectedLead(lead)}
+                                  style={{
+                                    background: 'var(--card-bg)',
+                                    borderLeft: '3px solid #c9a84c',
+                                    border: '1px solid var(--card-border)',
+                                    borderLeftWidth: 3,
+                                    borderRadius: 8,
+                                    padding: '0.55rem 0.7rem',
+                                    cursor: 'pointer',
+                                    transition: 'background 0.15s, box-shadow 0.15s',
+                                  }}
+                                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(201,168,76,0.08)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 0 1px rgba(201,168,76,0.35)' }}
+                                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'var(--card-bg)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none' }}
+                                >
                                   <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                     {lead.name || '—'}
                                   </div>
@@ -8206,6 +8180,9 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Luxury lead journey drawer (Pipeline) */}
+      <LeadJourneyDrawer lead={selectedLead} onClose={() => setSelectedLead(null)} />
     </>
   )
 }
