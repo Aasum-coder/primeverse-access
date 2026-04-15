@@ -7304,21 +7304,40 @@ export default function Home() {
 
             {/* WORKFLOW CANVAS BUILDER */}
             {bcSubTab === 'workflows' && wfView === 'builder' && (
-              <div style={{ margin: '-1rem', minHeight: '80vh', position: 'relative' }}>
-                <WorkflowCanvas
-                  distributor={distributor}
-                  supabase={supabase}
-                  workflow={wfEditing}
-                  templates={wfTemplates}
-                  workflows={workflows}
-                  t={t}
-                  lang={lang}
-                  onBack={() => setWfView('list')}
-                  onSaved={() => { fetchWorkflows(); setWfView('list') }}
-                  showToast={showToast}
-                />
-                {!isAdmin && <UnderDevelopmentOverlay />}
-              </div>
+              !isAdmin ? (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '400px',
+                  background: 'rgba(0,0,0,0.85)',
+                  border: '1px solid #c9a84c33',
+                  borderRadius: '12px'
+                }}>
+                  <div style={{ textAlign: 'center', color: '#c9a84c' }}>
+                    <div style={{ fontSize: '2rem', marginBottom: '12px' }}>🚧</div>
+                    <div style={{ fontSize: '1.1rem', fontWeight: 600 }}>Under utvikling</div>
+                    <div style={{ fontSize: '0.9rem', opacity: 0.7, marginTop: '8px' }}>
+                      Kommer snart
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ margin: '-1rem', minHeight: '80vh' }}>
+                  <WorkflowCanvas
+                    distributor={distributor}
+                    supabase={supabase}
+                    workflow={wfEditing}
+                    templates={wfTemplates}
+                    workflows={workflows}
+                    t={t}
+                    lang={lang}
+                    onBack={() => setWfView('list')}
+                    onSaved={() => { fetchWorkflows(); setWfView('list') }}
+                    showToast={showToast}
+                  />
+                </div>
+              )
             )}
 
             {/* ─── Social Media Connections — admin only ──────────────────── */}
@@ -7331,7 +7350,7 @@ export default function Home() {
               <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)', margin: '0 0 1.25rem' }}>Connect your Facebook Page and Instagram to enable auto-posting.</p>
 
               {/* Facebook */}
-              {(() => {
+              {isAdmin && (() => {
                 const fb = metaConnections.find((c: any) => c.platform === 'facebook' && c.is_connected)
                 if (fb) return (
                   <div style={{ padding: '0.75rem 1rem', background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', borderRadius: 10, marginBottom: '0.75rem' }}>
@@ -7368,7 +7387,7 @@ export default function Home() {
               })()}
 
               {/* Instagram */}
-              {(() => {
+              {isAdmin && (() => {
                 const ig = metaConnections.find((c: any) => c.platform === 'instagram' && c.is_connected)
                 if (ig) return (
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', borderRadius: 10, marginBottom: '0.75rem' }}>
@@ -7389,7 +7408,7 @@ export default function Home() {
               })()}
 
               {/* Connect button (show if Facebook not connected) */}
-              {!metaConnections.find((c: any) => c.platform === 'facebook' && c.is_connected) && (
+              {isAdmin && !metaConnections.find((c: any) => c.platform === 'facebook' && c.is_connected) && (
                 <button className="gold-btn" onClick={() => { if (distributor?.id) window.location.href = `/api/auth/meta/connect?distributor_id=${distributor.id}` }}
                   style={{ width: '100%', padding: '12px', textTransform: 'none', letterSpacing: 0 }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
