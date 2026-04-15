@@ -5242,20 +5242,25 @@ export default function Home() {
         return
       }
       setDistributor(dist)
-      // Fetch social connections (Meta OAuth)
-      supabase.from('social_connections').select('*').eq('distributor_id', dist.id).then(({ data, error }) => {
-        console.log('metaConnections loaded:', data, error)
-        if (data) setMetaConnections(data)
-      })
-      // Check URL params for Meta OAuth result
-      if (typeof window !== 'undefined') {
-        const urlParams = new URLSearchParams(window.location.search)
-        if (urlParams.get('meta_connected') === 'true') {
-          showToast('Facebook & Instagram connected!', 'info')
-          window.history.replaceState({}, '', window.location.pathname)
-        } else if (urlParams.get('meta_error') === 'true') {
-          showToast('Connection failed. Please try again.')
-          window.history.replaceState({}, '', window.location.pathname)
+      // Compute admin status locally (React state isAdmin isn't available inside this init closure)
+      const localIsAdmin = dist.is_admin === true || userData.user.email === 'bitaasum@gmail.com'
+
+      // Fetch social connections (Meta OAuth) — admin only
+      if (localIsAdmin) {
+        supabase.from('social_connections').select('*').eq('distributor_id', dist.id).then(({ data, error }) => {
+          console.log('metaConnections loaded:', data, error)
+          if (data) setMetaConnections(data)
+        })
+        // Check URL params for Meta OAuth result — admin only
+        if (typeof window !== 'undefined') {
+          const urlParams = new URLSearchParams(window.location.search)
+          if (urlParams.get('meta_connected') === 'true') {
+            showToast('Facebook & Instagram connected!', 'info')
+            window.history.replaceState({}, '', window.location.pathname)
+          } else if (urlParams.get('meta_error') === 'true') {
+            showToast('Connection failed. Please try again.')
+            window.history.replaceState({}, '', window.location.pathname)
+          }
         }
       }
       // Auto-create default pipeline stages if they don't exist yet
