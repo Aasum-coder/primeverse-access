@@ -4749,7 +4749,6 @@ export default function Home() {
   const [pipelineView, setPipelineView] = useState<'table' | 'kanban'>('table')
   const [pipelineExpandedId, setPipelineExpandedId] = useState<string | null>(null)
   const [pipelineHasReferralClicked, setPipelineHasReferralClicked] = useState(false)
-  const [pipelineFetched, setPipelineFetched] = useState(false)
   const [pipelineShareCopied, setPipelineShareCopied] = useState(false)
   const [bcTitle, setBcTitle] = useState('')
   const [bcMessage, setBcMessage] = useState('')
@@ -5146,6 +5145,14 @@ export default function Home() {
   // Sync AI tool language with dashboard language
   useEffect(() => { setAiToolLang(lang) }, [lang])
 
+  // Auto-fetch Pipeline when tab is active and distributor becomes available / changes
+  useEffect(() => {
+    if (bcSubTab === 'pipeline' && distributor?.id) {
+      fetchPipeline(distributor.id)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bcSubTab, distributor?.id])
+
   // Persist language to localStorage + Supabase
   const setLang = useCallback((code: string) => {
     setLangState(code)
@@ -5342,35 +5349,49 @@ export default function Home() {
     setLeads(data || [])
   }
 
-  // Pipeline fetch — leads (with optional referral_link_clicked column) + distributor-level email history
+  // Pipeline fetch — leads with embedded email_sends when the FK relation is available.
+  // Falls back to a simple lead select if the embedded join fails or a column is missing.
   const fetchPipeline = async (distributorId: string) => {
+    if (!distributorId) {
+      console.warn('[pipeline] fetchPipeline called with empty distributorId')
+      return
+    }
     setPipelineLoading(true)
     try {
-      // Try to select with referral_link_clicked; if the column doesn't exist, fall back.
-      const fullSelect = await supabase
+      // 1. Try the spec-requested embedded query: leads + joined email_sends
+      let leadsData: any[] = []
+      const embedded = await supabase
         .from('leads')
-        .select('id, distributor_id, name, email, phone, country, uid, uid_verified, created_at, referral_link_clicked')
+        .select('*, email_sends(*)')
         .eq('distributor_id', distributorId)
         .order('created_at', { ascending: false })
 
-      let leadsData: any[] = []
-      if (fullSelect.error) {
-        setPipelineHasReferralClicked(false)
-        const fallback = await supabase
+      if (!embedded.error && Array.isArray(embedded.data)) {
+        leadsData = embedded.data
+      } else {
+        // 2. Fallback: plain leads select (no join). Happens when no FK exists
+        //    between email_sends and leads.
+        console.warn('[pipeline] embedded email_sends join failed, falling back:', embedded.error?.message)
+        const plain = await supabase
           .from('leads')
-          .select('id, distributor_id, name, email, phone, country, uid, uid_verified, created_at')
+          .select('*')
           .eq('distributor_id', distributorId)
           .order('created_at', { ascending: false })
-        leadsData = fallback.data || []
-      } else {
-        setPipelineHasReferralClicked(true)
-        leadsData = fullSelect.data || []
+
+        if (plain.error) {
+          console.error('[pipeline] plain leads select failed:', plain.error.message)
+          leadsData = []
+        } else {
+          leadsData = plain.data || []
+        }
       }
 
+      // Detect optional referral_link_clicked column from returned rows
+      const hasRefCol = leadsData.length > 0 && Object.prototype.hasOwnProperty.call(leadsData[0], 'referral_link_clicked')
+      setPipelineHasReferralClicked(hasRefCol)
       setPipelineLeads(leadsData)
 
-      // email_sends uses user_id -> distributors.id; no per-lead linkage yet.
-      // Shown as distributor-level context in expanded rows.
+      // email_sends at distributor level (user_id -> distributors.id) for the expanded-row context panel
       const emailsRes = await supabase
         .from('email_sends')
         .select('id, email_type, sent_at')
@@ -5378,7 +5399,6 @@ export default function Home() {
         .order('sent_at', { ascending: false })
 
       setPipelineEmails(emailsRes.data || [])
-      setPipelineFetched(true)
     } catch (e) {
       console.error('[pipeline] fetch failed', e)
     } finally {
@@ -7077,10 +7097,7 @@ export default function Home() {
               <button className={`bc-sub-tab${bcSubTab === 'workflows' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('workflows')}>{t.workflowsSubTab}</button>
               <button
                 className={`bc-sub-tab${bcSubTab === 'pipeline' ? ' bc-sub-tab-active' : ''}`}
-                onClick={() => {
-                  setBcSubTab('pipeline')
-                  if (!pipelineFetched && distributor?.id) fetchPipeline(distributor.id)
-                }}
+                onClick={() => setBcSubTab('pipeline')}
               >
                 {t.pipelineSubTab}
               </button>
@@ -7642,8 +7659,8 @@ export default function Home() {
               )
             })()}
 
-            {/* ─── Social Media Connections — admin only ──────────────────── */}
-            {isAdmin && (
+            {/* ─── Social Media Connections — admin only, hidden on Pipeline sub-tab ─── */}
+            {isAdmin && bcSubTab !== 'pipeline' && (
             <div style={{ marginTop: '2.5rem', padding: '1.25rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 14 }}>
               <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
