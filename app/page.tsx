@@ -4493,6 +4493,7 @@ export default function Home() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [distributor, setDistributor] = useState<any>(null)
+  const [user, setUser] = useState<any>(null)
   const [impersonating, setImpersonating] = useState<string | null>(null)
   const [leadName, setLeadName] = useState('')
   const [leadEmail, setLeadEmail] = useState('')
@@ -5101,6 +5102,37 @@ export default function Home() {
   const [langOpen, setLangOpen] = useState(false)
   const t = translations[lang] || translations.en
 
+  // Admin gate — hides unfinished features from regular IBs
+  const isAdmin = distributor?.is_admin === true || user?.email === 'bitaasum@gmail.com'
+
+  // Inline overlay shown over features that are visible but disabled for non-admins
+  const UnderDevelopmentOverlay = () => (
+    <div style={{
+      position: 'absolute',
+      inset: 0,
+      background: 'rgba(0,0,0,0.70)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'not-allowed',
+      zIndex: 20,
+      borderRadius: 'inherit',
+      pointerEvents: 'auto',
+    }}>
+      <div style={{
+        color: '#C9A84C',
+        fontFamily: "'Outfit', sans-serif",
+        fontWeight: 600,
+        fontSize: '1rem',
+        letterSpacing: 0.2,
+        textAlign: 'center',
+        padding: '0 1rem',
+      }}>
+        🚧 Under utvikling — kommer snart
+      </div>
+    </div>
+  )
+
   // Sync AI tool language with dashboard language
   useEffect(() => { setAiToolLang(lang) }, [lang])
 
@@ -5135,6 +5167,7 @@ export default function Home() {
     const init = async () => {
       const { data: userData } = await supabase.auth.getUser()
       if (!userData.user) { router.push('/login'); return }
+      setUser(userData.user)
 
       // Check for impersonation cookie
       const impCookie = document.cookie.split('; ').find(c => c.startsWith('impersonate_user_id='))
@@ -6028,7 +6061,7 @@ export default function Home() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 4, verticalAlign: '-2px' }}><path d="M3 11V3h4l3 4h10v4H3zm0 2h18l-1.5 8H4.5L3 13z"/></svg>
             {t.marketingTab}
           </button>
-          {isBetaTester && (
+          {isBetaTester && isAdmin && (
           <button
             role="tab"
             aria-selected={activeTab === 'beta'}
@@ -6596,7 +6629,7 @@ export default function Home() {
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </div>
               <ContentCalendarModal open={calendarOpen} onClose={() => setCalendarOpen(false)} t={t} lang={lang}
-                distributorId={distributor?.id || null} onOpenPostWriter={(topic) => { setAiToolTopic(topic); setAiToolModal('post') }} />
+                distributorId={distributor?.id || null} onOpenPostWriter={(topic) => { setAiToolTopic(topic); setAiToolModal('post') }} isAdmin={isAdmin} />
             </div>
 
             {/* Resources Section */}
@@ -6983,11 +7016,14 @@ export default function Home() {
             <div className="bc-sub-tabs">
               <button className={`bc-sub-tab${bcSubTab === 'broadcasts' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('broadcasts')}>{t.broadcastsSubTab}</button>
               <button className={`bc-sub-tab${bcSubTab === 'workflows' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('workflows')}>{t.workflowsSubTab}</button>
-              <button className={`bc-sub-tab`} disabled style={{ opacity: 0.5, cursor: 'default' }}>{t.pipelineSubTab}<span className="bc-sub-tab-badge">{t.comingSoon}</span></button>
+              <div style={{ position: 'relative', display: 'inline-block' }}>
+                <button className={`bc-sub-tab`} disabled style={{ opacity: 0.5, cursor: 'default' }}>{t.pipelineSubTab}<span className="bc-sub-tab-badge">{t.comingSoon}</span></button>
+                {!isAdmin && <UnderDevelopmentOverlay />}
+              </div>
             </div>
 
             {bcSubTab === 'broadcasts' && bcView === 'list' && (
-              <div>
+              <div style={{ position: 'relative' }}>
                 <button className="gold-btn" style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }} onClick={() => setBcView('compose')}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                   {t.newBroadcast}
@@ -7053,11 +7089,17 @@ export default function Home() {
                     )}
                   </div>
                 ))}
+                {!isAdmin && <UnderDevelopmentOverlay />}
               </div>
             )}
 
             {/* BROADCAST COMPOSER */}
-            {bcSubTab === 'broadcasts' && bcView === 'compose' && (
+            {bcSubTab === 'broadcasts' && bcView === 'compose' && !isAdmin && (
+              <div style={{ position: 'relative', minHeight: 240 }}>
+                <UnderDevelopmentOverlay />
+              </div>
+            )}
+            {bcSubTab === 'broadcasts' && bcView === 'compose' && isAdmin && (
               <div>
                 <button style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.85rem', marginBottom: '1rem', padding: 0 }} onClick={() => setBcView('list')}>
                   &larr; {t.backToBroadcasts}
@@ -7150,7 +7192,7 @@ export default function Home() {
             )}
 
             {/* BROADCAST DETAIL */}
-            {bcSubTab === 'broadcasts' && bcView === 'detail' && bcDetailBroadcast && (
+            {bcSubTab === 'broadcasts' && bcView === 'detail' && bcDetailBroadcast && isAdmin && (
               <div>
                 <button style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', fontSize: '0.85rem', marginBottom: '1rem', padding: 0 }} onClick={() => { setBcView('list'); setBcDetailBroadcast(null) }}>
                   &larr; {t.backToBroadcasts}
@@ -7262,7 +7304,7 @@ export default function Home() {
 
             {/* WORKFLOW CANVAS BUILDER */}
             {bcSubTab === 'workflows' && wfView === 'builder' && (
-              <div style={{ margin: '-1rem', minHeight: '80vh' }}>
+              <div style={{ margin: '-1rem', minHeight: '80vh', position: 'relative' }}>
                 <WorkflowCanvas
                   distributor={distributor}
                   supabase={supabase}
@@ -7275,10 +7317,12 @@ export default function Home() {
                   onSaved={() => { fetchWorkflows(); setWfView('list') }}
                   showToast={showToast}
                 />
+                {!isAdmin && <UnderDevelopmentOverlay />}
               </div>
             )}
 
-            {/* ─── Social Media Connections ───────────────────────────────── */}
+            {/* ─── Social Media Connections — admin only ──────────────────── */}
+            {isAdmin && (
             <div style={{ marginTop: '2.5rem', padding: '1.25rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 14 }}>
               <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -7353,6 +7397,7 @@ export default function Home() {
                 </button>
               )}
             </div>
+            )}
           </div>
         )}
 
@@ -7414,7 +7459,7 @@ export default function Home() {
         )}
 
         {/* BETA TEST TAB */}
-        {activeTab === 'beta' && isBetaTester && (() => {
+        {activeTab === 'beta' && isBetaTester && isAdmin && (() => {
           const betaSections = [
             { key: 'sec1', label: t.betaSec1, items: [
               'Homepage loads without errors',
@@ -7977,9 +8022,10 @@ const PLATFORM_LIST = ['facebook', 'instagram', 'tiktok', 'linkedin', 'twitter',
 const TZ_OPTIONS = ['UTC', 'CET', 'EET', 'GMT', 'EST', 'CST', 'MST', 'PST', 'GST', 'IST', 'SGT', 'JST', 'AEST']
 const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPostWriter }: {
+function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPostWriter, isAdmin }: {
   open: boolean; onClose: () => void; t: Record<string, string>; lang: string;
   distributorId: string | null; onOpenPostWriter: (topic: string) => void;
+  isAdmin: boolean;
 }) {
   const [tab, setTab] = useState<'calendar' | 'ai' | 'connect'>('calendar')
   const [posts, setPosts] = useState<any[]>([])
@@ -8110,7 +8156,11 @@ function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPos
 
         {/* Tabs */}
         <div style={{ display: 'flex', gap: 8, marginBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: 12 }}>
-          {([['calendar', `📅 ${t.calendarView}`], ['ai', `✨ ${t.aiWeeklyPlan}`], ['connect', `🔗 ${t.connectAccounts}`]] as const).map(([key, label]) => (
+          {(([
+            ['calendar', `📅 ${t.calendarView}`],
+            ['ai', `✨ ${t.aiWeeklyPlan}`],
+            ...(isAdmin ? [['connect', `🔗 ${t.connectAccounts}`]] : []),
+          ] as [string, string][])).map(([key, label]) => (
             <button key={key} onClick={() => setTab(key as any)} style={{ ...pillBtn(tab === key), fontSize: '0.78rem', padding: '8px 16px' }}>{label}</button>
           ))}
         </div>
@@ -8296,8 +8346,8 @@ function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPos
           </div>
         )}
 
-        {/* TAB 3 — Connect Accounts */}
-        {tab === 'connect' && (
+        {/* TAB 3 — Connect Accounts (admin only) */}
+        {tab === 'connect' && isAdmin && (
           <div>
             <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)', marginBottom: '1.25rem' }}>{t.autoPostingComingSoon}</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
