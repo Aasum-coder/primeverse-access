@@ -4741,6 +4741,16 @@ export default function Home() {
   const [broadcasts, setBroadcasts] = useState<any[]>([])
   const [bcSubTab, setBcSubTab] = useState<'broadcasts' | 'workflows' | 'pipeline'>('broadcasts')
   const [bcView, setBcView] = useState<'list' | 'compose' | 'detail'>('list')
+
+  // Pipeline state
+  const [pipelineLeads, setPipelineLeads] = useState<any[]>([])
+  const [pipelineEmails, setPipelineEmails] = useState<any[]>([])
+  const [pipelineLoading, setPipelineLoading] = useState(false)
+  const [pipelineView, setPipelineView] = useState<'table' | 'kanban'>('table')
+  const [pipelineExpandedId, setPipelineExpandedId] = useState<string | null>(null)
+  const [pipelineHasReferralClicked, setPipelineHasReferralClicked] = useState(false)
+  const [pipelineFetched, setPipelineFetched] = useState(false)
+  const [pipelineShareCopied, setPipelineShareCopied] = useState(false)
   const [bcTitle, setBcTitle] = useState('')
   const [bcMessage, setBcMessage] = useState('')
   const [bcChannels, setBcChannels] = useState<Set<string>>(new Set(['email']))
@@ -5330,6 +5340,50 @@ export default function Home() {
   const fetchLeads = async (distributorId: string) => {
     const { data } = await supabase.from('leads').select('*').eq('distributor_id', distributorId).order('created_at', { ascending: false })
     setLeads(data || [])
+  }
+
+  // Pipeline fetch — leads (with optional referral_link_clicked column) + distributor-level email history
+  const fetchPipeline = async (distributorId: string) => {
+    setPipelineLoading(true)
+    try {
+      // Try to select with referral_link_clicked; if the column doesn't exist, fall back.
+      const fullSelect = await supabase
+        .from('leads')
+        .select('id, distributor_id, name, email, phone, country, uid, uid_verified, created_at, referral_link_clicked')
+        .eq('distributor_id', distributorId)
+        .order('created_at', { ascending: false })
+
+      let leadsData: any[] = []
+      if (fullSelect.error) {
+        setPipelineHasReferralClicked(false)
+        const fallback = await supabase
+          .from('leads')
+          .select('id, distributor_id, name, email, phone, country, uid, uid_verified, created_at')
+          .eq('distributor_id', distributorId)
+          .order('created_at', { ascending: false })
+        leadsData = fallback.data || []
+      } else {
+        setPipelineHasReferralClicked(true)
+        leadsData = fullSelect.data || []
+      }
+
+      setPipelineLeads(leadsData)
+
+      // email_sends uses user_id -> distributors.id; no per-lead linkage yet.
+      // Shown as distributor-level context in expanded rows.
+      const emailsRes = await supabase
+        .from('email_sends')
+        .select('id, email_type, sent_at')
+        .eq('user_id', distributorId)
+        .order('sent_at', { ascending: false })
+
+      setPipelineEmails(emailsRes.data || [])
+      setPipelineFetched(true)
+    } catch (e) {
+      console.error('[pipeline] fetch failed', e)
+    } finally {
+      setPipelineLoading(false)
+    }
   }
 
   const fetchPageViews = async (distributorId: string, period: 'day' | 'week' | 'month' | 'all') => {
@@ -7021,10 +7075,15 @@ export default function Home() {
             <div className="bc-sub-tabs">
               <button className={`bc-sub-tab${bcSubTab === 'broadcasts' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('broadcasts')}>{t.broadcastsSubTab}</button>
               <button className={`bc-sub-tab${bcSubTab === 'workflows' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('workflows')}>{t.workflowsSubTab}</button>
-              <div style={{ position: 'relative', display: 'inline-block' }}>
-                <button className={`bc-sub-tab`} disabled style={{ opacity: 0.5, cursor: 'default' }}>{t.pipelineSubTab}<span className="bc-sub-tab-badge">{t.comingSoon}</span></button>
-                {!isAdmin && <UnderDevelopmentOverlay />}
-              </div>
+              <button
+                className={`bc-sub-tab${bcSubTab === 'pipeline' ? ' bc-sub-tab-active' : ''}`}
+                onClick={() => {
+                  setBcSubTab('pipeline')
+                  if (!pipelineFetched && distributor?.id) fetchPipeline(distributor.id)
+                }}
+              >
+                {t.pipelineSubTab}
+              </button>
             </div>
 
             {bcSubTab === 'broadcasts' && bcView === 'list' && (
@@ -7344,6 +7403,244 @@ export default function Home() {
                 </div>
               )
             )}
+
+            {/* ─── PIPELINE ────────────────────────────────────────────────── */}
+            {bcSubTab === 'pipeline' && (() => {
+              const STEP_ORDER = ['visited', 'registered', 'broker_clicked', 'uid_submitted', 'verified'] as const
+              type Step = typeof STEP_ORDER[number]
+              const STEP_LABEL: Record<Step, string> = {
+                visited: 'Visited',
+                registered: 'Registered',
+                broker_clicked: 'Broker clicked',
+                uid_submitted: 'UID submitted',
+                verified: 'Verified',
+              }
+              const STEP_COLOR: Record<Step, { bg: string; fg: string; border: string }> = {
+                visited:        { bg: 'rgba(150,150,150,0.12)', fg: '#b3b3b3', border: 'rgba(150,150,150,0.35)' },
+                registered:     { bg: 'rgba(90,130,220,0.14)',  fg: '#8bb0f0', border: 'rgba(90,130,220,0.45)' },
+                broker_clicked: { bg: 'rgba(201,168,76,0.14)',  fg: '#c9a84c', border: 'rgba(201,168,76,0.45)' },
+                uid_submitted:  { bg: 'rgba(245,150,70,0.14)',  fg: '#f59646', border: 'rgba(245,150,70,0.45)' },
+                verified:       { bg: 'rgba(60,180,100,0.14)',  fg: '#4ccf7a', border: 'rgba(60,180,100,0.45)' },
+              }
+              const computeStep = (lead: any): Step => {
+                if (lead.uid_verified === true) return 'verified'
+                if (lead.uid && String(lead.uid).trim() !== '') return 'uid_submitted'
+                if (pipelineHasReferralClicked && lead.referral_link_clicked === true) return 'broker_clicked'
+                if (lead.email && String(lead.email).trim() !== '') return 'registered'
+                return 'visited'
+              }
+              const countryFlag = (country: string | null | undefined): string => {
+                if (!country) return ''
+                const c = String(country).trim().toUpperCase()
+                if (c.length !== 2) return ''
+                return String.fromCodePoint(0x1F1E6 + (c.charCodeAt(0) - 65)) + String.fromCodePoint(0x1F1E6 + (c.charCodeAt(1) - 65))
+              }
+              const fmtDate = (iso: string) => {
+                if (!iso) return ''
+                try {
+                  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                } catch { return iso }
+              }
+              const leadsWithStep = pipelineLeads.map(l => ({ ...l, __step: computeStep(l) as Step }))
+
+              const copyLandingUrl = () => {
+                if (!distributor?.slug) return
+                const url = `${window.location.origin}/${distributor.slug}`
+                navigator.clipboard.writeText(url).then(() => {
+                  setPipelineShareCopied(true)
+                  setTimeout(() => setPipelineShareCopied(false), 2000)
+                })
+              }
+
+              return (
+                <div>
+                  {/* Header: view toggle */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-dim)' }}>
+                      {pipelineLoading ? 'Loading pipeline…' : `${leadsWithStep.length} lead${leadsWithStep.length === 1 ? '' : 's'}`}
+                    </div>
+                    <div style={{ display: 'inline-flex', border: '1px solid rgba(201,168,76,0.35)', borderRadius: 8, overflow: 'hidden' }}>
+                      <button
+                        onClick={() => setPipelineView('table')}
+                        title="Table view"
+                        style={{
+                          padding: '6px 12px',
+                          background: pipelineView === 'table' ? 'rgba(201,168,76,0.18)' : 'transparent',
+                          color: pipelineView === 'table' ? '#c9a84c' : 'var(--text-dim)',
+                          border: 'none', cursor: 'pointer', fontFamily: "'Outfit', sans-serif",
+                          display: 'inline-flex', alignItems: 'center', gap: 6,
+                        }}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="4" x2="9" y2="20"/></svg>
+                        Table
+                      </button>
+                      <button
+                        onClick={() => setPipelineView('kanban')}
+                        title="Kanban view"
+                        style={{
+                          padding: '6px 12px',
+                          background: pipelineView === 'kanban' ? 'rgba(201,168,76,0.18)' : 'transparent',
+                          color: pipelineView === 'kanban' ? '#c9a84c' : 'var(--text-dim)',
+                          border: 'none', borderLeft: '1px solid rgba(201,168,76,0.35)',
+                          cursor: 'pointer', fontFamily: "'Outfit', sans-serif",
+                          display: 'inline-flex', alignItems: 'center', gap: 6,
+                        }}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="9.5" y="4" width="5" height="12" rx="1"/><rect x="16" y="4" width="5" height="8" rx="1"/></svg>
+                        Kanban
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Empty state */}
+                  {!pipelineLoading && leadsWithStep.length === 0 && (
+                    <div style={{ textAlign: 'center', padding: '3rem 1rem', border: '1px dashed rgba(201,168,76,0.25)', borderRadius: 14, background: 'rgba(201,168,76,0.03)' }}>
+                      <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🌱</div>
+                      <div style={{ color: 'var(--text-primary)', fontWeight: 600, marginBottom: '0.35rem' }}>No leads yet.</div>
+                      <div style={{ color: 'var(--text-dim)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Share your landing page to start building your pipeline.</div>
+                      <button
+                        className="gold-btn"
+                        onClick={copyLandingUrl}
+                        disabled={!distributor?.slug}
+                        style={{ padding: '10px 20px' }}
+                      >
+                        {pipelineShareCopied ? '✓ Copied!' : 'Share my page'}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Table view */}
+                  {!pipelineLoading && leadsWithStep.length > 0 && pipelineView === 'table' && (
+                    <div style={{ border: '1px solid var(--card-border)', borderRadius: 14, overflow: 'hidden', background: 'var(--card-bg)' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(140px, 1.4fr) minmax(180px, 1.8fr) 110px 150px 120px 130px', padding: '0.75rem 1rem', fontSize: '0.75rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, borderBottom: '1px solid var(--card-border)', background: 'rgba(0,0,0,0.25)' }}>
+                        <div>Name</div><div>Email</div><div>Country</div><div>Step</div><div>Emails sent</div><div>Date</div>
+                      </div>
+                      {leadsWithStep.map((lead: any) => {
+                        const step = lead.__step as Step
+                        const color = STEP_COLOR[step]
+                        const isOpen = pipelineExpandedId === lead.id
+                        return (
+                          <div key={lead.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                            <div
+                              onClick={() => setPipelineExpandedId(isOpen ? null : lead.id)}
+                              style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'minmax(140px, 1.4fr) minmax(180px, 1.8fr) 110px 150px 120px 130px',
+                                padding: '0.85rem 1rem',
+                                alignItems: 'center',
+                                cursor: 'pointer',
+                                borderLeft: isOpen ? '3px solid #c9a84c' : '3px solid transparent',
+                                background: isOpen ? 'rgba(201,168,76,0.05)' : 'transparent',
+                                transition: 'background 0.15s, border-color 0.15s',
+                              }}
+                              onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLDivElement).style.background = 'rgba(201,168,76,0.04)' }}
+                              onMouseLeave={e => { if (!isOpen) (e.currentTarget as HTMLDivElement).style.background = 'transparent' }}
+                            >
+                              <div style={{ color: 'var(--text-primary)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.name || '—'}</div>
+                              <div style={{ color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.email || '—'}</div>
+                              <div style={{ color: 'var(--text-secondary)' }}>{countryFlag(lead.country)} {lead.country || ''}</div>
+                              <div>
+                                <span style={{
+                                  display: 'inline-block',
+                                  padding: '3px 10px',
+                                  borderRadius: 999,
+                                  fontSize: '0.72rem',
+                                  fontWeight: 600,
+                                  background: color.bg,
+                                  color: color.fg,
+                                  border: `1px solid ${color.border}`,
+                                }}>{STEP_LABEL[step]}</span>
+                              </div>
+                              <div
+                                title="Per-lead email tracking coming soon. See expanded row for your account email history."
+                                style={{ color: 'var(--text-dim)', fontSize: '0.85rem' }}
+                              >—</div>
+                              <div style={{ color: 'var(--text-dim)', fontSize: '0.82rem' }}>{fmtDate(lead.created_at)}</div>
+                            </div>
+                            {isOpen && (
+                              <div style={{ padding: '0.85rem 1rem 1.1rem', background: 'rgba(0,0,0,0.18)', fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+                                <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--text-dim)', marginBottom: 8 }}>Lead timeline</div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                  {lead.created_at && (
+                                    <div>🟦 Registered — {fmtDate(lead.created_at)}</div>
+                                  )}
+                                  {pipelineHasReferralClicked && lead.referral_link_clicked && (
+                                    <div>🟡 Broker link clicked</div>
+                                  )}
+                                  {lead.uid && (
+                                    <div>🟠 UID submitted — {lead.uid}</div>
+                                  )}
+                                  {lead.uid_verified && (
+                                    <div>🟢 Verified</div>
+                                  )}
+                                </div>
+                                {pipelineEmails.length > 0 && (
+                                  <>
+                                    <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--text-dim)', margin: '12px 0 8px' }}>Your account email history (IB-level)</div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 200, overflowY: 'auto' }}>
+                                      {pipelineEmails.slice(0, 10).map(em => (
+                                        <div key={em.id} style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>
+                                          📧 {em.email_type} — {fmtDate(em.sent_at)}
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginTop: 8, fontStyle: 'italic' }}>
+                                      Per-lead email tracking coming soon — the email_sends table currently tracks IB-level sends only.
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* Kanban view */}
+                  {!pipelineLoading && leadsWithStep.length > 0 && pipelineView === 'kanban' && (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(180px, 1fr))', gap: 10, overflowX: 'auto' }}>
+                      {STEP_ORDER.map(step => {
+                        const col = STEP_COLOR[step]
+                        const items = leadsWithStep.filter((l: any) => l.__step === step)
+                        return (
+                          <div key={step} style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid var(--card-border)', borderRadius: 12, padding: '0.6rem', minHeight: 200 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10, padding: '2px 4px' }}>
+                              <span style={{ width: 8, height: 8, borderRadius: 2, background: col.fg, display: 'inline-block' }} />
+                              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: col.fg, textTransform: 'uppercase', letterSpacing: 0.5 }}>{STEP_LABEL[step]}</span>
+                              <span style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'var(--text-dim)' }}>({items.length})</span>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                              {items.map((lead: any) => (
+                                <div key={lead.id} style={{
+                                  background: 'var(--card-bg)',
+                                  borderLeft: '3px solid #c9a84c',
+                                  border: '1px solid var(--card-border)',
+                                  borderLeftWidth: 3,
+                                  borderRadius: 8,
+                                  padding: '0.55rem 0.7rem',
+                                }}>
+                                  <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                    {lead.name || '—'}
+                                  </div>
+                                  <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginTop: 3, display: 'flex', justifyContent: 'space-between' }}>
+                                    <span>{countryFlag(lead.country)} {lead.country || ''}</span>
+                                    <span>{fmtDate(lead.created_at)}</span>
+                                  </div>
+                                </div>
+                              ))}
+                              {items.length === 0 && (
+                                <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', textAlign: 'center', padding: '1rem 0', opacity: 0.5 }}>—</div>
+                              )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              )
+            })()}
 
             {/* ─── Social Media Connections — admin only ──────────────────── */}
             {isAdmin && (
