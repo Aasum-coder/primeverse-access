@@ -6590,6 +6590,12 @@ export default function Home() {
                   <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>📧 Auto-Verification</div>
                   <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Forward PU Prime account opening emails to auto-verify your leads</div>
                 </div>
+
+                {/* Warning banner */}
+                <div style={{ padding: '10px 14px', marginBottom: '1rem', borderRadius: 10, border: '1px solid rgba(201,168,76,0.4)', background: 'rgba(201,168,76,0.06)', fontSize: '0.82rem', lineHeight: 1.6, color: '#c9a84c' }}>
+                  ⚠️ <strong>Important:</strong> Use the same email address you registered with on PU Prime. If you used a different email for PU Prime, the auto-verification will not work.
+                </div>
+
                 <label className="field-label">Your unique verification address</label>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: '1rem' }}>
                   <input className="field-input" readOnly value={`verify+${distributor.slug}@zapraxi.resend.app`} style={{ flex: 1, fontFamily: 'monospace', fontSize: '0.82rem', background: 'rgba(0,0,0,0.3)' }} onClick={e => (e.target as HTMLInputElement).select()} />
@@ -6603,7 +6609,33 @@ export default function Home() {
                   <option value="gmail">Gmail</option><option value="outlook">Outlook / Hotmail</option><option value="apple">Apple Mail</option><option value="yahoo">Yahoo Mail</option><option value="thunderbird">Thunderbird</option><option value="other">Other</option>
                 </select>
                 <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.25)', borderRadius: 10, fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                  {inboundProvider === 'gmail' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Open Gmail ⚙️ <strong>Settings</strong> → <strong>See all settings</strong></li><li>Go to <strong>Filters and Blocked Addresses</strong></li><li>Click <strong>Create a new filter</strong></li><li>In "From" enter: <code style={{ color: '#c9a84c' }}>noreply@puprime.com</code></li><li>Click <strong>Create filter</strong></li><li>Check <strong>Forward it to:</strong> and enter: <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>Create filter</strong></li></ol>)}
+                  {inboundProvider === 'gmail' && (
+                    <div>
+                      <div style={{ marginBottom: '14px', padding: '8px 12px', borderRadius: 8, background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.25)', fontSize: '0.8rem', color: '#c9a84c' }}>
+                        ⚠️ Use the same email address you used to register on PU Prime
+                      </div>
+                      <div style={{ fontWeight: 700, color: '#c9a84c', marginBottom: '6px', fontSize: '0.85rem' }}>Step 1: Add forwarding address</div>
+                      <ol style={{ margin: '0 0 16px', paddingLeft: '1.2rem' }}>
+                        <li>Open Gmail → click ⚙️ → <strong>"See all settings"</strong></li>
+                        <li>Go to the <strong>"Forwarding and POP/IMAP"</strong> tab</li>
+                        <li>Click <strong>"Add a forwarding address"</strong></li>
+                        <li>Enter: <code style={{ color: '#c9a84c', background: 'rgba(201,168,76,0.08)', padding: '1px 6px', borderRadius: 4 }}>verify+{distributor.slug}@zapraxi.resend.app</code></li>
+                        <li>Click <strong>"Next"</strong> → <strong>"Proceed"</strong> → <strong>"OK"</strong></li>
+                        <li>Gmail sends a confirmation email to that address — <em>SYSTM8 handles this automatically</em></li>
+                        <li>Go back to <strong>"Forwarding and POP/IMAP"</strong> — wait 30 seconds and refresh</li>
+                      </ol>
+                      <div style={{ fontWeight: 700, color: '#c9a84c', marginBottom: '6px', fontSize: '0.85rem' }}>Step 2: Create the filter</div>
+                      <ol style={{ margin: 0, paddingLeft: '1.2rem' }}>
+                        <li>Go to the <strong>"Filters and Blocked Addresses"</strong> tab</li>
+                        <li>Click <strong>"Create a new filter"</strong></li>
+                        <li>In the <strong>"From"</strong> field enter: <code style={{ color: '#c9a84c', background: 'rgba(201,168,76,0.08)', padding: '1px 6px', borderRadius: 4 }}>noreply@puprime.com</code></li>
+                        <li>Click <strong>"Create filter"</strong> (bottom right)</li>
+                        <li>Check <strong>"Forward it to:"</strong> and select: <code style={{ color: '#c9a84c', background: 'rgba(201,168,76,0.08)', padding: '1px 6px', borderRadius: 4 }}>verify+{distributor.slug}@zapraxi.resend.app</code> from the dropdown</li>
+                        <li>Click <strong>"Create filter"</strong></li>
+                      </ol>
+                      <div style={{ marginTop: '12px', fontSize: '0.85rem', color: '#4ccf7a', fontWeight: 600 }}>Done! ✅</div>
+                    </div>
+                  )}
                   {inboundProvider === 'outlook' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Open ⚙️ <strong>Settings</strong> → search for "<strong>Rules</strong>"</li><li>Go to <strong>Mail → Rules</strong> → <strong>Add new rule</strong></li><li>Name: <em>PU Prime Auto-Verify</em></li><li>Condition: <strong>From</strong> contains <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: <strong>Forward to</strong> <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>Save</strong></li></ol>)}
                   {inboundProvider === 'apple' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Open <strong>Mail</strong> → <strong>Settings</strong> → <strong>Rules</strong></li><li>Click <strong>Add Rule</strong></li><li>Set "From" contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: <strong>Forward Message</strong> to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>OK</strong></li></ol>)}
                   {inboundProvider === 'yahoo' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Click ⚙️ <strong>Settings</strong> → <strong>More Settings</strong></li><li>Go to <strong>Filters</strong> → <strong>Add new filter</strong></li><li>From contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: Forward to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>Save</strong></li></ol>)}
