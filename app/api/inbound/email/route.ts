@@ -181,7 +181,36 @@ export async function POST(request: Request) {
     }
 
     if (!lead) {
-      results.push({ userId: row.userId, userName: row.userName, status: 'no_match' })
+      // No match found — create new lead automatically with uid_verified = true
+      const insertPayload: Record<string, any> = {
+        distributor_id: dist.id,
+        name: row.userName || `UID ${row.userId}`,
+        uid: row.userId || null,
+        uid_verified: true,
+      }
+
+      const { data: newLead, error: createErr } = await supabaseAdmin
+        .from('leads')
+        .insert(insertPayload)
+        .select('id, name, email')
+        .single()
+
+      if (createErr || !newLead) {
+        console.error('[inbound-email] Failed to create lead:', createErr)
+        results.push({ userId: row.userId, userName: row.userName, status: 'create_failed' })
+        continue
+      }
+
+      verified++
+      results.push({ userId: row.userId, userName: row.userName, status: 'created', leadId: newLead.id })
+
+      // Log to email_sends
+      await supabaseAdmin.from('email_sends').insert({
+        user_id: dist.id,
+        email_type: 'auto_verified',
+      }).then(() => {}, () => {})
+
+      console.log('[inbound-email] Created new lead:', newLead.id, row.userName)
       continue
     }
 
