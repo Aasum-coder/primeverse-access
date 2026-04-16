@@ -3911,7 +3911,7 @@ const styles = `
   .empty-text { color: var(--text-dim); font-size: 0.85rem; }
 
   /* Profile */
-  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .profile-grid { display: grid; grid-template-columns: 58fr 38fr; gap: 2rem; align-items: start; }
   @media (max-width: 768px) { .profile-grid { grid-template-columns: 1fr; } }
 
   .upload-area {
@@ -6401,171 +6401,6 @@ export default function Home() {
                 )}
               </div>
 
-              {/* ─── My Voice ───────────────────────────────────────────── */}
-              <div className="field-group" style={{ border: '1px solid rgba(201,168,76,0.15)', borderRadius: 14, padding: '1.25rem', background: 'rgba(201,168,76,0.03)' }}>
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>My Voice</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Help the AI write exactly like you</div>
-                </div>
-                <label className="field-label">Your experience</label>
-                <input className="field-input" value={voiceExperience} onChange={e => setVoiceExperience(e.target.value)} placeholder="e.g. 4 years in trading and copytrading" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Your tone</label>
-                <input className="field-input" value={voiceTone} onChange={e => setVoiceTone(e.target.value)} placeholder="e.g. Direct, calm, no hype" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Never say this</label>
-                <input className="field-input" value={voiceNeverSay} onChange={e => setVoiceNeverSay(e.target.value)} placeholder="e.g. I just discovered, This is crazy, Amazing opportunity" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Your audience</label>
-                <input className="field-input" value={voiceAudience} onChange={e => setVoiceAudience(e.target.value)} placeholder="e.g. People who want more from life, Norwegian and Spanish speakers" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Example post 1</label>
-                <textarea className="field-textarea" rows={5} value={voiceExample1} onChange={e => setVoiceExample1(e.target.value)} placeholder="Paste a post you wrote that sounds like you" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Example post 2</label>
-                <textarea className="field-textarea" rows={5} value={voiceExample2} onChange={e => setVoiceExample2(e.target.value)} placeholder="Optional second example" />
-              </div>
-
-              {/* ─── Auto-Verification Setup ───────────────────────────────── */}
-              {distributor?.slug && (
-              <div className="field-group" style={{ border: '1px solid rgba(201,168,76,0.15)', borderRadius: 14, padding: '1.25rem', background: 'rgba(201,168,76,0.03)' }}>
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>📧 Auto-Verification Setup</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Forward PU Prime account opening emails to auto-verify your leads</div>
-                </div>
-
-                {/* Unique inbound address */}
-                <label className="field-label">Your unique verification address</label>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: '1rem' }}>
-                  <input
-                    className="field-input"
-                    readOnly
-                    value={`verify+${distributor.slug}@zapraxi.resend.app`}
-                    style={{ flex: 1, fontFamily: 'monospace', fontSize: '0.82rem', background: 'rgba(0,0,0,0.3)' }}
-                    onClick={e => (e.target as HTMLInputElement).select()}
-                  />
-                  <button
-                    className="gold-btn gold-btn-sm"
-                    style={{ whiteSpace: 'nowrap', padding: '8px 14px' }}
-                    onClick={() => {
-                      navigator.clipboard.writeText(`verify+${distributor.slug}@zapraxi.resend.app`)
-                      setInboundCopied(true)
-                      setTimeout(() => setInboundCopied(false), 2000)
-                    }}
-                  >
-                    {inboundCopied ? '✓ Copied' : 'Copy'}
-                  </button>
-                </div>
-
-                {/* Status indicator */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1rem', padding: '8px 12px', background: 'rgba(0,0,0,0.2)', borderRadius: 8, fontSize: '0.82rem' }}>
-                  {distributor.last_inbound_at ? (
-                    <>
-                      <span style={{ color: '#22c55e', fontSize: '1rem' }}>✅</span>
-                      <span style={{ color: 'var(--text-secondary)' }}>Active — last received: {new Date(distributor.last_inbound_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                    </>
-                  ) : (
-                    <>
-                      <span style={{ color: '#888', fontSize: '1rem' }}>⚪</span>
-                      <span style={{ color: 'var(--text-dim)' }}>Not active — set up forwarding below</span>
-                    </>
-                  )}
-                </div>
-
-                {/* Provider selector */}
-                <label className="field-label">Your email provider</label>
-                <select
-                  className="field-input"
-                  value={inboundProvider}
-                  onChange={e => setInboundProvider(e.target.value)}
-                  style={{ marginBottom: '0.75rem' }}
-                >
-                  <option value="gmail">Gmail</option>
-                  <option value="outlook">Outlook / Hotmail</option>
-                  <option value="apple">Apple Mail</option>
-                  <option value="yahoo">Yahoo Mail</option>
-                  <option value="thunderbird">Thunderbird</option>
-                  <option value="other">Other</option>
-                </select>
-
-                {/* Instructions per provider */}
-                <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.25)', borderRadius: 10, fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                  {inboundProvider === 'gmail' && (
-                    <ol style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                      <li>Open Gmail ⚙️ <strong>Settings</strong> → <strong>See all settings</strong></li>
-                      <li>Go to <strong>Filters and Blocked Addresses</strong></li>
-                      <li>Click <strong>Create a new filter</strong></li>
-                      <li>In "From" enter: <code style={{ color: '#c9a84c' }}>noreply@puprime.com</code></li>
-                      <li>Click <strong>Create filter</strong></li>
-                      <li>Check <strong>Forward it to:</strong> and enter: <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li>
-                      <li>Click <strong>Create filter</strong></li>
-                    </ol>
-                  )}
-                  {(inboundProvider === 'outlook') && (
-                    <ol style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                      <li>Open ⚙️ <strong>Settings</strong> → search for "<strong>Rules</strong>"</li>
-                      <li>Go to <strong>Mail → Rules</strong> → <strong>Add new rule</strong></li>
-                      <li>Name: <em>PU Prime Auto-Verify</em></li>
-                      <li>Condition: <strong>From</strong> contains <code style={{ color: '#c9a84c' }}>puprime.com</code></li>
-                      <li>Action: <strong>Forward to</strong> <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li>
-                      <li>Click <strong>Save</strong></li>
-                    </ol>
-                  )}
-                  {inboundProvider === 'apple' && (
-                    <ol style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                      <li>Open <strong>Mail</strong> → <strong>Settings</strong> → <strong>Rules</strong></li>
-                      <li>Click <strong>Add Rule</strong></li>
-                      <li>Set "From" contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li>
-                      <li>Action: <strong>Forward Message</strong> to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li>
-                      <li>Click <strong>OK</strong></li>
-                    </ol>
-                  )}
-                  {inboundProvider === 'yahoo' && (
-                    <ol style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                      <li>Click ⚙️ <strong>Settings</strong> → <strong>More Settings</strong></li>
-                      <li>Go to <strong>Filters</strong> → <strong>Add new filter</strong></li>
-                      <li>From contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li>
-                      <li>Action: Forward to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li>
-                      <li>Click <strong>Save</strong></li>
-                    </ol>
-                  )}
-                  {inboundProvider === 'thunderbird' && (
-                    <ol style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                      <li><strong>Tools</strong> → <strong>Message Filters</strong> → <strong>New</strong></li>
-                      <li>From contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li>
-                      <li>Action: Forward to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li>
-                      <li>Click <strong>OK</strong></li>
-                    </ol>
-                  )}
-                  {inboundProvider === 'other' && (
-                    <div>
-                      Search "<strong>email forwarding filter</strong>" in your provider's help. Create a filter that forwards emails from <code style={{ color: '#c9a84c' }}>noreply@puprime.com</code> to:
-                      <div style={{ marginTop: 8, padding: '8px 12px', background: 'rgba(201,168,76,0.08)', borderRadius: 6, fontFamily: 'monospace', color: '#c9a84c', wordBreak: 'break-all' }}>
-                        verify+{distributor.slug}@zapraxi.resend.app
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              )}
-
-              <div className="field-group">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                  <label className="field-label" htmlFor="profile-bio" style={{ marginBottom: 0 }}>{t.bio}</label>
-                  <button
-                    onClick={() => { if (!showAI) startAI(); else setShowAI(false); }}
-                    aria-expanded={showAI}
-                    aria-controls="ai-panel"
-                    style={{
-                      fontSize: '0.72rem', padding: '4px 12px',
-                      background: showAI ? 'rgba(212,165,55,0.15)' : 'transparent',
-                      color: showAI ? 'var(--gold)' : 'var(--text-secondary)',
-                      border: '1px solid var(--card-border)', borderRadius: 20,
-                      cursor: 'pointer', fontFamily: "'Outfit', sans-serif",
-                      fontWeight: 500, transition: 'all 0.3s'
-                    }}
-                  >
-                    <span aria-hidden="true">✦ </span>{t.aiHelper}
-                  </button>
-                </div>
-                <textarea id="profile-bio" className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
-              </div>
-
               {referralError === 'referralLinkPublishBlock' && (
                 <div style={{
                   padding: '12px 16px', borderRadius: 10, marginBottom: 8,
@@ -6625,114 +6460,157 @@ export default function Home() {
               )}
             </div>
 
-            <div id="ai-panel">
-              {showAI ? (
-                <div className="ai-panel">
-                  <div className="ai-header">
-                    <span className="sparkle" aria-hidden="true">✦</span> {t.aiTitle}
-                    <span className="powered">AI</span>
-                  </div>
-                  <div className="ai-body">
-                    {/* Step indicator dots */}
-                    <div className="ai-step-indicator">
-                      {bioQuestionKeys.map((_, i) => (
-                        <div key={i} className={`ai-step-dot${i === bioStep ? ' active' : i < bioStep ? ' done' : ''}`} />
-                      ))}
-                      <div className={`ai-step-dot${bioStep === bioQuestionKeys.length ? ' active' : bioStep > bioQuestionKeys.length ? ' done' : ''}`} />
-                      <div className={`ai-step-dot${bioStep > bioQuestionKeys.length ? ' active' : ''}`} />
+            {/* ─── RIGHT COLUMN: Voice, Bio, AI, Auto-Verify ──────────── */}
+            <div>
+              {/* ─── My Voice ───────────────────────────────────────────── */}
+              <div className="field-group" style={{ border: '1px solid rgba(201,168,76,0.15)', borderRadius: 14, padding: '1.25rem', background: 'rgba(201,168,76,0.03)' }}>
+                <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>✍️ My Voice</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Help the AI write exactly like you</div>
+                </div>
+                <label className="field-label">Your experience</label>
+                <input className="field-input" value={voiceExperience} onChange={e => setVoiceExperience(e.target.value)} placeholder="e.g. 4 years in trading and copytrading" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Your tone</label>
+                <input className="field-input" value={voiceTone} onChange={e => setVoiceTone(e.target.value)} placeholder="e.g. Direct, calm, no hype" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Never say this</label>
+                <input className="field-input" value={voiceNeverSay} onChange={e => setVoiceNeverSay(e.target.value)} placeholder="e.g. I just discovered, This is crazy, Amazing opportunity" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Your audience</label>
+                <input className="field-input" value={voiceAudience} onChange={e => setVoiceAudience(e.target.value)} placeholder="e.g. People who want more from life, Norwegian and Spanish speakers" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Example post 1</label>
+                <textarea className="field-textarea" rows={4} value={voiceExample1} onChange={e => setVoiceExample1(e.target.value)} placeholder="Paste a post you wrote that sounds like you" />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>Example post 2</label>
+                <textarea className="field-textarea" rows={4} value={voiceExample2} onChange={e => setVoiceExample2(e.target.value)} placeholder="Optional second example" />
+              </div>
+
+              {/* ─── Bio + AI helper ────────────────────────────────────── */}
+              <div className="field-group">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <label className="field-label" htmlFor="profile-bio" style={{ marginBottom: 0 }}>{t.bio}</label>
+                  <button
+                    onClick={() => { if (!showAI) startAI(); else setShowAI(false); }}
+                    aria-expanded={showAI}
+                    aria-controls="ai-panel"
+                    style={{
+                      fontSize: '0.72rem', padding: '4px 12px',
+                      background: showAI ? 'rgba(212,165,55,0.15)' : 'transparent',
+                      color: showAI ? 'var(--gold)' : 'var(--text-secondary)',
+                      border: '1px solid var(--card-border)', borderRadius: 20,
+                      cursor: 'pointer', fontFamily: "'Outfit', sans-serif",
+                      fontWeight: 500, transition: 'all 0.3s'
+                    }}
+                  >
+                    <span aria-hidden="true">✦ </span>{t.aiHelper}
+                  </button>
+                </div>
+                <textarea id="profile-bio" className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
+              </div>
+
+              {/* ─── AI Bio Assistant ────────────────────────────────────── */}
+              <div id="ai-panel">
+                {showAI ? (
+                  <div className="ai-panel">
+                    <div className="ai-header">
+                      <span className="sparkle" aria-hidden="true">✦</span> {t.aiTitle}
+                      <span className="powered">AI</span>
                     </div>
-
-                    {/* Step 1: Questions (one at a time) */}
-                    {bioStep < bioQuestionKeys.length && (
-                      <div>
-                        <div className="ai-question-count">{bioStep + 1} {t.aiStepOf} {bioQuestionKeys.length}</div>
-                        <div className="ai-question">{bioQuestionTexts[bioQuestionKeys[bioStep]][lang] || bioQuestionTexts[bioQuestionKeys[bioStep]].en}</div>
-                        <textarea className="ai-textarea" value={bioCurrentAnswer} onChange={e => setBioCurrentAnswer(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && bioCurrentAnswer.trim()) { e.preventDefault(); bioNextQuestion() } }} rows={3} autoFocus />
-                        <button className="ai-next-btn" onClick={bioNextQuestion} disabled={!bioCurrentAnswer.trim()}>{t.aiNext} →</button>
+                    <div className="ai-body">
+                      <div className="ai-step-indicator">
+                        {bioQuestionKeys.map((_, i) => (
+                          <div key={i} className={`ai-step-dot${i === bioStep ? ' active' : i < bioStep ? ' done' : ''}`} />
+                        ))}
+                        <div className={`ai-step-dot${bioStep === bioQuestionKeys.length ? ' active' : bioStep > bioQuestionKeys.length ? ' done' : ''}`} />
+                        <div className={`ai-step-dot${bioStep > bioQuestionKeys.length ? ' active' : ''}`} />
                       </div>
-                    )}
-
-                    {/* Step 2: Choose tone */}
-                    {bioStep === bioQuestionKeys.length && (
-                      <div>
-                        <div className="ai-question">{t.aiChooseTone}</div>
-                        <div className="ai-tone-grid">
-                          <button className="ai-tone-btn" onClick={() => bioSelectTone('professional')}>
-                            <span className="ai-tone-emoji">💼</span>
-                            {toneLabels.professional[lang] || toneLabels.professional.en}
-                          </button>
-                          <button className="ai-tone-btn" onClick={() => bioSelectTone('casual')}>
-                            <span className="ai-tone-emoji">😊</span>
-                            {toneLabels.casual[lang] || toneLabels.casual.en}
-                          </button>
-                          <button className="ai-tone-btn" onClick={() => bioSelectTone('motivational')}>
-                            <span className="ai-tone-emoji">🔥</span>
-                            {toneLabels.motivational[lang] || toneLabels.motivational.en}
-                          </button>
+                      {bioStep < bioQuestionKeys.length && (
+                        <div>
+                          <div className="ai-question-count">{bioStep + 1} {t.aiStepOf} {bioQuestionKeys.length}</div>
+                          <div className="ai-question">{bioQuestionTexts[bioQuestionKeys[bioStep]][lang] || bioQuestionTexts[bioQuestionKeys[bioStep]].en}</div>
+                          <textarea className="ai-textarea" value={bioCurrentAnswer} onChange={e => setBioCurrentAnswer(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && bioCurrentAnswer.trim()) { e.preventDefault(); bioNextQuestion() } }} rows={3} autoFocus />
+                          <button className="ai-next-btn" onClick={bioNextQuestion} disabled={!bioCurrentAnswer.trim()}>{t.aiNext} →</button>
                         </div>
-                      </div>
-                    )}
-
-                    {/* Step 3: Loading */}
-                    {bioStep > bioQuestionKeys.length && aiLoading && (
-                      <div className="ai-loading">
-                        <div className="ai-spinner" />
-                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.84rem' }}>{t.aiGenerating}</div>
-                      </div>
-                    )}
-
-                    {/* Step 4: Preview */}
-                    {bioStep > bioQuestionKeys.length && !aiLoading && generatedBios && (
-                      <div>
-                        <div className="ai-question">{t.aiPreview}</div>
-                        <div className="ai-preview-bio">{generatedBios[lang] || Object.values(generatedBios)[0]}</div>
-                        <div className="ai-btn-row">
-                          <button className="ai-btn-primary" onClick={bioUseCurrent}>{t.aiUseThis}</button>
-                          <button className="ai-btn-secondary" onClick={bioRegenerate}>{t.aiRegenerate}</button>
-                          <button className="ai-btn-secondary" onClick={startAI}>{t.aiStartOver}</button>
-                        </div>
-                        <button className="ai-lang-toggle" onClick={() => setBioLangOpen(!bioLangOpen)}>
-                          {bioLangOpen ? '▾' : '▸'} {t.aiOtherLangs}
-                        </button>
-                        {bioLangOpen && (
-                          <div className="ai-lang-list">
-                            {Object.entries(generatedBios).filter(([code]) => code !== lang).map(([code, bio]) => (
-                              <div key={code} className="ai-lang-item">
-                                <strong>{langLabels[code] || code}</strong>
-                                {bio}
-                              </div>
-                            ))}
+                      )}
+                      {bioStep === bioQuestionKeys.length && (
+                        <div>
+                          <div className="ai-question">{t.aiChooseTone}</div>
+                          <div className="ai-tone-grid">
+                            <button className="ai-tone-btn" onClick={() => bioSelectTone('professional')}><span className="ai-tone-emoji">💼</span>{toneLabels.professional[lang] || toneLabels.professional.en}</button>
+                            <button className="ai-tone-btn" onClick={() => bioSelectTone('casual')}><span className="ai-tone-emoji">😊</span>{toneLabels.casual[lang] || toneLabels.casual.en}</button>
+                            <button className="ai-tone-btn" onClick={() => bioSelectTone('motivational')}><span className="ai-tone-emoji">🔥</span>{toneLabels.motivational[lang] || toneLabels.motivational.en}</button>
                           </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Error state */}
-                    {bioStep > bioQuestionKeys.length && !aiLoading && !generatedBios && (
-                      <div className="ai-loading">
-                        <div style={{ color: '#d44a37', fontSize: '0.84rem', marginBottom: '0.5rem', fontWeight: 600 }}>
-                          {t.somethingWentWrong}
                         </div>
-                        {bioError && (
-                          <div style={{ color: 'var(--text-dim)', fontSize: '0.76rem', marginBottom: '1rem', maxWidth: '340px', lineHeight: 1.5, wordBreak: 'break-word' }}>
-                            {bioError}
+                      )}
+                      {bioStep > bioQuestionKeys.length && aiLoading && (
+                        <div className="ai-loading"><div className="ai-spinner" /><div style={{ color: 'var(--text-secondary)', fontSize: '0.84rem' }}>{t.aiGenerating}</div></div>
+                      )}
+                      {bioStep > bioQuestionKeys.length && !aiLoading && generatedBios && (
+                        <div>
+                          <div className="ai-question">{t.aiPreview}</div>
+                          <div className="ai-preview-bio">{generatedBios[lang] || Object.values(generatedBios)[0]}</div>
+                          <div className="ai-btn-row">
+                            <button className="ai-btn-primary" onClick={bioUseCurrent}>{t.aiUseThis}</button>
+                            <button className="ai-btn-secondary" onClick={bioRegenerate}>{t.aiRegenerate}</button>
+                            <button className="ai-btn-secondary" onClick={startAI}>{t.aiStartOver}</button>
                           </div>
-                        )}
-                        <div className="ai-btn-row" style={{ justifyContent: 'center' }}>
-                          <button className="ai-btn-secondary" onClick={bioRegenerate}>{t.aiRegenerate}</button>
-                          <button className="ai-btn-secondary" onClick={startAI}>{t.aiStartOver}</button>
+                          <button className="ai-lang-toggle" onClick={() => setBioLangOpen(!bioLangOpen)}>{bioLangOpen ? '▾' : '▸'} {t.aiOtherLangs}</button>
+                          {bioLangOpen && (
+                            <div className="ai-lang-list">
+                              {Object.entries(generatedBios).filter(([code]) => code !== lang).map(([code, bio]) => (
+                                <div key={code} className="ai-lang-item"><strong>{langLabels[code] || code}</strong>{bio}</div>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                      </div>
-                    )}
+                      )}
+                      {bioStep > bioQuestionKeys.length && !aiLoading && !generatedBios && (
+                        <div className="ai-loading">
+                          <div style={{ color: '#d44a37', fontSize: '0.84rem', marginBottom: '0.5rem', fontWeight: 600 }}>{t.somethingWentWrong}</div>
+                          {bioError && (<div style={{ color: 'var(--text-dim)', fontSize: '0.76rem', marginBottom: '1rem', maxWidth: '340px', lineHeight: 1.5, wordBreak: 'break-word' }}>{bioError}</div>)}
+                          <div className="ai-btn-row" style={{ justifyContent: 'center' }}>
+                            <button className="ai-btn-secondary" onClick={bioRegenerate}>{t.aiRegenerate}</button>
+                            <button className="ai-btn-secondary" onClick={startAI}>{t.aiStartOver}</button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                ) : (
+                  <div className="ai-placeholder">
+                    <div className="sparkle-big" aria-hidden="true">✦</div>
+                    <h3>{t.aiTitle}</h3>
+                    <p>{t.aiDescription}</p>
+                    <button onClick={startAI} className="gold-btn">{t.startAi}</button>
+                  </div>
+                )}
+              </div>
+
+              {/* ─── Auto-Verification Setup ───────────────────────────────── */}
+              {distributor?.slug && (
+              <div className="field-group" style={{ border: '1px solid rgba(201,168,76,0.15)', borderRadius: 14, padding: '1.25rem', background: 'rgba(201,168,76,0.03)' }}>
+                <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>📧 Auto-Verification</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Forward PU Prime account opening emails to auto-verify your leads</div>
                 </div>
-              ) : (
-                <div className="ai-placeholder">
-                  <div className="sparkle-big" aria-hidden="true">✦</div>
-                  <h3>{t.aiTitle}</h3>
-                  <p>{t.aiDescription}</p>
-                  <button onClick={startAI} className="gold-btn">{t.startAi}</button>
+                <label className="field-label">Your unique verification address</label>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: '1rem' }}>
+                  <input className="field-input" readOnly value={`verify+${distributor.slug}@zapraxi.resend.app`} style={{ flex: 1, fontFamily: 'monospace', fontSize: '0.82rem', background: 'rgba(0,0,0,0.3)' }} onClick={e => (e.target as HTMLInputElement).select()} />
+                  <button className="gold-btn gold-btn-sm" style={{ whiteSpace: 'nowrap', padding: '8px 14px' }} onClick={() => { navigator.clipboard.writeText(`verify+${distributor.slug}@zapraxi.resend.app`); setInboundCopied(true); setTimeout(() => setInboundCopied(false), 2000) }}>{inboundCopied ? '✓ Copied' : 'Copy'}</button>
                 </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1rem', padding: '8px 12px', background: 'rgba(0,0,0,0.2)', borderRadius: 8, fontSize: '0.82rem' }}>
+                  {distributor.last_inbound_at ? (<><span style={{ color: '#22c55e', fontSize: '1rem' }}>✅</span><span style={{ color: 'var(--text-secondary)' }}>Active — last received: {new Date(distributor.last_inbound_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span></>) : (<><span style={{ color: '#888', fontSize: '1rem' }}>⚪</span><span style={{ color: 'var(--text-dim)' }}>Not active — set up forwarding below</span></>)}
+                </div>
+                <label className="field-label">Your email provider</label>
+                <select className="field-input" value={inboundProvider} onChange={e => setInboundProvider(e.target.value)} style={{ marginBottom: '0.75rem' }}>
+                  <option value="gmail">Gmail</option><option value="outlook">Outlook / Hotmail</option><option value="apple">Apple Mail</option><option value="yahoo">Yahoo Mail</option><option value="thunderbird">Thunderbird</option><option value="other">Other</option>
+                </select>
+                <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.25)', borderRadius: 10, fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                  {inboundProvider === 'gmail' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Open Gmail ⚙️ <strong>Settings</strong> → <strong>See all settings</strong></li><li>Go to <strong>Filters and Blocked Addresses</strong></li><li>Click <strong>Create a new filter</strong></li><li>In "From" enter: <code style={{ color: '#c9a84c' }}>noreply@puprime.com</code></li><li>Click <strong>Create filter</strong></li><li>Check <strong>Forward it to:</strong> and enter: <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>Create filter</strong></li></ol>)}
+                  {inboundProvider === 'outlook' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Open ⚙️ <strong>Settings</strong> → search for "<strong>Rules</strong>"</li><li>Go to <strong>Mail → Rules</strong> → <strong>Add new rule</strong></li><li>Name: <em>PU Prime Auto-Verify</em></li><li>Condition: <strong>From</strong> contains <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: <strong>Forward to</strong> <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>Save</strong></li></ol>)}
+                  {inboundProvider === 'apple' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Open <strong>Mail</strong> → <strong>Settings</strong> → <strong>Rules</strong></li><li>Click <strong>Add Rule</strong></li><li>Set "From" contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: <strong>Forward Message</strong> to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>OK</strong></li></ol>)}
+                  {inboundProvider === 'yahoo' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Click ⚙️ <strong>Settings</strong> → <strong>More Settings</strong></li><li>Go to <strong>Filters</strong> → <strong>Add new filter</strong></li><li>From contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: Forward to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>Save</strong></li></ol>)}
+                  {inboundProvider === 'thunderbird' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li><strong>Tools</strong> → <strong>Message Filters</strong> → <strong>New</strong></li><li>From contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: Forward to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>OK</strong></li></ol>)}
+                  {inboundProvider === 'other' && (<div>Search "<strong>email forwarding filter</strong>" in your provider's help. Forward from <code style={{ color: '#c9a84c' }}>noreply@puprime.com</code> to:<div style={{ marginTop: 8, padding: '8px 12px', background: 'rgba(201,168,76,0.08)', borderRadius: 6, fontFamily: 'monospace', color: '#c9a84c', wordBreak: 'break-all' }}>verify+{distributor.slug}@zapraxi.resend.app</div></div>)}
+                </div>
+              </div>
               )}
             </div>
           </div>
