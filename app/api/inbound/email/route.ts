@@ -57,9 +57,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, skipped: payload.type })
   }
 
+  // Diagnostic logging — will show exact payload shape in Vercel logs
+  console.log('[inbound-email] Webhook payload keys:', Object.keys(payload))
+  console.log('[inbound-email] Webhook data keys:', payload.data ? Object.keys(payload.data) : 'no data')
+  console.log('[inbound-email] Full payload:', JSON.stringify(payload, null, 2))
+
   const data = payload.data
   const toAddresses: string[] = data.to || []
-  const emailId: string | undefined = data.id || payload.id
+  const emailId: string | undefined = data.id || payload.id || data.email_id || data.message_id
 
   console.log('[inbound-email] Received email to:', toAddresses, 'from:', data.from, 'subject:', data.subject, 'emailId:', emailId)
 
@@ -98,7 +103,8 @@ export async function POST(request: Request) {
   // NOT the actual file content. We must fetch it via the Resend receiving API.
   if (!emailId) {
     console.error('[inbound-email] No email ID in payload — cannot fetch attachments')
-    return NextResponse.json({ error: 'No email ID in webhook payload' }, { status: 400 })
+    console.error('[inbound-email] Payload received:', JSON.stringify(payload, null, 2))
+    return NextResponse.json({ error: 'No email ID in webhook payload', payloadKeys: Object.keys(payload), dataKeys: data ? Object.keys(data) : [] }, { status: 400 })
   }
 
   let rows: Array<{ userId: string; userName: string; accountNumber: string; openingTime: string }> = []
