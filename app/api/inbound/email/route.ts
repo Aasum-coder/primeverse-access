@@ -57,14 +57,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, skipped: payload.type })
   }
 
-  // Diagnostic logging — will show exact payload shape in Vercel logs
-  console.log('[inbound-email] Webhook payload keys:', Object.keys(payload))
-  console.log('[inbound-email] Webhook data keys:', payload.data ? Object.keys(payload.data) : 'no data')
-  console.log('[inbound-email] Full payload:', JSON.stringify(payload, null, 2))
-
   const data = payload.data
   const toAddresses: string[] = data.to || []
-  const emailId: string | undefined = data.id || payload.id || data.email_id || data.message_id
+
+  // The email ID is at data.email_id (confirmed from live payload)
+  const emailId: string | undefined = data.email_id
+  if (!emailId) {
+    console.error('[inbound-email] No email_id in data:', JSON.stringify(data))
+    return NextResponse.json({ error: 'No email ID in webhook payload' }, { status: 400 })
+  }
 
   console.log('[inbound-email] Received email to:', toAddresses, 'from:', data.from, 'subject:', data.subject, 'emailId:', emailId)
 
@@ -98,74 +99,47 @@ export async function POST(request: Request) {
 
   console.log('[inbound-email] Matched distributor:', dist.id, dist.name)
 
-  // STEP 4 — Fetch Excel attachment via Resend API
-  // The webhook payload only contains attachment metadata (filename, content_type),
-  // NOT the actual file content. We must fetch it via the Resend receiving API.
-  if (!emailId) {
-    console.error('[inbound-email] No email ID in payload — cannot fetch attachments')
-    console.error('[inbound-email] Payload received:', JSON.stringify(payload, null, 2))
-    return NextResponse.json({ error: 'No email ID in webhook payload', payloadKeys: Object.keys(payload), dataKeys: data ? Object.keys(data) : [] }, { status: 400 })
+  // STEP 4 — Fetch Excel attachment via Resend receiving API
+  // The webhook payload has attachment metadata (id, filename, content_type) but NOT the file content.
+  // We use the attachment id from the payload + emailId to fetch the download URL from Resend.
+  const webhookAttachments: Array<{ id: string; filename: string; content_type: string }> = data.attachments || []
+  const xlsxMeta = webhookAttachments.find(
+    a => a.filename && (a.filename.endsWith('.xlsx') || a.filename.endsWith('.xls'))
+  )
+
+  if (!xlsxMeta) {
+    console.warn('[inbound-email] No xlsx in webhook attachments:', webhookAttachments.map(a => a.filename))
+    return NextResponse.json({ error: 'No Excel attachment found' }, { status: 400 })
   }
+
+  console.log('[inbound-email] Found attachment:', xlsxMeta.filename, 'id:', xlsxMeta.id)
 
   let rows: Array<{ userId: string; userName: string; accountNumber: string; openingTime: string }> = []
   try {
-    // List attachments for this received email
-    const { data: attachmentList, error: listErr } = await resend.emails.receiving.attachments.list({ emailId })
+    // Fetch the signed download URL for this attachment
+    const { data: attachmentData, error: getErr } = await resend.emails.receiving.attachments.get({
+      emailId,
+      id: xlsxMeta.id,
+    })
 
-    if (listErr || !attachmentList?.data?.length) {
-      // Fallback: check if webhook payload has inline attachment content (some Resend versions)
-      const inlineAttachments: Array<{ filename?: string; content?: string }> = data.attachments || []
-      const inlineXlsx = inlineAttachments.find(
-        a => a.filename && (a.filename.endsWith('.xlsx') || a.filename.endsWith('.xls')) && a.content
-      )
-      if (inlineXlsx?.content) {
-        console.log('[inbound-email] Using inline attachment content from webhook payload')
-        const buffer = Buffer.from(inlineXlsx.content, 'base64')
-        const workbook = XLSX.read(buffer, { type: 'buffer' })
-        const sheet = workbook.Sheets[workbook.SheetNames[0]]
-        const jsonData: any[] = XLSX.utils.sheet_to_json(sheet)
-        rows = parseExcelRows(jsonData)
-      } else {
-        console.warn('[inbound-email] No attachments found via API or inline. listErr:', listErr)
-        return NextResponse.json({ error: 'No attachments found' }, { status: 400 })
-      }
-    } else {
-      // Find the xlsx attachment in the API response
-      const xlsxMeta = attachmentList.data.find(
-        a => a.filename && (a.filename.endsWith('.xlsx') || a.filename.endsWith('.xls'))
-      )
-
-      if (!xlsxMeta) {
-        console.warn('[inbound-email] No xlsx in attachment list:', attachmentList.data.map(a => a.filename))
-        return NextResponse.json({ error: 'No Excel attachment found' }, { status: 400 })
-      }
-
-      // Fetch the actual attachment — returns download_url
-      const { data: attachmentData, error: getErr } = await resend.emails.receiving.attachments.get({
-        emailId,
-        id: xlsxMeta.id,
-      })
-
-      if (getErr || !attachmentData?.download_url) {
-        console.error('[inbound-email] Failed to get attachment data:', getErr)
-        return NextResponse.json({ error: 'Failed to retrieve attachment' }, { status: 500 })
-      }
-
-      // Download the actual file from the signed URL
-      console.log('[inbound-email] Downloading attachment from:', attachmentData.download_url.substring(0, 80) + '...')
-      const fileRes = await fetch(attachmentData.download_url)
-      if (!fileRes.ok) {
-        console.error('[inbound-email] Failed to download attachment:', fileRes.status, fileRes.statusText)
-        return NextResponse.json({ error: 'Failed to download attachment' }, { status: 500 })
-      }
-
-      const arrayBuffer = await fileRes.arrayBuffer()
-      const buffer = Buffer.from(arrayBuffer)
-      const workbook = XLSX.read(buffer, { type: 'buffer' })
-      const sheet = workbook.Sheets[workbook.SheetNames[0]]
-      const jsonData: any[] = XLSX.utils.sheet_to_json(sheet)
-      rows = parseExcelRows(jsonData)
+    if (getErr || !attachmentData?.download_url) {
+      console.error('[inbound-email] Failed to get attachment download URL:', getErr)
+      return NextResponse.json({ error: 'Failed to retrieve attachment download URL' }, { status: 500 })
     }
+
+    // Download the actual Excel binary from the signed URL
+    console.log('[inbound-email] Downloading from:', attachmentData.download_url.substring(0, 80) + '...')
+    const fileRes = await fetch(attachmentData.download_url)
+    if (!fileRes.ok) {
+      console.error('[inbound-email] Download failed:', fileRes.status, fileRes.statusText)
+      return NextResponse.json({ error: 'Failed to download attachment' }, { status: 500 })
+    }
+
+    const buffer = Buffer.from(await fileRes.arrayBuffer())
+    const workbook = XLSX.read(buffer, { type: 'buffer' })
+    const sheet = workbook.Sheets[workbook.SheetNames[0]]
+    const jsonData: any[] = XLSX.utils.sheet_to_json(sheet)
+    rows = parseExcelRows(jsonData)
 
     console.log('[inbound-email] Parsed', rows.length, 'rows from Excel')
   } catch (err) {
