@@ -691,6 +691,25 @@ export default function AdminConsolePage() {
     setEventRegsLoading(false)
   }, [])
 
+  const fetchForwardingRows = useCallback(async () => {
+    setForwardingLoading(true)
+    try {
+      const { data } = await supabase
+        .from('distributors')
+        .select('id, slug, forwarding_verification')
+        .not('forwarding_verification', 'is', null)
+      const rows = (data || []) as ForwardingRow[]
+      rows.sort((a, b) => {
+        const at = a.forwarding_verification?.received_at || ''
+        const bt = b.forwarding_verification?.received_at || ''
+        return bt.localeCompare(at)
+      })
+      setForwardingRows(rows)
+    } finally {
+      setForwardingLoading(false)
+    }
+  }, [])
+
   useEffect(() => {
     if (activeTab === 'events' && authorized) fetchEvents()
   }, [activeTab, authorized, fetchEvents])
@@ -867,25 +886,6 @@ export default function AdminConsolePage() {
     { key: 'events', label: 'Events' },
     { key: 'forwarding', label: 'Forwarding Verifications' },
   ]
-
-  const fetchForwardingRows = useCallback(async () => {
-    setForwardingLoading(true)
-    try {
-      const { data } = await supabase
-        .from('distributors')
-        .select('id, slug, forwarding_verification')
-        .not('forwarding_verification', 'is', null)
-      const rows = (data || []) as ForwardingRow[]
-      rows.sort((a, b) => {
-        const at = a.forwarding_verification?.received_at || ''
-        const bt = b.forwarding_verification?.received_at || ''
-        return bt.localeCompare(at)
-      })
-      setForwardingRows(rows)
-    } finally {
-      setForwardingLoading(false)
-    }
-  }, [])
 
   return (
     <>
