@@ -665,7 +665,9 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
     const { error } = await supabase.from('leads').insert({ id: leadId, distributor_id: distributor.id, name: uidForm.name, email: uidForm.email, uid: uidForm.uid, uid_verified: false, referral_link_used: slug })
     if (error) { console.error('[uid-submit] Insert failed:', JSON.stringify(error)); setSubmitError(t.somethingWentWrong); setSubmitting(false); return }
     console.log('[uid-submit] Lead inserted successfully, id:', leadId)
-    await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorName: distributor.name, distributorEmail: distributor.email }) })
+    // Send welcome email to the lead + notification to the IB
+    fetch('/api/send-lead-welcome', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadName: uidForm.name, leadEmail: uidForm.email, distributorName: distributor.name || distributor.slug, distributorSlug: slug, language: lang, leadId, distributorId: distributor.id }) }).catch(() => {})
+    await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorName: distributor.name, distributorEmail: distributor.email, referralLink: distributor.referral_link || '', language: lang, distributorId: distributor.id }) })
     fetch('/api/new-lead-alert', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     fetch('/api/milestone-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId, distributorId: distributor.id }) }).catch(() => {})
