@@ -58,7 +58,21 @@ type EventRegistration = {
   created_at: string
 }
 
-type Tab = 'overview' | 'pending' | 'upgrade' | 'events'
+type Tab = 'overview' | 'pending' | 'upgrade' | 'events' | 'forwarding'
+
+type ForwardingRow = {
+  id: string
+  slug: string | null
+  forwarding_verification: {
+    provider: string
+    code: string | null
+    link: string | null
+    received_at: string
+    expires_at: string
+    from_address: string
+    subject: string
+  }
+}
 
 function buildApprovalEmail(name: string): string {
   return `<!DOCTYPE html>
@@ -441,6 +455,9 @@ export default function AdminConsolePage() {
   const [editZoom, setEditZoom] = useState('')
   const [editDate, setEditDate] = useState('')
   const [editSaving, setEditSaving] = useState(false)
+  // Forwarding verifications
+  const [forwardingRows, setForwardingRows] = useState<ForwardingRow[]>([])
+  const [forwardingLoading, setForwardingLoading] = useState(false)
 
   const showToast = useCallback((message: string, type: 'success' | 'error' = 'success') => {
     setToast({ visible: true, message, type })
@@ -679,6 +696,10 @@ export default function AdminConsolePage() {
   }, [activeTab, authorized, fetchEvents])
 
   useEffect(() => {
+    if (activeTab === 'forwarding' && authorized) fetchForwardingRows()
+  }, [activeTab, authorized, fetchForwardingRows])
+
+  useEffect(() => {
     if (selectedEventId) fetchEventRegs(selectedEventId)
   }, [selectedEventId, fetchEventRegs])
 
@@ -844,7 +865,27 @@ export default function AdminConsolePage() {
     { key: 'pending', label: `Pending (${pendingIBs.length})` },
     { key: 'upgrade', label: 'Upgrade to Admin' },
     { key: 'events', label: 'Events' },
+    { key: 'forwarding', label: 'Forwarding Verifications' },
   ]
+
+  const fetchForwardingRows = useCallback(async () => {
+    setForwardingLoading(true)
+    try {
+      const { data } = await supabase
+        .from('distributors')
+        .select('id, slug, forwarding_verification')
+        .not('forwarding_verification', 'is', null)
+      const rows = (data || []) as ForwardingRow[]
+      rows.sort((a, b) => {
+        const at = a.forwarding_verification?.received_at || ''
+        const bt = b.forwarding_verification?.received_at || ''
+        return bt.localeCompare(at)
+      })
+      setForwardingRows(rows)
+    } finally {
+      setForwardingLoading(false)
+    }
+  }, [])
 
   return (
     <>
@@ -1393,6 +1434,55 @@ export default function AdminConsolePage() {
                 )}
               </div>
             </>
+          )}
+
+          {/* ─── Forwarding Verifications ─── */}
+          {activeTab === 'forwarding' && (
+            <div className="stat-card" style={{ overflow: 'auto' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#d4a537' }}>
+                  Forwarding Verifications ({forwardingRows.length})
+                </div>
+                <button
+                  onClick={fetchForwardingRows}
+                  className="btn-outline"
+                  style={{ padding: '5px 12px', fontSize: '0.75rem', borderColor: 'rgba(212,165,55,0.3)', color: '#d4a537' }}
+                  disabled={forwardingLoading}
+                >
+                  {forwardingLoading ? 'Loading…' : 'Refresh'}
+                </button>
+              </div>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Slug</th>
+                    <th>Provider</th>
+                    <th>Code</th>
+                    <th>Link?</th>
+                    <th>Received</th>
+                    <th>Expires</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {forwardingRows.map(r => {
+                    const fv = r.forwarding_verification
+                    return (
+                      <tr key={r.id}>
+                        <td className="td-mono">{r.slug || '—'}</td>
+                        <td>{fv?.provider || '—'}</td>
+                        <td className="td-mono">{fv?.code || '—'}</td>
+                        <td>{fv?.link ? 'yes' : '—'}</td>
+                        <td className="td-secondary">{fv?.received_at ? new Date(fv.received_at).toLocaleString() : '—'}</td>
+                        <td className="td-secondary">{fv?.expires_at ? new Date(fv.expires_at).toLocaleString() : '—'}</td>
+                      </tr>
+                    )
+                  })}
+                  {forwardingRows.length === 0 && (
+                    <tr><td colSpan={6} className="empty-state">{forwardingLoading ? 'Loading…' : 'No forwarding verifications yet'}</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

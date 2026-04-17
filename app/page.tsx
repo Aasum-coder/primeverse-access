@@ -397,6 +397,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'Failed to save workflow',
     wfEmailPreviewTitle: 'Email Preview',
     wfClose: 'Close',
+    forwarding_verification_title: '🔐 Forwarding Verification Code',
+    waiting_for_code: 'Waiting for verification code',
+    waiting_for_code_subtitle: "After you add the forwarding address in your email provider, the verification code will appear here within 30 seconds.",
+    check_now: 'Check now',
+    received_ago: 'Received {time} ago',
+    copy_code: 'COPY CODE',
+    code_copied: '✓ Copied!',
+    paste_instruction: "Paste this code into your email provider's settings",
+    open_verification_link: 'OPEN VERIFICATION LINK',
+    click_to_confirm: 'Click to confirm forwarding directly',
+    expires_in: 'Expires in {duration}',
+    code_expired: 'Verification code expired',
+    code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
+    try_again: "I'll try again",
   },
   no: {
     leadsTab: 'Leads',
@@ -761,6 +775,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'Kunne ikke lagre arbeidsflyt',
     wfEmailPreviewTitle: 'E-postforhåndsvisning',
     wfClose: 'Lukk',
+    forwarding_verification_title: '🔐 Videresendings-bekreftelseskode',
+    waiting_for_code: 'Venter på bekreftelseskode',
+    waiting_for_code_subtitle: 'Etter at du har lagt til videresendingsadressen hos e-postleverandøren din, vises bekreftelseskoden her innen 30 sekunder.',
+    check_now: 'Sjekk nå',
+    received_ago: 'Mottatt for {time} siden',
+    copy_code: 'KOPIER KODE',
+    code_copied: '✓ Kopiert!',
+    paste_instruction: 'Lim inn denne koden i e-postleverandørens innstillinger',
+    open_verification_link: 'ÅPNE BEKREFTELSESLENKE',
+    click_to_confirm: 'Klikk for å bekrefte videresending direkte',
+    expires_in: 'Utløper om {duration}',
+    code_expired: 'Bekreftelseskoden er utløpt',
+    code_expired_subtitle: 'Koder utløper etter 7 dager. Prøv å legge til videresendingsadressen hos e-postleverandøren din igjen for å få en ny kode.',
+    try_again: 'Jeg prøver igjen',
   },
   sv: {
     leadsTab: 'Leads',
@@ -1125,6 +1153,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'Kunde inte spara arbetsflöde',
     wfEmailPreviewTitle: 'E-postförhandsgranskning',
     wfClose: 'Stäng',
+    forwarding_verification_title: '🔐 Forwarding Verification Code',
+    waiting_for_code: 'Waiting for verification code',
+    waiting_for_code_subtitle: "After you add the forwarding address in your email provider, the verification code will appear here within 30 seconds.",
+    check_now: 'Check now',
+    received_ago: 'Received {time} ago',
+    copy_code: 'COPY CODE',
+    code_copied: '✓ Copied!',
+    paste_instruction: "Paste this code into your email provider's settings",
+    open_verification_link: 'OPEN VERIFICATION LINK',
+    click_to_confirm: 'Click to confirm forwarding directly',
+    expires_in: 'Expires in {duration}',
+    code_expired: 'Verification code expired',
+    code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
+    try_again: "I'll try again",
   },
   es: {
     leadsTab: 'Leads',
@@ -1489,6 +1531,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'Error al guardar flujo',
     wfEmailPreviewTitle: 'Vista previa del email',
     wfClose: 'Cerrar',
+    forwarding_verification_title: '🔐 Forwarding Verification Code',
+    waiting_for_code: 'Waiting for verification code',
+    waiting_for_code_subtitle: "After you add the forwarding address in your email provider, the verification code will appear here within 30 seconds.",
+    check_now: 'Check now',
+    received_ago: 'Received {time} ago',
+    copy_code: 'COPY CODE',
+    code_copied: '✓ Copied!',
+    paste_instruction: "Paste this code into your email provider's settings",
+    open_verification_link: 'OPEN VERIFICATION LINK',
+    click_to_confirm: 'Click to confirm forwarding directly',
+    expires_in: 'Expires in {duration}',
+    code_expired: 'Verification code expired',
+    code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
+    try_again: "I'll try again",
   },
   ru: {
     leadsTab: 'Лиды',
@@ -1853,6 +1909,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'Ошибка сохранения',
     wfEmailPreviewTitle: 'Просмотр email',
     wfClose: 'Закрыть',
+    forwarding_verification_title: '🔐 Forwarding Verification Code',
+    waiting_for_code: 'Waiting for verification code',
+    waiting_for_code_subtitle: "After you add the forwarding address in your email provider, the verification code will appear here within 30 seconds.",
+    check_now: 'Check now',
+    received_ago: 'Received {time} ago',
+    copy_code: 'COPY CODE',
+    code_copied: '✓ Copied!',
+    paste_instruction: "Paste this code into your email provider's settings",
+    open_verification_link: 'OPEN VERIFICATION LINK',
+    click_to_confirm: 'Click to confirm forwarding directly',
+    expires_in: 'Expires in {duration}',
+    code_expired: 'Verification code expired',
+    code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
+    try_again: "I'll try again",
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -2217,6 +2287,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'فشل حفظ المسار',
     wfEmailPreviewTitle: 'معاينة البريد',
     wfClose: 'إغلاق',
+    forwarding_verification_title: '🔐 Forwarding Verification Code',
+    waiting_for_code: 'Waiting for verification code',
+    waiting_for_code_subtitle: "After you add the forwarding address in your email provider, the verification code will appear here within 30 seconds.",
+    check_now: 'Check now',
+    received_ago: 'Received {time} ago',
+    copy_code: 'COPY CODE',
+    code_copied: '✓ Copied!',
+    paste_instruction: "Paste this code into your email provider's settings",
+    open_verification_link: 'OPEN VERIFICATION LINK',
+    click_to_confirm: 'Click to confirm forwarding directly',
+    expires_in: 'Expires in {duration}',
+    code_expired: 'Verification code expired',
+    code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
+    try_again: "I'll try again",
   },
   tl: {
     leadsTab: 'Leads',
@@ -2581,6 +2665,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'Hindi ma-save ang workflow',
     wfEmailPreviewTitle: 'Email Preview',
     wfClose: 'Isara',
+    forwarding_verification_title: '🔐 Forwarding Verification Code',
+    waiting_for_code: 'Waiting for verification code',
+    waiting_for_code_subtitle: "After you add the forwarding address in your email provider, the verification code will appear here within 30 seconds.",
+    check_now: 'Check now',
+    received_ago: 'Received {time} ago',
+    copy_code: 'COPY CODE',
+    code_copied: '✓ Copied!',
+    paste_instruction: "Paste this code into your email provider's settings",
+    open_verification_link: 'OPEN VERIFICATION LINK',
+    click_to_confirm: 'Click to confirm forwarding directly',
+    expires_in: 'Expires in {duration}',
+    code_expired: 'Verification code expired',
+    code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
+    try_again: "I'll try again",
   },
   pt: {
     leadsTab: 'Leads',
@@ -2945,6 +3043,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'Falha ao salvar fluxo',
     wfEmailPreviewTitle: 'Pré-visualização do email',
     wfClose: 'Fechar',
+    forwarding_verification_title: '🔐 Forwarding Verification Code',
+    waiting_for_code: 'Waiting for verification code',
+    waiting_for_code_subtitle: "After you add the forwarding address in your email provider, the verification code will appear here within 30 seconds.",
+    check_now: 'Check now',
+    received_ago: 'Received {time} ago',
+    copy_code: 'COPY CODE',
+    code_copied: '✓ Copied!',
+    paste_instruction: "Paste this code into your email provider's settings",
+    open_verification_link: 'OPEN VERIFICATION LINK',
+    click_to_confirm: 'Click to confirm forwarding directly',
+    expires_in: 'Expires in {duration}',
+    code_expired: 'Verification code expired',
+    code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
+    try_again: "I'll try again",
   },
   th: {
     leadsTab: 'ลีด',
@@ -3309,6 +3421,20 @@ const translations: Record<string, Record<string, string>> = {
     wfSaveError: 'ไม่สามารถบันทึกเวิร์กโฟลว์',
     wfEmailPreviewTitle: 'ดูตัวอย่างอีเมล',
     wfClose: 'ปิด',
+    forwarding_verification_title: '🔐 Forwarding Verification Code',
+    waiting_for_code: 'Waiting for verification code',
+    waiting_for_code_subtitle: "After you add the forwarding address in your email provider, the verification code will appear here within 30 seconds.",
+    check_now: 'Check now',
+    received_ago: 'Received {time} ago',
+    copy_code: 'COPY CODE',
+    code_copied: '✓ Copied!',
+    paste_instruction: "Paste this code into your email provider's settings",
+    open_verification_link: 'OPEN VERIFICATION LINK',
+    click_to_confirm: 'Click to confirm forwarding directly',
+    expires_in: 'Expires in {duration}',
+    code_expired: 'Verification code expired',
+    code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
+    try_again: "I'll try again",
   },
 }
 
@@ -4556,6 +4682,42 @@ export default function Home() {
   const [voiceExample2, setVoiceExample2] = useState('')
   const [inboundProvider, setInboundProvider] = useState('gmail')
   const [inboundCopied, setInboundCopied] = useState(false)
+  const [fwdVerifCopied, setFwdVerifCopied] = useState(false)
+  const [fwdVerifChecking, setFwdVerifChecking] = useState(false)
+  const [fwdVerifNowMs, setFwdVerifNowMs] = useState(() => Date.now())
+
+  const formatRelativeAgo = (iso: string, nowMs: number): string => {
+    const diff = Math.max(0, nowMs - new Date(iso).getTime())
+    const s = Math.floor(diff / 1000)
+    if (s < 60) return `${s}s`
+    const m = Math.floor(s / 60)
+    if (m < 60) return `${m}m`
+    const h = Math.floor(m / 60)
+    if (h < 24) return `${h}h`
+    const d = Math.floor(h / 24)
+    return `${d}d`
+  }
+
+  const formatDurationLeft = (iso: string, nowMs: number): string => {
+    const diff = new Date(iso).getTime() - nowMs
+    if (diff <= 0) return '0h'
+    const totalH = Math.floor(diff / (60 * 60 * 1000))
+    const d = Math.floor(totalH / 24)
+    const h = totalH % 24
+    if (d >= 1) return `${d}d ${h}h`
+    return `${h}h`
+  }
+
+  const providerLabel = (p: string): string => {
+    switch (p) {
+      case 'gmail': return 'Gmail'
+      case 'outlook': return 'Outlook'
+      case 'yahoo': return 'Yahoo'
+      case 'icloud': return 'iCloud'
+      case 'protonmail': return 'ProtonMail'
+      default: return 'Email'
+    }
+  }
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isDragging = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, imgX: 50, imgY: 50 })
@@ -5435,6 +5597,53 @@ export default function Home() {
   useEffect(() => {
     if (distributor?.id && activeTab === 'metrics') fetchPageViewHistory(distributor.id, chartPeriod)
   }, [distributor?.id, activeTab, chartPeriod])
+
+  // Forwarding-verification refresh + polling (STATE A only)
+  const refreshForwardingVerification = async () => {
+    if (!distributor?.id) return
+    setFwdVerifChecking(true)
+    try {
+      const { data } = await supabase
+        .from('distributors')
+        .select('forwarding_verification')
+        .eq('id', distributor.id)
+        .maybeSingle()
+      if (data) {
+        setDistributor((prev: any) => prev ? { ...prev, forwarding_verification: data.forwarding_verification } : prev)
+      }
+      setFwdVerifNowMs(Date.now())
+    } catch {
+      // ignore
+    } finally {
+      setFwdVerifChecking(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!distributor?.id || activeTab !== 'profile') return
+    const fv = distributor.forwarding_verification
+    const nowMs = Date.now()
+    const hasActive = fv && fv.expires_at && new Date(fv.expires_at).getTime() > nowMs
+    if (hasActive) return
+    // Immediate refresh on section visibility
+    refreshForwardingVerification()
+    const startedAt = Date.now()
+    const interval = setInterval(() => {
+      if (Date.now() - startedAt > 5 * 60 * 1000) {
+        clearInterval(interval)
+        return
+      }
+      refreshForwardingVerification()
+    }, 5000)
+    return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [distributor?.id, activeTab, distributor?.forwarding_verification?.received_at])
+
+  // Tick current time every 30s so "expires in" / "received ago" stay fresh
+  useEffect(() => {
+    const id = setInterval(() => setFwdVerifNowMs(Date.now()), 30000)
+    return () => clearInterval(id)
+  }, [])
 
   const addLead = async () => {
     if (!distributor || !leadName || !leadEmail || !leadUid) { showToast(t.fillAll); return }
@@ -6604,6 +6813,163 @@ export default function Home() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1rem', padding: '8px 12px', background: 'rgba(0,0,0,0.2)', borderRadius: 8, fontSize: '0.82rem' }}>
                   {distributor.last_inbound_at ? (<><span style={{ color: '#22c55e', fontSize: '1rem' }}>✅</span><span style={{ color: 'var(--text-secondary)' }}>Active — last received: {new Date(distributor.last_inbound_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span></>) : (<><span style={{ color: '#888', fontSize: '1rem' }}>⚪</span><span style={{ color: 'var(--text-dim)' }}>Not active — set up forwarding below</span></>)}
                 </div>
+
+                {/* ─── Forwarding Verification Code ─── */}
+                {(() => {
+                  const fv = distributor.forwarding_verification as null | {
+                    provider: string; code: string | null; link: string | null;
+                    received_at: string; expires_at: string;
+                    from_address: string; subject: string;
+                  }
+                  const nowMs = fwdVerifNowMs
+                  const expiresMs = fv?.expires_at ? new Date(fv.expires_at).getTime() : 0
+                  const state: 'A' | 'B' | 'C' = !fv
+                    ? 'A'
+                    : expiresMs > nowMs ? 'B' : 'C'
+                  const hoursLeft = fv ? Math.floor((expiresMs - nowMs) / (60 * 60 * 1000)) : 0
+                  const amberCountdown = state === 'B' && hoursLeft < 24
+
+                  return (
+                    <div style={{ marginBottom: '1.25rem' }}>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 8 }}>
+                        {t.forwarding_verification_title}
+                      </div>
+
+                      {state === 'A' && (
+                        <div style={{ padding: '14px 16px', borderRadius: 10, border: '1px solid rgba(201,168,76,0.35)', background: 'rgba(201,168,76,0.04)' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                            <span style={{
+                              width: 10, height: 10, borderRadius: '50%',
+                              background: '#c9a84c',
+                              animation: 'pulse 1.4s ease-in-out infinite',
+                              display: 'inline-block',
+                            }} />
+                            <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#c9a84c' }}>{t.waiting_for_code}</div>
+                          </div>
+                          <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', lineHeight: 1.5, marginBottom: 10 }}>
+                            {t.waiting_for_code_subtitle}
+                          </div>
+                          <button
+                            className="gold-btn gold-btn-sm"
+                            style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                            onClick={refreshForwardingVerification}
+                            disabled={fwdVerifChecking}
+                          >
+                            {fwdVerifChecking ? '…' : t.check_now}
+                          </button>
+                        </div>
+                      )}
+
+                      {state === 'B' && fv && (
+                        <div style={{
+                          padding: '14px 16px', borderRadius: 10,
+                          border: '1px solid rgba(201,168,76,0.5)',
+                          background: 'rgba(201,168,76,0.05)',
+                          boxShadow: '0 0 0 1px rgba(76, 207, 122, 0.12), 0 4px 20px rgba(76, 207, 122, 0.08)',
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+                            <span style={{
+                              padding: '2px 10px', borderRadius: 999,
+                              background: 'rgba(201,168,76,0.15)', color: '#c9a84c',
+                              fontSize: '0.72rem', fontWeight: 700, letterSpacing: 0.3,
+                            }}>{providerLabel(fv.provider)}</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>
+                              {t.received_ago.replace('{time}', formatRelativeAgo(fv.received_at, nowMs))}
+                            </span>
+                          </div>
+
+                          {fv.code && (
+                            <div style={{ marginBottom: fv.link ? 14 : 4 }}>
+                              <div style={{
+                                fontFamily: 'monospace',
+                                fontSize: '1.9rem',
+                                letterSpacing: '0.35rem',
+                                fontWeight: 700,
+                                color: '#c9a84c',
+                                textAlign: 'center',
+                                padding: '14px 8px',
+                                background: 'rgba(0,0,0,0.3)',
+                                borderRadius: 8,
+                                marginBottom: 10,
+                                wordBreak: 'break-all',
+                              }}>{fv.code}</div>
+                              <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                                <button
+                                  className="gold-btn gold-btn-sm"
+                                  style={{ padding: '8px 14px', fontSize: '0.78rem', fontWeight: 700, letterSpacing: 0.3 }}
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(fv.code || '')
+                                    setFwdVerifCopied(true)
+                                    setTimeout(() => setFwdVerifCopied(false), 2000)
+                                  }}
+                                >
+                                  {fwdVerifCopied ? t.code_copied : t.copy_code}
+                                </button>
+                                <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>{t.paste_instruction}</span>
+                              </div>
+                            </div>
+                          )}
+
+                          {fv.code && fv.link && (
+                            <div style={{
+                              display: 'flex', alignItems: 'center', gap: 10,
+                              margin: '10px 0', color: 'var(--text-dim)', fontSize: '0.72rem',
+                            }}>
+                              <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.15)' }} />
+                              <span>or</span>
+                              <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.15)' }} />
+                            </div>
+                          )}
+
+                          {fv.link && (
+                            <div>
+                              <a
+                                href={fv.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="gold-btn gold-btn-sm"
+                                style={{ display: 'inline-block', padding: '8px 14px', fontSize: '0.78rem', fontWeight: 700, letterSpacing: 0.3, textDecoration: 'none' }}
+                              >
+                                {t.open_verification_link}
+                              </a>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: 6 }}>
+                                {t.click_to_confirm}
+                              </div>
+                            </div>
+                          )}
+
+                          <div style={{
+                            marginTop: 12, fontSize: '0.72rem',
+                            color: amberCountdown ? '#f59e0b' : 'var(--text-dim)',
+                            fontWeight: amberCountdown ? 600 : 400,
+                          }}>
+                            {t.expires_in.replace('{duration}', formatDurationLeft(fv.expires_at, nowMs))}
+                          </div>
+                        </div>
+                      )}
+
+                      {state === 'C' && (
+                        <div style={{ padding: '14px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.02)', opacity: 0.8 }}>
+                          <div style={{ fontSize: '0.92rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6 }}>
+                            {t.code_expired}
+                          </div>
+                          <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', lineHeight: 1.5, marginBottom: 10 }}>
+                            {t.code_expired_subtitle}
+                          </div>
+                          <button
+                            className="gold-btn gold-btn-sm"
+                            style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                            onClick={refreshForwardingVerification}
+                            disabled={fwdVerifChecking}
+                          >
+                            {fwdVerifChecking ? '…' : t.try_again}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })()}
+
                 <label className="field-label">Your email provider</label>
                 <select className="field-input" value={inboundProvider} onChange={e => setInboundProvider(e.target.value)} style={{ marginBottom: '0.75rem' }}>
                   <option value="gmail">Gmail</option><option value="outlook">Outlook / Hotmail</option><option value="apple">Apple Mail</option><option value="yahoo">Yahoo Mail</option><option value="thunderbird">Thunderbird</option><option value="other">Other</option>
