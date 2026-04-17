@@ -4,6 +4,13 @@ import { Webhook } from 'svix'
 import * as XLSX from 'xlsx'
 import { Resend } from 'resend'
 import { buildVerifiedAccessEmail } from '@/lib/email-templates/verified-access'
+import {
+  detectProvider,
+  extractCode,
+  extractLink,
+  isForwardingVerification,
+  type ForwardingVerification,
+} from '@/lib/forwarding-verification'
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -98,6 +105,62 @@ export async function POST(request: Request) {
   }
 
   console.log('[inbound-email] Matched distributor:', dist.id, dist.name)
+
+  // STEP 3.5 — Branch: forwarding-verification email from an email provider
+  // (Gmail / Outlook / Yahoo / iCloud / ProtonMail). These are NOT Excel
+  // notifications — they are the setup confirmations the IB needs to see.
+  if (isForwardingVerification(data.from || '', data.subject || '')) {
+    const provider = detectProvider(data.from || '', data.subject || '')
+    console.log('[inbound-email] Provider verification email detected. provider:', provider)
+
+    let html = ''
+    let text = ''
+    try {
+      const received: any = await (resend as any).emails.receiving.get({ id: emailId })
+      const body = received?.data ?? received
+      html = (body?.html as string) || ''
+      text = (body?.text as string) || ''
+      console.log('[inbound-email] Fetched received email body. htmlLen:', html.length, 'textLen:', text.length)
+    } catch (fetchErr) {
+      console.error('[inbound-email] Failed to fetch received email body:', fetchErr)
+    }
+
+    const code = extractCode(html, text, provider)
+    const link = extractLink(html, text, provider)
+    console.log('[inbound-email] Extracted — code:', code ? `${code.slice(0, 2)}…` : null, 'link:', link ? 'yes' : 'no')
+
+    const now = new Date()
+    const expires = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+    const verification: ForwardingVerification = {
+      provider,
+      code,
+      link,
+      received_at: now.toISOString(),
+      expires_at: expires.toISOString(),
+      from_address: data.from || '',
+      subject: data.subject || '',
+    }
+
+    const { error: updErr } = await supabaseAdmin
+      .from('distributors')
+      .update({ forwarding_verification: verification })
+      .eq('id', dist.id)
+
+    if (updErr) {
+      console.error('[inbound-email] Failed to save forwarding_verification:', updErr)
+      return NextResponse.json({ error: 'Failed to save verification' }, { status: 500 })
+    }
+
+    console.log('[inbound-email] Saved forwarding_verification for distributor:', dist.id)
+
+    return NextResponse.json({
+      ok: true,
+      type: 'forwarding_verification',
+      provider,
+      has_code: Boolean(code),
+      has_link: Boolean(link),
+    })
+  }
 
   // STEP 4 — Fetch Excel attachment via Resend receiving API
   // The webhook payload has attachment metadata (id, filename, content_type) but NOT the file content.
