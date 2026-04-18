@@ -12,6 +12,25 @@ import {
   type ForwardingVerification,
 } from '@/lib/forwarding-verification'
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Required Supabase schema (run once in SQL editor if not already applied):
+//
+//   ALTER TABLE leads
+//     ADD COLUMN IF NOT EXISTS registration_status TEXT
+//       CHECK (registration_status IN ('pending','registered','verified','rejected'))
+//       DEFAULT 'pending';
+//   ALTER TABLE leads ADD COLUMN IF NOT EXISTS registered_at TIMESTAMPTZ;
+//   ALTER TABLE leads ADD COLUMN IF NOT EXISTS verified_at TIMESTAMPTZ;
+//   ALTER TABLE leads ADD COLUMN IF NOT EXISTS account_number TEXT;
+//
+//   UPDATE leads
+//     SET registration_status = 'verified', verified_at = created_at
+//     WHERE uid_verified = true AND registration_status = 'pending';
+//
+//   CREATE INDEX IF NOT EXISTS idx_leads_registration_status
+//     ON leads(distributor_id, registration_status);
+// ─────────────────────────────────────────────────────────────────────────────
+
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -19,13 +38,66 @@ const supabaseAdmin = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
-function parseExcelRows(jsonData: any[]): Array<{ userId: string; userName: string; accountNumber: string; openingTime: string }> {
-  return jsonData.map(row => ({
-    userId: String(row['User ID'] || row['user_id'] || row['UserID'] || '').trim(),
-    userName: String(row['User Name'] || row['user_name'] || row['UserName'] || row['Name'] || '').trim(),
-    accountNumber: String(row['Account'] || row['account'] || row['Account Number'] || '').trim(),
-    openingTime: String(row['Account Opening Time'] || row['Opening Time'] || row['opening_time'] || '').trim(),
-  })).filter(r => r.userId || r.userName)
+type MailType = 'registration' | 'account_opening'
+
+interface RegistrationRow {
+  userId: string
+  userName: string
+  registrationTime: string
+}
+
+interface AccountOpeningRow {
+  userId: string
+  userName: string
+  accountNumber: string
+  openingTime: string
+}
+
+function parseRegistrationRows(jsonData: any[]): RegistrationRow[] {
+  return jsonData
+    .map(row => ({
+      userId: String(row['User ID'] || row['user_id'] || row['UserID'] || '').trim(),
+      userName: String(row['User Name'] || row['user_name'] || row['UserName'] || row['Name'] || '').trim(),
+      registrationTime: String(row['Client Registration Time'] || row['Registration Time'] || row['registration_time'] || '').trim(),
+    }))
+    .filter(r => r.userId || r.userName)
+}
+
+function parseAccountOpeningRows(jsonData: any[]): AccountOpeningRow[] {
+  return jsonData
+    .map(row => ({
+      userId: String(row['User ID'] || row['user_id'] || row['UserID'] || '').trim(),
+      userName: String(row['User Name'] || row['user_name'] || row['UserName'] || row['Name'] || '').trim(),
+      accountNumber: String(row['Account'] || row['account'] || row['Account Number'] || row['account_number'] || '').trim(),
+      openingTime: String(row['Account Opening Time'] || row['Opening Time'] || row['opening_time'] || '').trim(),
+    }))
+    .filter(r => r.userId || r.userName)
+}
+
+async function downloadAttachment(emailId: string, attachmentId: string): Promise<Buffer | null> {
+  try {
+    const { data: attachmentData, error: getErr } = await resend.emails.receiving.attachments.get({
+      emailId,
+      id: attachmentId,
+    })
+
+    if (getErr || !attachmentData?.download_url) {
+      console.error('[inbound-email] Failed to get attachment download URL:', getErr)
+      return null
+    }
+
+    console.log('[inbound-email] Downloading from:', attachmentData.download_url.substring(0, 80) + '...')
+    const fileRes = await fetch(attachmentData.download_url)
+    if (!fileRes.ok) {
+      console.error('[inbound-email] Download failed:', fileRes.status, fileRes.statusText)
+      return null
+    }
+
+    return Buffer.from(await fileRes.arrayBuffer())
+  } catch (err) {
+    console.error('[inbound-email] Attachment download error:', err)
+    return null
+  }
 }
 
 export async function POST(request: Request) {
@@ -66,6 +138,7 @@ export async function POST(request: Request) {
 
   const data = payload.data
   const toAddresses: string[] = data.to || []
+  const subject: string = data.subject || ''
 
   // The email ID is at data.email_id (confirmed from live payload)
   const emailId: string | undefined = data.email_id
@@ -74,9 +147,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'No email ID in webhook payload' }, { status: 400 })
   }
 
-  console.log('[inbound-email] Received email to:', toAddresses, 'from:', data.from, 'subject:', data.subject, 'emailId:', emailId)
+  console.log('[inbound-email] Received email to:', toAddresses, 'from:', data.from, 'subject:', subject, 'emailId:', emailId)
 
-  // STEP 3 — Extract IB slug from the TO address
+  // STEP 2 — Extract IB slug from the TO address
   // Format: verify+{slug}@zapraxi.resend.app
   let slug: string | null = null
   for (const addr of toAddresses) {
@@ -106,11 +179,11 @@ export async function POST(request: Request) {
 
   console.log('[inbound-email] Matched distributor:', dist.id, dist.name)
 
-  // STEP 3.5 — Branch: forwarding-verification email from an email provider
+  // STEP 3 — Branch: forwarding-verification email from an email provider
   // (Gmail / Outlook / Yahoo / iCloud / ProtonMail). These are NOT Excel
   // notifications — they are the setup confirmations the IB needs to see.
-  if (isForwardingVerification(data.from || '', data.subject || '')) {
-    const provider = detectProvider(data.from || '', data.subject || '')
+  if (isForwardingVerification(data.from || '', subject)) {
+    const provider = detectProvider(data.from || '', subject)
     console.log('[inbound-email] Provider verification email detected. provider:', provider)
 
     let html = ''
@@ -138,7 +211,7 @@ export async function POST(request: Request) {
       received_at: now.toISOString(),
       expires_at: expires.toISOString(),
       from_address: data.from || '',
-      subject: data.subject || '',
+      subject,
     }
 
     const { error: updErr } = await supabaseAdmin
@@ -162,9 +235,22 @@ export async function POST(request: Request) {
     })
   }
 
-  // STEP 4 — Fetch Excel attachment via Resend receiving API
-  // The webhook payload has attachment metadata (id, filename, content_type) but NOT the file content.
-  // We use the attachment id from the payload + emailId to fetch the download URL from Resend.
+  // STEP 4 — Detect PU Prime mail type from the subject
+  let mailType: MailType | null = null
+  if (subject.includes('Client Registration Notification')) {
+    mailType = 'registration'
+  } else if (subject.includes('Client Account Opening Notification')) {
+    mailType = 'account_opening'
+  }
+
+  if (!mailType) {
+    console.log('[inbound-email] Unrecognized subject, ignoring:', subject)
+    return NextResponse.json({ ok: true, ignored: 'unknown subject', subject })
+  }
+
+  console.log('[inbound-email] Mail type detected:', mailType)
+
+  // STEP 5 — Fetch Excel attachment via Resend receiving API
   const webhookAttachments: Array<{ id: string; filename: string; content_type: string }> = data.attachments || []
   const xlsxMeta = webhookAttachments.find(
     a => a.filename && (a.filename.endsWith('.xlsx') || a.filename.endsWith('.xls'))
@@ -172,56 +258,138 @@ export async function POST(request: Request) {
 
   if (!xlsxMeta) {
     console.warn('[inbound-email] No xlsx in webhook attachments:', webhookAttachments.map(a => a.filename))
-    return NextResponse.json({ error: 'No Excel attachment found' }, { status: 400 })
+    return NextResponse.json({ ok: true, ignored: 'no xlsx attachment', mailType })
   }
 
   console.log('[inbound-email] Found attachment:', xlsxMeta.filename, 'id:', xlsxMeta.id)
 
-  let rows: Array<{ userId: string; userName: string; accountNumber: string; openingTime: string }> = []
+  const buffer = await downloadAttachment(emailId, xlsxMeta.id)
+  if (!buffer) {
+    return NextResponse.json({ error: 'Failed to download attachment' }, { status: 500 })
+  }
+
+  let jsonData: any[] = []
   try {
-    // Fetch the signed download URL for this attachment
-    const { data: attachmentData, error: getErr } = await resend.emails.receiving.attachments.get({
-      emailId,
-      id: xlsxMeta.id,
-    })
-
-    if (getErr || !attachmentData?.download_url) {
-      console.error('[inbound-email] Failed to get attachment download URL:', getErr)
-      return NextResponse.json({ error: 'Failed to retrieve attachment download URL' }, { status: 500 })
-    }
-
-    // Download the actual Excel binary from the signed URL
-    console.log('[inbound-email] Downloading from:', attachmentData.download_url.substring(0, 80) + '...')
-    const fileRes = await fetch(attachmentData.download_url)
-    if (!fileRes.ok) {
-      console.error('[inbound-email] Download failed:', fileRes.status, fileRes.statusText)
-      return NextResponse.json({ error: 'Failed to download attachment' }, { status: 500 })
-    }
-
-    const buffer = Buffer.from(await fileRes.arrayBuffer())
     const workbook = XLSX.read(buffer, { type: 'buffer' })
     const sheet = workbook.Sheets[workbook.SheetNames[0]]
-    const jsonData: any[] = XLSX.utils.sheet_to_json(sheet)
-    rows = parseExcelRows(jsonData)
-
-    console.log('[inbound-email] Parsed', rows.length, 'rows from Excel')
+    jsonData = XLSX.utils.sheet_to_json(sheet)
   } catch (err) {
     console.error('[inbound-email] Failed to parse Excel:', err)
     return NextResponse.json({ error: 'Failed to parse Excel attachment' }, { status: 400 })
   }
 
-  if (rows.length === 0) {
-    return NextResponse.json({ error: 'No valid rows found in Excel' }, { status: 400 })
+  // Update distributor.last_inbound_at regardless of row outcomes
+  const touchInbound = supabaseAdmin
+    .from('distributors')
+    .update({ last_inbound_at: new Date().toISOString() })
+    .eq('id', dist.id)
+    .then(() => {}, (e: any) => console.error('[inbound-email] touch last_inbound_at failed:', e))
+
+  // STEP 6 — Dispatch to the appropriate handler
+  if (mailType === 'registration') {
+    const rows = parseRegistrationRows(jsonData)
+    console.log('[inbound-email] Registration: parsed', rows.length, 'rows')
+
+    const seen = new Set<string>()
+    const results: Array<{ userId: string; userName: string; status: string; leadId?: string }> = []
+    let matched = 0
+
+    for (const row of rows) {
+      const dedupeKey = (row.userId || row.userName).toLowerCase()
+      if (seen.has(dedupeKey)) continue
+      seen.add(dedupeKey)
+
+      if (!row.userId && !row.userName) continue
+
+      let lead: any = null
+
+      if (row.userId) {
+        const { data: uidMatch } = await supabaseAdmin
+          .from('leads')
+          .select('id, name, email, uid, uid_verified, registration_status')
+          .eq('distributor_id', dist.id)
+          .eq('uid', row.userId)
+          .maybeSingle()
+        if (uidMatch) lead = uidMatch
+      }
+
+      if (!lead && row.userName) {
+        const { data: nameMatch } = await supabaseAdmin
+          .from('leads')
+          .select('id, name, email, uid, uid_verified, registration_status')
+          .eq('distributor_id', dist.id)
+          .ilike('name', `%${row.userName}%`)
+          .maybeSingle()
+        if (nameMatch) lead = nameMatch
+      }
+
+      if (!lead) {
+        results.push({ userId: row.userId, userName: row.userName, status: 'no_match' })
+        continue
+      }
+
+      // Do NOT downgrade an already-verified lead
+      if (lead.uid_verified || lead.registration_status === 'verified') {
+        results.push({ userId: row.userId, userName: row.userName, status: 'already_verified', leadId: lead.id })
+        continue
+      }
+
+      const { error: updateErr } = await supabaseAdmin
+        .from('leads')
+        .update({
+          uid: row.userId || lead.uid,
+          registration_status: 'registered',
+          registered_at: new Date().toISOString(),
+        })
+        .eq('id', lead.id)
+
+      if (updateErr) {
+        console.error('[inbound-email] Registration update failed:', lead.id, updateErr)
+        results.push({ userId: row.userId, userName: row.userName, status: 'update_failed', leadId: lead.id })
+        continue
+      }
+
+      matched++
+      results.push({ userId: row.userId, userName: row.userName, status: 'registered', leadId: lead.id })
+
+      // Log capture — no email sent yet (KYC not complete)
+      await supabaseAdmin.from('email_sends').insert({
+        user_id: dist.id,
+        email_type: 'registration_captured',
+      }).then(() => {}, () => {})
+    }
+
+    await touchInbound
+
+    console.log('[inbound-email] Registration done. Matched:', matched, '/', rows.length)
+    return NextResponse.json({
+      ok: true,
+      mailType,
+      slug,
+      distributorId: dist.id,
+      totalRows: rows.length,
+      matched,
+      rows: results,
+    })
   }
 
-  // STEP 5 — Match and verify each row
-  let verified = 0
+  // mailType === 'account_opening' — existing full-verify flow
+  const rows = parseAccountOpeningRows(jsonData)
+  console.log('[inbound-email] Account opening: parsed', rows.length, 'rows')
+
+  const seen = new Set<string>()
   const results: Array<{ userId: string; userName: string; status: string; leadId?: string }> = []
+  let verified = 0
 
   for (const row of rows) {
+    const dedupeKey = (row.userId || row.userName).toLowerCase()
+    if (seen.has(dedupeKey)) continue
+    seen.add(dedupeKey)
+
+    if (!row.userId && !row.userName) continue
+
     let lead: any = null
 
-    // Try match by UID first
     if (row.userId) {
       const { data: uidMatch } = await supabaseAdmin
         .from('leads')
@@ -232,7 +400,6 @@ export async function POST(request: Request) {
       if (uidMatch) lead = uidMatch
     }
 
-    // Fallback: try name match
     if (!lead && row.userName) {
       const { data: nameMatch } = await supabaseAdmin
         .from('leads')
@@ -244,17 +411,19 @@ export async function POST(request: Request) {
     }
 
     if (!lead) {
-      // No match found — create new lead automatically with uid_verified = true
-      const insertPayload: Record<string, any> = {
-        distributor_id: dist.id,
-        name: row.userName || `UID ${row.userId}`,
-        uid: row.userId || null,
-        uid_verified: true,
-      }
-
+      // No match — create a new verified lead (existing behavior)
       const { data: newLead, error: createErr } = await supabaseAdmin
         .from('leads')
-        .insert(insertPayload)
+        .insert({
+          distributor_id: dist.id,
+          name: row.userName || `UID ${row.userId}`,
+          uid: row.userId || null,
+          uid_verified: true,
+          registration_status: 'verified',
+          registered_at: new Date().toISOString(),
+          verified_at: new Date().toISOString(),
+          account_number: row.accountNumber || null,
+        })
         .select('id, name, email')
         .single()
 
@@ -267,13 +436,12 @@ export async function POST(request: Request) {
       verified++
       results.push({ userId: row.userId, userName: row.userName, status: 'created', leadId: newLead.id })
 
-      // Log to email_sends
       await supabaseAdmin.from('email_sends').insert({
         user_id: dist.id,
         email_type: 'auto_verified',
       }).then(() => {}, () => {})
 
-      console.log('[inbound-email] Created new lead:', newLead.id, row.userName)
+      console.log('[inbound-email] Created new verified lead:', newLead.id, row.userName)
       continue
     }
 
@@ -282,10 +450,15 @@ export async function POST(request: Request) {
       continue
     }
 
-    // Verify the lead
     const { error: updateErr } = await supabaseAdmin
       .from('leads')
-      .update({ uid_verified: true, uid: row.userId || lead.uid })
+      .update({
+        uid: row.userId || lead.uid,
+        uid_verified: true,
+        account_number: row.accountNumber || null,
+        registration_status: 'verified',
+        verified_at: new Date().toISOString(),
+      })
       .eq('id', lead.id)
 
     if (updateErr) {
@@ -300,14 +473,14 @@ export async function POST(request: Request) {
     // Send verification email to the lead
     if (lead.email) {
       try {
-        const { html, subject } = buildVerifiedAccessEmail({
+        const { html, subject: emailSubject } = buildVerifiedAccessEmail({
           name: lead.name || '',
           referralLink: dist.referral_link || 'https://www.primeverseaccess.com',
         })
         await resend.emails.send({
           from: '1Move Academy <noreply@primeverseaccess.com>',
           to: [lead.email],
-          subject,
+          subject: emailSubject,
           html,
         })
       } catch (emailErr) {
@@ -315,28 +488,22 @@ export async function POST(request: Request) {
       }
     }
 
-    // Log to email_sends
     await supabaseAdmin.from('email_sends').insert({
       user_id: dist.id,
       email_type: 'auto_verified',
     }).then(() => {}, () => {})
   }
 
-  // Update distributor last_inbound_at
-  await supabaseAdmin
-    .from('distributors')
-    .update({ last_inbound_at: new Date().toISOString() })
-    .eq('id', dist.id)
+  await touchInbound
 
-  console.log('[inbound-email] Done. Verified:', verified, '/', rows.length)
-
-  // STEP 6 — Return 200 OK
+  console.log('[inbound-email] Account opening done. Verified:', verified, '/', rows.length)
   return NextResponse.json({
     ok: true,
+    mailType,
     slug,
     distributorId: dist.id,
     totalRows: rows.length,
-    verified,
-    results,
+    matched: verified,
+    rows: results,
   })
 }
