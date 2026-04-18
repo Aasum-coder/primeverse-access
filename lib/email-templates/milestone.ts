@@ -219,12 +219,12 @@ function buildProgressBar(currentMilestone: MilestoneNumber, isRtl: boolean): st
     const reached = i <= milestoneIndex
     const isCurrent = m === currentMilestone
 
-    const color = reached ? '#D4A843' : '#555'
+    const color = reached ? '#c9a84c' : '#555'
     const fontSize = isCurrent ? '28px' : '16px'
     const fontWeight = reached ? '800' : '400'
     const checkmark = reached && !isCurrent ? '<span style="font-size:12px;">✓</span><br/>' : ''
     const highlight = isCurrent
-      ? 'border:2px solid #D4A843;border-radius:50%;width:56px;height:56px;line-height:56px;display:inline-block;background-color:#1A1A2E;'
+      ? 'border:2px solid #c9a84c;border-radius:50%;width:56px;height:56px;line-height:56px;display:inline-block;background-color:#080808;'
       : ''
 
     return `<td width="20%" style="text-align:center;padding:4px 2px;">
@@ -239,7 +239,7 @@ function buildProgressBar(currentMilestone: MilestoneNumber, isRtl: boolean): st
   const connectorCells = MILESTONES.map((_, i) => {
     if (i === MILESTONES.length - 1) return '<td></td>'
     const reached = i < milestoneIndex
-    const lineColor = reached ? '#D4A843' : '#333'
+    const lineColor = reached ? '#c9a84c' : '#333'
     return `<td colspan="1" style="padding:0;">
       <div style="height:3px;background-color:${lineColor};margin:0 4px;"></div>
     </td><td style="width:0;padding:0;"></td>`
@@ -278,11 +278,11 @@ export function buildMilestoneEmail({ name, slug, milestone, totalLeads, lang = 
   const nextMilestoneSection = isMax
     ? `<p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 24px;text-align:center;">${t.max_reached}</p>`
     : `<p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 4px;text-align:center;">${t.next_milestone.replace('{next_milestone}', String(nextMilestone))}</p>
-       <p style="color:#D4A843;font-size:17px;font-weight:700;line-height:1.6;margin:0 0 24px;text-align:center;">${t.remaining.replace('{remaining}', String(remaining > 0 ? remaining : 0))}</p>`
+       <p style="color:#c9a84c;font-size:17px;font-weight:700;line-height:1.6;margin:0 0 24px;text-align:center;">${t.remaining.replace('{remaining}', String(remaining > 0 ? remaining : 0))}</p>`
 
   const content = `
 <!-- Heading -->
-<h1 style="color:#D4A843;font-size:28px;margin:0 0 12px;text-align:center;font-weight:800;letter-spacing:1px;">${t.heading}</h1>
+<h1 style="color:#c9a84c;font-size:28px;margin:0 0 12px;text-align:center;font-weight:800;letter-spacing:1px;">${t.heading}</h1>
 
 <!-- Sub-heading -->
 <p style="color:#FFFFFF;font-size:18px;margin:0 0 24px;text-align:center;font-weight:600;">${t.sub_heading.replace('{name}', name).replace('{milestone}', String(milestone))}</p>
@@ -291,11 +291,11 @@ export function buildMilestoneEmail({ name, slug, milestone, totalLeads, lang = 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
   <tr>
     <td align="center">
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:3px solid #D4A843;border-radius:16px;width:220px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:3px solid #c9a84c;border-radius:16px;width:220px;">
         <tr>
           <td style="padding:24px 32px;text-align:center;">
-            <p style="color:#D4A843;font-size:64px;font-weight:800;margin:0;line-height:1;">${milestone}</p>
-            <p style="color:#D4A843;font-size:12px;font-weight:700;letter-spacing:2px;margin:8px 0 0;text-transform:uppercase;">LEADS</p>
+            <p style="color:#c9a84c;font-size:64px;font-weight:800;margin:0;line-height:1;">${milestone}</p>
+            <p style="color:#c9a84c;font-size:12px;font-weight:700;letter-spacing:2px;margin:8px 0 0;text-transform:uppercase;">LEADS</p>
           </td>
         </tr>
       </table>
@@ -307,7 +307,7 @@ export function buildMilestoneEmail({ name, slug, milestone, totalLeads, lang = 
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 28px;text-align:${textAlign};">${milestoneMsg}</p>
 
 <!-- Journey label -->
-<p style="color:#D4A843;font-size:11px;font-weight:700;letter-spacing:2px;margin:0 0 12px;text-align:center;text-transform:uppercase;">${t.journey_label}</p>
+<p style="color:#c9a84c;font-size:11px;font-weight:700;letter-spacing:2px;margin:0 0 12px;text-align:center;text-transform:uppercase;">${t.journey_label}</p>
 
 <!-- Progress bar -->
 ${buildProgressBar(milestone, isRtl)}
@@ -319,7 +319,7 @@ ${nextMilestoneSection}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;">
   <tr>
     <td align="center">
-      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
+      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
         ${t.cta}
       </a>
     </td>
@@ -334,7 +334,7 @@ ${nextMilestoneSection}
         <tr>
           <td style="padding:12px 20px;text-align:center;">
             <span style="color:#888;font-size:12px;">${t.link_label}</span><br/>
-            <a href="https://www.primeverseaccess.com/${slug}" style="color:#D4A843;font-size:16px;font-weight:700;text-decoration:none;">
+            <a href="https://www.primeverseaccess.com/${slug}" style="color:#c9a84c;font-size:16px;font-weight:700;text-decoration:none;">
               primeverseaccess.com/${slug}
             </a>
           </td>
@@ -351,7 +351,7 @@ ${nextMilestoneSection}
 <p style="color:#888;font-size:13px;line-height:1.5;margin:0 0 24px;text-align:center;">${t.help}</p>
 
 <!-- Sign-off -->
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
 
   const html = baseEmailTemplate({
     content,

@@ -196,7 +196,7 @@ const translations: Record<string, PageLiveTranslation> = {
 
 function buildTipRow(text: string): string {
   return `<tr>
-    <td width="28" valign="top" style="padding:8px 0;color:#D4A843;font-size:16px;line-height:1.4;">
+    <td width="28" valign="top" style="padding:8px 0;color:#c9a84c;font-size:16px;line-height:1.4;">
       &rarr;
     </td>
     <td valign="top" style="padding:8px 0 8px 4px;color:#E0E0E0;font-size:15px;line-height:1.4;">
@@ -225,7 +225,7 @@ export function buildPageLiveEmail({ name, slug, lang = 'en' }: PageLiveEmailOpt
 
   const content = `
 <!-- Heading -->
-<h1 style="color:#D4A843;font-size:24px;margin:0 0 8px;text-align:center;">${t.heading.replace('{name}', name)}</h1>
+<h1 style="color:#c9a84c;font-size:24px;margin:0 0 8px;text-align:center;">${t.heading.replace('{name}', name)}</h1>
 
 <!-- Sub-heading -->
 <h2 style="color:#FFFFFF;font-size:18px;margin:0 0 24px;text-align:center;font-weight:600;">${t.sub_heading}</h2>
@@ -237,11 +237,11 @@ export function buildPageLiveEmail({ name, slug, lang = 'en' }: PageLiveEmailOpt
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;">
   <tr>
     <td align="center">
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:2px solid #D4A843;border-radius:8px;width:100%;max-width:440px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:2px solid #c9a84c;border-radius:8px;width:100%;max-width:440px;">
         <tr>
           <td style="padding:20px 24px;text-align:center;">
             <p style="color:#888;font-size:12px;margin:0 0 6px;text-transform:uppercase;letter-spacing:1px;">${t.link_label}</p>
-            <a href="https://www.primeverseaccess.com/${slug}" style="color:#D4A843;font-size:20px;font-weight:700;text-decoration:none;word-break:break-all;">
+            <a href="https://www.primeverseaccess.com/${slug}" style="color:#c9a84c;font-size:20px;font-weight:700;text-decoration:none;word-break:break-all;">
               primeverseaccess.com/${slug}
             </a>
           </td>
@@ -255,7 +255,7 @@ export function buildPageLiveEmail({ name, slug, lang = 'en' }: PageLiveEmailOpt
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;">
   <tr>
     <td align="center">
-      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
+      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
         ${t.cta_share}
       </a>
     </td>
@@ -264,7 +264,7 @@ export function buildPageLiveEmail({ name, slug, lang = 'en' }: PageLiveEmailOpt
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;">
   <tr>
     <td align="center" style="padding:8px 0 0;">
-      <a href="https://www.primeverseaccess.com/${slug}" style="display:inline-block;border:2px solid #D4A843;color:#D4A843;padding:14px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;background:transparent;">
+      <a href="https://www.primeverseaccess.com/${slug}" style="display:inline-block;border:2px solid #c9a84c;color:#c9a84c;padding:14px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;background:transparent;">
         ${t.cta_view}
       </a>
     </td>
@@ -284,8 +284,8 @@ ${tipsHtml}
 <p style="color:#888;font-size:13px;line-height:1.5;margin:0 0 24px;text-align:center;">${t.help}</p>
 
 <!-- Sign-off -->
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0 0 4px;text-align:${textAlign};">${t.sign_off}</p>
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0 0 4px;text-align:${textAlign};">${t.sign_off}</p>
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
 
   const html = baseEmailTemplate({
     content,

@@ -224,7 +224,7 @@ export interface IncompleteSteps {
 
 function buildStepRow(text: string): string {
   return `<tr>
-    <td width="28" valign="top" style="padding:8px 0;color:#D4A843;font-size:16px;line-height:1.4;">
+    <td width="28" valign="top" style="padding:8px 0;color:#c9a84c;font-size:16px;line-height:1.4;">
       &rarr;
     </td>
     <td valign="top" style="padding:8px 0 8px 4px;color:#E0E0E0;font-size:15px;line-height:1.4;">
@@ -272,7 +272,7 @@ export function buildNudgeEmail({ name, incomplete, lang = 'en', variant = 'prof
 <!-- Logo area handled by base template -->
 
 <!-- Heading -->
-<h1 style="color:#D4A843;font-size:22px;margin:0 0 20px;text-align:${textAlign};">${heading.replace('{name}', name)}</h1>
+<h1 style="color:#c9a84c;font-size:22px;margin:0 0 20px;text-align:${textAlign};">${heading.replace('{name}', name)}</h1>
 
 <!-- Body intro -->
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 20px;text-align:${textAlign};">${bodyIntro}</p>
@@ -290,7 +290,7 @@ ${stepsHtml}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td align="center" style="padding:0 0 24px;">
-      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
+      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
         ${t.cta}
       </a>
     </td>
@@ -304,7 +304,7 @@ ${stepsHtml}
 <p style="color:#888;font-size:13px;line-height:1.5;margin:0 0 24px;text-align:center;">${t.help}</p>
 
 <!-- Sign-off -->
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
 
   const html = baseEmailTemplate({
     content,

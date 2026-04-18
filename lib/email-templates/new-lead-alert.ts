@@ -186,7 +186,7 @@ const translations: Record<string, NewLeadAlertTranslation> = {
 
 function buildActionRow(text: string): string {
   return `<tr>
-    <td width="28" valign="top" style="padding:8px 0;color:#D4A843;font-size:16px;line-height:1.4;">
+    <td width="28" valign="top" style="padding:8px 0;color:#c9a84c;font-size:16px;line-height:1.4;">
       &rarr;
     </td>
     <td valign="top" style="padding:8px 0 8px 4px;color:#E0E0E0;font-size:15px;line-height:1.4;">
@@ -214,7 +214,7 @@ export function buildNewLeadAlertEmail({ name, slug, leadCount, lang = 'en' }: N
 
   const content = `
 <!-- Heading -->
-<h1 style="color:#D4A843;font-size:24px;margin:0 0 16px;text-align:center;">${t.heading}</h1>
+<h1 style="color:#c9a84c;font-size:24px;margin:0 0 16px;text-align:center;">${t.heading}</h1>
 
 <!-- Greeting -->
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 24px;text-align:${textAlign};">${t.greeting.replace('{name}', name)}</p>
@@ -223,11 +223,11 @@ export function buildNewLeadAlertEmail({ name, slug, leadCount, lang = 'en' }: N
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
   <tr>
     <td align="center">
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:2px solid #D4A843;border-radius:10px;width:200px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:2px solid #c9a84c;border-radius:10px;width:200px;">
         <tr>
           <td style="padding:20px 24px;text-align:center;">
-            <p style="color:#D4A843;font-size:11px;font-weight:700;letter-spacing:2px;margin:0 0 8px;text-transform:uppercase;">${t.total_leads_label}</p>
-            <p style="color:#D4A843;font-size:52px;font-weight:800;margin:0;line-height:1;">${leadCount}</p>
+            <p style="color:#c9a84c;font-size:11px;font-weight:700;letter-spacing:2px;margin:0 0 8px;text-transform:uppercase;">${t.total_leads_label}</p>
+            <p style="color:#c9a84c;font-size:52px;font-weight:800;margin:0;line-height:1;">${leadCount}</p>
           </td>
         </tr>
       </table>
@@ -251,7 +251,7 @@ export function buildNewLeadAlertEmail({ name, slug, leadCount, lang = 'en' }: N
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;">
   <tr>
     <td align="center">
-      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
+      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
         ${t.cta}
       </a>
     </td>
@@ -266,7 +266,7 @@ export function buildNewLeadAlertEmail({ name, slug, leadCount, lang = 'en' }: N
         <tr>
           <td style="padding:12px 20px;text-align:center;">
             <span style="color:#888;font-size:12px;">${t.link_label}</span><br/>
-            <a href="https://www.primeverseaccess.com/${slug}" style="color:#D4A843;font-size:16px;font-weight:700;text-decoration:none;">
+            <a href="https://www.primeverseaccess.com/${slug}" style="color:#c9a84c;font-size:16px;font-weight:700;text-decoration:none;">
               primeverseaccess.com/${slug}
             </a>
           </td>
@@ -283,7 +283,7 @@ export function buildNewLeadAlertEmail({ name, slug, leadCount, lang = 'en' }: N
 <p style="color:#888;font-size:13px;line-height:1.5;margin:0 0 24px;text-align:center;">${t.help}</p>
 
 <!-- Sign-off -->
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
 
   const html = baseEmailTemplate({
     content,

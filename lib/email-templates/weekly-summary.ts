@@ -334,11 +334,11 @@ function formatDateRange(start: Date, end: Date, lang: string): string {
 
 function buildStatCell(label: string, value: number): string {
   return `<td width="50%" style="padding:6px;">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:1px solid #D4A843;border-radius:8px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:1px solid #c9a84c;border-radius:8px;">
         <tr>
           <td style="padding:16px 12px;text-align:center;">
-            <p style="color:#D4A843;font-size:10px;font-weight:700;letter-spacing:2px;margin:0 0 6px;text-transform:uppercase;">${label}</p>
-            <p style="color:#D4A843;font-size:36px;font-weight:800;margin:0;line-height:1;">${value}</p>
+            <p style="color:#c9a84c;font-size:10px;font-weight:700;letter-spacing:2px;margin:0 0 6px;text-transform:uppercase;">${label}</p>
+            <p style="color:#c9a84c;font-size:36px;font-weight:800;margin:0;line-height:1;">${value}</p>
           </td>
         </tr>
       </table>
@@ -403,7 +403,7 @@ export function buildWeeklySummaryEmail({ name, slug, stats, weekStart, weekEnd,
 
   const content = `
 <!-- Heading -->
-<h1 style="color:#D4A843;font-size:26px;margin:0 0 8px;text-align:center;">${t.heading}</h1>
+<h1 style="color:#c9a84c;font-size:26px;margin:0 0 8px;text-align:center;">${t.heading}</h1>
 
 <!-- Date range sub-heading -->
 <p style="color:#888;font-size:15px;margin:0 0 24px;text-align:center;">${dateRange}</p>
@@ -431,8 +431,8 @@ export function buildWeeklySummaryEmail({ name, slug, stats, weekStart, weekEnd,
 <!-- Tip of the week box -->
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
   <tr>
-    <td style="background-color:#0F0F23;border-${isRtl ? 'right' : 'left'}:4px solid #D4A843;border-radius:4px;padding:16px 20px;">
-      <p style="color:#D4A843;font-size:12px;font-weight:700;letter-spacing:1px;margin:0 0 8px;text-align:${textAlign};">💡 ${t.tip_label}</p>
+    <td style="background-color:#0F0F23;border-${isRtl ? 'right' : 'left'}:4px solid #c9a84c;border-radius:4px;padding:16px 20px;">
+      <p style="color:#c9a84c;font-size:12px;font-weight:700;letter-spacing:1px;margin:0 0 8px;text-align:${textAlign};">💡 ${t.tip_label}</p>
       <p style="color:#CCCCCC;font-size:14px;line-height:1.6;margin:0;text-align:${textAlign};">${tip}</p>
     </td>
   </tr>
@@ -442,7 +442,7 @@ export function buildWeeklySummaryEmail({ name, slug, stats, weekStart, weekEnd,
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;">
   <tr>
     <td align="center">
-      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
+      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
         ${t.cta}
       </a>
     </td>
@@ -457,7 +457,7 @@ export function buildWeeklySummaryEmail({ name, slug, stats, weekStart, weekEnd,
         <tr>
           <td style="padding:12px 20px;text-align:center;">
             <span style="color:#888;font-size:12px;">${t.link_label}</span><br/>
-            <a href="https://www.primeverseaccess.com/${slug}" style="color:#D4A843;font-size:16px;font-weight:700;text-decoration:none;">
+            <a href="https://www.primeverseaccess.com/${slug}" style="color:#c9a84c;font-size:16px;font-weight:700;text-decoration:none;">
               primeverseaccess.com/${slug}
             </a>
           </td>
@@ -474,7 +474,7 @@ export function buildWeeklySummaryEmail({ name, slug, stats, weekStart, weekEnd,
 <p style="color:#888;font-size:13px;line-height:1.5;margin:0 0 24px;text-align:center;">${t.help}</p>
 
 <!-- Sign-off -->
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
 
   const html = baseEmailTemplate({
     content,

@@ -202,7 +202,7 @@ function buildStrategyBlock(label: string, body: string, exampleHtml?: string): 
 </table>
 
 <!-- Strategy label -->
-<p style="color:#D4A843;font-size:12px;font-weight:700;letter-spacing:1.5px;margin:20px 0 8px;text-transform:uppercase;">${label}</p>
+<p style="color:#c9a84c;font-size:12px;font-weight:700;letter-spacing:1.5px;margin:20px 0 8px;text-transform:uppercase;">${label}</p>
 
 <!-- Strategy body -->
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 12px;">${body}</p>
@@ -224,7 +224,7 @@ export function buildFirstShareGuideEmail({ name, slug, lang = 'en' }: FirstShar
   // Strategy 1 has an example message box
   const exampleBox = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
-    <td style="padding:14px 16px;background-color:#0F0F23;border-${isRtl ? 'right' : 'left'}:3px solid #D4A843;border-radius:4px;">
+    <td style="padding:14px 16px;background-color:#0F0F23;border-${isRtl ? 'right' : 'left'}:3px solid #c9a84c;border-radius:4px;">
       <p style="color:#BBBBBB;font-size:14px;line-height:1.5;margin:0;font-style:italic;">${t.strategy_1_example.replace('{slug}', slug)}</p>
     </td>
   </tr>
@@ -232,7 +232,7 @@ export function buildFirstShareGuideEmail({ name, slug, lang = 'en' }: FirstShar
 
   const content = `
 <!-- Heading -->
-<h1 style="color:#D4A843;font-size:22px;margin:0 0 20px;text-align:${textAlign};">${t.heading.replace('{name}', name)}</h1>
+<h1 style="color:#c9a84c;font-size:22px;margin:0 0 20px;text-align:${textAlign};">${t.heading.replace('{name}', name)}</h1>
 
 <!-- Body intro -->
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 8px;text-align:${textAlign};">${t.body_1}</p>
@@ -250,7 +250,7 @@ ${buildStrategyBlock(t.strategy_3_label, t.strategy_3_body)}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;">
   <tr>
     <td align="center">
-      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
+      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
         ${t.cta}
       </a>
     </td>
@@ -265,7 +265,7 @@ ${buildStrategyBlock(t.strategy_3_label, t.strategy_3_body)}
         <tr>
           <td style="padding:12px 20px;text-align:center;">
             <span style="color:#888;font-size:12px;">${t.link_label}</span><br/>
-            <a href="https://www.primeverseaccess.com/${slug}" style="color:#D4A843;font-size:16px;font-weight:700;text-decoration:none;">
+            <a href="https://www.primeverseaccess.com/${slug}" style="color:#c9a84c;font-size:16px;font-weight:700;text-decoration:none;">
               primeverseaccess.com/${slug}
             </a>
           </td>
@@ -282,8 +282,8 @@ ${buildStrategyBlock(t.strategy_3_label, t.strategy_3_body)}
 <p style="color:#888;font-size:13px;line-height:1.5;margin:0 0 24px;text-align:center;">${t.help}</p>
 
 <!-- Sign-off -->
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0 0 4px;text-align:${textAlign};">${t.sign_off}</p>
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0 0 4px;text-align:${textAlign};">${t.sign_off}</p>
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
 
   const html = baseEmailTemplate({
     content,
