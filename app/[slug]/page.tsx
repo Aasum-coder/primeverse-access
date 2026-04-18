@@ -52,22 +52,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'Register today', s1d: "Click 'Get Access Now', enter your name and email, and follow the next steps.",
     s2t: 'Open broker account', s2d: 'You will be redirected to the official registration page through our verified referral link.',
     s3t: 'Complete KYC', s3d: "KYC (Know Your Customer) is a quick identity check required by financial regulations — the broker confirms who you are. Once KYC is approved, you'll automatically receive an email with direct access to the Primeverse ecosystem and 1Move Academy. If you don't see the email, check your Spam/Junk folder and add noreply@primeverseaccess.com to your contacts.",
-    uid_card_h: 'Submit Your UID', uid_card_p: 'Enter your full name, email and broker UID below.',
-    f_name: 'Full Name', f_email: 'Email Address', f_uid: 'Broker UID',
-    f_name_ph: 'Your full name', f_email_ph: 'your@email.com', f_uid_ph: 'e.g. 1234567',
-    uid_btn: 'Request Verification',
-    uid_success: 'Request received.',
-    uid_success2: 'will review and approve your access shortly. Please allow up to 24 hours.',
+    f_name: 'Full Name', f_email: 'Email Address',
+    f_name_ph: 'Your full name', f_email_ph: 'your@email.com',
     modal_h: 'Get Access Now', modal_p: 'Complete your details to proceed to broker registration.',
     chk1: 'I accept the Terms & Conditions',
     chk2: 'I have read and understand the full risk disclaimer',
     chk3: 'I consent to receiving community updates and educational content by email',
     modal_btn: 'Confirm & Proceed to Registration',
-    tab1: '1. Register', tab2: '2. Broker', tab3: '3. Submit UID',
-    broker_h: 'Opening Broker Registration…',
-    broker_p: 'A new tab has opened with the broker registration page. Complete your registration there, then come back here.',
-    broker_btn: 'I have registered — Submit my UID',
-    broker_fallback: "Tab did not open?",
+    modal_success_heading: "You're registered!",
+    modal_success_body: "Check your inbox for the next step — we just sent you an email with your broker link and KYC instructions.",
+    modal_success_subtitle: "Didn't get it? Check spam/junk, or contact your team leader.",
     risk_label: 'Risk Disclaimer',
     risk_text: 'Trading financial instruments including forex, CFDs, and derivatives carries a high level of risk and may not be suitable for all investors. You could lose all of your invested capital. Past performance is not indicative of future results. This platform is for educational purposes only and does not constitute financial advice.',
     legal_label: 'Privacy & Legal',
@@ -100,22 +94,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'Registrer deg i dag', s1d: "Klikk 'Få tilgang nå', skriv inn navn og e-post, og følg de neste stegene.",
     s2t: 'Åpne broker-konto', s2d: 'Du vil bli videresendt til den offisielle registreringssiden via vår verifiserte referral-link.',
     s3t: 'Fullfør KYC', s3d: 'KYC (Know Your Customer) er en enkel identitetsbekreftelse som er lovpålagt — megleren bekrefter hvem du er. Når KYC er godkjent får du automatisk en e-post med direkte tilgang til Primeverse-økosystemet og 1Move Academy. Hvis du ikke ser e-posten, sjekk Spam/Søppel — og legg til noreply@primeverseaccess.com i kontaktene dine.',
-    uid_card_h: 'Send inn UID', uid_card_p: 'Skriv inn fullt navn, e-post og megler-UID nedenfor.',
-    f_name: 'Fullt navn', f_email: 'E-postadresse', f_uid: 'Megler-UID',
-    f_name_ph: 'Ditt fulle navn', f_email_ph: 'din@epost.com', f_uid_ph: 'f.eks. 1234567',
-    uid_btn: 'Be om verifisering',
-    uid_success: 'Forespørsel mottatt.',
-    uid_success2: 'vil gjennomgå og godkjenne tilgangen din snart. Venligst vent opptil 24 timer.',
+    f_name: 'Fullt navn', f_email: 'E-postadresse',
+    f_name_ph: 'Ditt fulle navn', f_email_ph: 'din@epost.com',
     modal_h: 'Få tilgang nå', modal_p: 'Fyll inn detaljene dine for å gå til meglerregistrering.',
     chk1: 'Jeg aksepterer vilkår og betingelser',
     chk2: 'Jeg har lest og forstår risikoansvarsfraskrivelsen',
     chk3: 'Jeg samtykker til å motta fellesskapsoppdateringer på e-post',
     modal_btn: 'Bekreft og gå til registrering',
-    tab1: '1. Registrer', tab2: '2. Megler', tab3: '3. Send UID',
-    broker_h: 'Åpner meglerregistrering…',
-    broker_p: 'En ny fane har åpnet seg. Fullfør registreringen der, og kom tilbake hit.',
-    broker_btn: 'Jeg har registrert meg — Send inn UID',
-    broker_fallback: 'Fanen åpnet seg ikke?',
+    modal_success_heading: 'Du er registrert!',
+    modal_success_body: 'Sjekk innboksen din for neste steg — vi har sendt deg en e-post med broker-linken og KYC-instruksjoner.',
+    modal_success_subtitle: 'Ikke fått den? Sjekk spam/søppel, eller kontakt din teamleder.',
     risk_label: 'Risikofraskrivelse',
     risk_text: 'Trading med finansielle instrumenter inkludert forex, CFD-er og derivater innebærer høy risiko og er kanskje ikke egnet for alle investorer. Du kan tape all din investerte kapital. Tidligere resultater er ikke en indikasjon på fremtidige resultater. Denne plattformen er kun for utdanningsformål og utgjør ikke finansiell rådgivning.',
     legal_label: 'Personvern & juss',
@@ -148,22 +136,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'Registrera dig idag', s1d: "Klicka på 'Få tillgång nu', ange ditt namn och e-post, och följ nästa steg.",
     s2t: 'Öppna broker-konto', s2d: 'Du omdirigeras till den officiella registreringssidan via vår verifierade referral-länk.',
     s3t: 'Slutför KYC', s3d: 'KYC (Know Your Customer) är en enkel identitetskontroll som krävs enligt lag — mäklaren bekräftar vem du är. När KYC är godkänt får du automatiskt ett mejl med direkt tillgång till Primeverse-ekosystemet och 1Move Academy. Om du inte ser mejlet, kolla i Spam/Skräppost — och lägg till noreply@primeverseaccess.com i dina kontakter.',
-    uid_card_h: 'Skicka in UID', uid_card_p: 'Ange ditt fullständiga namn, e-post och mäklar-UID nedan.',
-    f_name: 'Fullständigt namn', f_email: 'E-postadress', f_uid: 'Mäklar-UID',
-    f_name_ph: 'Ditt fullständiga namn', f_email_ph: 'din@epost.com', f_uid_ph: 't.ex. 1234567',
-    uid_btn: 'Begär verifiering',
-    uid_success: 'Begäran mottagen.',
-    uid_success2: 'kommer att granska och godkänna din åtkomst snart. Vänta upp till 24 timmar.',
+    f_name: 'Fullständigt namn', f_email: 'E-postadress',
+    f_name_ph: 'Ditt fullständiga namn', f_email_ph: 'din@epost.com',
     modal_h: 'Få tillgång nu', modal_p: 'Fyll i dina uppgifter för att gå vidare till mäklarregistrering.',
     chk1: 'Jag accepterar villkoren',
     chk2: 'Jag har läst och förstår riskfriskrivningen',
     chk3: 'Jag samtycker till att ta emot uppdateringar via e-post',
     modal_btn: 'Bekräfta och fortsätt till registrering',
-    tab1: '1. Registrera', tab2: '2. Mäklare', tab3: '3. Skicka UID',
-    broker_h: 'Öppnar mäklarregistrering…',
-    broker_p: 'En ny flik har öppnats. Slutför registreringen där och kom sedan tillbaka.',
-    broker_btn: 'Jag har registrerat mig — Skicka in UID',
-    broker_fallback: 'Fliken öppnades inte?',
+    modal_success_heading: 'Du är registrerad!',
+    modal_success_body: 'Kolla din inkorg för nästa steg — vi har just skickat ett mejl med din mäklarlänk och KYC-instruktioner.',
+    modal_success_subtitle: 'Fick du det inte? Kolla spam/skräppost, eller kontakta din teamledare.',
     risk_label: 'Riskfriskrivning',
     risk_text: 'Handel med finansiella instrument inklusive forex, CFD:er och derivat innefattar en hög risknivå och kan inte vara lämplig för alla investerare. Du kan förlora hela ditt investerade kapital. Tidigare resultat är inte en indikation på framtida resultat. Denna plattform är enbart för utbildningsändamål och utgör inte finansiell rådgivning.',
     legal_label: 'Integritet & juridik',
@@ -196,22 +178,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'Regístrate hoy', s1d: "Haz clic en 'Obtener acceso ahora', ingresa tu nombre y correo, y sigue los siguientes pasos.",
     s2t: 'Abre una cuenta de bróker', s2d: 'Serás redirigido a la página oficial de registro a través de nuestro enlace de referencia verificado.',
     s3t: 'Completa el KYC', s3d: 'KYC (Know Your Customer) es una verificación de identidad rápida requerida por ley — el bróker confirma quién eres. Una vez aprobado el KYC, recibirás automáticamente un correo con acceso directo al ecosistema Primeverse y a 1Move Academy. Si no ves el correo, revisa tu carpeta de Spam/Correo no deseado — y añade noreply@primeverseaccess.com a tus contactos.',
-    uid_card_h: 'Enviar UID', uid_card_p: 'Ingresa tu nombre completo, correo y UID del bróker abajo.',
-    f_name: 'Nombre completo', f_email: 'Correo electrónico', f_uid: 'UID del bróker',
-    f_name_ph: 'Tu nombre completo', f_email_ph: 'tu@correo.com', f_uid_ph: 'ej. 1234567',
-    uid_btn: 'Solicitar verificación',
-    uid_success: 'Solicitud recibida.',
-    uid_success2: 'revisará y aprobará tu acceso en breve. Por favor espera hasta 24 horas.',
+    f_name: 'Nombre completo', f_email: 'Correo electrónico',
+    f_name_ph: 'Tu nombre completo', f_email_ph: 'tu@correo.com',
     modal_h: 'Obtener acceso ahora', modal_p: 'Completa tus datos para proceder al registro del bróker.',
     chk1: 'Acepto los Términos y Condiciones',
     chk2: 'He leído y entiendo el descargo de responsabilidad de riesgo',
     chk3: 'Consiento recibir actualizaciones de la comunidad por correo',
     modal_btn: 'Confirmar y proceder al registro',
-    tab1: '1. Registrar', tab2: '2. Bróker', tab3: '3. Enviar UID',
-    broker_h: 'Abriendo registro del bróker…',
-    broker_p: 'Se ha abierto una nueva pestaña. Completa el registro allí y luego regresa aquí.',
-    broker_btn: 'Me he registrado — Enviar UID',
-    broker_fallback: '¿No se abrió la pestaña?',
+    modal_success_heading: '¡Estás registrado!',
+    modal_success_body: 'Revisa tu bandeja de entrada para el siguiente paso — acabamos de enviarte un correo con tu enlace de bróker y las instrucciones KYC.',
+    modal_success_subtitle: '¿No lo recibiste? Revisa spam/correo no deseado, o contacta a tu líder de equipo.',
     risk_label: 'Descargo de riesgo',
     risk_text: 'El comercio de instrumentos financieros incluyendo forex, CFDs y derivados conlleva un alto nivel de riesgo y puede no ser adecuado para todos los inversores. Podría perder la totalidad de su capital invertido. El rendimiento pasado no es indicativo de resultados futuros. Esta plataforma es solo con fines educativos y no constituye asesoramiento financiero.',
     legal_label: 'Privacidad y legal',
@@ -244,22 +220,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'Зарегистрируйтесь сегодня', s1d: "Нажмите 'Получить доступ', введите имя и email, и следуйте дальнейшим шагам.",
     s2t: 'Откройте счёт у брокера', s2d: 'Вы будете перенаправлены на официальную страницу регистрации через нашу верифицированную реферальную ссылку.',
     s3t: 'Пройдите KYC', s3d: 'KYC (Know Your Customer) — это быстрая проверка личности, обязательная по закону: брокер подтверждает, кто вы. После одобрения KYC вы автоматически получите письмо с прямым доступом к экосистеме Primeverse и 1Move Academy. Если вы не видите письмо, проверьте папку Спам/Нежелательные и добавьте noreply@primeverseaccess.com в контакты.',
-    uid_card_h: 'Отправить UID', uid_card_p: 'Введите ваше полное имя, email и UID брокера ниже.',
-    f_name: 'Полное имя', f_email: 'Email адрес', f_uid: 'UID брокера',
-    f_name_ph: 'Ваше полное имя', f_email_ph: 'ваш@email.com', f_uid_ph: 'напр. 1234567',
-    uid_btn: 'Запросить верификацию',
-    uid_success: 'Запрос получен.',
-    uid_success2: 'проверит и одобрит ваш доступ в ближайшее время. Ожидайте до 24 часов.',
+    f_name: 'Полное имя', f_email: 'Email адрес',
+    f_name_ph: 'Ваше полное имя', f_email_ph: 'ваш@email.com',
     modal_h: 'Получить доступ', modal_p: 'Заполните данные для перехода к регистрации брокера.',
     chk1: 'Я принимаю Условия и положения',
     chk2: 'Я прочитал и понимаю отказ от ответственности за риски',
     chk3: 'Я согласен получать обновления сообщества по email',
     modal_btn: 'Подтвердить и перейти к регистрации',
-    tab1: '1. Регистрация', tab2: '2. Брокер', tab3: '3. Отправить UID',
-    broker_h: 'Открытие регистрации брокера…',
-    broker_p: 'Открылась новая вкладка. Завершите регистрацию там и вернитесь сюда.',
-    broker_btn: 'Я зарегистрировался — Отправить UID',
-    broker_fallback: 'Вкладка не открылась?',
+    modal_success_heading: 'Вы зарегистрированы!',
+    modal_success_body: 'Проверьте почту — мы отправили вам письмо с ссылкой на брокера и инструкциями KYC.',
+    modal_success_subtitle: 'Не получили? Проверьте спам, или свяжитесь с вашим руководителем команды.',
     risk_label: 'Предупреждение о рисках',
     risk_text: 'Торговля финансовыми инструментами, включая форекс, CFD и деривативы, сопряжена с высоким уровнем риска и может подходить не всем инвесторам. Вы можете потерять весь инвестированный капитал. Прошлые результаты не являются показателем будущих. Эта платформа предназначена исключительно для образовательных целей и не является финансовой консультацией.',
     legal_label: 'Конфиденциальность и правовые вопросы',
@@ -292,22 +262,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'سجّل اليوم', s1d: "انقر على 'احصل على الوصول الآن'، أدخل اسمك وبريدك الإلكتروني، واتبع الخطوات التالية.",
     s2t: 'افتح حساب وسيط', s2d: 'سيتم توجيهك إلى صفحة التسجيل الرسمية من خلال رابط الإحالة الموثق.',
     s3t: 'أكمل KYC', s3d: 'KYC (اعرف عميلك) هو تحقق سريع من الهوية مطلوب بموجب القانون — يؤكد الوسيط هويتك. بمجرد الموافقة على KYC، ستتلقى تلقائيًا بريدًا إلكترونيًا مع وصول مباشر إلى نظام Primeverse البيئي و1Move Academy. إذا لم تجد البريد، تحقق من مجلد البريد غير المرغوب فيه — وأضف noreply@primeverseaccess.com إلى جهات اتصالك.',
-    uid_card_h: 'إرسال UID', uid_card_p: 'أدخل اسمك الكامل والبريد الإلكتروني وUID الوسيط أدناه.',
-    f_name: 'الاسم الكامل', f_email: 'البريد الإلكتروني', f_uid: 'UID الوسيط',
-    f_name_ph: 'اسمك الكامل', f_email_ph: 'بريدك@example.com', f_uid_ph: 'مثال: 1234567',
-    uid_btn: 'طلب التحقق',
-    uid_success: 'تم استلام الطلب.',
-    uid_success2: 'سيراجع ويوافق على وصولك قريباً. يرجى الانتظار حتى 24 ساعة.',
+    f_name: 'الاسم الكامل', f_email: 'البريد الإلكتروني',
+    f_name_ph: 'اسمك الكامل', f_email_ph: 'بريدك@example.com',
     modal_h: 'احصل على الوصول الآن', modal_p: 'أكمل بياناتك للمتابعة إلى تسجيل الوسيط.',
     chk1: 'أوافق على الشروط والأحكام',
     chk2: 'قرأت وأفهم إخلاء المسؤولية عن المخاطر',
     chk3: 'أوافق على تلقي تحديثات المجتمع عبر البريد الإلكتروني',
     modal_btn: 'تأكيد والمتابعة للتسجيل',
-    tab1: '١. التسجيل', tab2: '٢. الوسيط', tab3: '٣. إرسال UID',
-    broker_h: 'فتح تسجيل الوسيط…',
-    broker_p: 'تم فتح علامة تبويب جديدة. أكمل التسجيل هناك ثم عُد هنا.',
-    broker_btn: 'لقد سجلت — إرسال UID',
-    broker_fallback: 'لم تفتح علامة التبويب؟',
+    modal_success_heading: 'تم تسجيلك!',
+    modal_success_body: 'تحقق من بريدك الإلكتروني للخطوة التالية — لقد أرسلنا لك للتو بريدًا إلكترونيًا يحتوي على رابط الوسيط وتعليمات KYC.',
+    modal_success_subtitle: 'لم تستلمه؟ تحقق من البريد غير المرغوب فيه، أو اتصل بقائد فريقك.',
     risk_label: 'إخلاء مسؤولية المخاطر',
     risk_text: 'ينطوي تداول الأدوات المالية بما في ذلك الفوركس وعقود الفروقات والمشتقات على مستوى عالٍ من المخاطر وقد لا يكون مناسباً لجميع المستثمرين. قد تخسر كامل رأس مالك المستثمر. الأداء السابق لا يشير إلى النتائج المستقبلية. هذه المنصة مخصصة للأغراض التعليمية فقط ولا تشكل نصيحة مالية.',
     legal_label: 'الخصوصية والقانون',
@@ -340,22 +304,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'Mag-register ngayon', s1d: "I-click ang 'Kumuha ng Access Ngayon', ilagay ang pangalan at email, at sundin ang susunod na mga hakbang.",
     s2t: 'Buksan ang broker account', s2d: 'Ire-redirect ka sa opisyal na registration page sa pamamagitan ng aming verified referral link.',
     s3t: 'Kumpletuhin ang KYC', s3d: 'Ang KYC (Know Your Customer) ay isang mabilis na pagpapatunay ng pagkakakilanlan na kinakailangan ng batas — kinukumpirma ng broker kung sino ka. Kapag naaprubahan na ang KYC, awtomatiko kang makakatanggap ng email na may direktang access sa Primeverse ecosystem at sa 1Move Academy. Kung hindi mo makita ang email, tingnan ang Spam/Junk folder — at idagdag ang noreply@primeverseaccess.com sa iyong contacts.',
-    uid_card_h: 'I-submit ang UID', uid_card_p: 'Ilagay ang buong pangalan, email at broker UID sa ibaba.',
-    f_name: 'Buong pangalan', f_email: 'Email Address', f_uid: 'Broker UID',
-    f_name_ph: 'Ang buong pangalan mo', f_email_ph: 'your@email.com', f_uid_ph: 'hal. 1234567',
-    uid_btn: 'Humiling ng Verification',
-    uid_success: 'Natanggap na ang request.',
-    uid_success2: 'ay magsusuri at mag-a-approve ng access mo sa lalong madaling panahon. Mangyaring maghintay ng hanggang 24 oras.',
+    f_name: 'Buong pangalan', f_email: 'Email Address',
+    f_name_ph: 'Ang buong pangalan mo', f_email_ph: 'your@email.com',
     modal_h: 'Kumuha ng Access Ngayon', modal_p: 'Kumpletuhin ang iyong mga detalye para magpatuloy sa broker registration.',
     chk1: 'Tinatanggap ko ang Terms & Conditions',
     chk2: 'Nabasa at naiintindihan ko ang buong risk disclaimer',
     chk3: 'Pumapayag ako na makatanggap ng community updates at educational content sa email',
     modal_btn: 'Kumpirmahin at Magpatuloy sa Registration',
-    tab1: '1. Register', tab2: '2. Broker', tab3: '3. I-submit ang UID',
-    broker_h: 'Binubuksan ang Broker Registration…',
-    broker_p: 'May bagong tab na nabuksan. Kumpletuhin ang registration doon, pagkatapos bumalik dito.',
-    broker_btn: 'Naka-register na ako — I-submit ang UID',
-    broker_fallback: 'Hindi nabuksan ang tab?',
+    modal_success_heading: 'Nairehistro ka na!',
+    modal_success_body: 'Tingnan ang iyong inbox para sa susunod na hakbang — nagpadala kami ng email na may iyong broker link at KYC instructions.',
+    modal_success_subtitle: 'Hindi mo natanggap? Tingnan ang spam/junk, o makipag-ugnayan sa iyong team leader.',
     risk_label: 'Risk Disclaimer',
     risk_text: 'Ang pag-trade ng mga financial instrument kabilang ang forex, CFDs, at derivatives ay may mataas na antas ng panganib at maaaring hindi angkop para sa lahat ng investor. Maaari mong mawala ang lahat ng iyong namuhunan na kapital. Ang nakaraang performance ay hindi nagpapahiwatig ng mga resulta sa hinaharap. Ang platform na ito ay para sa mga layuning pang-edukasyon lamang at hindi bumubuo ng financial advice.',
     legal_label: 'Privacy at Legal',
@@ -388,22 +346,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'Registre-se hoje', s1d: "Clique em 'Obter acesso agora', insira seu nome e e-mail e siga os próximos passos.",
     s2t: 'Abra uma conta na corretora', s2d: 'Você será redirecionado para a página oficial de registro através do nosso link de indicação verificado.',
     s3t: 'Conclua o KYC', s3d: 'KYC (Know Your Customer) é uma verificação de identidade rápida exigida por lei — o corretor confirma quem você é. Assim que o KYC for aprovado, você receberá automaticamente um e-mail com acesso direto ao ecossistema Primeverse e à 1Move Academy. Se não vir o e-mail, verifique a pasta de Spam/Lixo eletrônico — e adicione noreply@primeverseaccess.com aos seus contatos.',
-    uid_card_h: 'Enviar UID', uid_card_p: 'Insira seu nome completo, e-mail e UID da corretora abaixo.',
-    f_name: 'Nome completo', f_email: 'Endereço de e-mail', f_uid: 'UID da corretora',
-    f_name_ph: 'Seu nome completo', f_email_ph: 'seu@email.com', f_uid_ph: 'ex. 1234567',
-    uid_btn: 'Solicitar verificação',
-    uid_success: 'Solicitação recebida.',
-    uid_success2: 'analisará e aprovará seu acesso em breve. Aguarde até 24 horas.',
+    f_name: 'Nome completo', f_email: 'Endereço de e-mail',
+    f_name_ph: 'Seu nome completo', f_email_ph: 'seu@email.com',
     modal_h: 'Obter acesso agora', modal_p: 'Complete seus dados para prosseguir ao registro da corretora.',
     chk1: 'Aceito os Termos e Condições',
     chk2: 'Li e compreendo o aviso de risco completo',
     chk3: 'Consinto em receber atualizações da comunidade por e-mail',
     modal_btn: 'Confirmar e prosseguir ao registro',
-    tab1: '1. Registrar', tab2: '2. Corretora', tab3: '3. Enviar UID',
-    broker_h: 'Abrindo registro da corretora…',
-    broker_p: 'Uma nova aba foi aberta. Complete o registro lá e depois volte aqui.',
-    broker_btn: 'Já me registrei — Enviar UID',
-    broker_fallback: 'A aba não abriu?',
+    modal_success_heading: 'Você está registrado!',
+    modal_success_body: 'Verifique sua caixa de entrada para o próximo passo — acabamos de enviar um e-mail com seu link do corretor e instruções KYC.',
+    modal_success_subtitle: 'Não recebeu? Verifique spam/lixo eletrônico, ou contate seu líder de equipe.',
     risk_label: 'Aviso de risco',
     risk_text: 'A negociação de instrumentos financeiros incluindo forex, CFDs e derivativos envolve um alto nível de risco e pode não ser adequada para todos os investidores. Você pode perder todo o seu capital investido. Resultados passados não são indicativos de resultados futuros. Esta plataforma é apenas para fins educacionais e não constitui aconselhamento financeiro.',
     legal_label: 'Privacidade e jurídico',
@@ -436,22 +388,16 @@ const T: Record<LangKey, Record<string, string>> = {
     s1t: 'สมัครวันนี้', s1d: "คลิก 'รับสิทธิ์เข้าถึงตอนนี้' กรอกชื่อและอีเมล แล้วทำตามขั้นตอนถัดไป",
     s2t: 'เปิดบัญชีโบรกเกอร์', s2d: 'คุณจะถูกนำไปยังหน้าลงทะเบียนอย่างเป็นทางการผ่านลิงก์แนะนำที่ยืนยันแล้ว',
     s3t: 'ทำ KYC ให้เสร็จ', s3d: 'KYC (Know Your Customer) คือการตรวจสอบตัวตนอย่างรวดเร็วที่กฎหมายกำหนด — โบรกเกอร์จะยืนยันว่าคุณเป็นใคร เมื่อ KYC ได้รับการอนุมัติ คุณจะได้รับอีเมลโดยอัตโนมัติพร้อมสิทธิ์เข้าถึงโดยตรงสู่ระบบนิเวศ Primeverse และ 1Move Academy หากไม่พบอีเมล ให้ตรวจสอบโฟลเดอร์สแปม/ถังขยะ — และเพิ่ม noreply@primeverseaccess.com ในรายชื่อติดต่อของคุณ',
-    uid_card_h: 'ส่ง UID', uid_card_p: 'กรอกชื่อเต็ม อีเมล และ UID โบรกเกอร์ด้านล่าง',
-    f_name: 'ชื่อ-นามสกุล', f_email: 'อีเมล', f_uid: 'UID โบรกเกอร์',
-    f_name_ph: 'ชื่อเต็มของคุณ', f_email_ph: 'your@email.com', f_uid_ph: 'เช่น 1234567',
-    uid_btn: 'ขอการยืนยัน',
-    uid_success: 'ได้รับคำขอแล้ว',
-    uid_success2: 'จะตรวจสอบและอนุมัติสิทธิ์เข้าถึงของคุณในเร็วๆ นี้ กรุณารอไม่เกิน 24 ชั่วโมง',
+    f_name: 'ชื่อ-นามสกุล', f_email: 'อีเมล',
+    f_name_ph: 'ชื่อเต็มของคุณ', f_email_ph: 'your@email.com',
     modal_h: 'รับสิทธิ์เข้าถึงตอนนี้', modal_p: 'กรอกข้อมูลของคุณเพื่อดำเนินการลงทะเบียนโบรกเกอร์',
     chk1: 'ฉันยอมรับข้อกำหนดและเงื่อนไข',
     chk2: 'ฉันได้อ่านและเข้าใจข้อจำกัดความรับผิดชอบด้านความเสี่ยงทั้งหมด',
     chk3: 'ฉันยินยอมรับการอัปเดตชุมชนและเนื้อหาทางการศึกษาทางอีเมล',
     modal_btn: 'ยืนยันและดำเนินการลงทะเบียน',
-    tab1: '1. สมัคร', tab2: '2. โบรกเกอร์', tab3: '3. ส่ง UID',
-    broker_h: 'กำลังเปิดหน้าลงทะเบียนโบรกเกอร์…',
-    broker_p: 'แท็บใหม่เปิดขึ้นแล้ว ดำเนินการลงทะเบียนที่นั่นแล้วกลับมาที่นี่',
-    broker_btn: 'ฉันลงทะเบียนแล้ว — ส่ง UID',
-    broker_fallback: 'แท็บไม่เปิด?',
+    modal_success_heading: 'คุณลงทะเบียนแล้ว!',
+    modal_success_body: 'ตรวจสอบกล่องจดหมายของคุณสำหรับขั้นตอนต่อไป — เราเพิ่งส่งอีเมลถึงคุณพร้อมลิงก์โบรกเกอร์และคำแนะนำ KYC',
+    modal_success_subtitle: 'ไม่ได้รับ? ตรวจสอบสแปม หรือติดต่อหัวหน้าทีมของคุณ',
     risk_label: 'ข้อจำกัดความรับผิดชอบด้านความเสี่ยง',
     risk_text: 'การซื้อขายตราสารทางการเงินรวมถึง forex, CFDs และอนุพันธ์มีความเสี่ยงสูงและอาจไม่เหมาะสมสำหรับนักลงทุนทุกคน คุณอาจสูญเสียเงินลงทุนทั้งหมดของคุณ ผลการดำเนินงานในอดีตไม่ได้บ่งชี้ถึงผลลัพธ์ในอนาคต แพลตฟอร์มนี้มีวัตถุประสงค์เพื่อการศึกษาเท่านั้นและไม่ถือเป็นคำแนะนำทางการเงิน',
     legal_label: 'ความเป็นส่วนตัวและกฎหมาย',
@@ -481,26 +427,14 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const [notFound, setNotFound] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const [step, setStep] = useState<'register' | 'broker' | 'uid'>('register')
   const [form, setForm] = useState({ name: '', email: '' })
-  const [uidForm, setUidForm] = useState({ name: '', email: '', uid: '' })
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; uid?: string }>({})
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string }>({})
   const [lang, setLangState] = useState<LangKey>('en')
   const [langOpen, setLangOpen] = useState(false)
 
-  // Pre-fill UID form from lead registration data
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('lead_registration_data')
-      if (saved) {
-        const { full_name, email } = JSON.parse(saved)
-        setUidForm(prev => ({ ...prev, name: prev.name || full_name || '', email: prev.email || email || '' }))
-      }
-    } catch {}
-  }, [])
   const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -606,46 +540,31 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus() } }
         else { if (document.activeElement === last) { e.preventDefault(); first.focus() } }
       }
-      if (e.key === 'Escape') { setModalOpen(false); setStep('register') }
+      if (e.key === 'Escape') { setModalOpen(false) }
     }
     modal.addEventListener('keydown', trap)
     return () => modal.removeEventListener('keydown', trap)
   }, [modalOpen])
 
-  const handleGetAccess = (e: React.FormEvent) => {
-    e.preventDefault()
-    setStep('broker')
-    try { localStorage.setItem('lead_registration_data', JSON.stringify({ full_name: form.name, email: form.email })) } catch {}
-    setUidForm(prev => ({ ...prev, name: prev.name || form.name, email: prev.email || form.email }))
-    const referralLink = dist?.referral_link || 'https://puvip.co/la-partners/Primesync'
-    setTimeout(() => { window.open(referralLink, '_blank') }, 1200)
-  }
-
-  const isFormValid = uidForm.name.trim() !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(uidForm.email.trim()) && uidForm.uid.trim() !== ''
-
-  const handleUidSubmit = async (e: React.FormEvent) => {
+  const handleGetAccess = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitError('')
-    const errors: { name?: string; email?: string; uid?: string } = {}
-    if (!uidForm.name.trim()) errors.name = t.fieldRequired
-    if (!uidForm.email.trim()) errors.email = t.fieldRequired
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(uidForm.email.trim())) errors.email = t.invalidEmail
-    if (!uidForm.uid.trim()) errors.uid = t.fieldRequired
+    const errors: { name?: string; email?: string } = {}
+    if (!form.name.trim()) errors.name = t.fieldRequired
+    if (!form.email.trim()) errors.email = t.fieldRequired
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = t.invalidEmail
     if (Object.keys(errors).length > 0) { setFieldErrors(errors); return }
     setFieldErrors({})
     setSubmitting(true)
     const leadId = crypto.randomUUID()
-    const { error } = await supabase.from('leads').insert({ id: leadId, distributor_id: distributor.id, name: uidForm.name, email: uidForm.email, uid: uidForm.uid, uid_verified: false, referral_link_used: slug })
-    if (error) { console.error('[uid-submit] Insert failed:', JSON.stringify(error)); setSubmitError(t.somethingWentWrong); setSubmitting(false); return }
-    console.log('[uid-submit] Lead inserted successfully, id:', leadId)
-    // Send welcome email to the lead + notification to the IB
-    fetch('/api/send-lead-welcome', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadName: uidForm.name, leadEmail: uidForm.email, distributorName: distributor.name || distributor.slug, distributorSlug: slug, language: lang, leadId, distributorId: distributor.id }) }).catch(() => {})
-    await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorName: distributor.name, distributorEmail: distributor.email, referralLink: distributor.referral_link || '', language: lang, distributorId: distributor.id }) })
+    const { error } = await supabase.from('leads').insert({ id: leadId, distributor_id: distributor.id, name: form.name, email: form.email, uid_verified: false, referral_link_used: slug })
+    if (error) { console.error('[lead-register] Insert failed:', JSON.stringify(error)); setSubmitError(t.somethingWentWrong); setSubmitting(false); return }
+    console.log('[lead-register] Lead inserted successfully, id:', leadId)
+    fetch('/api/send-lead-welcome', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadName: form.name, leadEmail: form.email, distributorName: distributor.name || distributor.slug, distributorSlug: slug, language: lang, leadId, distributorId: distributor.id }) }).catch(() => {})
+    fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName: form.name, leadEmail: form.email, distributorName: distributor.name, distributorEmail: distributor.email, referralLink: distributor.referral_link || '', language: lang, distributorId: distributor.id }) }).catch(() => {})
     fetch('/api/new-lead-alert', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     fetch('/api/milestone-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId, distributorId: distributor.id }) }).catch(() => {})
-    // Notify IB instantly via email, Telegram, and in-app notification
-    fetch('/api/uid-submitted-notification', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId, leadName: uidForm.name, leadEmail: uidForm.email, leadUid: uidForm.uid, distributorId: distributor.id }) }).catch(() => {})
     setSubmitting(false)
     setSubmitted(true)
   }
@@ -990,7 +909,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
       {/* MODAL */}
       <div
         className={`moverlay${modalOpen ? ' open' : ''}`}
-        onClick={e => { if (e.target === e.currentTarget) { setModalOpen(false); setStep('register'); triggerRef.current?.focus() } }}
+        onClick={e => { if (e.target === e.currentTarget) { setModalOpen(false); triggerRef.current?.focus() } }}
         dir={isRtl ? 'rtl' : 'ltr'}
         aria-hidden={!modalOpen}
       >
@@ -1004,59 +923,34 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
           <button
             ref={closeButtonRef}
             className="mclose"
-            onClick={() => { setModalOpen(false); setStep('register'); triggerRef.current?.focus() }}
+            onClick={() => { setModalOpen(false); triggerRef.current?.focus() }}
             aria-label="Close dialog"
           >
             <span aria-hidden="true">✕</span>
           </button>
-          <div style={{ display: 'flex', gap: '.6rem', marginBottom: '1.8rem', flexWrap: 'wrap' }} role="list" aria-label="Steps">
-            <span role="listitem" className={`step-tab${step === 'register' ? ' active' : ' done'}`} aria-current={step === 'register' ? 'step' : undefined}>{t.tab1}</span>
-            <span role="listitem" className={`step-tab${step === 'broker' ? ' active' : step === 'uid' ? ' done' : ''}`} aria-current={step === 'broker' ? 'step' : undefined}>{t.tab2}</span>
-            <span role="listitem" className={`step-tab${step === 'uid' ? ' active' : ''}`} aria-current={step === 'uid' ? 'step' : undefined}>{t.tab3}</span>
-          </div>
 
-          {step === 'register' && (
+          {submitted ? (
+            <div style={{ textAlign: 'center', padding: '1rem 0 0.5rem' }} role="status" aria-live="polite">
+              <div aria-hidden="true" style={{ width: 72, height: 72, margin: '0 auto 1.2rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.45)', color: 'var(--gold)', fontSize: '2.4rem', fontWeight: 700, lineHeight: 1 }}>✓</div>
+              <h2 id="modal-title" className="fh" style={{ color: 'var(--gold)', marginBottom: '.8rem' }}>{t.modal_success_heading}</h2>
+              <p className="fsub" style={{ margin: '0 auto 1rem', maxWidth: 420 }}>{t.modal_success_body}</p>
+              <p style={{ fontSize: '.78rem', color: 'var(--grey)', fontStyle: 'italic', margin: '0 auto', maxWidth: 420, lineHeight: 1.6 }}>{t.modal_success_subtitle}</p>
+            </div>
+          ) : (
             <>
               <h2 id="modal-title" className="fh">{t.modal_h}</h2>
               <p className="fsub">{t.modal_p}</p>
               <form onSubmit={handleGetAccess} noValidate>
-                <div className="fg"><label className="fl" htmlFor="modal-name">{t.f_name}</label><input id="modal-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
-                <div className="fg"><label className="fl" htmlFor="modal-email">{t.f_email}</label><input id="modal-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></div>
+                <div className="fg"><label className="fl" htmlFor="modal-name">{t.f_name}</label><input id="modal-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={form.name} onChange={e => { setForm({ ...form, name: e.target.value }); setFieldErrors(prev => ({ ...prev, name: undefined })) }} style={fieldErrors.name ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.name && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.name}</p>}</div>
+                <div className="fg"><label className="fl" htmlFor="modal-email">{t.f_email}</label><input id="modal-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={form.email} onChange={e => { setForm({ ...form, email: e.target.value }); setFieldErrors(prev => ({ ...prev, email: undefined })) }} style={fieldErrors.email ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.email && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.email}</p>}</div>
                 <div style={{ margin: '1.4rem 0 1rem' }}>
                   <div className="fcheck"><input type="checkbox" id="chk1" required aria-required="true" /><label htmlFor="chk1">{t.chk1}</label></div>
                   <div className="fcheck"><input type="checkbox" id="chk2" required aria-required="true" /><label htmlFor="chk2">{t.chk2}</label></div>
                   <div className="fcheck"><input type="checkbox" id="chk3" required aria-required="true" /><label htmlFor="chk3">{t.chk3}</label></div>
                 </div>
-                <button className="fsubmit" type="submit">{t.modal_btn}</button>
+                <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting}>{submitting ? '…' : t.modal_btn}</button>
+                {submitError && <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem', textAlign: 'center' }}>{submitError}</p>}
               </form>
-            </>
-          )}
-
-          {step === 'broker' && (
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ color: 'var(--gold)', fontSize: '2.5rem', marginBottom: '1rem' }} aria-hidden="true">✦</div>
-              <h2 id="modal-title" className="fh">{t.broker_h}</h2>
-              <p className="fsub" style={{ marginTop: '.5rem' }}>{t.broker_p}</p>
-              <button className="btn-gold" style={{ marginTop: '1.5rem' }} onClick={() => setStep('uid')}>{t.broker_btn}</button>
-              <p style={{ marginTop: '1rem', fontSize: '.78rem', color: 'var(--grey)' }}>{t.broker_fallback} <a href="https://puvip.co/la-partners/Primesync" target="_blank" rel="noopener noreferrer">Click here<span className="sr-only"> (opens in new tab)</span></a></p>
-            </div>
-          )}
-
-          {step === 'uid' && (
-            <>
-              <h2 id="modal-title" className="fh">{t.uid_card_h}</h2>
-              <p className="fsub">{t.uid_card_p}</p>
-              {submitted ? (
-                <div className="smsg" role="status" aria-live="polite"><span aria-hidden="true">✦ &nbsp;</span>{t.uid_success} {dist.name} {t.uid_success2}</div>
-              ) : (
-                <form onSubmit={handleUidSubmit} noValidate>
-                  <div className="fg"><label className="fl" htmlFor="modal-uid-name">{t.f_name}</label><input id="modal-uid-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={uidForm.name} onChange={e => { setUidForm({ ...uidForm, name: e.target.value }); setFieldErrors(prev => ({ ...prev, name: undefined })) }} style={fieldErrors.name ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.name && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.name}</p>}</div>
-                  <div className="fg"><label className="fl" htmlFor="modal-uid-email">{t.f_email}</label><input id="modal-uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => { setUidForm({ ...uidForm, email: e.target.value }); setFieldErrors(prev => ({ ...prev, email: undefined })) }} style={fieldErrors.email ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.email && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.email}</p>}</div>
-                  <div className="fg"><label className="fl" htmlFor="modal-uid-uid">{t.f_uid}</label><input id="modal-uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => { setUidForm({ ...uidForm, uid: e.target.value }); setFieldErrors(prev => ({ ...prev, uid: undefined })) }} style={fieldErrors.uid ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.uid && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.uid}</p>}</div>
-                  <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting} style={{ opacity: isFormValid ? 1 : 0.5, transition: 'opacity 0.2s' }}>{submitting ? '…' : t.uid_btn}</button>
-                  {submitError && <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem', textAlign: 'center' }}>{submitError}</p>}
-                </form>
-              )}
             </>
           )}
         </div>
