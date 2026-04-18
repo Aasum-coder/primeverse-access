@@ -199,7 +199,7 @@ function buildStepRow(num: number, text: string, time: string | null): string {
     <td width="48" valign="top" style="padding:12px 0;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td width="36" height="36" align="center" valign="middle" style="background-color:#D4A843;border-radius:50%;color:#1A1A2E;font-size:16px;font-weight:700;">
+          <td width="36" height="36" align="center" valign="middle" style="background-color:#c9a84c;border-radius:50%;color:#080808;font-size:16px;font-weight:700;">
             ${num}
           </td>
         </tr>
@@ -223,7 +223,7 @@ export function buildWelcomeEmail({ name, lang = 'en' }: WelcomeEmailOptions) {
 
   const content = `
 <!-- Heading -->
-<h1 style="color:#D4A843;font-size:24px;margin:0 0 24px;text-align:center;">${t.heading.replace('{name}', name)}</h1>
+<h1 style="color:#c9a84c;font-size:24px;margin:0 0 24px;text-align:center;">${t.heading.replace('{name}', name)}</h1>
 
 <!-- Body paragraphs -->
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 12px;text-align:${textAlign};">${t.body_1}</p>
@@ -247,7 +247,7 @@ export function buildWelcomeEmail({ name, lang = 'en' }: WelcomeEmailOptions) {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td align="center" style="padding:0 0 24px;">
-      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
+      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
         ${t.cta}
       </a>
     </td>
@@ -260,7 +260,7 @@ export function buildWelcomeEmail({ name, lang = 'en' }: WelcomeEmailOptions) {
 <!-- Sign-off -->
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0;text-align:${textAlign};">
   ${t.sign_off}<br/>
-  <span style="color:#D4A843;font-weight:700;">${t.sign_name}</span>
+  <span style="color:#c9a84c;font-weight:700;">${t.sign_name}</span>
 </p>`
 
   const html = baseEmailTemplate({

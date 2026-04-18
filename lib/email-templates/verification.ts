@@ -176,7 +176,7 @@ export function buildVerificationEmail({ name, verificationUrl, lang = 'en' }: V
   const textAlign = isRtl ? 'right' : 'left'
 
   const content = `
-<h1 style="color:#D4A843;font-size:22px;margin:0 0 20px;text-align:${textAlign};">${t.heading}</h1>
+<h1 style="color:#c9a84c;font-size:22px;margin:0 0 20px;text-align:${textAlign};">${t.heading}</h1>
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 12px;text-align:${textAlign};">${t.greeting.replace('{name}', name)}</p>
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 28px;text-align:${textAlign};">${t.body}</p>
 
@@ -184,7 +184,7 @@ export function buildVerificationEmail({ name, verificationUrl, lang = 'en' }: V
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td align="center" style="padding:0 0 28px;">
-      <a href="${verificationUrl}" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:14px 32px;font-size:16px;font-weight:700;text-decoration:none;border-radius:6px;">
+      <a href="${verificationUrl}" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:14px 32px;font-size:16px;font-weight:700;text-decoration:none;border-radius:6px;">
         ${t.cta} &rarr;
       </a>
     </td>
@@ -196,10 +196,10 @@ export function buildVerificationEmail({ name, verificationUrl, lang = 'en' }: V
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
   <tr>
     <td style="color:#E0E0E0;font-size:14px;line-height:2;padding:0 0 0 8px;text-align:${textAlign};">
-      <span style="color:#D4A843;">&rarr;</span>&nbsp; ${t.feature_1}<br/>
-      <span style="color:#D4A843;">&rarr;</span>&nbsp; ${t.feature_2}<br/>
-      <span style="color:#D4A843;">&rarr;</span>&nbsp; ${t.feature_3}<br/>
-      <span style="color:#D4A843;">&rarr;</span>&nbsp; ${t.feature_4}
+      <span style="color:#c9a84c;">&rarr;</span>&nbsp; ${t.feature_1}<br/>
+      <span style="color:#c9a84c;">&rarr;</span>&nbsp; ${t.feature_2}<br/>
+      <span style="color:#c9a84c;">&rarr;</span>&nbsp; ${t.feature_3}<br/>
+      <span style="color:#c9a84c;">&rarr;</span>&nbsp; ${t.feature_4}
     </td>
   </tr>
 </table>
@@ -210,7 +210,7 @@ export function buildVerificationEmail({ name, verificationUrl, lang = 'en' }: V
 <!-- Sign-off -->
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0;text-align:${textAlign};">
   ${t.sign_off}<br/>
-  <span style="color:#D4A843;font-weight:700;">${t.sign_name}</span>
+  <span style="color:#c9a84c;font-weight:700;">${t.sign_name}</span>
 </p>`
 
   const html = baseEmailTemplate({

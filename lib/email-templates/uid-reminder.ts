@@ -186,7 +186,7 @@ const translations: Record<string, UidReminderTranslation> = {
 
 function buildStepRow(number: number, text: string): string {
   return `<tr>
-    <td width="32" valign="top" style="padding:8px 0;color:#D4A843;font-size:16px;font-weight:700;line-height:1.4;">
+    <td width="32" valign="top" style="padding:8px 0;color:#c9a84c;font-size:16px;font-weight:700;line-height:1.4;">
       ${number}.
     </td>
     <td valign="top" style="padding:8px 0 8px 4px;color:#E0E0E0;font-size:15px;line-height:1.4;">
@@ -208,7 +208,7 @@ export function buildUidReminderEmail({ name, pendingCount, lang = 'en' }: UidRe
 
   const content = `
 <!-- Heading -->
-<h1 style="color:#D4A843;font-size:24px;margin:0 0 16px;text-align:center;">${t.heading}</h1>
+<h1 style="color:#c9a84c;font-size:24px;margin:0 0 16px;text-align:center;">${t.heading}</h1>
 
 <!-- Greeting -->
 <p style="color:#E0E0E0;font-size:15px;line-height:1.6;margin:0 0 24px;text-align:${textAlign};">${t.greeting.replace('{name}', name)}</p>
@@ -217,11 +217,11 @@ export function buildUidReminderEmail({ name, pendingCount, lang = 'en' }: UidRe
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
   <tr>
     <td align="center">
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:2px solid #D4A843;border-radius:10px;width:200px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0F23;border:2px solid #c9a84c;border-radius:10px;width:200px;">
         <tr>
           <td style="padding:20px 24px;text-align:center;">
-            <p style="color:#D4A843;font-size:11px;font-weight:700;letter-spacing:2px;margin:0 0 8px;text-transform:uppercase;">${t.pending_label}</p>
-            <p style="color:#D4A843;font-size:52px;font-weight:800;margin:0;line-height:1;">${pendingCount}</p>
+            <p style="color:#c9a84c;font-size:11px;font-weight:700;letter-spacing:2px;margin:0 0 8px;text-transform:uppercase;">${t.pending_label}</p>
+            <p style="color:#c9a84c;font-size:52px;font-weight:800;margin:0;line-height:1;">${pendingCount}</p>
           </td>
         </tr>
       </table>
@@ -235,8 +235,8 @@ export function buildUidReminderEmail({ name, pendingCount, lang = 'en' }: UidRe
 <!-- UID Explainer box -->
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
   <tr>
-    <td style="background-color:#0F0F23;border:1px solid #D4A843;border-radius:8px;padding:20px 24px;">
-      <p style="color:#D4A843;font-size:15px;font-weight:700;margin:0 0 8px;text-align:${textAlign};">${t.uid_explainer_title}</p>
+    <td style="background-color:#0F0F23;border:1px solid #c9a84c;border-radius:8px;padding:20px 24px;">
+      <p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0 0 8px;text-align:${textAlign};">${t.uid_explainer_title}</p>
       <p style="color:#CCCCCC;font-size:14px;line-height:1.6;margin:0;text-align:${textAlign};">${t.uid_explainer_body}</p>
     </td>
   </tr>
@@ -255,7 +255,7 @@ export function buildUidReminderEmail({ name, pendingCount, lang = 'en' }: UidRe
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
   <tr>
     <td align="center">
-      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#D4A843;color:#1A1A2E;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
+      <a href="https://www.primeverseaccess.com" style="display:inline-block;background-color:#c9a84c;color:#080808;padding:16px 40px;font-size:17px;font-weight:700;text-decoration:none;border-radius:6px;letter-spacing:0.5px;">
         ${t.cta}
       </a>
     </td>
@@ -269,7 +269,7 @@ export function buildUidReminderEmail({ name, pendingCount, lang = 'en' }: UidRe
 <p style="color:#888;font-size:13px;line-height:1.5;margin:0 0 24px;text-align:center;">${t.help}</p>
 
 <!-- Sign-off -->
-<p style="color:#D4A843;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
+<p style="color:#c9a84c;font-size:15px;font-weight:700;margin:0;text-align:${textAlign};">${t.sign_name}</p>`
 
   const html = baseEmailTemplate({
     content,
