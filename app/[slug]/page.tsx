@@ -47,14 +47,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'Live Community', stat2: 'Education', stat3: 'Compliant',
     dist_badge: '1Move Academy Representative',
     process_label: 'Process',
-    process_h2: 'Five Steps to Free Access',
+    process_h2: 'Three Steps to Free Access',
     process_p: 'Unlock the entire Primeverse ecosystem, 1Move Academy, and a global community of thousands — completely free.',
     s1t: 'Register today', s1d: "Click 'Get Access Now', enter your name and email, and follow the next steps.",
     s2t: 'Open broker account', s2d: 'You will be redirected to the official registration page through our verified referral link.',
-    s3t: 'Complete KYC', s3d: 'Verify your identity to activate your account and comply with European trading regulations.',
-    s4t: 'Save your UID', s4d: "After registration, note your unique user ID from 'your profile' inside the broker.",
-    s5t: 'Come back and verify your UID', s5d: 'At the bottom of this page you will find the verification form. Submit your UID and wait for approval. You should have full access within 24 hours.',
-    uid_label: 'Step 5', uid_h2: 'Submit Your UID', uid_p: 'Already registered with the broker? Submit your UID here to begin verification.',
+    s3t: 'Complete KYC', s3d: "KYC (Know Your Customer) is a quick identity check required by financial regulations — the broker confirms who you are. Once KYC is approved, you'll automatically receive an email with direct access to the Primeverse ecosystem and 1Move Academy. If you don't see the email, check your Spam/Junk folder and add noreply@primeverseaccess.com to your contacts.",
     uid_card_h: 'Submit Your UID', uid_card_p: 'Enter your full name, email and broker UID below.',
     f_name: 'Full Name', f_email: 'Email Address', f_uid: 'Broker UID',
     f_name_ph: 'Your full name', f_email_ph: 'your@email.com', f_uid_ph: 'e.g. 1234567',
@@ -98,14 +95,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'Live fellesskap', stat2: 'Utdanning', stat3: 'Compliant',
     dist_badge: '1Move Academy-representant',
     process_label: 'Prosess',
-    process_h2: 'Fem steg til gratis tilgang',
+    process_h2: 'Tre steg til gratis tilgang',
     process_p: 'Lås opp hele Primeverse-økosystemet, 1Move Academy og et globalt fellesskap av tusenvis — helt gratis.',
     s1t: 'Registrer deg i dag', s1d: "Klikk 'Få tilgang nå', skriv inn navn og e-post, og følg de neste stegene.",
     s2t: 'Åpne broker-konto', s2d: 'Du vil bli videresendt til den offisielle registreringssiden via vår verifiserte referral-link.',
-    s3t: 'Fullfør KYC', s3d: 'Bekreft identiteten din for å aktivere kontoen og overholde europeiske trading-regler.',
-    s4t: 'Lagre UID-en din', s4d: "Etter registrering, noter din unike bruker-ID fra 'din profil' inne hos brokeren.",
-    s5t: 'Kom tilbake og verifiser UID-en din', s5d: 'Nederst på denne siden finner du verifiseringsskjemaet. Send inn UID-en din og vent på godkjenning. Du bør ha full tilgang innen 24 timer.',
-    uid_label: 'Steg 5', uid_h2: 'Send inn UID-en din', uid_p: 'Allerede registrert hos megleren? Send inn UID-en din her.',
+    s3t: 'Fullfør KYC', s3d: 'KYC (Know Your Customer) er en enkel identitetsbekreftelse som er lovpålagt — megleren bekrefter hvem du er. Når KYC er godkjent får du automatisk en e-post med direkte tilgang til Primeverse-økosystemet og 1Move Academy. Hvis du ikke ser e-posten, sjekk Spam/Søppel — og legg til noreply@primeverseaccess.com i kontaktene dine.',
     uid_card_h: 'Send inn UID', uid_card_p: 'Skriv inn fullt navn, e-post og megler-UID nedenfor.',
     f_name: 'Fullt navn', f_email: 'E-postadresse', f_uid: 'Megler-UID',
     f_name_ph: 'Ditt fulle navn', f_email_ph: 'din@epost.com', f_uid_ph: 'f.eks. 1234567',
@@ -149,14 +143,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'Live-gemenskap', stat2: 'Utbildning', stat3: 'Compliant',
     dist_badge: '1Move Academy-representant',
     process_label: 'Process',
-    process_h2: 'Fem steg till gratis tillgång',
+    process_h2: 'Tre steg till gratis tillgång',
     process_p: 'Lås upp hela Primeverse-ekosystemet, 1Move Academy och ett globalt community med tusentals människor — helt gratis.',
     s1t: 'Registrera dig idag', s1d: "Klicka på 'Få tillgång nu', ange ditt namn och e-post, och följ nästa steg.",
     s2t: 'Öppna broker-konto', s2d: 'Du omdirigeras till den officiella registreringssidan via vår verifierade referral-länk.',
-    s3t: 'Slutför KYC', s3d: 'Verifiera din identitet för att aktivera ditt konto och följa europeiska handelsregler.',
-    s4t: 'Spara ditt UID', s4d: "Anteckna ditt unika användar-ID från 'din profil' inne hos brokern.",
-    s5t: 'Kom tillbaka och verifiera ditt UID', s5d: 'Längst ner på denna sida hittar du verifieringsformuläret. Skicka in ditt UID och vänta på godkännande. Du bör ha full tillgång inom 24 timmar.',
-    uid_label: 'Steg 5', uid_h2: 'Skicka in ditt UID', uid_p: 'Redan registrerad hos mäklaren? Skicka in ditt UID här.',
+    s3t: 'Slutför KYC', s3d: 'KYC (Know Your Customer) är en enkel identitetskontroll som krävs enligt lag — mäklaren bekräftar vem du är. När KYC är godkänt får du automatiskt ett mejl med direkt tillgång till Primeverse-ekosystemet och 1Move Academy. Om du inte ser mejlet, kolla i Spam/Skräppost — och lägg till noreply@primeverseaccess.com i dina kontakter.',
     uid_card_h: 'Skicka in UID', uid_card_p: 'Ange ditt fullständiga namn, e-post och mäklar-UID nedan.',
     f_name: 'Fullständigt namn', f_email: 'E-postadress', f_uid: 'Mäklar-UID',
     f_name_ph: 'Ditt fullständiga namn', f_email_ph: 'din@epost.com', f_uid_ph: 't.ex. 1234567',
@@ -200,14 +191,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'Comunidad en vivo', stat2: 'Educación', stat3: 'Cumplimiento',
     dist_badge: 'Representante de 1Move Academy',
     process_label: 'Proceso',
-    process_h2: 'Cinco pasos para acceso gratuito',
+    process_h2: 'Tres pasos para acceso gratuito',
     process_p: 'Desbloquea todo el ecosistema Primeverse, 1Move Academy y una comunidad global de miles — completamente gratis.',
     s1t: 'Regístrate hoy', s1d: "Haz clic en 'Obtener acceso ahora', ingresa tu nombre y correo, y sigue los siguientes pasos.",
     s2t: 'Abre una cuenta de bróker', s2d: 'Serás redirigido a la página oficial de registro a través de nuestro enlace de referencia verificado.',
-    s3t: 'Completa el KYC', s3d: 'Verifica tu identidad para activar tu cuenta y cumplir con las regulaciones europeas de trading.',
-    s4t: 'Guarda tu UID', s4d: "Después del registro, anota tu ID de usuario único desde 'tu perfil' dentro del bróker.",
-    s5t: 'Vuelve y verifica tu UID', s5d: 'En la parte inferior de esta página encontrarás el formulario de verificación. Envía tu UID y espera la aprobación. Deberías tener acceso completo en 24 horas.',
-    uid_label: 'Paso 5', uid_h2: 'Envía tu UID', uid_p: '¿Ya registrado con el bróker? Envía tu UID aquí.',
+    s3t: 'Completa el KYC', s3d: 'KYC (Know Your Customer) es una verificación de identidad rápida requerida por ley — el bróker confirma quién eres. Una vez aprobado el KYC, recibirás automáticamente un correo con acceso directo al ecosistema Primeverse y a 1Move Academy. Si no ves el correo, revisa tu carpeta de Spam/Correo no deseado — y añade noreply@primeverseaccess.com a tus contactos.',
     uid_card_h: 'Enviar UID', uid_card_p: 'Ingresa tu nombre completo, correo y UID del bróker abajo.',
     f_name: 'Nombre completo', f_email: 'Correo electrónico', f_uid: 'UID del bróker',
     f_name_ph: 'Tu nombre completo', f_email_ph: 'tu@correo.com', f_uid_ph: 'ej. 1234567',
@@ -251,14 +239,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'Живое сообщество', stat2: 'Образование', stat3: 'Соответствие',
     dist_badge: 'Представитель 1Move Academy',
     process_label: 'Процесс',
-    process_h2: 'Пять шагов к бесплатному доступу',
+    process_h2: 'Три шага к бесплатному доступу',
     process_p: 'Откройте всю экосистему Primeverse, 1Move Academy и глобальное сообщество тысяч людей — совершенно бесплатно.',
     s1t: 'Зарегистрируйтесь сегодня', s1d: "Нажмите 'Получить доступ', введите имя и email, и следуйте дальнейшим шагам.",
     s2t: 'Откройте счёт у брокера', s2d: 'Вы будете перенаправлены на официальную страницу регистрации через нашу верифицированную реферальную ссылку.',
-    s3t: 'Пройдите KYC', s3d: 'Подтвердите личность для активации аккаунта и соответствия европейским торговым правилам.',
-    s4t: 'Сохраните UID', s4d: "После регистрации запишите ваш уникальный ID пользователя из раздела 'ваш профиль' у брокера.",
-    s5t: 'Вернитесь и подтвердите UID', s5d: 'Внизу этой страницы вы найдёте форму верификации. Отправьте ваш UID и ожидайте одобрения. Полный доступ будет предоставлен в течение 24 часов.',
-    uid_label: 'Шаг 5', uid_h2: 'Отправьте ваш UID', uid_p: 'Уже зарегистрированы у брокера? Отправьте UID здесь.',
+    s3t: 'Пройдите KYC', s3d: 'KYC (Know Your Customer) — это быстрая проверка личности, обязательная по закону: брокер подтверждает, кто вы. После одобрения KYC вы автоматически получите письмо с прямым доступом к экосистеме Primeverse и 1Move Academy. Если вы не видите письмо, проверьте папку Спам/Нежелательные и добавьте noreply@primeverseaccess.com в контакты.',
     uid_card_h: 'Отправить UID', uid_card_p: 'Введите ваше полное имя, email и UID брокера ниже.',
     f_name: 'Полное имя', f_email: 'Email адрес', f_uid: 'UID брокера',
     f_name_ph: 'Ваше полное имя', f_email_ph: 'ваш@email.com', f_uid_ph: 'напр. 1234567',
@@ -302,14 +287,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'مجتمع حي', stat2: 'تعليم', stat3: 'متوافق',
     dist_badge: 'ممثل 1Move Academy',
     process_label: 'العملية',
-    process_h2: 'خمس خطوات للوصول المجاني',
+    process_h2: 'ثلاث خطوات للوصول المجاني',
     process_p: 'افتح نظام Primeverse البيئي بالكامل و1Move Academy ومجتمعًا عالميًا من الآلاف — مجانًا تمامًا.',
     s1t: 'سجّل اليوم', s1d: "انقر على 'احصل على الوصول الآن'، أدخل اسمك وبريدك الإلكتروني، واتبع الخطوات التالية.",
     s2t: 'افتح حساب وسيط', s2d: 'سيتم توجيهك إلى صفحة التسجيل الرسمية من خلال رابط الإحالة الموثق.',
-    s3t: 'أكمل KYC', s3d: 'تحقق من هويتك لتفعيل حسابك والامتثال للوائح التداول الأوروبية.',
-    s4t: 'احفظ UID الخاص بك', s4d: "بعد التسجيل، سجّل معرف المستخدم الفريد من 'ملفك الشخصي' داخل الوسيط.",
-    s5t: 'عُد وتحقق من UID الخاص بك', s5d: 'في أسفل هذه الصفحة ستجد نموذج التحقق. أرسل UID الخاص بك وانتظر الموافقة. يجب أن تحصل على وصول كامل خلال 24 ساعة.',
-    uid_label: 'الخطوة 5', uid_h2: 'أرسل UID الخاص بك', uid_p: 'هل أنت مسجل بالفعل لدى الوسيط؟ أرسل UID هنا.',
+    s3t: 'أكمل KYC', s3d: 'KYC (اعرف عميلك) هو تحقق سريع من الهوية مطلوب بموجب القانون — يؤكد الوسيط هويتك. بمجرد الموافقة على KYC، ستتلقى تلقائيًا بريدًا إلكترونيًا مع وصول مباشر إلى نظام Primeverse البيئي و1Move Academy. إذا لم تجد البريد، تحقق من مجلد البريد غير المرغوب فيه — وأضف noreply@primeverseaccess.com إلى جهات اتصالك.',
     uid_card_h: 'إرسال UID', uid_card_p: 'أدخل اسمك الكامل والبريد الإلكتروني وUID الوسيط أدناه.',
     f_name: 'الاسم الكامل', f_email: 'البريد الإلكتروني', f_uid: 'UID الوسيط',
     f_name_ph: 'اسمك الكامل', f_email_ph: 'بريدك@example.com', f_uid_ph: 'مثال: 1234567',
@@ -353,14 +335,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'Live Community', stat2: 'Edukasyon', stat3: 'Compliant',
     dist_badge: '1Move Academy Representative',
     process_label: 'Proseso',
-    process_h2: 'Limang Hakbang para sa Libreng Access',
+    process_h2: 'Tatlong Hakbang para sa Libreng Access',
     process_p: 'I-unlock ang buong Primeverse ecosystem, 1Move Academy, at isang pandaigdigang komunidad ng libu-libo — ganap na libre.',
     s1t: 'Mag-register ngayon', s1d: "I-click ang 'Kumuha ng Access Ngayon', ilagay ang pangalan at email, at sundin ang susunod na mga hakbang.",
     s2t: 'Buksan ang broker account', s2d: 'Ire-redirect ka sa opisyal na registration page sa pamamagitan ng aming verified referral link.',
-    s3t: 'Kumpletuhin ang KYC', s3d: 'I-verify ang iyong identity para ma-activate ang account at sumunod sa European trading regulations.',
-    s4t: 'I-save ang iyong UID', s4d: "Pagkatapos mag-register, tandaan ang unique user ID mula sa 'your profile' sa loob ng broker.",
-    s5t: 'Bumalik at i-verify ang iyong UID', s5d: 'Sa ibaba ng page na ito mahahanap mo ang verification form. I-submit ang UID at hintayin ang approval. Dapat magkaroon ka ng full access sa loob ng 24 oras.',
-    uid_label: 'Hakbang 5', uid_h2: 'I-submit ang iyong UID', uid_p: 'Naka-register na sa broker? I-submit ang UID dito.',
+    s3t: 'Kumpletuhin ang KYC', s3d: 'Ang KYC (Know Your Customer) ay isang mabilis na pagpapatunay ng pagkakakilanlan na kinakailangan ng batas — kinukumpirma ng broker kung sino ka. Kapag naaprubahan na ang KYC, awtomatiko kang makakatanggap ng email na may direktang access sa Primeverse ecosystem at sa 1Move Academy. Kung hindi mo makita ang email, tingnan ang Spam/Junk folder — at idagdag ang noreply@primeverseaccess.com sa iyong contacts.',
     uid_card_h: 'I-submit ang UID', uid_card_p: 'Ilagay ang buong pangalan, email at broker UID sa ibaba.',
     f_name: 'Buong pangalan', f_email: 'Email Address', f_uid: 'Broker UID',
     f_name_ph: 'Ang buong pangalan mo', f_email_ph: 'your@email.com', f_uid_ph: 'hal. 1234567',
@@ -404,14 +383,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'Comunidade ao vivo', stat2: 'Educação', stat3: 'Conformidade',
     dist_badge: 'Representante da 1Move Academy',
     process_label: 'Processo',
-    process_h2: 'Cinco passos para acesso gratuito',
+    process_h2: 'Três passos para acesso gratuito',
     process_p: 'Desbloqueie todo o ecossistema Primeverse, 1Move Academy e uma comunidade global de milhares — completamente grátis.',
     s1t: 'Registre-se hoje', s1d: "Clique em 'Obter acesso agora', insira seu nome e e-mail e siga os próximos passos.",
     s2t: 'Abra uma conta na corretora', s2d: 'Você será redirecionado para a página oficial de registro através do nosso link de indicação verificado.',
-    s3t: 'Complete o KYC', s3d: 'Verifique sua identidade para ativar sua conta e cumprir as regulamentações europeias de trading.',
-    s4t: 'Salve seu UID', s4d: "Após o registro, anote seu ID de usuário único em 'seu perfil' dentro da corretora.",
-    s5t: 'Volte e verifique seu UID', s5d: 'Na parte inferior desta página você encontrará o formulário de verificação. Envie seu UID e aguarde a aprovação. Você deverá ter acesso completo em 24 horas.',
-    uid_label: 'Passo 5', uid_h2: 'Envie seu UID', uid_p: 'Já registrado na corretora? Envie seu UID aqui.',
+    s3t: 'Conclua o KYC', s3d: 'KYC (Know Your Customer) é uma verificação de identidade rápida exigida por lei — o corretor confirma quem você é. Assim que o KYC for aprovado, você receberá automaticamente um e-mail com acesso direto ao ecossistema Primeverse e à 1Move Academy. Se não vir o e-mail, verifique a pasta de Spam/Lixo eletrônico — e adicione noreply@primeverseaccess.com aos seus contatos.',
     uid_card_h: 'Enviar UID', uid_card_p: 'Insira seu nome completo, e-mail e UID da corretora abaixo.',
     f_name: 'Nome completo', f_email: 'Endereço de e-mail', f_uid: 'UID da corretora',
     f_name_ph: 'Seu nome completo', f_email_ph: 'seu@email.com', f_uid_ph: 'ex. 1234567',
@@ -455,14 +431,11 @@ const T: Record<LangKey, Record<string, string>> = {
     stat1: 'ชุมชนสด', stat2: 'การศึกษา', stat3: 'ปฏิบัติตามกฎ',
     dist_badge: 'ตัวแทน 1Move Academy',
     process_label: 'ขั้นตอน',
-    process_h2: 'ห้าขั้นตอนสู่การเข้าถึงฟรี',
+    process_h2: 'สามขั้นตอนสู่การเข้าถึงฟรี',
     process_p: 'ปลดล็อกระบบนิเวศ Primeverse ทั้งหมด, 1Move Academy และชุมชนทั่วโลกหลายพัน — ฟรีทั้งหมด',
     s1t: 'สมัครวันนี้', s1d: "คลิก 'รับสิทธิ์เข้าถึงตอนนี้' กรอกชื่อและอีเมล แล้วทำตามขั้นตอนถัดไป",
     s2t: 'เปิดบัญชีโบรกเกอร์', s2d: 'คุณจะถูกนำไปยังหน้าลงทะเบียนอย่างเป็นทางการผ่านลิงก์แนะนำที่ยืนยันแล้ว',
-    s3t: 'ยืนยันตัวตน KYC', s3d: 'ยืนยันตัวตนเพื่อเปิดใช้งานบัญชีและปฏิบัติตามกฎระเบียบการเทรดของยุโรป',
-    s4t: 'บันทึก UID ของคุณ', s4d: "หลังจากลงทะเบียน จดบันทึก ID ผู้ใช้ที่ไม่ซ้ำจาก 'โปรไฟล์ของคุณ' ในโบรกเกอร์",
-    s5t: 'กลับมายืนยัน UID ของคุณ', s5d: 'ที่ด้านล่างของหน้านี้คุณจะพบแบบฟอร์มยืนยัน ส่ง UID ของคุณแล้วรอการอนุมัติ คุณควรได้รับสิทธิ์เต็มภายใน 24 ชั่วโมง',
-    uid_label: 'ขั้นตอนที่ 5', uid_h2: 'ส่ง UID ของคุณ', uid_p: 'ลงทะเบียนกับโบรกเกอร์แล้ว? ส่ง UID ของคุณที่นี่',
+    s3t: 'ทำ KYC ให้เสร็จ', s3d: 'KYC (Know Your Customer) คือการตรวจสอบตัวตนอย่างรวดเร็วที่กฎหมายกำหนด — โบรกเกอร์จะยืนยันว่าคุณเป็นใคร เมื่อ KYC ได้รับการอนุมัติ คุณจะได้รับอีเมลโดยอัตโนมัติพร้อมสิทธิ์เข้าถึงโดยตรงสู่ระบบนิเวศ Primeverse และ 1Move Academy หากไม่พบอีเมล ให้ตรวจสอบโฟลเดอร์สแปม/ถังขยะ — และเพิ่ม noreply@primeverseaccess.com ในรายชื่อติดต่อของคุณ',
     uid_card_h: 'ส่ง UID', uid_card_p: 'กรอกชื่อเต็ม อีเมล และ UID โบรกเกอร์ด้านล่าง',
     f_name: 'ชื่อ-นามสกุล', f_email: 'อีเมล', f_uid: 'UID โบรกเกอร์',
     f_name_ph: 'ชื่อเต็มของคุณ', f_email_ph: 'your@email.com', f_uid_ph: 'เช่น 1234567',
@@ -909,8 +882,6 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
               { n: '01', title: t.s1t, desc: t.s1d },
               { n: '02', title: t.s2t, desc: t.s2d },
               { n: '03', title: t.s3t, desc: t.s3d },
-              { n: '04', title: t.s4t, desc: t.s4d },
-              { n: '05', title: t.s5t, desc: t.s5d },
             ].map(s => (
               <div className="step" key={s.n}
                 onMouseMove={e => {
@@ -933,32 +904,6 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
                 <div className="step-desc">{s.desc}</div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SUBMIT UID */}
-      <section style={{ background: 'var(--deep)' }} id="submit-uid" dir={isRtl ? 'rtl' : 'ltr'}>
-        <div className="wrap-sm">
-          <div className="sec-label">{t.uid_label}</div>
-          <h2 className="sec-h2">{t.uid_h2}</h2>
-          <p className="sec-p" style={{ marginBottom: '2.4rem' }}>{t.uid_p}</p>
-          <div className="fcard">
-            {submitted ? (
-              <div className="smsg" role="status" aria-live="polite"><span aria-hidden="true">✦ &nbsp;</span>{t.uid_success} {dist.name} {t.uid_success2}</div>
-            ) : (
-              <>
-                <h3 className="fh">{t.uid_card_h}</h3>
-                <p className="fsub">{t.uid_card_p}</p>
-                <form onSubmit={handleUidSubmit} noValidate>
-                  <div className="fg"><label className="fl" htmlFor="uid-name">{t.f_name}</label><input id="uid-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={uidForm.name} onChange={e => { setUidForm({ ...uidForm, name: e.target.value }); setFieldErrors(prev => ({ ...prev, name: undefined })) }} style={fieldErrors.name ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.name && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.name}</p>}</div>
-                  <div className="fg"><label className="fl" htmlFor="uid-email">{t.f_email}</label><input id="uid-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={uidForm.email} onChange={e => { setUidForm({ ...uidForm, email: e.target.value }); setFieldErrors(prev => ({ ...prev, email: undefined })) }} style={fieldErrors.email ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.email && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.email}</p>}</div>
-                  <div className="fg"><label className="fl" htmlFor="uid-uid">{t.f_uid}</label><input id="uid-uid" className="fi" type="text" placeholder={t.f_uid_ph} required aria-required="true" value={uidForm.uid} onChange={e => { setUidForm({ ...uidForm, uid: e.target.value }); setFieldErrors(prev => ({ ...prev, uid: undefined })) }} style={fieldErrors.uid ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.uid && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.uid}</p>}</div>
-                  <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting} style={{ opacity: isFormValid ? 1 : 0.5, transition: 'opacity 0.2s' }}>{submitting ? '…' : t.uid_btn}</button>
-                  {submitError && <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem', textAlign: 'center' }}>{submitError}</p>}
-                </form>
-              </>
-            )}
           </div>
         </div>
       </section>
