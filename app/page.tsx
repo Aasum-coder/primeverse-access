@@ -59,6 +59,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'Your URL',
     bio: 'Bio',
     bioPlaceholder: 'Tell who you are and what your members can expect from you...',
+    bioTranslationHint: '✨ Tip: Use the AI Bio Assistant to auto-translate your bio into 9 languages.',
     saveProfile: 'Save profile',
     saving: 'Saving...',
     saved: 'Saved!',
@@ -439,6 +440,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'Din URL',
     bio: 'Bio',
     bioPlaceholder: 'Fortell hvem du er og hva dine members kan forvente av deg...',
+    bioTranslationHint: '✨ Tips: Bruk AI-bio-assistenten for å oversette bioen din til 9 språk automatisk.',
     saveProfile: 'Lagre profil',
     saving: 'Lagrer...',
     saved: 'Lagret!',
@@ -817,6 +819,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'Din URL',
     bio: 'Bio',
     bioPlaceholder: 'Berätta vem du är och vad dina members kan förvänta sig...',
+    bioTranslationHint: '✨ Tips: Använd AI-bio-assistenten för att översätta din bio till 9 språk automatiskt.',
     saveProfile: 'Spara profil',
     saving: 'Sparar...',
     saved: 'Sparat!',
@@ -1195,6 +1198,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'Tu URL',
     bio: 'Bio',
     bioPlaceholder: 'Cuenta quién eres y qué pueden esperar tus miembros...',
+    bioTranslationHint: '✨ Consejo: Usa el asistente de bio con IA para traducir tu biografía a 9 idiomas automáticamente.',
     saveProfile: 'Guardar perfil',
     saving: 'Guardando...',
     saved: '¡Guardado!',
@@ -1573,6 +1577,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'Ваш URL',
     bio: 'Биография',
     bioPlaceholder: 'Расскажите, кто вы и чего могут ожидать ваши участники...',
+    bioTranslationHint: '✨ Совет: Используйте AI-ассистента для автоматического перевода био на 9 языков.',
     saveProfile: 'Сохранить профиль',
     saving: 'Сохранение...',
     saved: 'Сохранено!',
@@ -1951,6 +1956,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'رابطك',
     bio: 'نبذة',
     bioPlaceholder: 'أخبرنا من أنت وماذا يمكن لأعضائك توقعه...',
+    bioTranslationHint: '✨ نصيحة: استخدم مساعد السيرة الذاتية بالذكاء الاصطناعي لترجمة سيرتك إلى 9 لغات تلقائيًا.',
     saveProfile: 'حفظ الملف الشخصي',
     saving: 'جاري الحفظ...',
     saved: 'تم الحفظ!',
@@ -2329,6 +2335,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'Iyong URL',
     bio: 'Bio',
     bioPlaceholder: 'Sabihin kung sino ka at ano ang maaasahan ng iyong members...',
+    bioTranslationHint: '✨ Tip: Gamitin ang AI Bio Assistant para awtomatikong i-translate ang iyong bio sa 9 na wika.',
     saveProfile: 'I-save ang profile',
     saving: 'Sine-save...',
     saved: 'Na-save!',
@@ -2707,6 +2714,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'Seu URL',
     bio: 'Bio',
     bioPlaceholder: 'Conte quem você é e o que seus membros podem esperar de você...',
+    bioTranslationHint: '✨ Dica: Use o assistente de bio com IA para traduzir sua biografia em 9 idiomas automaticamente.',
     saveProfile: 'Salvar perfil',
     saving: 'Salvando...',
     saved: 'Salvo!',
@@ -3085,6 +3093,7 @@ const translations: Record<string, Record<string, string>> = {
     yourUrl: 'URL ของคุณ',
     bio: 'ไบโอ',
     bioPlaceholder: 'บอกว่าคุณเป็นใครและสมาชิกของคุณจะได้อะไร...',
+    bioTranslationHint: '✨ เคล็ดลับ: ใช้ผู้ช่วย AI Bio เพื่อแปลประวัติของคุณเป็น 9 ภาษาโดยอัตโนมัติ',
     saveProfile: 'บันทึกโปรไฟล์',
     saving: 'กำลังบันทึก...',
     saved: 'บันทึกแล้ว!',
@@ -5771,6 +5780,39 @@ export default function Home() {
     }
   }
 
+  // Regenerate bio_translations via Groq when the bio text changed.
+  // Returns the freshest translations (or the existing ones if no change / Groq fails).
+  const refreshBioTranslations = async (
+    nextBio: string,
+    previousBio: string | null | undefined,
+    fullName: string
+  ): Promise<Record<string, string> | null> => {
+    const trimmed = (nextBio || '').trim()
+    if (!trimmed) return null
+    const prev = (previousBio || '').trim()
+    if (trimmed === prev) return bioTranslations
+    try {
+      const res = await fetch('/api/translate-bio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bio: trimmed, fullName }),
+      })
+      if (!res.ok) {
+        console.error('[refreshBioTranslations] non-OK response:', res.status)
+        return bioTranslations
+      }
+      const data = await res.json()
+      if (data?.bios && typeof data.bios === 'object') {
+        setBioTranslations(data.bios)
+        return data.bios as Record<string, string>
+      }
+      return bioTranslations
+    } catch (err) {
+      console.error('[refreshBioTranslations] failed:', err)
+      return bioTranslations
+    }
+  }
+
   const saveProfile = async () => {
     if (!profileName.trim()) {
       setNameError('nameRequired')
@@ -5805,7 +5847,9 @@ export default function Home() {
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom, imgBrightness) : null
     const wasLive = !!distributor.landing_active
     const voiceProfileData = { experience: voiceExperience, tone: voiceTone, never_say: voiceNeverSay, audience: voiceAudience, example1: voiceExample1, example2: voiceExample2 }
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData }).eq('id', distributor.id)
+    // Auto-translate if the bio text changed since the last save
+    const nextBioTranslations = await refreshBioTranslations(profileBio, distributor.bio, profileName)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -5821,7 +5865,7 @@ export default function Home() {
       fetch('/api/page-live-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     }
     if (!wasLive) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -5860,7 +5904,9 @@ export default function Home() {
     const wasLiveUpdate = !!distributor.landing_active
     const profileImageValue = profileImage ? serializeProfileImage(profileImage, imgX, imgY, imgZoom, imgBrightness) : null
     const voiceProfileData2 = { experience: voiceExperience, tone: voiceTone, never_say: voiceNeverSay, audience: voiceAudience, example1: voiceExample1, example2: voiceExample2 }
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 }).eq('id', distributor.id)
+    // Auto-translate if the bio text changed since the last save
+    const nextBioTranslations2 = await refreshBioTranslations(profileBio, distributor.bio, profileName)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -5872,7 +5918,7 @@ export default function Home() {
       return
     }
     if (!wasLiveUpdate) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: bioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 })
     setUpdatingProfile(false)
     setUpdateSaved(true)
     setTimeout(() => setUpdateSaved(false), 3000)
@@ -6712,6 +6758,7 @@ export default function Home() {
                   </button>
                 </div>
                 <textarea id="profile-bio" className="field-textarea" value={profileBio} onChange={e => setProfileBio(e.target.value)} placeholder={t.bioPlaceholder} rows={6} />
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: 6, lineHeight: 1.5, fontStyle: 'italic' }}>{t.bioTranslationHint}</div>
               </div>
 
               {/* ─── AI Bio Assistant ────────────────────────────────────── */}
