@@ -55,9 +55,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'Full Name', f_email: 'Email Address',
     f_name_ph: 'Your full name', f_email_ph: 'your@email.com',
     modal_h: 'Get Access Now', modal_p: 'Complete your details to proceed to broker registration.',
-    chk1: 'I accept the Terms & Conditions',
-    chk2: 'I have read and understand the full risk disclaimer',
+    chk1: 'I accept the <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Terms &amp; Conditions</a>',
+    chk2: 'I have read and understand the full <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">risk disclaimer</a>',
     chk3: 'I consent to receiving community updates and educational content by email',
+    privacy_line: 'See our <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> for how we handle your data.',
     modal_btn: 'Confirm & Proceed to Registration',
     modal_success_heading: "You're registered!",
     modal_success_body: "Check your inbox for the next step — we just sent you an email with your broker link and KYC instructions.",
@@ -97,9 +98,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'Fullt navn', f_email: 'E-postadresse',
     f_name_ph: 'Ditt fulle navn', f_email_ph: 'din@epost.com',
     modal_h: 'Få tilgang nå', modal_p: 'Fyll inn detaljene dine for å gå til meglerregistrering.',
-    chk1: 'Jeg aksepterer vilkår og betingelser',
-    chk2: 'Jeg har lest og forstår risikoansvarsfraskrivelsen',
+    chk1: 'Jeg godtar <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">vilkårene og betingelsene</a>',
+    chk2: 'Jeg har lest og forstått den fulle <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">risiko-advarselen</a>',
     chk3: 'Jeg samtykker til å motta fellesskapsoppdateringer på e-post',
+    privacy_line: 'Se <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">personvernreglene våre</a> for hvordan vi håndterer dine data.',
     modal_btn: 'Bekreft og gå til registrering',
     modal_success_heading: 'Du er registrert!',
     modal_success_body: 'Sjekk innboksen din for neste steg — vi har sendt deg en e-post med broker-linken og KYC-instruksjoner.',
@@ -139,9 +141,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'Fullständigt namn', f_email: 'E-postadress',
     f_name_ph: 'Ditt fullständiga namn', f_email_ph: 'din@epost.com',
     modal_h: 'Få tillgång nu', modal_p: 'Fyll i dina uppgifter för att gå vidare till mäklarregistrering.',
-    chk1: 'Jag accepterar villkoren',
-    chk2: 'Jag har läst och förstår riskfriskrivningen',
+    chk1: 'Jag accepterar <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">villkoren</a>',
+    chk2: 'Jag har läst och förstår den fullständiga <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">riskvarningen</a>',
     chk3: 'Jag samtycker till att ta emot uppdateringar via e-post',
+    privacy_line: 'Se vår <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">integritetspolicy</a> för hur vi hanterar dina uppgifter.',
     modal_btn: 'Bekräfta och fortsätt till registrering',
     modal_success_heading: 'Du är registrerad!',
     modal_success_body: 'Kolla din inkorg för nästa steg — vi har just skickat ett mejl med din mäklarlänk och KYC-instruktioner.',
@@ -181,9 +184,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'Nombre completo', f_email: 'Correo electrónico',
     f_name_ph: 'Tu nombre completo', f_email_ph: 'tu@correo.com',
     modal_h: 'Obtener acceso ahora', modal_p: 'Completa tus datos para proceder al registro del bróker.',
-    chk1: 'Acepto los Términos y Condiciones',
-    chk2: 'He leído y entiendo el descargo de responsabilidad de riesgo',
+    chk1: 'Acepto los <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">términos y condiciones</a>',
+    chk2: 'He leído y entiendo el <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">descargo de responsabilidad de riesgo</a>',
     chk3: 'Consiento recibir actualizaciones de la comunidad por correo',
+    privacy_line: 'Consulta nuestra <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidad</a> para saber cómo manejamos tus datos.',
     modal_btn: 'Confirmar y proceder al registro',
     modal_success_heading: '¡Estás registrado!',
     modal_success_body: 'Revisa tu bandeja de entrada para el siguiente paso — acabamos de enviarte un correo con tu enlace de bróker y las instrucciones KYC.',
@@ -223,9 +227,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'Полное имя', f_email: 'Email адрес',
     f_name_ph: 'Ваше полное имя', f_email_ph: 'ваш@email.com',
     modal_h: 'Получить доступ', modal_p: 'Заполните данные для перехода к регистрации брокера.',
-    chk1: 'Я принимаю Условия и положения',
-    chk2: 'Я прочитал и понимаю отказ от ответственности за риски',
+    chk1: 'Я принимаю <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">условия использования</a>',
+    chk2: 'Я прочитал и понимаю полное <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">предупреждение о рисках</a>',
     chk3: 'Я согласен получать обновления сообщества по email',
+    privacy_line: 'См. нашу <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">Политику конфиденциальности</a> о том, как мы обрабатываем ваши данные.',
     modal_btn: 'Подтвердить и перейти к регистрации',
     modal_success_heading: 'Вы зарегистрированы!',
     modal_success_body: 'Проверьте почту — мы отправили вам письмо с ссылкой на брокера и инструкциями KYC.',
@@ -265,9 +270,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'الاسم الكامل', f_email: 'البريد الإلكتروني',
     f_name_ph: 'اسمك الكامل', f_email_ph: 'بريدك@example.com',
     modal_h: 'احصل على الوصول الآن', modal_p: 'أكمل بياناتك للمتابعة إلى تسجيل الوسيط.',
-    chk1: 'أوافق على الشروط والأحكام',
-    chk2: 'قرأت وأفهم إخلاء المسؤولية عن المخاطر',
+    chk1: 'أوافق على <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">الشروط والأحكام</a>',
+    chk2: 'لقد قرأت وفهمت <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">إخلاء المسؤولية الكامل عن المخاطر</a>',
     chk3: 'أوافق على تلقي تحديثات المجتمع عبر البريد الإلكتروني',
+    privacy_line: 'راجع <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">سياسة الخصوصية</a> الخاصة بنا لمعرفة كيفية تعاملنا مع بياناتك.',
     modal_btn: 'تأكيد والمتابعة للتسجيل',
     modal_success_heading: 'تم تسجيلك!',
     modal_success_body: 'تحقق من بريدك الإلكتروني للخطوة التالية — لقد أرسلنا لك للتو بريدًا إلكترونيًا يحتوي على رابط الوسيط وتعليمات KYC.',
@@ -307,9 +313,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'Buong pangalan', f_email: 'Email Address',
     f_name_ph: 'Ang buong pangalan mo', f_email_ph: 'your@email.com',
     modal_h: 'Kumuha ng Access Ngayon', modal_p: 'Kumpletuhin ang iyong mga detalye para magpatuloy sa broker registration.',
-    chk1: 'Tinatanggap ko ang Terms & Conditions',
-    chk2: 'Nabasa at naiintindihan ko ang buong risk disclaimer',
+    chk1: 'Tinatanggap ko ang <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Mga Tuntunin at Kondisyon</a>',
+    chk2: 'Nabasa at naintindihan ko ang buong <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">risk disclaimer</a>',
     chk3: 'Pumapayag ako na makatanggap ng community updates at educational content sa email',
+    privacy_line: 'Tingnan ang aming <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">Patakaran sa Privacy</a> para sa kung paano namin hinahawakan ang iyong data.',
     modal_btn: 'Kumpirmahin at Magpatuloy sa Registration',
     modal_success_heading: 'Nairehistro ka na!',
     modal_success_body: 'Tingnan ang iyong inbox para sa susunod na hakbang — nagpadala kami ng email na may iyong broker link at KYC instructions.',
@@ -349,9 +356,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'Nome completo', f_email: 'Endereço de e-mail',
     f_name_ph: 'Seu nome completo', f_email_ph: 'seu@email.com',
     modal_h: 'Obter acesso agora', modal_p: 'Complete seus dados para prosseguir ao registro da corretora.',
-    chk1: 'Aceito os Termos e Condições',
-    chk2: 'Li e compreendo o aviso de risco completo',
+    chk1: 'Aceito os <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Termos e Condições</a>',
+    chk2: 'Li e entendo o <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">aviso completo de risco</a>',
     chk3: 'Consinto em receber atualizações da comunidade por e-mail',
+    privacy_line: 'Consulte nossa <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidade</a> para saber como tratamos seus dados.',
     modal_btn: 'Confirmar e prosseguir ao registro',
     modal_success_heading: 'Você está registrado!',
     modal_success_body: 'Verifique sua caixa de entrada para o próximo passo — acabamos de enviar um e-mail com seu link do corretor e instruções KYC.',
@@ -391,9 +399,10 @@ const T: Record<LangKey, Record<string, string>> = {
     f_name: 'ชื่อ-นามสกุล', f_email: 'อีเมล',
     f_name_ph: 'ชื่อเต็มของคุณ', f_email_ph: 'your@email.com',
     modal_h: 'รับสิทธิ์เข้าถึงตอนนี้', modal_p: 'กรอกข้อมูลของคุณเพื่อดำเนินการลงทะเบียนโบรกเกอร์',
-    chk1: 'ฉันยอมรับข้อกำหนดและเงื่อนไข',
-    chk2: 'ฉันได้อ่านและเข้าใจข้อจำกัดความรับผิดชอบด้านความเสี่ยงทั้งหมด',
+    chk1: 'ฉันยอมรับ <a href="https://primeverseaccess.com/terms" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">ข้อกำหนดและเงื่อนไข</a>',
+    chk2: 'ฉันได้อ่านและเข้าใจ <a href="https://primeverseaccess.com/terms#risk-disclaimer" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">คำเตือนความเสี่ยงทั้งหมด</a>',
     chk3: 'ฉันยินยอมรับการอัปเดตชุมชนและเนื้อหาทางการศึกษาทางอีเมล',
+    privacy_line: 'ดู <a href="https://primeverseaccess.com/privacy" target="_blank" rel="noopener noreferrer">นโยบายความเป็นส่วนตัว</a> ของเราสำหรับวิธีที่เราจัดการข้อมูลของคุณ',
     modal_btn: 'ยืนยันและดำเนินการลงทะเบียน',
     modal_success_heading: 'คุณลงทะเบียนแล้ว!',
     modal_success_body: 'ตรวจสอบกล่องจดหมายของคุณสำหรับขั้นตอนต่อไป — เราเพิ่งส่งอีเมลถึงคุณพร้อมลิงก์โบรกเกอร์และคำแนะนำ KYC',
@@ -665,6 +674,9 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .fcheck{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.85rem}
         .fcheck input[type=checkbox]{width:15px;height:15px;margin-top:3px;flex-shrink:0;accent-color:var(--gold);cursor:pointer}
         .fcheck label{font-size:.8rem;color:var(--grey);cursor:pointer;line-height:1.5}
+        .fcheck label a,.legal-line a{color:var(--gold);text-decoration:underline;cursor:pointer}
+        .fcheck label a:hover,.legal-line a:hover{opacity:.85}
+        .legal-line{font-size:.72rem;color:var(--grey);font-style:italic;line-height:1.5;margin:.35rem 0 .2rem;padding-left:0}
         .smsg{background:rgba(201,168,76,.07);border:1px solid var(--gold-b);border-radius:var(--r);padding:1.1rem 1.4rem;font-size:.86rem;color:var(--gold-l);line-height:1.65;margin-top:.8rem}
         .moverlay{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);z-index:600;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .28s}
         .moverlay.open{opacity:1;pointer-events:all}
@@ -944,9 +956,10 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
                 <div className="fg"><label className="fl" htmlFor="modal-name">{t.f_name}</label><input id="modal-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={form.name} onChange={e => { setForm({ ...form, name: e.target.value }); setFieldErrors(prev => ({ ...prev, name: undefined })) }} style={fieldErrors.name ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.name && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.name}</p>}</div>
                 <div className="fg"><label className="fl" htmlFor="modal-email">{t.f_email}</label><input id="modal-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={form.email} onChange={e => { setForm({ ...form, email: e.target.value }); setFieldErrors(prev => ({ ...prev, email: undefined })) }} style={fieldErrors.email ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.email && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.email}</p>}</div>
                 <div style={{ margin: '1.4rem 0 1rem' }}>
-                  <div className="fcheck"><input type="checkbox" id="chk1" required aria-required="true" /><label htmlFor="chk1">{t.chk1}</label></div>
-                  <div className="fcheck"><input type="checkbox" id="chk2" required aria-required="true" /><label htmlFor="chk2">{t.chk2}</label></div>
+                  <div className="fcheck"><input type="checkbox" id="chk1" required aria-required="true" /><label htmlFor="chk1" dangerouslySetInnerHTML={{ __html: t.chk1 }} /></div>
+                  <div className="fcheck"><input type="checkbox" id="chk2" required aria-required="true" /><label htmlFor="chk2" dangerouslySetInnerHTML={{ __html: t.chk2 }} /></div>
                   <div className="fcheck"><input type="checkbox" id="chk3" required aria-required="true" /><label htmlFor="chk3">{t.chk3}</label></div>
+                  <p className="legal-line" dangerouslySetInnerHTML={{ __html: t.privacy_line }} />
                 </div>
                 <button className="fsubmit" type="submit" disabled={submitting} aria-busy={submitting}>{submitting ? '…' : t.modal_btn}</button>
                 {submitError && <p style={{ color: '#ff6b6b', fontSize: '0.85rem', marginTop: '0.75rem', textAlign: 'center' }}>{submitError}</p>}
