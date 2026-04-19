@@ -10,10 +10,13 @@ export type Provider =
   | 'protonmail'
   | 'unknown'
 
+export type ForwardingLanguage = 'en' | 'no' | 'sv' | 'unknown'
+
 export interface ForwardingVerification {
   provider: Provider
   code: string | null
   link: string | null
+  language?: ForwardingLanguage
   received_at: string
   expires_at: string
   from_address: string
@@ -49,7 +52,9 @@ export function detectProvider(
 
   if (
     from.includes('forwarding-noreply@google.com') ||
-    subj.includes('gmail forwarding confirmation')
+    subj.includes('gmail forwarding confirmation') ||
+    subj.includes('gmail-videresending') ||
+    subj.includes('gmail-vidarebefordran')
   ) {
     return 'gmail'
   }
@@ -141,7 +146,14 @@ export function extractCode(
   return null
 }
 
+// Gmail forwarding confirmation link. Nordic Gmail doesn't send a code —
+// only a link in this format. Works for all languages since the host
+// (mail-settings.google.com) and the vf- prefix are invariant.
+const GMAIL_FORWARDING_LINK_REGEX =
+  /https:\/\/mail-settings\.google\.com\/mail\/vf-[A-Za-z0-9%\-_]+/i
+
 const LINK_PATTERNS: RegExp[] = [
+  GMAIL_FORWARDING_LINK_REGEX,
   /https?:\/\/[^\s"'<>]*microsoft\.com\/[^\s"'<>]*/i,
   /https?:\/\/[^\s"'<>]*live\.com\/[^\s"'<>]*/i,
   /https?:\/\/[^\s"'<>]*icloud\.com\/[^\s"'<>]*/i,
@@ -177,4 +189,46 @@ export function extractLink(
   }
 
   return null
+}
+
+// Detect the human-language the forwarding confirmation mail is written in.
+// Used to decide UI copy on the dashboard; falls back to 'unknown'.
+export function detectLanguage(
+  htmlBody: string,
+  textBody: string,
+  subject: string
+): ForwardingLanguage {
+  const hay = safeLower(
+    [subject || '', textBody || '', stripHtml(htmlBody || '')].join(' ')
+  )
+
+  // Swedish markers (check before Norwegian — "bekräfta" has unique å)
+  if (
+    hay.includes('bekräfta') ||
+    hay.includes('bekrafta') ||
+    hay.includes('vidarebefordran') ||
+    hay.includes('vidarebefordra')
+  ) {
+    return 'sv'
+  }
+
+  // Norwegian markers
+  if (
+    hay.includes('bekreft') ||
+    hay.includes('videresending') ||
+    hay.includes('videresende')
+  ) {
+    return 'no'
+  }
+
+  // English markers
+  if (
+    hay.includes('confirm') ||
+    hay.includes('forwarding') ||
+    hay.includes('verification')
+  ) {
+    return 'en'
+  }
+
+  return 'unknown'
 }
