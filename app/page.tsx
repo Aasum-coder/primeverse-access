@@ -5722,7 +5722,7 @@ export default function Home() {
     try {
       const { data } = await supabase
         .from('distributors')
-        .select('forwarding_verification, first_puprime_mail_received_at, last_inbound_at')
+        .select('forwarding_verification, first_puprime_mail_received_at')
         .eq('id', distributor.id)
         .maybeSingle()
       if (data) {
@@ -5730,7 +5730,6 @@ export default function Home() {
           ...prev,
           forwarding_verification: data.forwarding_verification,
           first_puprime_mail_received_at: data.first_puprime_mail_received_at,
-          last_inbound_at: data.last_inbound_at,
         } : prev)
       }
       setFwdVerifNowMs(Date.now())
@@ -7031,9 +7030,9 @@ export default function Home() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', background: statusColors.bg, borderRadius: 8, fontSize: '0.82rem' }}>
                         <span style={{ fontSize: '1rem' }}>{statusColors.dot}</span>
                         <span style={{ color: statusColors.fg, fontWeight: 600 }}>{statusLabel}</span>
-                        {statusLevel === 'green' && distributor.last_inbound_at && !optimisticActive && (
+                        {statusLevel === 'green' && distributor.first_puprime_mail_received_at && !optimisticActive && (
                           <span style={{ color: 'var(--text-dim)', marginLeft: 'auto', fontSize: '0.75rem' }}>
-                            {new Date(distributor.last_inbound_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            {new Date(distributor.first_puprime_mail_received_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </span>
                         )}
                       </div>

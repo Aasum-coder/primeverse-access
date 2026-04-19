@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'No email ID in webhook payload' }, { status: 400 })
   }
 
-  console.log('[inbound-email] Received email to:', toAddresses, 'from:', data.from, 'subject:', data.subject, 'emailId:', emailId)
+  console.info(`[inbound-email] Processing from=${data.from || ''} subject="${data.subject || ''}" to=${JSON.stringify(toAddresses)} emailId=${emailId}`)
 
   // STEP 3 — Extract IB slug from the TO address
   // Format: verify+{slug}@zapraxi.resend.app
@@ -92,11 +92,11 @@ export async function POST(request: Request) {
     .maybeSingle()
 
   if (distErr || !dist) {
-    console.error('[inbound-email] Distributor not found for slug:', slug, distErr)
+    console.error(`[inbound-email] Matched distributor: NONE (slug=${slug})`, distErr)
     return NextResponse.json({ error: 'Distributor not found' }, { status: 404 })
   }
 
-  console.log('[inbound-email] Matched distributor:', dist.id, dist.name)
+  console.info(`[inbound-email] Matched distributor: ${dist.slug} (id=${dist.id} name=${dist.name})`)
 
   // STEP 3.5 — Branch: forwarding-verification email from an email provider
   // (Gmail / Outlook / Yahoo / iCloud / ProtonMail). These are NOT Excel
@@ -199,13 +199,14 @@ export async function POST(request: Request) {
     const jsonData: any[] = XLSX.utils.sheet_to_json(sheet)
     rows = parseExcelRows(jsonData)
 
-    console.log('[inbound-email] Parsed', rows.length, 'rows from Excel')
+    console.info(`[inbound-email] Xlsx rows parsed: ${rows.length}`)
   } catch (err) {
     console.error('[inbound-email] Failed to parse Excel:', err)
     return NextResponse.json({ error: 'Failed to parse Excel attachment' }, { status: 400 })
   }
 
   if (rows.length === 0) {
+    console.error(`[inbound-email] Failure reason: xlsx parsed to 0 rows — column headers may not match (expected keys like 'User ID' / 'User Name')`)
     return NextResponse.json({ error: 'No valid rows found in Excel' }, { status: 400 })
   }
 
@@ -226,21 +227,24 @@ export async function POST(request: Request) {
     { logPrefix: '[inbound-email]' }
   )
 
-  // Update distributor last_inbound_at and — on first successful mail —
-  // first_puprime_mail_received_at. The latter drives the dashboard's
-  // 🟢 "Active — auto-verification running" indicator.
-  const now = new Date().toISOString()
-  const updates: Record<string, any> = { last_inbound_at: now }
+  // Stamp first_puprime_mail_received_at on the first successful parse.
+  // Drives the dashboard's 🟢 "Active — auto-verification running" indicator.
+  // Only stamped once; subsequent mails don't overwrite.
   if (!dist.first_puprime_mail_received_at) {
-    updates.first_puprime_mail_received_at = now
-    console.info(`[AutoVerify] First PU Prime mail received for distributor ${slug}`)
-  }
-  await supabaseAdmin
-    .from('distributors')
-    .update(updates)
-    .eq('id', dist.id)
+    const now = new Date().toISOString()
+    const { error: stampErr } = await supabaseAdmin
+      .from('distributors')
+      .update({ first_puprime_mail_received_at: now })
+      .eq('id', dist.id)
 
-  console.log('[inbound-email] Done. Verified:', verified, '/', rows.length)
+    if (stampErr) {
+      console.error(`[inbound-email] Failed to stamp first_puprime_mail_received_at for ${slug}:`, stampErr)
+    } else {
+      console.info(`[AutoVerify] First PU Prime mail received for distributor ${slug}`)
+    }
+  }
+
+  console.log(`[inbound-email] Done. slug=${slug} rows=${rows.length} verified=${verified} results=${JSON.stringify(results)}`)
 
   // STEP 6 — Return 200 OK
   return NextResponse.json({
