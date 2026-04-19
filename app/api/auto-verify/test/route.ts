@@ -10,6 +10,9 @@ const supabaseAdmin = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
+// Only delete leads whose uid STARTS WITH this prefix. Never touch real leads.
+const TEST_UID_PREFIX = 'TEST_'
+
 async function getDistributor(token: string) {
   const authClient = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -35,70 +38,106 @@ export async function POST(request: Request) {
   const distributor = await getDistributor(token)
   if (!distributor) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+  const slug = distributor.slug
   const timestamp = Date.now()
-  const testUid = `TEST_${distributor.slug}_${timestamp}`
+  const testUid = `${TEST_UID_PREFIX}${slug}_${timestamp}`
+  const thisRunUidPattern = `${TEST_UID_PREFIX}${slug}_%`
 
-  // Fake PU Prime row — same shape as parseExcelRows output so the shared
-  // verifier runs the identical code path as production.
-  const fakeRows: ExcelRow[] = [
-    {
-      userId: testUid,
-      userName: 'TEST SETUP',
-      accountNumber: '',
-      openingTime: new Date().toISOString(),
-    },
-  ]
+  // Belt-and-suspenders: remove any orphaned TEST_ leads older than 5 minutes
+  // from previous failed runs. Always scoped to TEST_ prefix, never real leads.
+  try {
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
+    await supabaseAdmin
+      .from('leads')
+      .delete()
+      .like('uid', `${TEST_UID_PREFIX}%`)
+      .lt('created_at', fiveMinutesAgo)
+  } catch (cleanupErr) {
+    console.warn('[auto-verify-test] Pre-run cleanup failed (non-fatal):', cleanupErr)
+  }
+
+  let insertedLeadId: string | null = null
 
   try {
+    // STEP 1 — Insert a temporary test lead so verifyRows has something
+    // concrete to match against. This mirrors the production flow where a
+    // lead registers first and the PU Prime xlsx arrives later.
+    const { data: insertedLead, error: insertErr } = await supabaseAdmin
+      .from('leads')
+      .insert({
+        distributor_id: distributor.id,
+        uid: testUid,
+        email: 'test@systm8.local',
+        name: 'TEST SETUP',
+        registration_status: 'pending',
+        uid_verified: false,
+        created_at: new Date().toISOString(),
+      })
+      .select('id')
+      .single()
+
+    if (insertErr || !insertedLead) {
+      console.error('[auto-verify-test] Failed to insert test lead:', insertErr)
+      return NextResponse.json(
+        { success: false, error: 'Failed to create test lead' },
+        { status: 500 }
+      )
+    }
+
+    insertedLeadId = insertedLead.id
+
+    // STEP 2 — Run the shared verifier against a synthetic xlsx row whose
+    // userId matches the test lead's uid. This runs the identical code
+    // path as production inbound PU Prime mail.
+    const fakeRows: ExcelRow[] = [
+      {
+        userId: testUid,
+        userName: 'TEST SETUP',
+        accountNumber: '',
+        openingTime: new Date().toISOString(),
+      },
+    ]
+
     const { verified, results } = await verifyRows(
       fakeRows,
       { supabaseAdmin, resend, distributor },
       { isTest: true, logPrefix: '[auto-verify-test]' }
     )
 
-    // Inline cleanup: remove the test lead before returning so we never
-    // leave orphans. Scope strictly by distributor + TEST_ prefix so we
-    // only ever touch rows we just inserted for this IB.
-    const { error: cleanupErr } = await supabaseAdmin
-      .from('leads')
-      .delete()
-      .eq('distributor_id', distributor.id)
-      .like('uid', `TEST_${distributor.slug}_%`)
-
-    if (cleanupErr) {
-      console.error('[auto-verify-test] Cleanup failed:', cleanupErr)
-    }
-
-    const created = results.find(r => r.status === 'created' || r.status === 'verified')
-
-    if (verified === 0 || !created) {
-      console.error('[auto-verify-test] Test run did not verify any row:', results)
+    // STEP 3 — Assert exactly 1 verified row.
+    if (verified !== 1) {
+      console.error('[auto-verify-test] Expected 1 verified row, got', verified, 'results:', results)
       return NextResponse.json(
         { success: false, error: 'Test row did not verify', results },
         { status: 500 }
       )
     }
 
-    console.info(`[AutoVerify] Test setup OK for distributor ${distributor.slug}`)
+    console.info(`[AutoVerify] Test setup OK for distributor ${slug}`)
 
     return NextResponse.json({
       success: true,
-      testLeadId: created.leadId || null,
+      testLeadId: insertedLeadId,
       testUid,
     })
   } catch (err) {
     console.error('[auto-verify-test] Unexpected error:', err)
-
-    // Best-effort cleanup on failure
-    await supabaseAdmin
-      .from('leads')
-      .delete()
-      .eq('distributor_id', distributor.id)
-      .like('uid', `TEST_${distributor.slug}_%`)
-
     return NextResponse.json(
       { success: false, error: 'Internal error' },
       { status: 500 }
     )
+  } finally {
+    // STEP 4 — Guaranteed inline cleanup: delete every lead this run
+    // touched. Guarded by TEST_ prefix + this-distributor scope so we can
+    // never delete a real lead.
+    try {
+      await supabaseAdmin
+        .from('leads')
+        .delete()
+        .eq('distributor_id', distributor.id)
+        .like('uid', thisRunUidPattern)
+    } catch (cleanupErr) {
+      console.error('[auto-verify-test] Final cleanup failed:', cleanupErr)
+    }
   }
 }
