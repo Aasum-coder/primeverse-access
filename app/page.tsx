@@ -6972,14 +6972,24 @@ export default function Home() {
                 </div>
                 {(() => {
                   // 3-state auto-verification indicator
-                  //   🔴 no forwarding_verification row → "Not active"
-                  //   🟡 forwarding confirmed but no real PuPrime mail yet
                   //   🟢 first_puprime_mail_received_at set (or 10s test-setup override)
+                  //   🟡 forwarding_verification exists but no real PuPrime mail yet
+                  //   🔴 neither — setup not started
                   const hasFv = Boolean(distributor.forwarding_verification)
                   const hasFirstMail = Boolean(distributor.first_puprime_mail_received_at)
                   const optimisticActive = testSetupOptimisticUntil > Date.now()
-                  const statusLevel: 'red' | 'amber' | 'green' =
-                    optimisticActive || hasFirstMail ? 'green' : hasFv ? 'amber' : 'red'
+                  /* Order matters: check first_puprime_mail_received_at FIRST because
+                     Outlook/Hotmail Rules never generate a forwarding_verification row
+                     (no confirmation email sent by Microsoft). For those providers, the
+                     only ground truth is whether a real PuPrime mail has been parsed. */
+                  let statusLevel: 'red' | 'amber' | 'green'
+                  if (optimisticActive || hasFirstMail) {
+                    statusLevel = 'green'
+                  } else if (hasFv) {
+                    statusLevel = 'amber'
+                  } else {
+                    statusLevel = 'red'
+                  }
                   const statusColors = {
                     red: { dot: '🔴', fg: '#ef4444', bg: 'rgba(239,68,68,0.1)' },
                     amber: { dot: '🟡', fg: '#c9a84c', bg: 'rgba(201,168,76,0.1)' },
