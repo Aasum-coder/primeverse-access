@@ -5743,15 +5743,20 @@ export default function Home() {
 
   useEffect(() => {
     if (!distributor?.id || activeTab !== 'profile') return
-    const fv = distributor.forwarding_verification
-    const nowMs = Date.now()
-    const hasActive = fv && fv.expires_at && new Date(fv.expires_at).getTime() > nowMs
-    if (hasActive) return
+    // Terminal success: once a real PuPrime mail has been parsed the 3-state
+    // indicator is locked at 🟢 and further polling is pointless. Gmail IBs
+    // whose forwarding_verification has arrived but haven't received a real
+    // mail yet still need polling — so we DON'T gate on forwarding_verification.
+    const hasFirstMail = Boolean(distributor.first_puprime_mail_received_at)
+    if (hasFirstMail) return
     // Immediate refresh on section visibility
     refreshForwardingVerification()
     const startedAt = Date.now()
     const interval = setInterval(() => {
-      if (Date.now() - startedAt > 5 * 60 * 1000) {
+      // 15-minute window covers typical IB onboarding sessions without
+      // hammering the DB. Shorter windows stranded Outlook/Hotmail IBs
+      // whose setup runs longer than 5 min (see Jannice, 2026-04-19).
+      if (Date.now() - startedAt > 15 * 60 * 1000) {
         clearInterval(interval)
         return
       }
@@ -5759,7 +5764,26 @@ export default function Home() {
     }, 5000)
     return () => clearInterval(interval)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [distributor?.id, activeTab, distributor?.forwarding_verification?.received_at])
+  }, [distributor?.id, activeTab, distributor?.forwarding_verification?.received_at, distributor?.first_puprime_mail_received_at])
+
+  // Revalidate on tab focus / visibilitychange — covers the common flow
+  // where an IB tabs away to their email provider to complete forwarding
+  // setup, then tabs back expecting the dashboard to reflect new state.
+  useEffect(() => {
+    if (!distributor?.id || activeTab !== 'profile') return
+    if (distributor.first_puprime_mail_received_at) return
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refreshForwardingVerification()
+    }
+    const onFocus = () => refreshForwardingVerification()
+    document.addEventListener('visibilitychange', onVisible)
+    window.addEventListener('focus', onFocus)
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible)
+      window.removeEventListener('focus', onFocus)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [distributor?.id, activeTab, distributor?.first_puprime_mail_received_at])
 
   // Tick current time every 30s so "expires in" / "received ago" stay fresh
   useEffect(() => {
