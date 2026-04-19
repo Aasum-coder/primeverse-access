@@ -3,14 +3,15 @@ import { createClient } from '@supabase/supabase-js'
 import { Webhook } from 'svix'
 import * as XLSX from 'xlsx'
 import { Resend } from 'resend'
-import { buildVerifiedAccessEmail } from '@/lib/email-templates/verified-access'
 import {
+  detectLanguage,
   detectProvider,
   extractCode,
   extractLink,
   isForwardingVerification,
   type ForwardingVerification,
 } from '@/lib/forwarding-verification'
+import { parseExcelRows, verifyRows } from '@/lib/verify-rows'
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -18,15 +19,6 @@ const supabaseAdmin = createClient(
 )
 
 const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
-
-function parseExcelRows(jsonData: any[]): Array<{ userId: string; userName: string; accountNumber: string; openingTime: string }> {
-  return jsonData.map(row => ({
-    userId: String(row['User ID'] || row['user_id'] || row['UserID'] || '').trim(),
-    userName: String(row['User Name'] || row['user_name'] || row['UserName'] || row['Name'] || '').trim(),
-    accountNumber: String(row['Account'] || row['account'] || row['Account Number'] || '').trim(),
-    openingTime: String(row['Account Opening Time'] || row['Opening Time'] || row['opening_time'] || '').trim(),
-  })).filter(r => r.userId || r.userName)
-}
 
 export async function POST(request: Request) {
   // STEP 1 — Verify webhook signature
@@ -95,7 +87,7 @@ export async function POST(request: Request) {
   // Find distributor by slug
   const { data: dist, error: distErr } = await supabaseAdmin
     .from('distributors')
-    .select('id, slug, name, email, referral_link')
+    .select('id, slug, name, email, referral_link, first_puprime_mail_received_at')
     .eq('slug', slug)
     .maybeSingle()
 
@@ -127,7 +119,8 @@ export async function POST(request: Request) {
 
     const code = extractCode(html, text, provider)
     const link = extractLink(html, text, provider)
-    console.log('[inbound-email] Extracted — code:', code ? `${code.slice(0, 2)}…` : null, 'link:', link ? 'yes' : 'no')
+    const language = detectLanguage(html, text, data.subject || '')
+    console.log('[inbound-email] Extracted — code:', code ? `${code.slice(0, 2)}…` : null, 'link:', link ? 'yes' : 'no', 'language:', language)
 
     const now = new Date()
     const expires = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
@@ -135,6 +128,7 @@ export async function POST(request: Request) {
       provider,
       code,
       link,
+      language,
       received_at: now.toISOString(),
       expires_at: expires.toISOString(),
       from_address: data.from || '',
@@ -157,6 +151,7 @@ export async function POST(request: Request) {
       ok: true,
       type: 'forwarding_verification',
       provider,
+      language,
       has_code: Boolean(code),
       has_link: Boolean(link),
     })
@@ -177,7 +172,7 @@ export async function POST(request: Request) {
 
   console.log('[inbound-email] Found attachment:', xlsxMeta.filename, 'id:', xlsxMeta.id)
 
-  let rows: Array<{ userId: string; userName: string; accountNumber: string; openingTime: string }> = []
+  let rows: ReturnType<typeof parseExcelRows> = []
   try {
     // Fetch the signed download URL for this attachment
     const { data: attachmentData, error: getErr } = await resend.emails.receiving.attachments.get({
@@ -214,118 +209,35 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'No valid rows found in Excel' }, { status: 400 })
   }
 
-  // STEP 5 — Match and verify each row
-  let verified = 0
-  const results: Array<{ userId: string; userName: string; status: string; leadId?: string }> = []
+  // STEP 5 — Match and verify each row (shared parser)
+  const { verified, results } = await verifyRows(
+    rows,
+    {
+      supabaseAdmin,
+      resend,
+      distributor: {
+        id: dist.id,
+        slug: dist.slug,
+        name: dist.name,
+        email: dist.email,
+        referral_link: dist.referral_link,
+      },
+    },
+    { logPrefix: '[inbound-email]' }
+  )
 
-  for (const row of rows) {
-    let lead: any = null
-
-    // Try match by UID first
-    if (row.userId) {
-      const { data: uidMatch } = await supabaseAdmin
-        .from('leads')
-        .select('id, name, email, uid, uid_verified')
-        .eq('distributor_id', dist.id)
-        .eq('uid', row.userId)
-        .maybeSingle()
-      if (uidMatch) lead = uidMatch
-    }
-
-    // Fallback: try name match
-    if (!lead && row.userName) {
-      const { data: nameMatch } = await supabaseAdmin
-        .from('leads')
-        .select('id, name, email, uid, uid_verified')
-        .eq('distributor_id', dist.id)
-        .ilike('name', `%${row.userName}%`)
-        .maybeSingle()
-      if (nameMatch) lead = nameMatch
-    }
-
-    if (!lead) {
-      // No match found — create new lead automatically with uid_verified = true
-      const insertPayload: Record<string, any> = {
-        distributor_id: dist.id,
-        name: row.userName || `UID ${row.userId}`,
-        uid: row.userId || null,
-        uid_verified: true,
-      }
-
-      const { data: newLead, error: createErr } = await supabaseAdmin
-        .from('leads')
-        .insert(insertPayload)
-        .select('id, name, email')
-        .single()
-
-      if (createErr || !newLead) {
-        console.error('[inbound-email] Failed to create lead:', createErr)
-        results.push({ userId: row.userId, userName: row.userName, status: 'create_failed' })
-        continue
-      }
-
-      verified++
-      results.push({ userId: row.userId, userName: row.userName, status: 'created', leadId: newLead.id })
-
-      // Log to email_sends
-      await supabaseAdmin.from('email_sends').insert({
-        user_id: dist.id,
-        email_type: 'auto_verified',
-      }).then(() => {}, () => {})
-
-      console.log('[inbound-email] Created new lead:', newLead.id, row.userName)
-      continue
-    }
-
-    if (lead.uid_verified) {
-      results.push({ userId: row.userId, userName: row.userName, status: 'already_verified', leadId: lead.id })
-      continue
-    }
-
-    // Verify the lead
-    const { error: updateErr } = await supabaseAdmin
-      .from('leads')
-      .update({ uid_verified: true, uid: row.userId || lead.uid })
-      .eq('id', lead.id)
-
-    if (updateErr) {
-      console.error('[inbound-email] Failed to update lead:', lead.id, updateErr)
-      results.push({ userId: row.userId, userName: row.userName, status: 'update_failed', leadId: lead.id })
-      continue
-    }
-
-    verified++
-    results.push({ userId: row.userId, userName: row.userName, status: 'verified', leadId: lead.id })
-
-    // Send verification email to the lead
-    if (lead.email) {
-      try {
-        const { html, subject } = buildVerifiedAccessEmail({
-          name: lead.name || '',
-          referralLink: dist.referral_link || 'https://www.primeverseaccess.com',
-        })
-        await resend.emails.send({
-          from: '1Move Academy <noreply@primeverseaccess.com>',
-          to: [lead.email],
-          subject,
-          html,
-        })
-      } catch (emailErr) {
-        console.error('[inbound-email] Failed to send verification email to lead:', lead.email, emailErr)
-      }
-    }
-
-    // Log to email_sends
-    await supabaseAdmin.from('email_sends').insert({
-      user_id: dist.id,
-      email_type: 'auto_verified',
-    }).then(() => {}, () => {})
+  // Update distributor last_inbound_at and — on first successful mail —
+  // first_puprime_mail_received_at. The latter drives the dashboard's
+  // 🟢 "Active — auto-verification running" indicator.
+  const now = new Date().toISOString()
+  const updates: Record<string, any> = { last_inbound_at: now }
+  if (!dist.first_puprime_mail_received_at) {
+    updates.first_puprime_mail_received_at = now
+    console.info(`[AutoVerify] First PU Prime mail received for distributor ${slug}`)
   }
-
-  // Update distributor last_inbound_at
   await supabaseAdmin
     .from('distributors')
-    .update({ last_inbound_at: new Date().toISOString() })
+    .update(updates)
     .eq('id', dist.id)
 
   console.log('[inbound-email] Done. Verified:', verified, '/', rows.length)

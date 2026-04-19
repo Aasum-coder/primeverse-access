@@ -412,6 +412,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Verification code expired',
     code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
     try_again: "I'll try again",
+    status_not_active: 'Not active — set up forwarding below',
+    status_waiting_first_mail: 'Waiting for first PuPrime mail',
+    status_active_running: 'Active — auto-verification running',
+    click_to_confirm_forwarding: 'Click to confirm forwarding',
+    test_setup_button: '🧪 Test my setup',
+    test_setup_running: 'Testing…',
+    test_setup_success: '✅ Test passed — your setup works!',
+    test_setup_failed: 'Test failed — check your forwarding setup',
   },
   no: {
     leadsTab: 'Leads',
@@ -791,6 +799,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Bekreftelseskoden er utløpt',
     code_expired_subtitle: 'Koder utløper etter 7 dager. Prøv å legge til videresendingsadressen hos e-postleverandøren din igjen for å få en ny kode.',
     try_again: 'Jeg prøver igjen',
+    status_not_active: 'Ikke aktiv — sett opp videresending nedenfor',
+    status_waiting_first_mail: 'Venter på første PuPrime-epost',
+    status_active_running: 'Aktiv — automatisk verifisering kjører',
+    click_to_confirm_forwarding: 'Klikk for å bekrefte videresending',
+    test_setup_button: '🧪 Test oppsettet mitt',
+    test_setup_running: 'Tester…',
+    test_setup_success: '✅ Testen besto — oppsettet ditt fungerer!',
+    test_setup_failed: 'Testen mislyktes — sjekk oppsettet for videresending',
   },
   sv: {
     leadsTab: 'Leads',
@@ -1170,6 +1186,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Verification code expired',
     code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
     try_again: "I'll try again",
+    status_not_active: 'Inte aktiv — ställ in vidarebefordran nedan',
+    status_waiting_first_mail: 'Väntar på första PuPrime-mejlet',
+    status_active_running: 'Aktiv — automatisk verifiering körs',
+    click_to_confirm_forwarding: 'Klicka för att bekräfta vidarebefordran',
+    test_setup_button: '🧪 Testa min konfiguration',
+    test_setup_running: 'Testar…',
+    test_setup_success: '✅ Testet klarades — din konfiguration fungerar!',
+    test_setup_failed: 'Testet misslyckades — kontrollera din vidarebefordran',
   },
   es: {
     leadsTab: 'Leads',
@@ -1549,6 +1573,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Verification code expired',
     code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
     try_again: "I'll try again",
+    status_not_active: 'No activo — configura el reenvío abajo',
+    status_waiting_first_mail: 'Esperando el primer correo de PuPrime',
+    status_active_running: 'Activo — verificación automática en curso',
+    click_to_confirm_forwarding: 'Haz clic para confirmar el reenvío',
+    test_setup_button: '🧪 Probar mi configuración',
+    test_setup_running: 'Probando…',
+    test_setup_success: '✅ Prueba superada — ¡tu configuración funciona!',
+    test_setup_failed: 'La prueba falló — revisa tu configuración de reenvío',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -1928,6 +1960,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Verification code expired',
     code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
     try_again: "I'll try again",
+    status_not_active: 'Не активно — настройте пересылку ниже',
+    status_waiting_first_mail: 'Ожидание первого письма от PuPrime',
+    status_active_running: 'Активно — автоматическая проверка запущена',
+    click_to_confirm_forwarding: 'Нажмите, чтобы подтвердить пересылку',
+    test_setup_button: '🧪 Проверить настройку',
+    test_setup_running: 'Проверка…',
+    test_setup_success: '✅ Тест пройден — всё работает!',
+    test_setup_failed: 'Тест не пройден — проверьте настройку пересылки',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -2307,6 +2347,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Verification code expired',
     code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
     try_again: "I'll try again",
+    status_not_active: 'غير مفعّل — أعدّ إعادة التوجيه أدناه',
+    status_waiting_first_mail: 'في انتظار أول بريد من PuPrime',
+    status_active_running: 'مفعّل — التحقق التلقائي قيد التشغيل',
+    click_to_confirm_forwarding: 'انقر لتأكيد إعادة التوجيه',
+    test_setup_button: '🧪 اختبر إعدادي',
+    test_setup_running: 'جارٍ الاختبار…',
+    test_setup_success: '✅ نجح الاختبار — إعدادك يعمل!',
+    test_setup_failed: 'فشل الاختبار — تحقق من إعداد إعادة التوجيه',
   },
   tl: {
     leadsTab: 'Leads',
@@ -2686,6 +2734,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Verification code expired',
     code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
     try_again: "I'll try again",
+    status_not_active: 'Hindi aktibo — i-set up ang pagpapasa sa baba',
+    status_waiting_first_mail: 'Naghihintay ng unang PuPrime mail',
+    status_active_running: 'Aktibo — tumatakbo ang auto-verification',
+    click_to_confirm_forwarding: 'I-click para kumpirmahin ang pagpapasa',
+    test_setup_button: '🧪 Subukan ang aking setup',
+    test_setup_running: 'Sinusubukan…',
+    test_setup_success: '✅ Pumasa ang test — gumagana ang iyong setup!',
+    test_setup_failed: 'Nabigo ang test — suriin ang iyong setup ng pagpapasa',
   },
   pt: {
     leadsTab: 'Leads',
@@ -3065,6 +3121,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Verification code expired',
     code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
     try_again: "I'll try again",
+    status_not_active: 'Não ativo — configure o encaminhamento abaixo',
+    status_waiting_first_mail: 'Aguardando o primeiro e-mail do PuPrime',
+    status_active_running: 'Ativo — verificação automática em execução',
+    click_to_confirm_forwarding: 'Clique para confirmar o encaminhamento',
+    test_setup_button: '🧪 Testar minha configuração',
+    test_setup_running: 'Testando…',
+    test_setup_success: '✅ Teste aprovado — sua configuração funciona!',
+    test_setup_failed: 'Falha no teste — verifique sua configuração de encaminhamento',
   },
   th: {
     leadsTab: 'ลีด',
@@ -3444,6 +3508,14 @@ const translations: Record<string, Record<string, string>> = {
     code_expired: 'Verification code expired',
     code_expired_subtitle: 'Codes expire after 7 days. Try adding the forwarding address in your email provider again to receive a new code.',
     try_again: "I'll try again",
+    status_not_active: 'ไม่ได้ใช้งาน — ตั้งค่าการส่งต่อด้านล่าง',
+    status_waiting_first_mail: 'รออีเมลแรกจาก PuPrime',
+    status_active_running: 'ใช้งานอยู่ — การยืนยันอัตโนมัติกำลังทำงาน',
+    click_to_confirm_forwarding: 'คลิกเพื่อยืนยันการส่งต่อ',
+    test_setup_button: '🧪 ทดสอบการตั้งค่าของฉัน',
+    test_setup_running: 'กำลังทดสอบ…',
+    test_setup_success: '✅ ผ่านการทดสอบ — การตั้งค่าของคุณใช้งานได้!',
+    test_setup_failed: 'การทดสอบล้มเหลว — ตรวจสอบการตั้งค่าการส่งต่อ',
   },
 }
 
@@ -4694,6 +4766,11 @@ export default function Home() {
   const [fwdVerifCopied, setFwdVerifCopied] = useState(false)
   const [fwdVerifChecking, setFwdVerifChecking] = useState(false)
   const [fwdVerifNowMs, setFwdVerifNowMs] = useState(() => Date.now())
+  const [testSetupLoading, setTestSetupLoading] = useState(false)
+  // When set to a future ms timestamp the dashboard temporarily shows
+  // 🟢 "Active — auto-verification running" as optimistic feedback after
+  // a successful "Test my setup" run. Purely frontend, no DB state.
+  const [testSetupOptimisticUntil, setTestSetupOptimisticUntil] = useState<number>(0)
 
   const formatRelativeAgo = (iso: string, nowMs: number): string => {
     const diff = Math.max(0, nowMs - new Date(iso).getTime())
@@ -5607,6 +5684,37 @@ export default function Home() {
     if (distributor?.id && activeTab === 'metrics') fetchPageViewHistory(distributor.id, chartPeriod)
   }, [distributor?.id, activeTab, chartPeriod])
 
+  // "Test my setup" — simulates a PU Prime mail end-to-end through the same
+  // shared verifier production uses, then cleans up the test lead inline.
+  // UI shows a 10s optimistic 🟢 flip purely as visual feedback.
+  const handleTestSetup = async () => {
+    if (testSetupLoading || !distributor?.id) return
+    setTestSetupLoading(true)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const res = await fetch('/api/auto-verify/test', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+        },
+      })
+      const body = await res.json().catch(() => ({}))
+      if (res.ok && body?.success) {
+        showToast(t.test_setup_success, 'info')
+        setTestSetupOptimisticUntil(Date.now() + 10_000)
+        // Force re-render when the optimistic window expires
+        setTimeout(() => setTestSetupOptimisticUntil(prev => prev <= Date.now() ? 0 : prev), 10_500)
+      } else {
+        showToast(t.test_setup_failed)
+      }
+    } catch {
+      showToast(t.test_setup_failed)
+    } finally {
+      setTestSetupLoading(false)
+    }
+  }
+
   // Forwarding-verification refresh + polling (STATE A only)
   const refreshForwardingVerification = async () => {
     if (!distributor?.id) return
@@ -5614,11 +5722,16 @@ export default function Home() {
     try {
       const { data } = await supabase
         .from('distributors')
-        .select('forwarding_verification')
+        .select('forwarding_verification, first_puprime_mail_received_at, last_inbound_at')
         .eq('id', distributor.id)
         .maybeSingle()
       if (data) {
-        setDistributor((prev: any) => prev ? { ...prev, forwarding_verification: data.forwarding_verification } : prev)
+        setDistributor((prev: any) => prev ? {
+          ...prev,
+          forwarding_verification: data.forwarding_verification,
+          first_puprime_mail_received_at: data.first_puprime_mail_received_at,
+          last_inbound_at: data.last_inbound_at,
+        } : prev)
       }
       setFwdVerifNowMs(Date.now())
     } catch {
@@ -6857,14 +6970,57 @@ export default function Home() {
                   <input className="field-input" readOnly value={`verify+${distributor.slug}@zapraxi.resend.app`} style={{ flex: 1, fontFamily: 'monospace', fontSize: '0.82rem', background: 'rgba(0,0,0,0.3)' }} onClick={e => (e.target as HTMLInputElement).select()} />
                   <button className="gold-btn gold-btn-sm" style={{ whiteSpace: 'nowrap', padding: '8px 14px' }} onClick={() => { navigator.clipboard.writeText(`verify+${distributor.slug}@zapraxi.resend.app`); setInboundCopied(true); setTimeout(() => setInboundCopied(false), 2000) }}>{inboundCopied ? '✓ Copied' : 'Copy'}</button>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1rem', padding: '8px 12px', background: 'rgba(0,0,0,0.2)', borderRadius: 8, fontSize: '0.82rem' }}>
-                  {distributor.last_inbound_at ? (<><span style={{ color: '#22c55e', fontSize: '1rem' }}>✅</span><span style={{ color: 'var(--text-secondary)' }}>Active — last received: {new Date(distributor.last_inbound_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span></>) : (<><span style={{ color: '#888', fontSize: '1rem' }}>⚪</span><span style={{ color: 'var(--text-dim)' }}>Not active — set up forwarding below</span></>)}
-                </div>
+                {(() => {
+                  // 3-state auto-verification indicator
+                  //   🔴 no forwarding_verification row → "Not active"
+                  //   🟡 forwarding confirmed but no real PuPrime mail yet
+                  //   🟢 first_puprime_mail_received_at set (or 10s test-setup override)
+                  const hasFv = Boolean(distributor.forwarding_verification)
+                  const hasFirstMail = Boolean(distributor.first_puprime_mail_received_at)
+                  const optimisticActive = testSetupOptimisticUntil > Date.now()
+                  const statusLevel: 'red' | 'amber' | 'green' =
+                    optimisticActive || hasFirstMail ? 'green' : hasFv ? 'amber' : 'red'
+                  const statusColors = {
+                    red: { dot: '🔴', fg: '#ef4444', bg: 'rgba(239,68,68,0.1)' },
+                    amber: { dot: '🟡', fg: '#c9a84c', bg: 'rgba(201,168,76,0.1)' },
+                    green: { dot: '🟢', fg: '#22c55e', bg: 'rgba(34,197,94,0.1)' },
+                  }[statusLevel]
+                  const statusLabel =
+                    statusLevel === 'green'
+                      ? t.status_active_running
+                      : statusLevel === 'amber'
+                      ? t.status_waiting_first_mail
+                      : t.status_not_active
+
+                  return (
+                    <div style={{ marginBottom: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', background: statusColors.bg, borderRadius: 8, fontSize: '0.82rem' }}>
+                        <span style={{ fontSize: '1rem' }}>{statusColors.dot}</span>
+                        <span style={{ color: statusColors.fg, fontWeight: 600 }}>{statusLabel}</span>
+                        {statusLevel === 'green' && distributor.last_inbound_at && !optimisticActive && (
+                          <span style={{ color: 'var(--text-dim)', marginLeft: 'auto', fontSize: '0.75rem' }}>
+                            {new Date(distributor.last_inbound_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        className="gold-btn gold-btn-sm"
+                        style={{ marginTop: 8, padding: '6px 12px', fontSize: '0.8rem', opacity: testSetupLoading ? 0.6 : 1 }}
+                        onClick={handleTestSetup}
+                        disabled={testSetupLoading}
+                        aria-busy={testSetupLoading}
+                      >
+                        {testSetupLoading ? t.test_setup_running : t.test_setup_button}
+                      </button>
+                    </div>
+                  )
+                })()}
 
                 {/* ─── Forwarding Verification Code ─── */}
                 {(() => {
                   const fv = distributor.forwarding_verification as null | {
                     provider: string; code: string | null; link: string | null;
+                    language?: 'en' | 'no' | 'sv' | 'unknown';
                     received_at: string; expires_at: string;
                     from_address: string; subject: string;
                   }
@@ -6975,13 +7131,15 @@ export default function Home() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="gold-btn gold-btn-sm"
-                                style={{ display: 'inline-block', padding: '8px 14px', fontSize: '0.78rem', fontWeight: 700, letterSpacing: 0.3, textDecoration: 'none' }}
+                                style={{ display: 'inline-block', padding: '8px 14px', fontSize: '0.78rem', fontWeight: 700, letterSpacing: 0.3, textDecoration: 'none', background: '#c9a84c', color: '#000' }}
                               >
-                                {t.open_verification_link}
+                                {fv.code ? t.open_verification_link : t.click_to_confirm_forwarding}
                               </a>
-                              <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: 6 }}>
-                                {t.click_to_confirm}
-                              </div>
+                              {fv.code && (
+                                <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: 6 }}>
+                                  {t.click_to_confirm}
+                                </div>
+                              )}
                             </div>
                           )}
 
