@@ -645,8 +645,9 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .stat small{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);display:block;margin-top:.25rem}
         .dist-card{background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:2.4rem;position:relative;overflow:hidden}
         .dist-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
-        .dist-portrait{width:100%;max-width:240px;aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:6px;border:1px solid var(--border2);margin:0 auto 1.8rem}
-        .dist-badge{display:inline-block;background:var(--gold-d);border:1px solid var(--gold-b);color:var(--gold);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2px;margin-bottom:1.4rem}
+        .dist-portrait{width:100%;max-width:240px;aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:6px;border:1px solid var(--border2);margin:0 auto 1.8rem;position:relative;z-index:1}
+        /* z-index:2 required because .dist-portrait creates a stacking context via transform:scale when parseProfileImage returns zoom>1 */
+        .dist-badge{display:inline-block;background:var(--gold-d);border:1px solid var(--gold-b);color:var(--gold);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2px;margin-top:-1.4rem;margin-bottom:1.4rem;position:relative;z-index:2}
         .dist-quote{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--white);line-height:1.7;margin-bottom:1.2rem;white-space:pre-line}
         .dist-author{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
         .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:1.3rem;margin-top:3rem;perspective:1200px}
