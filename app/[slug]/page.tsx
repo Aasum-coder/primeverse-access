@@ -704,7 +704,9 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .back-dash svg{width:14px;height:14px;flex-shrink:0}
         @media(max-width:720px){nav{padding:0 1.2rem}.about-grid{grid-template-columns:1fr;gap:2rem}.ftr-grid{grid-template-columns:1fr}.modal,.fcard{padding:1.8rem 1.4rem}
         /* Badge overlap relaxed on mobile: when .about-grid stacks at 720px, .dist-card goes full-width while image stays 240px, causing the left-aligned badge to visually float off the image. Softer -0.7rem overlap compensates. */
-        .dist-badge{margin-top:-0.7rem}}
+        .dist-badge{margin-top:-0.7rem}
+        /* Hard mobile cap: aspect-ratio:3/4 isn't always honored on mobile browsers (tall intrinsic portrait photos can override the CSS ratio), which lets .dist-portrait grow to ~1000px tall. max-height clamps it regardless; object-fit:cover keeps the crop looking right. */
+        .dist-portrait{max-width:200px;max-height:267px}}
         .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
         .btn-gold:focus-visible,.btn-nav:focus-visible,.fsubmit:focus-visible,.lang-trigger:focus-visible,.lang-modal-option:focus-visible,.mclose:focus-visible,.fi:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
       `}</style>
