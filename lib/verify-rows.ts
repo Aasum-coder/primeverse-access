@@ -93,9 +93,16 @@ export async function verifyRows(
     }
 
     if (!lead) {
+      // leads.email is NOT NULL in prod. When the xlsx doesn't carry an
+      // email (PuPrime exports usually don't), synthesize a non-colliding
+      // placeholder so the insert lands. IBs can edit the lead later.
+      const syntheticEmail = row.userId
+        ? `puprime+${row.userId}@auto.primeverseaccess.com`
+        : `puprime+${Date.now()}@auto.primeverseaccess.com`
       const insertPayload: Record<string, any> = {
         distributor_id: distributor.id,
         name: row.userName || `UID ${row.userId}`,
+        email: syntheticEmail,
         uid: row.userId || null,
         uid_verified: true,
       }
