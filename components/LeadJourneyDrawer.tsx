@@ -86,7 +86,7 @@ export default function LeadJourneyDrawer({ lead, onClose }: Props) {
   return (
     <>
       <div onClick={onClose} style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.7)', zIndex:998 }}/>
-      <div style={{ position:'fixed', top:0, right:0, height:'100vh', width:'420px', background:'#080808', borderLeft:'1px solid #c9a84c', zIndex:999, overflowY:'auto', boxShadow:'0 0 60px rgba(201,168,76,0.15)', display:'flex', flexDirection:'column' }}>
+      <div style={{ position:'fixed', top:0, right:0, height:'100vh', width:'min(420px, 100vw)', background:'#080808', borderLeft:'1px solid #c9a84c', zIndex:999, overflowY:'auto', boxShadow:'0 0 60px rgba(201,168,76,0.15)', display:'flex', flexDirection:'column' }}>
 
         {/* Header */}
         <div style={{ padding:'24px 20px 16px', borderBottom:'1px solid #c9a84c33' }}>
