@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { createClient } from '@supabase/supabase-js'
 import LeadJourneyDrawer from '@/components/LeadJourneyDrawer'
+import { normalizeTelegramHandle, telegramHandleForDisplay } from '@/lib/normalize-telegram'
 
 const WorkflowCanvas = dynamic(() => import('@/components/WorkflowCanvas'), { ssr: false })
 
@@ -429,6 +430,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ Sent to {email}',
     email_sent_failed: "❌ Couldn't send — please try again",
     email_sent_persistent: '📧 Guide sent',
+    telegram_placeholder: '@username or t.me/username',
+    telegram_invalid: 'Invalid Telegram username. Use @username or the full URL.',
   },
   no: {
     leadsTab: 'Leads',
@@ -825,6 +828,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ Sendt til {email}',
     email_sent_failed: '❌ Kunne ikke sende — prøv igjen',
     email_sent_persistent: '📧 Veiledning sendt',
+    telegram_placeholder: '@brukernavn eller t.me/brukernavn',
+    telegram_invalid: 'Ugyldig Telegram-brukernavn. Bruk @brukernavn eller full URL.',
   },
   sv: {
     leadsTab: 'Leads',
@@ -1221,6 +1226,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ Skickat till {email}',
     email_sent_failed: '❌ Kunde inte skicka — försök igen',
     email_sent_persistent: '📧 Guide skickad',
+    telegram_placeholder: '@användarnamn eller t.me/användarnamn',
+    telegram_invalid: 'Ogiltigt Telegram-användarnamn. Använd @användarnamn eller full URL.',
   },
   es: {
     leadsTab: 'Leads',
@@ -1617,6 +1624,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ Enviado a {email}',
     email_sent_failed: '❌ No se pudo enviar — inténtalo de nuevo',
     email_sent_persistent: '📧 Guía enviada',
+    telegram_placeholder: '@usuario o t.me/usuario',
+    telegram_invalid: 'Nombre de usuario de Telegram inválido. Usa @usuario o la URL completa.',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -2013,6 +2022,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ Отправлено на {email}',
     email_sent_failed: '❌ Не удалось отправить — попробуйте снова',
     email_sent_persistent: '📧 Руководство отправлено',
+    telegram_placeholder: '@имя_пользователя или t.me/имя_пользователя',
+    telegram_invalid: 'Неверное имя пользователя Telegram. Используйте @имя или полный URL.',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -2409,6 +2420,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ تم الإرسال إلى {email}',
     email_sent_failed: '❌ تعذّر الإرسال — حاول مرة أخرى',
     email_sent_persistent: '📧 تم إرسال الدليل',
+    telegram_placeholder: '@اسم_المستخدم أو t.me/اسم_المستخدم',
+    telegram_invalid: 'اسم مستخدم Telegram غير صالح. استخدم @اسم_المستخدم أو الرابط الكامل.',
   },
   tl: {
     leadsTab: 'Leads',
@@ -2805,6 +2818,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ Naipadala sa {email}',
     email_sent_failed: '❌ Hindi naipadala — subukan muli',
     email_sent_persistent: '📧 Naipadala ang gabay',
+    telegram_placeholder: '@username o t.me/username',
+    telegram_invalid: 'Hindi wasto ang Telegram username. Gamitin ang @username o buong URL.',
   },
   pt: {
     leadsTab: 'Leads',
@@ -3201,6 +3216,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ Enviado para {email}',
     email_sent_failed: '❌ Não foi possível enviar — tente novamente',
     email_sent_persistent: '📧 Guia enviado',
+    telegram_placeholder: '@usuário ou t.me/usuário',
+    telegram_invalid: 'Nome de usuário do Telegram inválido. Use @usuário ou a URL completa.',
   },
   th: {
     leadsTab: 'ลีด',
@@ -3597,6 +3614,8 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_success: '✅ ส่งไปที่ {email}',
     email_sent_failed: '❌ ส่งไม่สำเร็จ — ลองอีกครั้ง',
     email_sent_persistent: '📧 ส่งคู่มือแล้ว',
+    telegram_placeholder: '@ชื่อผู้ใช้ หรือ t.me/ชื่อผู้ใช้',
+    telegram_invalid: 'ชื่อผู้ใช้ Telegram ไม่ถูกต้อง ใช้ @ชื่อผู้ใช้ หรือ URL แบบเต็ม',
   },
 }
 
@@ -4827,6 +4846,7 @@ export default function Home() {
   const [updateSaved, setUpdateSaved] = useState(false)
   const [referralError, setReferralError] = useState('')
   const [socialTelegram, setSocialTelegram] = useState('')
+  const [telegramError, setTelegramError] = useState('')
   const [socialWhatsapp, setSocialWhatsapp] = useState('')
   const [socialTiktok, setSocialTiktok] = useState('')
   const [socialInstagram, setSocialInstagram] = useState('')
@@ -5540,7 +5560,7 @@ export default function Home() {
           setProfileSlug(impDist.slug || '')
           setProfileReferralLink(impDist.referral_link || '')
           setProfileDirection(impDist.direction || '')
-          setSocialTelegram(impDist.social_telegram || '')
+          setSocialTelegram(telegramHandleForDisplay(impDist.social_telegram))
           setSocialWhatsapp(impDist.social_whatsapp || '')
           setSocialTiktok(impDist.social_tiktok || '')
           setSocialInstagram(impDist.social_instagram || '')
@@ -5644,7 +5664,7 @@ export default function Home() {
       setProfileSlug(dist.slug || '')
       setProfileReferralLink(dist.referral_link || '')
       setProfileDirection(dist.direction || '')
-      setSocialTelegram(dist.social_telegram || '')
+      setSocialTelegram(telegramHandleForDisplay(dist.social_telegram))
       setSocialWhatsapp(dist.social_whatsapp || '')
       setSocialTiktok(dist.social_tiktok || '')
       setSocialInstagram(dist.social_instagram || '')
@@ -6113,6 +6133,12 @@ export default function Home() {
       setReferralError(rv.error)
       return
     }
+    // Block save when Telegram is non-empty but can't be normalized.
+    if (socialTelegram.trim() && !normalizeTelegramHandle(socialTelegram)) {
+      setTelegramError(t.telegram_invalid)
+      return
+    }
+    setTelegramError('')
     const normalizedLink = rv.normalized
     setProfileReferralLink(normalizedLink)
     setReferralError('')
@@ -6134,7 +6160,7 @@ export default function Home() {
     const voiceProfileData = { experience: voiceExperience, tone: voiceTone, never_say: voiceNeverSay, audience: voiceAudience, example1: voiceExample1, example2: voiceExample2 }
     // Auto-translate if the bio text changed since the last save
     const nextBioTranslations = await refreshBioTranslations(profileBio, distributor.bio, profileName)
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -6150,7 +6176,7 @@ export default function Home() {
       fetch('/api/page-live-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     }
     if (!wasLive) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -6171,6 +6197,11 @@ export default function Home() {
       setReferralError(rv.error)
       return
     }
+    if (socialTelegram.trim() && !normalizeTelegramHandle(socialTelegram)) {
+      setTelegramError(t.telegram_invalid)
+      return
+    }
+    setTelegramError('')
     const normalizedLink = rv.normalized
     setProfileReferralLink(normalizedLink)
     setReferralError('')
@@ -6191,7 +6222,7 @@ export default function Home() {
     const voiceProfileData2 = { experience: voiceExperience, tone: voiceTone, never_say: voiceNeverSay, audience: voiceAudience, example1: voiceExample1, example2: voiceExample2 }
     // Auto-translate if the bio text changed since the last save
     const nextBioTranslations2 = await refreshBioTranslations(profileBio, distributor.bio, profileName)
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -6203,7 +6234,7 @@ export default function Home() {
       return
     }
     if (!wasLiveUpdate) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: socialTelegram || null, social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 })
     setUpdatingProfile(false)
     setUpdateSaved(true)
     setTimeout(() => setUpdateSaved(false), 3000)
@@ -6908,7 +6939,26 @@ export default function Home() {
               <div className="field-group">
                 <label className="field-label">{t.socialMedia || 'Social media'}</label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <input className="field-input" value={socialTelegram} onChange={e => setSocialTelegram(e.target.value)} onBlur={() => { const v = socialTelegram.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialTelegram('https://' + v) }} placeholder={t.telegramUrl || 'https://t.me/yourusername'} />
+                  <input
+                    className="field-input"
+                    value={socialTelegram}
+                    onChange={e => { setSocialTelegram(e.target.value); if (telegramError) setTelegramError('') }}
+                    onBlur={() => {
+                      const v = socialTelegram.trim()
+                      if (!v) { setTelegramError(''); setSocialTelegram(''); return }
+                      const normalized = normalizeTelegramHandle(v)
+                      if (normalized) {
+                        setTelegramError('')
+                        setSocialTelegram(telegramHandleForDisplay(normalized))
+                      } else {
+                        setTelegramError(t.telegram_invalid)
+                      }
+                    }}
+                    placeholder={t.telegram_placeholder}
+                    aria-invalid={!!telegramError}
+                    style={telegramError ? { borderColor: '#d44a37' } : undefined}
+                  />
+                  {telegramError && <p style={{ margin: '0 0 0.35rem', fontSize: '0.75rem', color: '#d44a37' }}>{telegramError}</p>}
                   <input className="field-input" value={socialWhatsapp} onChange={e => setSocialWhatsapp(e.target.value.replace(/[^\d+]/g, ''))} placeholder={t.whatsappPhone || '+1234567890'} />
                   <input className="field-input" value={socialTiktok} onChange={e => setSocialTiktok(e.target.value)} onBlur={() => { const v = socialTiktok.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialTiktok('https://' + v) }} placeholder="TikTok URL" />
                   <input className="field-input" value={socialInstagram} onChange={e => setSocialInstagram(e.target.value)} onBlur={() => { const v = socialInstagram.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialInstagram('https://' + v) }} placeholder="Instagram URL" />
