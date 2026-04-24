@@ -420,6 +420,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'Testing…',
     test_setup_success: '✅ Test passed — your setup works!',
     test_setup_failed: 'Test failed — check your forwarding setup',
+    instructions_button: '📖 Instructions',
+    instructions_subtitle: 'Choose how you want to read the guide:',
+    option_open_online: '🔗 Open online',
+    option_download_pdf: '⬇️ Download PDF',
+    option_email_me: '📧 Email it to me',
+    email_sending: 'Sending…',
+    email_sent_success: '✅ Sent to {email}',
+    email_sent_failed: "❌ Couldn't send — please try again",
+    email_sent_persistent: '📧 Guide sent',
   },
   no: {
     leadsTab: 'Leads',
@@ -807,6 +816,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'Tester…',
     test_setup_success: '✅ Testen besto — oppsettet ditt fungerer!',
     test_setup_failed: 'Testen mislyktes — sjekk oppsettet for videresending',
+    instructions_button: '📖 Instruksjoner',
+    instructions_subtitle: 'Velg hvordan du vil lese veiledningen:',
+    option_open_online: '🔗 Åpne online',
+    option_download_pdf: '⬇️ Last ned PDF',
+    option_email_me: '📧 Send til min email',
+    email_sending: 'Sender…',
+    email_sent_success: '✅ Sendt til {email}',
+    email_sent_failed: '❌ Kunne ikke sende — prøv igjen',
+    email_sent_persistent: '📧 Veiledning sendt',
   },
   sv: {
     leadsTab: 'Leads',
@@ -1194,6 +1212,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'Testar…',
     test_setup_success: '✅ Testet klarades — din konfiguration fungerar!',
     test_setup_failed: 'Testet misslyckades — kontrollera din vidarebefordran',
+    instructions_button: '📖 Instruktioner',
+    instructions_subtitle: 'Välj hur du vill läsa guiden:',
+    option_open_online: '🔗 Öppna online',
+    option_download_pdf: '⬇️ Ladda ner PDF',
+    option_email_me: '📧 Skicka till min e-post',
+    email_sending: 'Skickar…',
+    email_sent_success: '✅ Skickat till {email}',
+    email_sent_failed: '❌ Kunde inte skicka — försök igen',
+    email_sent_persistent: '📧 Guide skickad',
   },
   es: {
     leadsTab: 'Leads',
@@ -1581,6 +1608,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'Probando…',
     test_setup_success: '✅ Prueba superada — ¡tu configuración funciona!',
     test_setup_failed: 'La prueba falló — revisa tu configuración de reenvío',
+    instructions_button: '📖 Instrucciones',
+    instructions_subtitle: 'Elige cómo quieres leer la guía:',
+    option_open_online: '🔗 Abrir en línea',
+    option_download_pdf: '⬇️ Descargar PDF',
+    option_email_me: '📧 Envíamela por correo',
+    email_sending: 'Enviando…',
+    email_sent_success: '✅ Enviado a {email}',
+    email_sent_failed: '❌ No se pudo enviar — inténtalo de nuevo',
+    email_sent_persistent: '📧 Guía enviada',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -1968,6 +2004,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'Проверка…',
     test_setup_success: '✅ Тест пройден — всё работает!',
     test_setup_failed: 'Тест не пройден — проверьте настройку пересылки',
+    instructions_button: '📖 Инструкции',
+    instructions_subtitle: 'Выберите, как вы хотите прочитать руководство:',
+    option_open_online: '🔗 Открыть онлайн',
+    option_download_pdf: '⬇️ Скачать PDF',
+    option_email_me: '📧 Отправить мне на почту',
+    email_sending: 'Отправка…',
+    email_sent_success: '✅ Отправлено на {email}',
+    email_sent_failed: '❌ Не удалось отправить — попробуйте снова',
+    email_sent_persistent: '📧 Руководство отправлено',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -2355,6 +2400,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'جارٍ الاختبار…',
     test_setup_success: '✅ نجح الاختبار — إعدادك يعمل!',
     test_setup_failed: 'فشل الاختبار — تحقق من إعداد إعادة التوجيه',
+    instructions_button: '📖 التعليمات',
+    instructions_subtitle: 'اختر كيف تريد قراءة الدليل:',
+    option_open_online: '🔗 افتح عبر الإنترنت',
+    option_download_pdf: '⬇️ تنزيل ملف PDF',
+    option_email_me: '📧 أرسله إلى بريدي الإلكتروني',
+    email_sending: 'جارٍ الإرسال…',
+    email_sent_success: '✅ تم الإرسال إلى {email}',
+    email_sent_failed: '❌ تعذّر الإرسال — حاول مرة أخرى',
+    email_sent_persistent: '📧 تم إرسال الدليل',
   },
   tl: {
     leadsTab: 'Leads',
@@ -2742,6 +2796,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'Sinusubukan…',
     test_setup_success: '✅ Pumasa ang test — gumagana ang iyong setup!',
     test_setup_failed: 'Nabigo ang test — suriin ang iyong setup ng pagpapasa',
+    instructions_button: '📖 Mga tagubilin',
+    instructions_subtitle: 'Pumili kung paano mo gustong basahin ang gabay:',
+    option_open_online: '🔗 Buksan online',
+    option_download_pdf: '⬇️ I-download ang PDF',
+    option_email_me: '📧 I-email sa akin',
+    email_sending: 'Ipinapadala…',
+    email_sent_success: '✅ Naipadala sa {email}',
+    email_sent_failed: '❌ Hindi naipadala — subukan muli',
+    email_sent_persistent: '📧 Naipadala ang gabay',
   },
   pt: {
     leadsTab: 'Leads',
@@ -3129,6 +3192,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'Testando…',
     test_setup_success: '✅ Teste aprovado — sua configuração funciona!',
     test_setup_failed: 'Falha no teste — verifique sua configuração de encaminhamento',
+    instructions_button: '📖 Instruções',
+    instructions_subtitle: 'Escolha como quer ler o guia:',
+    option_open_online: '🔗 Abrir online',
+    option_download_pdf: '⬇️ Baixar PDF',
+    option_email_me: '📧 Envie para meu e-mail',
+    email_sending: 'Enviando…',
+    email_sent_success: '✅ Enviado para {email}',
+    email_sent_failed: '❌ Não foi possível enviar — tente novamente',
+    email_sent_persistent: '📧 Guia enviado',
   },
   th: {
     leadsTab: 'ลีด',
@@ -3516,6 +3588,15 @@ const translations: Record<string, Record<string, string>> = {
     test_setup_running: 'กำลังทดสอบ…',
     test_setup_success: '✅ ผ่านการทดสอบ — การตั้งค่าของคุณใช้งานได้!',
     test_setup_failed: 'การทดสอบล้มเหลว — ตรวจสอบการตั้งค่าการส่งต่อ',
+    instructions_button: '📖 คำแนะนำ',
+    instructions_subtitle: 'เลือกวิธีที่คุณต้องการอ่านคู่มือ:',
+    option_open_online: '🔗 เปิดออนไลน์',
+    option_download_pdf: '⬇️ ดาวน์โหลด PDF',
+    option_email_me: '📧 ส่งไปที่อีเมลของฉัน',
+    email_sending: 'กำลังส่ง…',
+    email_sent_success: '✅ ส่งไปที่ {email}',
+    email_sent_failed: '❌ ส่งไม่สำเร็จ — ลองอีกครั้ง',
+    email_sent_persistent: '📧 ส่งคู่มือแล้ว',
   },
 }
 
@@ -4761,7 +4842,6 @@ export default function Home() {
   const [voiceAudience, setVoiceAudience] = useState('')
   const [voiceExample1, setVoiceExample1] = useState('')
   const [voiceExample2, setVoiceExample2] = useState('')
-  const [inboundProvider, setInboundProvider] = useState('gmail')
   const [inboundCopied, setInboundCopied] = useState(false)
   const [fwdVerifCopied, setFwdVerifCopied] = useState(false)
   const [fwdVerifChecking, setFwdVerifChecking] = useState(false)
@@ -4771,6 +4851,15 @@ export default function Home() {
   // 🟢 "Active — auto-verification running" as optimistic feedback after
   // a successful "Test my setup" run. Purely frontend, no DB state.
   const [testSetupOptimisticUntil, setTestSetupOptimisticUntil] = useState<number>(0)
+  // Instructions dropdown — toggled by the "📖 Instructions" button
+  const [instructionsOpen, setInstructionsOpen] = useState(false)
+  const [emailInstructionsState, setEmailInstructionsState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [emailInstructionsRecipient, setEmailInstructionsRecipient] = useState('')
+  // Timestamp of the last successful send — drives the persistent "Guide sent"
+  // chip next to the Instructions button for ~10s after send.
+  const [instructionsSentAt, setInstructionsSentAt] = useState<number>(0)
+  const instructionsPanelRef = useRef<HTMLDivElement | null>(null)
+  const instructionsButtonRef = useRef<HTMLButtonElement | null>(null)
 
   const formatRelativeAgo = (iso: string, nowMs: number): string => {
     const diff = Math.max(0, nowMs - new Date(iso).getTime())
@@ -5714,6 +5803,66 @@ export default function Home() {
       setTestSetupLoading(false)
     }
   }
+
+  // "Email me the guide" — POSTs to /api/auto-verify/email-instructions
+  // and drives the inline row state machine. Server-side rate-limits
+  // at 3s; client disables the row while sending and shows a persistent
+  // ~10s "Guide sent" chip near the Instructions button on success.
+  const handleEmailInstructions = async () => {
+    if (emailInstructionsState === 'sending' || !distributor?.id) return
+    setEmailInstructionsState('sending')
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const res = await fetch('/api/auto-verify/email-instructions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+        },
+        body: JSON.stringify({ lang }),
+      })
+      const body = await res.json().catch(() => ({}))
+      if (res.ok && body?.success) {
+        setEmailInstructionsRecipient(body.sent_to || distributor.email || '')
+        setEmailInstructionsState('sent')
+        setInstructionsSentAt(Date.now())
+        // Auto-close panel 3s after success, then keep the persistent chip
+        // next to the Instructions button visible for ~10s total.
+        setTimeout(() => {
+          setInstructionsOpen(false)
+          setEmailInstructionsState('idle')
+        }, 3000)
+        setTimeout(() => setInstructionsSentAt(prev => (Date.now() - prev >= 10_000 ? 0 : prev)), 10_500)
+      } else {
+        setEmailInstructionsState('error')
+      }
+    } catch {
+      setEmailInstructionsState('error')
+    }
+  }
+
+  // Close instructions panel on click-outside + Escape
+  useEffect(() => {
+    if (!instructionsOpen) return
+    const onMouseDown = (e: MouseEvent) => {
+      const target = e.target as Node
+      if (
+        instructionsPanelRef.current && !instructionsPanelRef.current.contains(target) &&
+        instructionsButtonRef.current && !instructionsButtonRef.current.contains(target)
+      ) {
+        setInstructionsOpen(false)
+      }
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setInstructionsOpen(false)
+    }
+    document.addEventListener('mousedown', onMouseDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onMouseDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [instructionsOpen])
 
   // Forwarding-verification refresh + polling (STATE A only)
   const refreshForwardingVerification = async () => {
@@ -6993,6 +7142,129 @@ export default function Home() {
                   <input className="field-input" readOnly value={`verify+${distributor.slug}@zapraxi.resend.app`} style={{ flex: 1, fontFamily: 'monospace', fontSize: '0.82rem', background: 'rgba(0,0,0,0.3)' }} onClick={e => (e.target as HTMLInputElement).select()} />
                   <button className="gold-btn gold-btn-sm" style={{ whiteSpace: 'nowrap', padding: '8px 14px' }} onClick={() => { navigator.clipboard.writeText(`verify+${distributor.slug}@zapraxi.resend.app`); setInboundCopied(true); setTimeout(() => setInboundCopied(false), 2000) }}>{inboundCopied ? '✓ Copied' : 'Copy'}</button>
                 </div>
+
+                {/* ─── Instructions button + reveal panel ─── */}
+                {(() => {
+                  const NOTION_URL = 'https://www.notion.so/PrimeVerse-Auto-Approval-Setup-34be6af83e5a80cc9653c0611f47f27a?source=copy_link'
+                  const PDF_URL = '/downloads/primeverse-auto-approval-setup.pdf'
+                  const persistentVisible = instructionsSentAt > 0 && Date.now() - instructionsSentAt < 10_000
+                  const truncateEmail = (e: string) => {
+                    if (!e) return ''
+                    if (e.length <= 28) return e
+                    return e.slice(0, 16) + '…' + e.slice(-10)
+                  }
+                  const rowBase: React.CSSProperties = {
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    gap: 10, minHeight: 44, padding: '10px 12px',
+                    fontSize: '0.88rem', color: '#f0ede8',
+                    background: 'transparent', border: 'none', width: '100%',
+                    cursor: 'pointer', textAlign: 'left', textDecoration: 'none',
+                    borderRadius: 8, transition: 'background 150ms ease',
+                  }
+                  const rowHover = (e: React.MouseEvent<HTMLElement>, on: boolean) => {
+                    (e.currentTarget as HTMLElement).style.background = on ? 'rgba(201,168,76,0.08)' : 'transparent'
+                  }
+                  return (
+                    <div style={{ marginBottom: '1rem' }}>
+                      <button
+                        ref={instructionsButtonRef}
+                        className="gold-btn gold-btn-sm"
+                        style={{ width: '100%', padding: '10px 14px', fontSize: '0.88rem', fontWeight: 700, letterSpacing: 0.3, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                        onClick={() => setInstructionsOpen(v => !v)}
+                        aria-expanded={instructionsOpen}
+                        aria-controls="instructions-panel"
+                      >
+                        <span>{t.instructions_button}</span>
+                        <span style={{ display: 'inline-block', transition: 'transform 200ms ease', transform: instructionsOpen ? 'rotate(180deg)' : 'rotate(0deg)', fontSize: '0.7rem' }}>▼</span>
+                      </button>
+                      {persistentVisible && (
+                        <div style={{ marginTop: 8, display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 999, background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.3)', color: '#c9a84c', fontSize: '0.75rem' }}>
+                          {t.email_sent_persistent}
+                        </div>
+                      )}
+                      <div
+                        ref={instructionsPanelRef}
+                        id="instructions-panel"
+                        role="region"
+                        aria-hidden={!instructionsOpen}
+                        style={{
+                          maxHeight: instructionsOpen ? 320 : 0,
+                          opacity: instructionsOpen ? 1 : 0,
+                          overflow: 'hidden',
+                          transition: 'max-height 250ms ease, opacity 250ms ease, margin-top 250ms ease',
+                          marginTop: instructionsOpen ? 10 : 0,
+                          borderTop: '1px solid rgba(201,168,76,0.25)',
+                          background: 'rgba(0,0,0,0.4)',
+                          borderRadius: 8,
+                          padding: instructionsOpen ? '12px 8px' : '0 8px',
+                          pointerEvents: instructionsOpen ? 'auto' : 'none',
+                        }}
+                      >
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', padding: '4px 8px 10px' }}>
+                          {t.instructions_subtitle}
+                        </div>
+
+                        <a
+                          href={NOTION_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={rowBase}
+                          onClick={() => setInstructionsOpen(false)}
+                          onMouseEnter={e => rowHover(e, true)}
+                          onMouseLeave={e => rowHover(e, false)}
+                        >
+                          <span>{t.option_open_online}</span>
+                          <span aria-hidden="true" style={{ color: 'var(--text-dim)' }}>›</span>
+                        </a>
+
+                        <div style={{ height: 1, background: 'rgba(201,168,76,0.15)', margin: '2px 10px' }} />
+
+                        <a
+                          href={PDF_URL}
+                          download="PrimeVerse-Auto-Approval-Setup.pdf"
+                          style={rowBase}
+                          onClick={() => setInstructionsOpen(false)}
+                          onMouseEnter={e => rowHover(e, true)}
+                          onMouseLeave={e => rowHover(e, false)}
+                        >
+                          <span>{t.option_download_pdf}</span>
+                          <span aria-hidden="true" style={{ color: 'var(--text-dim)' }}>›</span>
+                        </a>
+
+                        <div style={{ height: 1, background: 'rgba(201,168,76,0.15)', margin: '2px 10px' }} />
+
+                        <button
+                          type="button"
+                          style={{ ...rowBase, opacity: emailInstructionsState === 'sending' ? 0.7 : 1 }}
+                          onClick={handleEmailInstructions}
+                          disabled={emailInstructionsState === 'sending'}
+                          onMouseEnter={e => rowHover(e, true)}
+                          onMouseLeave={e => rowHover(e, false)}
+                        >
+                          {emailInstructionsState === 'idle' && (<>
+                            <span>{t.option_email_me}</span>
+                            <span aria-hidden="true" style={{ color: 'var(--text-dim)' }}>›</span>
+                          </>)}
+                          {emailInstructionsState === 'sending' && (<>
+                            <span>{t.option_email_me}</span>
+                            <span style={{ color: '#c9a84c', fontSize: '0.8rem' }}>{t.email_sending}</span>
+                          </>)}
+                          {emailInstructionsState === 'sent' && (
+                            <span aria-live="polite" style={{ color: '#22c55e', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {t.email_sent_success.replace('{email}', truncateEmail(emailInstructionsRecipient))}
+                            </span>
+                          )}
+                          {emailInstructionsState === 'error' && (
+                            <span aria-live="assertive" style={{ color: '#ef4444' }}>
+                              {t.email_sent_failed}
+                            </span>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })()}
+
                 {(() => {
                   // 3-state auto-verification indicator
                   //   🟢 first_puprime_mail_received_at set (or 10s test-setup override)
@@ -7208,44 +7480,6 @@ export default function Home() {
                   )
                 })()}
 
-                <label className="field-label">Your email provider</label>
-                <select className="field-input" value={inboundProvider} onChange={e => setInboundProvider(e.target.value)} style={{ marginBottom: '0.75rem' }}>
-                  <option value="gmail">Gmail</option><option value="outlook">Outlook / Hotmail</option><option value="apple">Apple Mail</option><option value="yahoo">Yahoo Mail</option><option value="thunderbird">Thunderbird</option><option value="other">Other</option>
-                </select>
-                <div style={{ padding: '12px 14px', background: 'rgba(0,0,0,0.25)', borderRadius: 10, fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                  {inboundProvider === 'gmail' && (
-                    <div>
-                      <div style={{ marginBottom: '14px', padding: '8px 12px', borderRadius: 8, background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.25)', fontSize: '0.8rem', color: '#c9a84c' }}>
-                        ⚠️ Use the same email address you used to register on PU Prime
-                      </div>
-                      <div style={{ fontWeight: 700, color: '#c9a84c', marginBottom: '6px', fontSize: '0.85rem' }}>Step 1: Add forwarding address</div>
-                      <ol style={{ margin: '0 0 16px', paddingLeft: '1.2rem' }}>
-                        <li>Open Gmail → click ⚙️ → <strong>"See all settings"</strong></li>
-                        <li>Go to the <strong>"Forwarding and POP/IMAP"</strong> tab</li>
-                        <li>Click <strong>"Add a forwarding address"</strong></li>
-                        <li>Enter: <code style={{ color: '#c9a84c', background: 'rgba(201,168,76,0.08)', padding: '1px 6px', borderRadius: 4 }}>verify+{distributor.slug}@zapraxi.resend.app</code></li>
-                        <li>Click <strong>"Next"</strong> → <strong>"Proceed"</strong> → <strong>"OK"</strong></li>
-                        <li>Gmail sends a confirmation email to that address — <em>SYSTM8 handles this automatically</em></li>
-                        <li>Go back to <strong>"Forwarding and POP/IMAP"</strong> — wait 30 seconds and refresh</li>
-                      </ol>
-                      <div style={{ fontWeight: 700, color: '#c9a84c', marginBottom: '6px', fontSize: '0.85rem' }}>Step 2: Create the filter</div>
-                      <ol style={{ margin: 0, paddingLeft: '1.2rem' }}>
-                        <li>Go to the <strong>"Filters and Blocked Addresses"</strong> tab</li>
-                        <li>Click <strong>"Create a new filter"</strong></li>
-                        <li>In the <strong>"From"</strong> field enter: <code style={{ color: '#c9a84c', background: 'rgba(201,168,76,0.08)', padding: '1px 6px', borderRadius: 4 }}>noreply@puprime.com</code></li>
-                        <li>Click <strong>"Create filter"</strong> (bottom right)</li>
-                        <li>Check <strong>"Forward it to:"</strong> and select: <code style={{ color: '#c9a84c', background: 'rgba(201,168,76,0.08)', padding: '1px 6px', borderRadius: 4 }}>verify+{distributor.slug}@zapraxi.resend.app</code> from the dropdown</li>
-                        <li>Click <strong>"Create filter"</strong></li>
-                      </ol>
-                      <div style={{ marginTop: '12px', fontSize: '0.85rem', color: '#4ccf7a', fontWeight: 600 }}>Done! ✅</div>
-                    </div>
-                  )}
-                  {inboundProvider === 'outlook' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Open ⚙️ <strong>Settings</strong> → search for "<strong>Rules</strong>"</li><li>Go to <strong>Mail → Rules</strong> → <strong>Add new rule</strong></li><li>Name: <em>PU Prime Auto-Verify</em></li><li>Condition: <strong>From</strong> contains <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: <strong>Forward to</strong> <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>Save</strong></li></ol>)}
-                  {inboundProvider === 'apple' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Open <strong>Mail</strong> → <strong>Settings</strong> → <strong>Rules</strong></li><li>Click <strong>Add Rule</strong></li><li>Set "From" contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: <strong>Forward Message</strong> to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>OK</strong></li></ol>)}
-                  {inboundProvider === 'yahoo' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li>Click ⚙️ <strong>Settings</strong> → <strong>More Settings</strong></li><li>Go to <strong>Filters</strong> → <strong>Add new filter</strong></li><li>From contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: Forward to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>Save</strong></li></ol>)}
-                  {inboundProvider === 'thunderbird' && (<ol style={{ margin: 0, paddingLeft: '1.2rem' }}><li><strong>Tools</strong> → <strong>Message Filters</strong> → <strong>New</strong></li><li>From contains: <code style={{ color: '#c9a84c' }}>puprime.com</code></li><li>Action: Forward to <code style={{ color: '#c9a84c' }}>verify+{distributor.slug}@zapraxi.resend.app</code></li><li>Click <strong>OK</strong></li></ol>)}
-                  {inboundProvider === 'other' && (<div>Search "<strong>email forwarding filter</strong>" in your provider's help. Forward from <code style={{ color: '#c9a84c' }}>noreply@puprime.com</code> to:<div style={{ marginTop: 8, padding: '8px 12px', background: 'rgba(201,168,76,0.08)', borderRadius: 6, fontFamily: 'monospace', color: '#c9a84c', wordBreak: 'break-all' }}>verify+{distributor.slug}@zapraxi.resend.app</div></div>)}
-                </div>
               </div>
               )}
             </div>
