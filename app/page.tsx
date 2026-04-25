@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import { createClient } from '@supabase/supabase-js'
 import LeadJourneyDrawer from '@/components/LeadJourneyDrawer'
 import { normalizeTelegramHandle, telegramHandleForDisplay } from '@/lib/normalize-telegram'
+import { shouldShowDisclosures, applyDisclosures, DISCLOSURES } from '@/lib/compliance-disclosures'
 
 const WorkflowCanvas = dynamic(() => import('@/components/WorkflowCanvas'), { ssr: false })
 
@@ -432,6 +433,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 Guide sent',
     telegram_placeholder: '@username or t.me/username',
     telegram_invalid: 'Invalid Telegram username. Use @username or the full URL.',
+    disclosure_warning_title: '⚠️ Compliance disclosure auto-applied',
+    disclosure_warning_body: 'This post mentions trading or financial topics — required disclosures have been added.',
+    disclosure_included_pill: '✓ Disclosures included',
+    disclosure_why_button: '🔍 Why?',
+    disclosure_why_body: 'Most jurisdictions require an "Ad" label at the top of promotional content and a risk disclaimer at the bottom of trading-related content. You can edit the wording, but removing them is not recommended.',
+    disclosure_disable_button: '⚠️ Disable disclosures (not recommended)',
+    disclosure_disable_confirm: 'Disabling disclosures may violate financial advertising regulations in your jurisdiction. Are you sure?',
+    disclosure_disabled_status: '⚠️ Disclosures disabled — at your own risk',
+    disclosure_re_enable_button: 'Re-enable disclosures',
+    disclosure_already_present: '✅ Disclosures already present',
+    disclosure_copy_with: 'Copy with disclosures',
   },
   no: {
     leadsTab: 'Leads',
@@ -830,6 +842,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 Veiledning sendt',
     telegram_placeholder: '@brukernavn eller t.me/brukernavn',
     telegram_invalid: 'Ugyldig Telegram-brukernavn. Bruk @brukernavn eller full URL.',
+    disclosure_warning_title: '⚠️ Compliance-merknad lagt til automatisk',
+    disclosure_warning_body: 'Dette innlegget nevner trading eller finansielle emner — påkrevde merknader er lagt til.',
+    disclosure_included_pill: '✓ Merknader inkludert',
+    disclosure_why_button: '🔍 Hvorfor?',
+    disclosure_why_body: 'De fleste jurisdiksjoner krever "Reklame"-merking øverst og en risikomerknad nederst på innhold om trading. Du kan endre teksten, men det anbefales ikke å fjerne den.',
+    disclosure_disable_button: '⚠️ Deaktiver merknader (anbefales ikke)',
+    disclosure_disable_confirm: 'Å deaktivere merknader kan bryte regler for finansiell markedsføring i din jurisdiksjon. Er du sikker?',
+    disclosure_disabled_status: '⚠️ Merknader deaktivert — på eget ansvar',
+    disclosure_re_enable_button: 'Aktiver merknader igjen',
+    disclosure_already_present: '✅ Merknader allerede til stede',
+    disclosure_copy_with: 'Kopier med merknader',
   },
   sv: {
     leadsTab: 'Leads',
@@ -1228,6 +1251,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 Guide skickad',
     telegram_placeholder: '@användarnamn eller t.me/användarnamn',
     telegram_invalid: 'Ogiltigt Telegram-användarnamn. Använd @användarnamn eller full URL.',
+    disclosure_warning_title: '⚠️ Compliance-anmärkning tillagd automatiskt',
+    disclosure_warning_body: 'Det här inlägget nämner trading eller finansiella ämnen — obligatoriska anmärkningar har lagts till.',
+    disclosure_included_pill: '✓ Anmärkningar inkluderade',
+    disclosure_why_button: '🔍 Varför?',
+    disclosure_why_body: 'De flesta jurisdiktioner kräver en "Reklam"-märkning högst upp och en riskanmärkning längst ner på innehåll om trading. Du kan ändra texten, men att ta bort den rekommenderas inte.',
+    disclosure_disable_button: '⚠️ Inaktivera anmärkningar (rekommenderas ej)',
+    disclosure_disable_confirm: 'Att inaktivera anmärkningar kan bryta mot regler för finansiell marknadsföring i din jurisdiktion. Är du säker?',
+    disclosure_disabled_status: '⚠️ Anmärkningar inaktiverade — på egen risk',
+    disclosure_re_enable_button: 'Aktivera anmärkningar igen',
+    disclosure_already_present: '✅ Anmärkningar finns redan',
+    disclosure_copy_with: 'Kopiera med anmärkningar',
   },
   es: {
     leadsTab: 'Leads',
@@ -1626,6 +1660,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 Guía enviada',
     telegram_placeholder: '@usuario o t.me/usuario',
     telegram_invalid: 'Nombre de usuario de Telegram inválido. Usa @usuario o la URL completa.',
+    disclosure_warning_title: '⚠️ Aviso de cumplimiento aplicado automáticamente',
+    disclosure_warning_body: 'Esta publicación menciona trading o temas financieros — se han añadido los avisos requeridos.',
+    disclosure_included_pill: '✓ Avisos incluidos',
+    disclosure_why_button: '🔍 ¿Por qué?',
+    disclosure_why_body: 'La mayoría de jurisdicciones requieren una etiqueta "Publicidad" al inicio del contenido promocional y un aviso de riesgo al final del contenido sobre trading. Puedes editar el texto, pero no se recomienda eliminarlo.',
+    disclosure_disable_button: '⚠️ Desactivar avisos (no recomendado)',
+    disclosure_disable_confirm: 'Desactivar los avisos puede violar las regulaciones de publicidad financiera en tu jurisdicción. ¿Estás seguro?',
+    disclosure_disabled_status: '⚠️ Avisos desactivados — bajo tu responsabilidad',
+    disclosure_re_enable_button: 'Reactivar avisos',
+    disclosure_already_present: '✅ Avisos ya presentes',
+    disclosure_copy_with: 'Copiar con avisos',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -2024,6 +2069,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 Руководство отправлено',
     telegram_placeholder: '@имя_пользователя или t.me/имя_пользователя',
     telegram_invalid: 'Неверное имя пользователя Telegram. Используйте @имя или полный URL.',
+    disclosure_warning_title: '⚠️ Уведомление о соответствии добавлено автоматически',
+    disclosure_warning_body: 'Этот пост упоминает трейдинг или финансовые темы — обязательные уведомления добавлены.',
+    disclosure_included_pill: '✓ Уведомления включены',
+    disclosure_why_button: '🔍 Почему?',
+    disclosure_why_body: 'Большинство юрисдикций требуют метку "Реклама" в начале рекламного контента и предупреждение о риске в конце контента о трейдинге. Вы можете изменить текст, но удалять его не рекомендуется.',
+    disclosure_disable_button: '⚠️ Отключить уведомления (не рекомендуется)',
+    disclosure_disable_confirm: 'Отключение уведомлений может нарушить правила финансовой рекламы в вашей юрисдикции. Вы уверены?',
+    disclosure_disabled_status: '⚠️ Уведомления отключены — на ваш риск',
+    disclosure_re_enable_button: 'Снова включить уведомления',
+    disclosure_already_present: '✅ Уведомления уже добавлены',
+    disclosure_copy_with: 'Скопировать с уведомлениями',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -2422,6 +2478,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 تم إرسال الدليل',
     telegram_placeholder: '@اسم_المستخدم أو t.me/اسم_المستخدم',
     telegram_invalid: 'اسم مستخدم Telegram غير صالح. استخدم @اسم_المستخدم أو الرابط الكامل.',
+    disclosure_warning_title: '⚠️ تم إضافة إشعار الامتثال تلقائيًا',
+    disclosure_warning_body: 'تذكر هذه المشاركة التداول أو موضوعات مالية — تمت إضافة الإشعارات المطلوبة.',
+    disclosure_included_pill: '✓ تم تضمين الإشعارات',
+    disclosure_why_button: '🔍 لماذا؟',
+    disclosure_why_body: 'تتطلب معظم الجهات القضائية وضع علامة "إعلان" في أعلى المحتوى الترويجي وإخلاء مسؤولية بشأن المخاطر في أسفل المحتوى المتعلق بالتداول. يمكنك تعديل النص، لكن يُنصح بعدم إزالته.',
+    disclosure_disable_button: '⚠️ تعطيل الإشعارات (غير موصى به)',
+    disclosure_disable_confirm: 'قد يؤدي تعطيل الإشعارات إلى انتهاك لوائح الإعلانات المالية في ولايتك القضائية. هل أنت متأكد؟',
+    disclosure_disabled_status: '⚠️ الإشعارات معطلة — على مسؤوليتك الخاصة',
+    disclosure_re_enable_button: 'إعادة تفعيل الإشعارات',
+    disclosure_already_present: '✅ الإشعارات موجودة بالفعل',
+    disclosure_copy_with: 'نسخ مع الإشعارات',
   },
   tl: {
     leadsTab: 'Leads',
@@ -2820,6 +2887,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 Naipadala ang gabay',
     telegram_placeholder: '@username o t.me/username',
     telegram_invalid: 'Hindi wasto ang Telegram username. Gamitin ang @username o buong URL.',
+    disclosure_warning_title: '⚠️ Compliance disclosure awtomatikong inilapat',
+    disclosure_warning_body: 'Binabanggit ng post na ito ang trading o pinansyal na paksa — ang mga kinakailangang disclosure ay naidagdag.',
+    disclosure_included_pill: '✓ Kasama ang mga disclosure',
+    disclosure_why_button: '🔍 Bakit?',
+    disclosure_why_body: 'Karamihan sa mga hurisdiksyon ay nangangailangan ng "Patalastas" na label sa itaas ng promotional content at risk disclaimer sa ibaba ng trading content. Pwede mong i-edit, pero hindi inirerekomenda na alisin.',
+    disclosure_disable_button: '⚠️ I-disable ang disclosures (hindi inirerekomenda)',
+    disclosure_disable_confirm: 'Ang pag-disable ng disclosures ay maaaring lumabag sa mga regulasyon sa pananalapi sa iyong hurisdiksyon. Sigurado ka ba?',
+    disclosure_disabled_status: '⚠️ Naka-disable ang disclosures — sa sarili mong panganib',
+    disclosure_re_enable_button: 'I-enable muli ang disclosures',
+    disclosure_already_present: '✅ Naroroon na ang mga disclosure',
+    disclosure_copy_with: 'Kopyahin kasama ang disclosures',
   },
   pt: {
     leadsTab: 'Leads',
@@ -3218,6 +3296,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 Guia enviado',
     telegram_placeholder: '@usuário ou t.me/usuário',
     telegram_invalid: 'Nome de usuário do Telegram inválido. Use @usuário ou a URL completa.',
+    disclosure_warning_title: '⚠️ Aviso de conformidade aplicado automaticamente',
+    disclosure_warning_body: 'Esta publicação menciona trading ou temas financeiros — os avisos exigidos foram adicionados.',
+    disclosure_included_pill: '✓ Avisos incluídos',
+    disclosure_why_button: '🔍 Por quê?',
+    disclosure_why_body: 'A maioria das jurisdições exige uma etiqueta "Publicidade" no topo do conteúdo promocional e um aviso de risco no final do conteúdo sobre trading. Você pode editar o texto, mas não é recomendado removê-lo.',
+    disclosure_disable_button: '⚠️ Desativar avisos (não recomendado)',
+    disclosure_disable_confirm: 'Desativar os avisos pode violar as regulamentações de publicidade financeira em sua jurisdição. Tem certeza?',
+    disclosure_disabled_status: '⚠️ Avisos desativados — por sua conta e risco',
+    disclosure_re_enable_button: 'Reativar avisos',
+    disclosure_already_present: '✅ Avisos já presentes',
+    disclosure_copy_with: 'Copiar com avisos',
   },
   th: {
     leadsTab: 'ลีด',
@@ -3616,6 +3705,17 @@ const translations: Record<string, Record<string, string>> = {
     email_sent_persistent: '📧 ส่งคู่มือแล้ว',
     telegram_placeholder: '@ชื่อผู้ใช้ หรือ t.me/ชื่อผู้ใช้',
     telegram_invalid: 'ชื่อผู้ใช้ Telegram ไม่ถูกต้อง ใช้ @ชื่อผู้ใช้ หรือ URL แบบเต็ม',
+    disclosure_warning_title: '⚠️ เพิ่มข้อความปฏิบัติตามอัตโนมัติ',
+    disclosure_warning_body: 'โพสต์นี้กล่าวถึงการเทรดหรือหัวข้อทางการเงิน — ได้เพิ่มข้อความที่จำเป็นแล้ว',
+    disclosure_included_pill: '✓ รวมข้อความปฏิบัติตามแล้ว',
+    disclosure_why_button: '🔍 ทำไม?',
+    disclosure_why_body: 'เขตอำนาจศาลส่วนใหญ่กำหนดให้มีป้าย "โฆษณา" ที่ด้านบนของเนื้อหาส่งเสริมการขาย และข้อความปฏิเสธความรับผิดด้านความเสี่ยงที่ด้านล่างของเนื้อหาเกี่ยวกับการเทรด คุณสามารถแก้ไขข้อความได้ แต่ไม่แนะนำให้ลบออก',
+    disclosure_disable_button: '⚠️ ปิดข้อความ (ไม่แนะนำ)',
+    disclosure_disable_confirm: 'การปิดข้อความอาจขัดต่อข้อบังคับการโฆษณาทางการเงินในเขตอำนาจศาลของคุณ คุณแน่ใจหรือไม่?',
+    disclosure_disabled_status: '⚠️ ปิดข้อความแล้ว — ความเสี่ยงของคุณเอง',
+    disclosure_re_enable_button: 'เปิดข้อความอีกครั้ง',
+    disclosure_already_present: '✅ มีข้อความอยู่แล้ว',
+    disclosure_copy_with: 'คัดลอกพร้อมข้อความ',
   },
 }
 
@@ -4964,6 +5064,10 @@ export default function Home() {
   const [aiToolLang, setAiToolLang] = useState('en')
   const [aiToolLoading, setAiToolLoading] = useState(false)
   const [aiToolResult, setAiToolResult] = useState('')
+  // Compliance disclosure state — per-modal-session, default enabled.
+  // Resets on aiToolReset and on each new aiToolGenerate() call.
+  const [aiDisclosureDisabled, setAiDisclosureDisabled] = useState(false)
+  const [aiDisclosureWhyOpen, setAiDisclosureWhyOpen] = useState(false)
   const [aiToolHashtags, setAiToolHashtags] = useState<{ top: string[]; medium: string[]; niche: string[] } | null>(null)
   const [aiToolCopied, setAiToolCopied] = useState('')
 
@@ -4978,6 +5082,8 @@ export default function Home() {
   const [replyLoading, setReplyLoading] = useState(false)
   const [replyAnalysis, setReplyAnalysis] = useState('')
   const [replyResult, setReplyResult] = useState('')
+  const [replyDisclosureDisabled, setReplyDisclosureDisabled] = useState(false)
+  const [replyDisclosureWhyOpen, setReplyDisclosureWhyOpen] = useState(false)
   const [replyCopied, setReplyCopied] = useState(false)
   const [replyAnalysisOpen, setReplyAnalysisOpen] = useState(false)
 
@@ -4999,6 +5105,8 @@ export default function Home() {
     setReplyResult('')
     setReplyAnalysis('')
     setReplyCopied(false)
+    setReplyDisclosureDisabled(false)
+    setReplyDisclosureWhyOpen(false)
     try {
       const res = await fetch('/api/ai-reply-assistant', {
         method: 'POST',
@@ -5025,7 +5133,11 @@ export default function Home() {
   }
 
   const replyCopyText = () => {
-    navigator.clipboard.writeText(replyResult)
+    const check = shouldShowDisclosures(replyResult, replyLang)
+    const text = (check.triggered && !replyDisclosureDisabled)
+      ? applyDisclosures(replyResult, replyLang)
+      : replyResult
+    navigator.clipboard.writeText(text)
     setReplyCopied(true)
     setTimeout(() => setReplyCopied(false), 2000)
   }
@@ -5040,6 +5152,8 @@ export default function Home() {
     setReplyResult('')
     setReplyAnalysis('')
     setReplyCopied(false)
+    setReplyDisclosureDisabled(false)
+    setReplyDisclosureWhyOpen(false)
     setReplyAnalysisOpen(false)
     setReplyLang(lang)
   }
@@ -5049,6 +5163,8 @@ export default function Home() {
     setAiToolLoading(true)
     setAiToolResult('')
     setAiToolHashtags(null)
+    setAiDisclosureDisabled(false)
+    setAiDisclosureWhyOpen(false)
     try {
       const res = await fetch('/api/ai-marketing', {
         method: 'POST',
@@ -5095,6 +5211,8 @@ export default function Home() {
     setAiToolPlatform('Facebook')
     setAiToolTone('Professional')
     setAiToolStyle('Engaging')
+    setAiDisclosureDisabled(false)
+    setAiDisclosureWhyOpen(false)
   }
 
   // Broadcast state
@@ -7794,21 +7912,62 @@ export default function Home() {
               </button>
 
               {/* Results - Post & Caption */}
-              {aiToolResult && aiToolModal !== 'hashtags' && (
-                <>
-                  <div className="ai-result-box">{aiToolResult}</div>
-                  {!aiToolResult.startsWith('Error') && (
-                    <div className="ai-result-actions">
-                      <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem' }} onClick={() => aiToolCopy(aiToolResult, 'main')}>
-                        {aiToolCopied === 'main' ? t.copied : t.copyText}
-                      </button>
-                      <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} onClick={aiToolGenerate} disabled={aiToolLoading}>
-                        {t.regenerate}
-                      </button>
+              {aiToolResult && aiToolModal !== 'hashtags' && (() => {
+                const isError = aiToolResult.startsWith('Error')
+                const check = isError ? null : shouldShowDisclosures(aiToolResult, aiToolLang)
+                const triggered = !!check?.triggered
+                const fullyPresent = !!(check && check.alreadyPresent.top && check.alreadyPresent.bottom)
+                const showInsertedDisclosures = triggered && !aiDisclosureDisabled && !fullyPresent
+                const top = check ? (check.alreadyPresent.top ? null : DISCLOSURES[check.language].top) : null
+                const bottom = check ? (check.alreadyPresent.bottom ? null : DISCLOSURES[check.language].bottom) : null
+                const copyText = (triggered && !aiDisclosureDisabled) ? applyDisclosures(aiToolResult, aiToolLang) : aiToolResult
+                return (
+                  <>
+                    {triggered && !fullyPresent && !aiDisclosureDisabled && (
+                      <div role="region" aria-label={t.disclosure_warning_title} style={{ marginTop: '0.75rem', padding: '10px 14px', borderRadius: 10, border: '1px solid rgba(201,168,76,0.4)', background: 'rgba(201,168,76,0.06)', fontSize: '0.82rem', lineHeight: 1.55, color: '#c9a84c' }}>
+                        <div style={{ fontWeight: 700, marginBottom: 4 }}>{t.disclosure_warning_title}</div>
+                        <div style={{ color: 'var(--text-secondary)', marginBottom: 8 }}>{t.disclosure_warning_body}</div>
+                        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                          <span style={{ padding: '2px 8px', borderRadius: 999, background: 'rgba(34,197,94,0.12)', color: '#22c55e', fontSize: '0.72rem', fontWeight: 700 }}>{t.disclosure_included_pill}</span>
+                          <button type="button" onClick={() => setAiDisclosureWhyOpen(v => !v)} style={{ background: 'transparent', border: 'none', color: '#c9a84c', cursor: 'pointer', padding: 0, fontSize: '0.78rem', textDecoration: 'underline' }}>{t.disclosure_why_button}</button>
+                          <button type="button" onClick={() => { if (window.confirm(t.disclosure_disable_confirm)) setAiDisclosureDisabled(true) }} style={{ background: 'transparent', border: 'none', color: '#888', cursor: 'pointer', padding: 0, fontSize: '0.75rem', marginLeft: 'auto' }}>{t.disclosure_disable_button}</button>
+                        </div>
+                        {aiDisclosureWhyOpen && (
+                          <div style={{ marginTop: 8, padding: '8px 10px', background: 'rgba(0,0,0,0.25)', borderRadius: 6, color: 'var(--text-secondary)', fontSize: '0.78rem', lineHeight: 1.5 }}>{t.disclosure_why_body}</div>
+                        )}
+                      </div>
+                    )}
+                    {triggered && fullyPresent && (
+                      <div style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: '#22c55e' }}>{t.disclosure_already_present}</div>
+                    )}
+                    {triggered && aiDisclosureDisabled && (
+                      <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', fontSize: '0.78rem', color: '#ef4444' }}>
+                        <span style={{ flex: 1 }}>{t.disclosure_disabled_status}</span>
+                        <button type="button" onClick={() => setAiDisclosureDisabled(false)} style={{ background: 'transparent', border: '1px solid #c9a84c', color: '#c9a84c', cursor: 'pointer', padding: '4px 10px', borderRadius: 6, fontSize: '0.75rem' }}>{t.disclosure_re_enable_button}</button>
+                      </div>
+                    )}
+                    <div className="ai-result-box" style={{ whiteSpace: 'pre-wrap' }}>
+                      {showInsertedDisclosures && top && (
+                        <div style={{ color: '#c9a84c', fontStyle: 'italic', opacity: 0.85, marginBottom: '0.6rem' }}>{top}</div>
+                      )}
+                      {aiToolResult}
+                      {showInsertedDisclosures && bottom && (
+                        <div style={{ color: '#c9a84c', fontStyle: 'italic', opacity: 0.85, marginTop: '0.6rem' }}>{bottom}</div>
+                      )}
                     </div>
-                  )}
-                </>
-              )}
+                    {!isError && (
+                      <div className="ai-result-actions">
+                        <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem' }} onClick={() => aiToolCopy(copyText, 'main')}>
+                          {aiToolCopied === 'main' ? t.copied : (triggered && !aiDisclosureDisabled ? t.disclosure_copy_with : t.copyText)}
+                        </button>
+                        <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} onClick={aiToolGenerate} disabled={aiToolLoading}>
+                          {t.regenerate}
+                        </button>
+                      </div>
+                    )}
+                  </>
+                )
+              })()}
 
               {/* Results - Caption emoji suggestions */}
               {aiToolResult && aiToolModal === 'caption' && aiToolResult.includes('---') && (
@@ -7965,35 +8124,73 @@ export default function Home() {
               )}
 
               {/* Reply result */}
-              {replyResult && (
-                <div style={{ marginTop: '1rem' }}>
-                  {!replyResult.startsWith('Error') && (
-                    <div className="ai-modal-label" style={{ marginBottom: '0.5rem' }}>{t.replyReadyTitle}</div>
-                  )}
-                  <textarea
-                    className="field-input"
-                    rows={6}
-                    value={replyResult}
-                    onChange={e => setReplyResult(e.target.value)}
-                    style={{ resize: 'vertical', minHeight: '100px', fontSize: '0.88rem', lineHeight: 1.6, color: replyResult.startsWith('Error') ? 'var(--error-text, #e57373)' : 'var(--text-primary)' }}
-                  />
-                  {!replyResult.startsWith('Error') && (
-                    <>
-                      <div className="ai-result-actions" style={{ marginTop: '0.6rem' }}>
-                        <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem' }} onClick={replyCopyText}>
-                          {replyCopied ? t.copied : `📋 ${t.replyCopy}`}
-                        </button>
-                        <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} onClick={replyGenerate} disabled={replyLoading}>
-                          🔄 {t.replyRegenerate}
-                        </button>
+              {replyResult && (() => {
+                const isError = replyResult.startsWith('Error')
+                const check = isError ? null : shouldShowDisclosures(replyResult, replyLang)
+                const triggered = !!check?.triggered
+                const fullyPresent = !!(check && check.alreadyPresent.top && check.alreadyPresent.bottom)
+                const showInsertedDisclosures = triggered && !replyDisclosureDisabled && !fullyPresent
+                const top = check && !check.alreadyPresent.top ? DISCLOSURES[check.language].top : null
+                const bottom = check && !check.alreadyPresent.bottom ? DISCLOSURES[check.language].bottom : null
+                return (
+                  <div style={{ marginTop: '1rem' }}>
+                    {!isError && (
+                      <div className="ai-modal-label" style={{ marginBottom: '0.5rem' }}>{t.replyReadyTitle}</div>
+                    )}
+                    {triggered && !fullyPresent && !replyDisclosureDisabled && (
+                      <div role="region" aria-label={t.disclosure_warning_title} style={{ marginBottom: '0.6rem', padding: '10px 14px', borderRadius: 10, border: '1px solid rgba(201,168,76,0.4)', background: 'rgba(201,168,76,0.06)', fontSize: '0.82rem', lineHeight: 1.55, color: '#c9a84c' }}>
+                        <div style={{ fontWeight: 700, marginBottom: 4 }}>{t.disclosure_warning_title}</div>
+                        <div style={{ color: 'var(--text-secondary)', marginBottom: 8 }}>{t.disclosure_warning_body}</div>
+                        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                          <span style={{ padding: '2px 8px', borderRadius: 999, background: 'rgba(34,197,94,0.12)', color: '#22c55e', fontSize: '0.72rem', fontWeight: 700 }}>{t.disclosure_included_pill}</span>
+                          <button type="button" onClick={() => setReplyDisclosureWhyOpen(v => !v)} style={{ background: 'transparent', border: 'none', color: '#c9a84c', cursor: 'pointer', padding: 0, fontSize: '0.78rem', textDecoration: 'underline' }}>{t.disclosure_why_button}</button>
+                          <button type="button" onClick={() => { if (window.confirm(t.disclosure_disable_confirm)) setReplyDisclosureDisabled(true) }} style={{ background: 'transparent', border: 'none', color: '#888', cursor: 'pointer', padding: 0, fontSize: '0.75rem', marginLeft: 'auto' }}>{t.disclosure_disable_button}</button>
+                        </div>
+                        {replyDisclosureWhyOpen && (
+                          <div style={{ marginTop: 8, padding: '8px 10px', background: 'rgba(0,0,0,0.25)', borderRadius: 6, color: 'var(--text-secondary)', fontSize: '0.78rem', lineHeight: 1.5 }}>{t.disclosure_why_body}</div>
+                        )}
                       </div>
-                      <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '0.5rem', opacity: 0.6, textAlign: 'center' }}>
-                        {t.replyEditTip}
+                    )}
+                    {triggered && fullyPresent && (
+                      <div style={{ marginBottom: '0.5rem', fontSize: '0.78rem', color: '#22c55e' }}>{t.disclosure_already_present}</div>
+                    )}
+                    {triggered && replyDisclosureDisabled && (
+                      <div style={{ marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', fontSize: '0.78rem', color: '#ef4444' }}>
+                        <span style={{ flex: 1 }}>{t.disclosure_disabled_status}</span>
+                        <button type="button" onClick={() => setReplyDisclosureDisabled(false)} style={{ background: 'transparent', border: '1px solid #c9a84c', color: '#c9a84c', cursor: 'pointer', padding: '4px 10px', borderRadius: 6, fontSize: '0.75rem' }}>{t.disclosure_re_enable_button}</button>
                       </div>
-                    </>
-                  )}
-                </div>
-              )}
+                    )}
+                    {showInsertedDisclosures && top && (
+                      <div style={{ color: '#c9a84c', fontStyle: 'italic', opacity: 0.85, fontSize: '0.85rem', padding: '6px 10px', marginBottom: 6 }}>{top}</div>
+                    )}
+                    <textarea
+                      className="field-input"
+                      rows={6}
+                      value={replyResult}
+                      onChange={e => setReplyResult(e.target.value)}
+                      style={{ resize: 'vertical', minHeight: '100px', fontSize: '0.88rem', lineHeight: 1.6, color: isError ? 'var(--error-text, #e57373)' : 'var(--text-primary)' }}
+                    />
+                    {showInsertedDisclosures && bottom && (
+                      <div style={{ color: '#c9a84c', fontStyle: 'italic', opacity: 0.85, fontSize: '0.85rem', padding: '6px 10px', marginTop: 6 }}>{bottom}</div>
+                    )}
+                    {!isError && (
+                      <>
+                        <div className="ai-result-actions" style={{ marginTop: '0.6rem' }}>
+                          <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem' }} onClick={replyCopyText}>
+                            {replyCopied ? t.copied : (triggered && !replyDisclosureDisabled ? `📋 ${t.disclosure_copy_with}` : `📋 ${t.replyCopy}`)}
+                          </button>
+                          <button className="gold-btn" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)' }} onClick={replyGenerate} disabled={replyLoading}>
+                            🔄 {t.replyRegenerate}
+                          </button>
+                        </div>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '0.5rem', opacity: 0.6, textAlign: 'center' }}>
+                          {t.replyEditTip}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )
+              })()}
             </div>
           </div>
         )}
