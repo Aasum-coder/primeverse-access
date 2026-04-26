@@ -87,6 +87,20 @@ async function main() {
     { content: fullMarkdown },
     {
       css,
+      // Forwarded straight to puppeteer.launch under the hood.
+      // --no-sandbox + --disable-setuid-sandbox: required on Ubuntu 23.10+
+      // GitHub runners (unprivileged user namespaces disabled by AppArmor).
+      // --disable-dev-shm-usage: GitHub runners have a tiny /dev/shm and
+      // Chrome OOMs on bigger pages without it. Safe in CI: the runner is
+      // ephemeral and the only input is our own Notion content.
+      launch_options: {
+        headless: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+        ],
+      },
       pdf_options: {
         format: 'A4',
         margin: { top: '20mm', bottom: '20mm', left: '15mm', right: '15mm' },
