@@ -1,0 +1,51 @@
+name: Sync Notion guide → PDF
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly on Monday 06:00 UTC. Notion content rarely changes, but
+    # this catches edits made in between manual triggers.
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-notion-pdf
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      # md-to-pdf uses puppeteer under the hood. ubuntu-latest already ships
+      # the system libs Chromium needs, but Puppeteer downloads its own
+      # browser binary on install — the npm ci above handles that.
+
+      - name: Generate PDF from Notion
+        run: npx tsx scripts/sync-notion-pdf.ts
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+
+      - name: Commit if PDF changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- public/downloads/primeverse-auto-approval-setup.pdf; then
+            echo "PDF unchanged — nothing to commit."
+            exit 0
+          fi
+          git add public/downloads/primeverse-auto-approval-setup.pdf
+          git commit -m "chore: refresh Notion auto-approval setup PDF"
+          git push
