@@ -444,6 +444,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'Re-enable disclosures',
     disclosure_already_present: '✅ Disclosures already present',
     disclosure_copy_with: 'Copy with disclosures',
+    voice_section_title: '✍️ My Voice',
+    voice_section_subtitle: 'Help the AI write exactly like you',
+    voice_field_experience_label: 'Your experience',
+    voice_field_tone_label: 'Your tone',
+    voice_field_never_say_label: 'Never say this',
+    voice_field_audience_label: 'Your audience',
+    voice_field_example_post_1_label: 'Example post 1',
+    voice_field_example_post_2_label: 'Example post 2',
+    voice_placeholder_experience: 'e.g. 4 years in trading and copytrading',
+    voice_placeholder_tone: 'e.g. Direct, calm, no hype',
+    voice_placeholder_never_say: 'e.g. I just discovered, This is crazy, Amazing opportunity',
+    voice_placeholder_audience: 'e.g. People who want more from life, Norwegian and Spanish speakers',
+    voice_placeholder_example_post_1: 'Paste a post you wrote that sounds like you',
+    voice_placeholder_example_post_2: 'Optional second example',
   },
   no: {
     leadsTab: 'Leads',
@@ -853,6 +867,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'Aktiver merknader igjen',
     disclosure_already_present: '✅ Merknader allerede til stede',
     disclosure_copy_with: 'Kopier med merknader',
+    voice_section_title: '✍️ Min stemme',
+    voice_section_subtitle: 'Hjelp AI-en å skrive akkurat som deg',
+    voice_field_experience_label: 'Din erfaring',
+    voice_field_tone_label: 'Din tone',
+    voice_field_never_say_label: 'Si aldri dette',
+    voice_field_audience_label: 'Ditt publikum',
+    voice_field_example_post_1_label: 'Eksempelinnlegg 1',
+    voice_field_example_post_2_label: 'Eksempelinnlegg 2',
+    voice_placeholder_experience: 'f.eks. 4 år innen trading og copytrading',
+    voice_placeholder_tone: 'f.eks. Direkte, rolig, uten hype',
+    voice_placeholder_never_say: 'f.eks. Jeg oppdaget akkurat, Dette er sykt, Fantastisk mulighet',
+    voice_placeholder_audience: 'f.eks. Folk som vil ha mer ut av livet, norske og spanske talere',
+    voice_placeholder_example_post_1: 'Lim inn et innlegg du har skrevet som høres ut som deg',
+    voice_placeholder_example_post_2: 'Valgfritt andre eksempel',
   },
   sv: {
     leadsTab: 'Leads',
@@ -1262,6 +1290,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'Aktivera anmärkningar igen',
     disclosure_already_present: '✅ Anmärkningar finns redan',
     disclosure_copy_with: 'Kopiera med anmärkningar',
+    voice_section_title: '✍️ Min röst',
+    voice_section_subtitle: 'Hjälp AI:n att skriva precis som du',
+    voice_field_experience_label: 'Din erfarenhet',
+    voice_field_tone_label: 'Din ton',
+    voice_field_never_say_label: 'Säg aldrig detta',
+    voice_field_audience_label: 'Din publik',
+    voice_field_example_post_1_label: 'Exempelinlägg 1',
+    voice_field_example_post_2_label: 'Exempelinlägg 2',
+    voice_placeholder_experience: 't.ex. 4 år inom trading och copytrading',
+    voice_placeholder_tone: 't.ex. Direkt, lugn, utan hype',
+    voice_placeholder_never_say: 't.ex. Jag upptäckte precis, Det här är galet, Fantastisk möjlighet',
+    voice_placeholder_audience: 't.ex. Människor som vill ha mer av livet, svenska och spanska talare',
+    voice_placeholder_example_post_1: 'Klistra in ett inlägg du skrivit som låter som du',
+    voice_placeholder_example_post_2: 'Valfritt andra exempel',
   },
   es: {
     leadsTab: 'Leads',
@@ -1671,6 +1713,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'Reactivar avisos',
     disclosure_already_present: '✅ Avisos ya presentes',
     disclosure_copy_with: 'Copiar con avisos',
+    voice_section_title: '✍️ Mi voz',
+    voice_section_subtitle: 'Ayuda a la IA a escribir exactamente como tú',
+    voice_field_experience_label: 'Tu experiencia',
+    voice_field_tone_label: 'Tu tono',
+    voice_field_never_say_label: 'Nunca digas esto',
+    voice_field_audience_label: 'Tu audiencia',
+    voice_field_example_post_1_label: 'Publicación de ejemplo 1',
+    voice_field_example_post_2_label: 'Publicación de ejemplo 2',
+    voice_placeholder_experience: 'ej. 4 años en trading y copytrading',
+    voice_placeholder_tone: 'ej. Directo, tranquilo, sin hype',
+    voice_placeholder_never_say: 'ej. Acabo de descubrir, Esto es una locura, Increíble oportunidad',
+    voice_placeholder_audience: 'ej. Personas que quieren más de la vida, hispanohablantes',
+    voice_placeholder_example_post_1: 'Pega una publicación que escribiste y suena como tú',
+    voice_placeholder_example_post_2: 'Segundo ejemplo opcional',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -2080,6 +2136,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'Снова включить уведомления',
     disclosure_already_present: '✅ Уведомления уже добавлены',
     disclosure_copy_with: 'Скопировать с уведомлениями',
+    voice_section_title: '✍️ Мой голос',
+    voice_section_subtitle: 'Помогите ИИ писать как вы',
+    voice_field_experience_label: 'Ваш опыт',
+    voice_field_tone_label: 'Ваш тон',
+    voice_field_never_say_label: 'Никогда не говорите этого',
+    voice_field_audience_label: 'Ваша аудитория',
+    voice_field_example_post_1_label: 'Пример поста 1',
+    voice_field_example_post_2_label: 'Пример поста 2',
+    voice_placeholder_experience: 'напр. 4 года в трейдинге и копитрейдинге',
+    voice_placeholder_tone: 'напр. Прямой, спокойный, без хайпа',
+    voice_placeholder_never_say: 'напр. Я только что узнал, Это безумие, Удивительная возможность',
+    voice_placeholder_audience: 'напр. Люди, которые хотят большего от жизни, русские трейдеры',
+    voice_placeholder_example_post_1: 'Вставьте пост, который вы написали, звучащий как вы',
+    voice_placeholder_example_post_2: 'Дополнительный второй пример',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -2489,6 +2559,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'إعادة تفعيل الإشعارات',
     disclosure_already_present: '✅ الإشعارات موجودة بالفعل',
     disclosure_copy_with: 'نسخ مع الإشعارات',
+    voice_section_title: '✍️ صوتي',
+    voice_section_subtitle: 'ساعد الذكاء الاصطناعي على الكتابة بأسلوبك',
+    voice_field_experience_label: 'خبرتك',
+    voice_field_tone_label: 'نبرتك',
+    voice_field_never_say_label: 'لا تقل هذا أبدًا',
+    voice_field_audience_label: 'جمهورك',
+    voice_field_example_post_1_label: 'منشور نموذجي 1',
+    voice_field_example_post_2_label: 'منشور نموذجي 2',
+    voice_placeholder_experience: 'مثال: 4 سنوات في التداول والنسخ',
+    voice_placeholder_tone: 'مثال: مباشر، هادئ، بدون مبالغة',
+    voice_placeholder_never_say: 'مثال: اكتشفت للتو، هذا جنون، فرصة مذهلة',
+    voice_placeholder_audience: 'مثال: الناس الذين يريدون المزيد من الحياة',
+    voice_placeholder_example_post_1: 'الصق منشورًا كتبته يبدو وكأنه أنت',
+    voice_placeholder_example_post_2: 'مثال ثانٍ اختياري',
   },
   tl: {
     leadsTab: 'Leads',
@@ -2898,6 +2982,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'I-enable muli ang disclosures',
     disclosure_already_present: '✅ Naroroon na ang mga disclosure',
     disclosure_copy_with: 'Kopyahin kasama ang disclosures',
+    voice_section_title: '✍️ Aking boses',
+    voice_section_subtitle: 'Tulungan ang AI na sumulat tulad mo',
+    voice_field_experience_label: 'Ang iyong karanasan',
+    voice_field_tone_label: 'Ang iyong tono',
+    voice_field_never_say_label: 'Huwag sabihin ito',
+    voice_field_audience_label: 'Ang iyong tagapakinig',
+    voice_field_example_post_1_label: 'Halimbawa post 1',
+    voice_field_example_post_2_label: 'Halimbawa post 2',
+    voice_placeholder_experience: 'hal. 4 taon sa trading at copytrading',
+    voice_placeholder_tone: 'hal. Diretso, kalmado, walang hype',
+    voice_placeholder_never_say: 'hal. Natuklasan ko lang, Nakakabaliw ito, Kamangha-manghang pagkakataon',
+    voice_placeholder_audience: 'hal. Mga taong gustong-gusto ng higit pa sa buhay',
+    voice_placeholder_example_post_1: 'I-paste ang isang post na sinulat mo na parang ikaw',
+    voice_placeholder_example_post_2: 'Opsyonal na pangalawang halimbawa',
   },
   pt: {
     leadsTab: 'Leads',
@@ -3307,6 +3405,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'Reativar avisos',
     disclosure_already_present: '✅ Avisos já presentes',
     disclosure_copy_with: 'Copiar com avisos',
+    voice_section_title: '✍️ Minha voz',
+    voice_section_subtitle: 'Ajude a IA a escrever exatamente como você',
+    voice_field_experience_label: 'Sua experiência',
+    voice_field_tone_label: 'Seu tom',
+    voice_field_never_say_label: 'Nunca diga isso',
+    voice_field_audience_label: 'Seu público',
+    voice_field_example_post_1_label: 'Publicação de exemplo 1',
+    voice_field_example_post_2_label: 'Publicação de exemplo 2',
+    voice_placeholder_experience: 'ex. 4 anos em trading e copytrading',
+    voice_placeholder_tone: 'ex. Direto, calmo, sem hype',
+    voice_placeholder_never_say: 'ex. Acabei de descobrir, Isso é loucura, Oportunidade incrível',
+    voice_placeholder_audience: 'ex. Pessoas que querem mais da vida, falantes de português',
+    voice_placeholder_example_post_1: 'Cole uma publicação que você escreveu e soa como você',
+    voice_placeholder_example_post_2: 'Segundo exemplo opcional',
   },
   th: {
     leadsTab: 'ลีด',
@@ -3716,6 +3828,20 @@ const translations: Record<string, Record<string, string>> = {
     disclosure_re_enable_button: 'เปิดข้อความอีกครั้ง',
     disclosure_already_present: '✅ มีข้อความอยู่แล้ว',
     disclosure_copy_with: 'คัดลอกพร้อมข้อความ',
+    voice_section_title: '✍️ เสียงของฉัน',
+    voice_section_subtitle: 'ช่วย AI เขียนให้เหมือนคุณ',
+    voice_field_experience_label: 'ประสบการณ์ของคุณ',
+    voice_field_tone_label: 'โทนของคุณ',
+    voice_field_never_say_label: 'อย่าพูดสิ่งนี้',
+    voice_field_audience_label: 'กลุ่มเป้าหมายของคุณ',
+    voice_field_example_post_1_label: 'ตัวอย่างโพสต์ 1',
+    voice_field_example_post_2_label: 'ตัวอย่างโพสต์ 2',
+    voice_placeholder_experience: 'เช่น 4 ปีในการเทรดและ copytrading',
+    voice_placeholder_tone: 'เช่น ตรงไปตรงมา สงบ ไม่อวด',
+    voice_placeholder_never_say: 'เช่น เพิ่งค้นพบ นี่บ้ามาก โอกาสที่ยอดเยี่ยม',
+    voice_placeholder_audience: 'เช่น คนที่ต้องการมากขึ้นจากชีวิต',
+    voice_placeholder_example_post_1: 'วางโพสต์ที่คุณเขียนซึ่งฟังดูเหมือนคุณ',
+    voice_placeholder_example_post_2: 'ตัวอย่างที่สองตามต้องการ',
   },
 }
 
@@ -7173,21 +7299,21 @@ export default function Home() {
               {/* ─── My Voice ───────────────────────────────────────────── */}
               <div className="field-group" style={{ border: '1px solid rgba(201,168,76,0.15)', borderRadius: 14, padding: '1.25rem', background: 'rgba(201,168,76,0.03)' }}>
                 <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>✍️ My Voice</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Help the AI write exactly like you</div>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>{t.voice_section_title}</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>{t.voice_section_subtitle}</div>
                 </div>
-                <label className="field-label">Your experience</label>
-                <input className="field-input" value={voiceExperience} onChange={e => setVoiceExperience(e.target.value)} placeholder="e.g. 4 years in trading and copytrading" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Your tone</label>
-                <input className="field-input" value={voiceTone} onChange={e => setVoiceTone(e.target.value)} placeholder="e.g. Direct, calm, no hype" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Never say this</label>
-                <input className="field-input" value={voiceNeverSay} onChange={e => setVoiceNeverSay(e.target.value)} placeholder="e.g. I just discovered, This is crazy, Amazing opportunity" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Your audience</label>
-                <input className="field-input" value={voiceAudience} onChange={e => setVoiceAudience(e.target.value)} placeholder="e.g. People who want more from life, Norwegian and Spanish speakers" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Example post 1</label>
-                <textarea className="field-textarea" rows={4} value={voiceExample1} onChange={e => setVoiceExample1(e.target.value)} placeholder="Paste a post you wrote that sounds like you" />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>Example post 2</label>
-                <textarea className="field-textarea" rows={4} value={voiceExample2} onChange={e => setVoiceExample2(e.target.value)} placeholder="Optional second example" />
+                <label className="field-label">{t.voice_field_experience_label}</label>
+                <input className="field-input" value={voiceExperience} onChange={e => setVoiceExperience(e.target.value)} placeholder={t.voice_placeholder_experience} />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_tone_label}</label>
+                <input className="field-input" value={voiceTone} onChange={e => setVoiceTone(e.target.value)} placeholder={t.voice_placeholder_tone} />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_never_say_label}</label>
+                <input className="field-input" value={voiceNeverSay} onChange={e => setVoiceNeverSay(e.target.value)} placeholder={t.voice_placeholder_never_say} />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_audience_label}</label>
+                <input className="field-input" value={voiceAudience} onChange={e => setVoiceAudience(e.target.value)} placeholder={t.voice_placeholder_audience} />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_example_post_1_label}</label>
+                <textarea className="field-textarea" rows={4} value={voiceExample1} onChange={e => setVoiceExample1(e.target.value)} placeholder={t.voice_placeholder_example_post_1} />
+                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_example_post_2_label}</label>
+                <textarea className="field-textarea" rows={4} value={voiceExample2} onChange={e => setVoiceExample2(e.target.value)} placeholder={t.voice_placeholder_example_post_2} />
               </div>
 
               {/* ─── Bio + AI helper ────────────────────────────────────── */}
