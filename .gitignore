@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# supabase CLI transient cache (created on `npx supabase` runs)
+supabase/.temp/
