@@ -45,8 +45,39 @@ export async function getUserIdFromRequest(request: Request): Promise<string | n
   try {
     const cookieStore = await cookies()
     const accessToken = extractAccessToken(cookieStore.getAll())
+
+    // ─── DIAGNOSTIC (remove after auth is verified working) ────────────
+    // Doesn't depend on a hardcoded cookie name — picks the first sb-*
+    // cookie's name + value preview, so transcribed-cookie-name typos in
+    // the spec don't blind us. Also dumps the configured Supabase project
+    // ref so a project-mismatch bug (token from project A sent to project
+    // B's API) is immediately visible.
+    const allCookies = cookieStore.getAll()
+    const sbCookies = allCookies.filter(c => c.name.startsWith('sb-'))
+    const firstSb = sbCookies[0]
+    const configuredRef = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').match(
+      /^https?:\/\/([a-z0-9-]+)\./i
+    )?.[1] ?? null
+    console.log('[voice-auth-debug]', {
+      allCookieNames: allCookies.map(c => c.name),
+      sbCookieNames: sbCookies.map(c => c.name),
+      firstSbCookieName: firstSb?.name ?? null,
+      firstSbCookieValuePrefix: firstSb?.value ? firstSb.value.slice(0, 80) : null,
+      configuredSupabaseRef: configuredRef,
+      extractorReturned: !!accessToken,
+      extractorTokenPrefix: accessToken ? accessToken.slice(0, 20) : null,
+    })
+    // ───────────────────────────────────────────────────────────────────
+
     const userId = await userIdFromAccessToken(accessToken)
-    if (userId) return userId
+    if (userId) {
+      console.log('[voice-auth-debug] cookie path resolved user', userId)
+      return userId
+    } else if (accessToken) {
+      // Token was extracted but Supabase rejected it — likely Mode C
+      // (project-ref mismatch, expired, or wrong-secret signing).
+      console.log('[voice-auth-debug] cookie path: extracted token but auth.getUser rejected it')
+    }
   } catch (err) {
     // Don't crash on cookie-read failures — fall through to bearer.
     console.error('[voice-auth] cookie path error:', err)
