@@ -1,31 +1,28 @@
 import { cookies } from 'next/headers'
-import { createServerClient } from '@supabase/ssr'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { isSessionFresh } from './session-freshness'
+import { extractAccessToken } from './extract-cookie-token'
 import type { ApiResponse } from './types'
-
-export { isSessionFresh } from './session-freshness'
 
 // Auth helper for the My Voice API. Two paths, primary first:
 //
-//   1. Cookie session via @supabase/ssr's createServerClient + Next's
-//      cookies() helper. We use getSession() (NOT getUser()) — getUser()
-//      verifies the JWT against Supabase auth servers, which triggers the
-//      refresh-token path on stale access tokens and 401'd this endpoint
-//      with "Invalid Refresh Token: Refresh Token Not Found" in PR #203.
+//   1. Cookie path. We extract the access_token from the sb-*-auth-token
+//      cookie ourselves and hand it to client.auth.getUser(token) — the
+//      same validation the bearer fallback already uses successfully.
+//      We deliberately do NOT use @supabase/ssr's createServerClient
+//      because PRs #203 and #204 hit "Invalid Refresh Token: Refresh
+//      Token Not Found" inside the GoTrueClient init flow on this
+//      project's cookies (the multiple-GoTrueClient warning visible in
+//      the browser console suggests races corrupt the refresh_token).
+//      Skipping the SDK's session reconstruction sidesteps that whole
+//      class of failure; we only need the access_token, which all
+//      cookie writes preserve.
 //
-//      getSession() reads the locally-stored session decoded from the
-//      signed sb-* cookie without contacting Supabase. The cookie is
-//      signed by Supabase's JWT secret, so it can't be forged cross-
-//      origin. We additionally check the access token isn't past expiry
-//      so a stale local session never authenticates.
+//   2. Authorization: Bearer header — for server-to-server callers
+//      (cron, scripts) that don't have a cookie.
 //
-//   2. Bearer token in Authorization header — for server-to-server
-//      callers (cron, scripts) that don't have a cookie.
-//
-// Function signature is unchanged on purpose so the 5 voice endpoints
-// don't need edits.
+// Function signature is unchanged so the 5 voice endpoints don't need
+// edits.
 
 export const supabaseAdmin: SupabaseClient = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -35,40 +32,30 @@ export const supabaseAdmin: SupabaseClient = createClient(
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
+async function userIdFromAccessToken(token: string | null | undefined): Promise<string | null> {
+  if (!token) return null
+  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  const { data, error } = await client.auth.getUser(token)
+  if (error || !data?.user?.id) return null
+  return data.user.id
+}
+
 export async function getUserIdFromRequest(request: Request): Promise<string | null> {
-  // 1. Cookie session — getSession() avoids the refresh path
+  // 1. Cookie path — manual extract → auth.getUser(access_token)
   try {
     const cookieStore = await cookies()
-    const ssrClient = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        // No-op: API route handlers can't write cookies back from inside
-        // the SSR cookie callback. If a token refresh is needed, that's
-        // middleware's job — not ours.
-        setAll() {},
-      },
-    })
-    const { data, error } = await ssrClient.auth.getSession()
-    if (!error && data.session?.user?.id && isSessionFresh(data.session.expires_at)) {
-      return data.session.user.id
-    }
+    const accessToken = extractAccessToken(cookieStore.getAll())
+    const userId = await userIdFromAccessToken(accessToken)
+    if (userId) return userId
   } catch (err) {
     // Don't crash on cookie-read failures — fall through to bearer.
-    console.error('[voice-auth] cookie session read failed:', err)
+    console.error('[voice-auth] cookie path error:', err)
   }
 
   // 2. Bearer-token fallback (server-to-server)
   const authHeader = request.headers.get('authorization') || ''
   const token = authHeader.replace(/^Bearer\s+/i, '').trim()
-  if (token) {
-    const tokenClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-    const { data, error } = await tokenClient.auth.getUser(token)
-    if (!error && data?.user) return data.user.id
-  }
-
-  return null
+  return userIdFromAccessToken(token || null)
 }
 
 export function unauthorizedResponse(): NextResponse<ApiResponse<never>> {
