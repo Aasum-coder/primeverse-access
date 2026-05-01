@@ -2,21 +2,19 @@ import { cookies } from 'next/headers'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { extractAccessToken } from './extract-cookie-token'
+import { isJwtFresh } from './jwt-fresh'
 import type { ApiResponse } from './types'
 
 // Auth helper for the My Voice API. Two paths, primary first:
 //
 //   1. Cookie path. We extract the access_token from the sb-*-auth-token
-//      cookie ourselves and hand it to client.auth.getUser(token) — the
-//      same validation the bearer fallback already uses successfully.
-//      We deliberately do NOT use @supabase/ssr's createServerClient
-//      because PRs #203 and #204 hit "Invalid Refresh Token: Refresh
-//      Token Not Found" inside the GoTrueClient init flow on this
-//      project's cookies (the multiple-GoTrueClient warning visible in
-//      the browser console suggests races corrupt the refresh_token).
-//      Skipping the SDK's session reconstruction sidesteps that whole
-//      class of failure; we only need the access_token, which all
-//      cookie writes preserve.
+//      cookie ourselves (sidesteps @supabase/ssr's GoTrueClient init flow
+//      that 401'd in PRs #203/#204), pre-flight the JWT's exp claim
+//      locally so stale cookie tokens fail fast without a Supabase round
+//      trip, then validate via the SERVICE ROLE-keyed client. The
+//      anon-key path can return 401 on this Supabase project's ES256-
+//      signed tokens (the failure mode the diagnostic in PR #206
+//      surfaced); service-role validation is unconditional.
 //
 //   2. Authorization: Bearer header — for server-to-server callers
 //      (cron, scripts) that don't have a cookie.
@@ -29,55 +27,28 @@ export const supabaseAdmin: SupabaseClient = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 )
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-
 async function userIdFromAccessToken(token: string | null | undefined): Promise<string | null> {
   if (!token) return null
-  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-  const { data, error } = await client.auth.getUser(token)
+  // Pre-flight: skip the Supabase round trip on obviously stale tokens.
+  // Catches the cookie-staleness case (frontend GoTrueClient races leave
+  // an old access_token in the cookie even after a refresh).
+  if (!isJwtFresh(token)) return null
+  // Use the SERVICE ROLE client for token validation. Anon-key validation
+  // returned 401 on this project's ES256-signed access tokens during
+  // Hotfix #6 diagnosis. Service-role keyed client validates against the
+  // auth server unconditionally — same call shape, different key.
+  const { data, error } = await supabaseAdmin.auth.getUser(token)
   if (error || !data?.user?.id) return null
   return data.user.id
 }
 
 export async function getUserIdFromRequest(request: Request): Promise<string | null> {
-  // 1. Cookie path — manual extract → auth.getUser(access_token)
+  // 1. Cookie path — manual extract → fresh-check → auth.getUser
   try {
     const cookieStore = await cookies()
     const accessToken = extractAccessToken(cookieStore.getAll())
-
-    // ─── DIAGNOSTIC (remove after auth is verified working) ────────────
-    // Doesn't depend on a hardcoded cookie name — picks the first sb-*
-    // cookie's name + value preview, so transcribed-cookie-name typos in
-    // the spec don't blind us. Also dumps the configured Supabase project
-    // ref so a project-mismatch bug (token from project A sent to project
-    // B's API) is immediately visible.
-    const allCookies = cookieStore.getAll()
-    const sbCookies = allCookies.filter(c => c.name.startsWith('sb-'))
-    const firstSb = sbCookies[0]
-    const configuredRef = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').match(
-      /^https?:\/\/([a-z0-9-]+)\./i
-    )?.[1] ?? null
-    console.log('[voice-auth-debug]', {
-      allCookieNames: allCookies.map(c => c.name),
-      sbCookieNames: sbCookies.map(c => c.name),
-      firstSbCookieName: firstSb?.name ?? null,
-      firstSbCookieValuePrefix: firstSb?.value ? firstSb.value.slice(0, 80) : null,
-      configuredSupabaseRef: configuredRef,
-      extractorReturned: !!accessToken,
-      extractorTokenPrefix: accessToken ? accessToken.slice(0, 20) : null,
-    })
-    // ───────────────────────────────────────────────────────────────────
-
     const userId = await userIdFromAccessToken(accessToken)
-    if (userId) {
-      console.log('[voice-auth-debug] cookie path resolved user', userId)
-      return userId
-    } else if (accessToken) {
-      // Token was extracted but Supabase rejected it — likely Mode C
-      // (project-ref mismatch, expired, or wrong-secret signing).
-      console.log('[voice-auth-debug] cookie path: extracted token but auth.getUser rejected it')
-    }
+    if (userId) return userId
   } catch (err) {
     // Don't crash on cookie-read failures — fall through to bearer.
     console.error('[voice-auth] cookie path error:', err)
