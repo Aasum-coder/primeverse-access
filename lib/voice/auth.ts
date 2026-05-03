@@ -28,11 +28,55 @@ export const supabaseAdmin: SupabaseClient = createClient(
 )
 
 async function userIdFromAccessToken(token: string | null | undefined): Promise<string | null> {
+  // ─── DIAGNOSTIC (Hotfix #7 — remove after the right path is confirmed) ─
+  // Two log points inside this function tell us exactly which of the
+  // three early-return branches fires before we hit Supabase:
+  //   • !token                     → entry log only, willCallSupabase=false
+  //   • !isJwtFresh(token)         → entry log only, willCallSupabase=false
+  //   • Supabase rejects the token → both logs appear, willCallSupabase=true
+  // base64url decode is wrapped in try/catch so a malformed token never
+  // crashes the trace.
+  let tokenAlgClaim: string | null = null
+  let tokenExpClaim: number | null = null
+  if (token && typeof token === 'string') {
+    try {
+      const parts = token.split('.')
+      if (parts.length === 3) {
+        const header = JSON.parse(Buffer.from(parts[0], 'base64url').toString('utf8'))
+        if (typeof header?.alg === 'string') tokenAlgClaim = header.alg
+        const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'))
+        if (typeof payload?.exp === 'number') tokenExpClaim = payload.exp
+      }
+    } catch {
+      // leave alg/exp as null; the log will surface that
+    }
+  }
+  const freshResult = token ? isJwtFresh(token) : null
+  console.log('[voice-auth-trace]', {
+    hasToken: !!token,
+    tokenAlgClaim,
+    tokenExpClaim,
+    nowEpoch: Math.floor(Date.now() / 1000),
+    isJwtFreshResult: freshResult,
+    willCallSupabase: false,
+  })
+  // ───────────────────────────────────────────────────────────────────────
+
   if (!token) return null
   // Pre-flight: skip the Supabase round trip on obviously stale tokens.
   // Catches the cookie-staleness case (frontend GoTrueClient races leave
   // an old access_token in the cookie even after a refresh).
   if (!isJwtFresh(token)) return null
+
+  console.log('[voice-auth-trace]', {
+    hasToken: true,
+    tokenAlgClaim,
+    tokenExpClaim,
+    nowEpoch: Math.floor(Date.now() / 1000),
+    isJwtFreshResult: true,
+    willCallSupabase: true,
+  })
+
   // Use the SERVICE ROLE client for token validation. Anon-key validation
   // returned 401 on this project's ES256-signed access tokens during
   // Hotfix #6 diagnosis. Service-role keyed client validates against the
