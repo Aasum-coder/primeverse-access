@@ -124,3 +124,73 @@ test('chunked + base64 still resolves when chunks span 3 parts', () => {
   ])
   assert.equal(token, 'eyJchunked3')
 })
+
+// Hotfix #8 regression — production cookie matched all earlier tests
+// in shape but extractor returned null. Most likely cause: Vercel/Next
+// URL-decodes cookie values, swapping `+` ↔ space inside the base64
+// payload. These tests reproduce the failure mode and assert the
+// hardened decoder recovers the token via fallback strategies.
+
+test('base64 with `+` swapped to space (Vercel URL-decode artifact)', () => {
+  // Build a session whose base64 encoding contains a `+` character, then
+  // simulate Vercel swapping it to a space.
+  const session = {
+    access_token: 'eyJrealJWT_aaaa_bbbb_cccc_dddd',
+    refresh_token: 'r',
+    user: { id: 'u-1', email: 'a@b.co', some: 'extra fluff to push base64 alignment so + appears' },
+  }
+  const fullValue = makeBase64Session(session)
+  // Confirm the test fixture contains a `+` (otherwise the test isn't
+  // exercising what we think it is)
+  if (!fullValue.includes('+')) {
+    // Force a `+` by appending more random content until one appears
+    let attempt = session
+    let v = fullValue
+    let i = 0
+    while (!v.includes('+') && i < 20) {
+      attempt = { ...attempt, [`pad${i}`]: 'x'.repeat(i + 1) + '!@#$%^&*' }
+      v = makeBase64Session(attempt)
+      i++
+    }
+    if (!v.includes('+')) return // skip — can't construct fixture (vanishingly unlikely)
+    const corrupted = v.replace(/\+/g, ' ')
+    const token = extractAccessToken([{ name: 'sb-ref-auth-token', value: corrupted }])
+    assert.equal(token, 'eyJrealJWT_aaaa_bbbb_cccc_dddd')
+  } else {
+    const corrupted = fullValue.replace(/\+/g, ' ')
+    const token = extractAccessToken([{ name: 'sb-ref-auth-token', value: corrupted }])
+    assert.equal(token, 'eyJrealJWT_aaaa_bbbb_cccc_dddd')
+  }
+})
+
+test('production-shape cookie: full Supabase session blob with ES256 access_token', () => {
+  // Exact shape sent by @supabase/supabase-js v2.6+ for an ES256 project.
+  const session = {
+    access_token:
+      'eyJhbGciOiJFUzI1NiIsImtpZCI6IjkwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3J6bGJwdWRub3JqcWdxc29ud2VnLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJiMmMzZDRlNS1mNmE3LTg5MDEtMjM0NS02Nzg5YWJjZGVmMDEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzg4MDAwMDAwLCJyb2xlIjoiYXV0aGVudGljYXRlZCJ9.fakesignature',
+    token_type: 'bearer',
+    expires_in: 3600,
+    expires_at: 1788000000,
+    refresh_token: 'fakerefresh1234567890',
+    user: {
+      id: 'b2c3d4e5-f6a7-8901-2345-6789abcdef01',
+      aud: 'authenticated',
+      role: 'authenticated',
+      email: 'test@example.com',
+    },
+  }
+  const cookieValue = makeBase64Session(session)
+  const token = extractAccessToken([
+    { name: 'sb-rzlbpudnorjqgqsonweg-auth-token', value: cookieValue },
+  ])
+  assert.equal(token, session.access_token)
+})
+
+test('regex fallback recovers access_token from corrupted JSON', () => {
+  // Simulates partial corruption around the JSON — JSON.parse fails but
+  // the regex extracts the access_token.
+  const corruptedDecoded = `garbage_prefix{"access_token":"eyJrecovered_via_regex","refresh_token":"oops_invalid_json_after`
+  const cookieValue = 'base64-' + Buffer.from(corruptedDecoded, 'utf8').toString('base64')
+  const token = extractAccessToken([{ name: 'sb-ref-auth-token', value: cookieValue }])
+  assert.equal(token, 'eyJrecovered_via_regex')
+})
