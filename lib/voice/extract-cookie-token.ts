@@ -155,62 +155,13 @@ function tryParseSession(raw: string): string | null {
  * Returns the first valid access_token found across any sb-*-auth-token
  * cookie group, or null. Tolerant of all known formats; returns null
  * silently rather than throwing on malformed input.
- *
- * Logs `[voice-extractor-trace]` once per call with full cookie context
- * + the resolved token's prefix (or last failure reason). Remove the log
- * once auth has been verified working in production.
  */
 export function extractAccessToken(cookies: CookieEntry[]): string | null {
-  const allSb = cookies.filter(c => c.name.startsWith('sb-'))
-  const auth = cookies.filter(c => AUTH_COOKIE_RE.test(c.name))
   const groups = groupAuthCookies(cookies)
-
-  let result: string | null = null
-  let lastFailure: string = auth.length === 0 ? 'no auth-token cookies' : 'all groups failed to yield access_token'
-  let attempts: Array<{
-    base: string
-    rawPrefix: string | null
-    rawLength: number
-    chunkIndices: number[]
-    hasUnchunked: boolean
-    decoded: boolean
-    accessTokenFound: boolean
-  }> = []
-
-  for (const [baseName, g] of groups.entries()) {
+  for (const g of groups.values()) {
     const raw = reassembleValue(g)
     const token = tryParseSession(raw)
-    attempts.push({
-      base: baseName,
-      rawPrefix: raw ? raw.slice(0, 60) : null,
-      rawLength: raw.length,
-      chunkIndices: g.chunks.map(c => c.index).sort((a, b) => a - b),
-      hasUnchunked: g.unchunked !== null,
-      decoded: raw.length > 0 && raw.startsWith('base64-'),
-      accessTokenFound: token !== null,
-    })
-    if (token) {
-      result = token
-      break
-    } else if (raw) {
-      lastFailure = `${baseName}: tryParseSession returned null (raw len ${raw.length}, prefix: ${raw.slice(0, 40)})`
-    }
+    if (token) return token
   }
-
-  // ─── DIAGNOSTIC (Hotfix #8 — remove once auth is verified) ────────────
-  console.log('[voice-extractor-trace]', {
-    totalCookies: cookies.length,
-    allCookieNames: cookies.map(c => c.name),
-    sbCookieCount: allSb.length,
-    sbCookieNames: allSb.map(c => c.name),
-    authCookieCount: auth.length,
-    authCookieNames: auth.map(c => c.name),
-    groupAttempts: attempts,
-    resultIsNull: result === null,
-    resultTokenPrefix: result ? result.slice(0, 20) : null,
-    lastFailureReason: result === null ? lastFailure : null,
-  })
-  // ──────────────────────────────────────────────────────────────────────
-
-  return result
+  return null
 }
