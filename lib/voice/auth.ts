@@ -2,19 +2,19 @@ import { cookies } from 'next/headers'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { extractAccessToken } from './extract-cookie-token'
-import { isJwtFresh } from './jwt-fresh'
 import type { ApiResponse } from './types'
 
 // Auth helper for the My Voice API. Two paths, primary first:
 //
 //   1. Cookie path. We extract the access_token from the sb-*-auth-token
-//      cookie ourselves (sidesteps @supabase/ssr's GoTrueClient init flow
-//      that 401'd in PRs #203/#204), pre-flight the JWT's exp claim
-//      locally so stale cookie tokens fail fast without a Supabase round
-//      trip, then validate via the SERVICE ROLE-keyed client. The
-//      anon-key path can return 401 on this Supabase project's ES256-
-//      signed tokens (the failure mode the diagnostic in PR #206
-//      surfaced); service-role validation is unconditional.
+//      cookie ourselves (sidesteps @supabase/ssr's GoTrueClient init
+//      flow that 401'd in PRs #203/#204) and hand it to the service-role
+//      admin client's auth.getUser(token). Supabase decides validity —
+//      we don't pre-judge with a local exp check, since the project has
+//      refresh-grace semantics and an "expired" access_token can still
+//      yield a real user when validated server-side. (Earlier PRs added
+//      isJwtFresh as a fast path; that turned out to short-circuit valid
+//      sessions in production. See PR #210 retrospective.)
 //
 //   2. Authorization: Bearer header — for server-to-server callers
 //      (cron, scripts) that don't have a cookie.
@@ -28,66 +28,17 @@ export const supabaseAdmin: SupabaseClient = createClient(
 )
 
 async function userIdFromAccessToken(token: string | null | undefined): Promise<string | null> {
-  // ─── DIAGNOSTIC (Hotfix #7 — remove after the right path is confirmed) ─
-  // Two log points inside this function tell us exactly which of the
-  // three early-return branches fires before we hit Supabase:
-  //   • !token                     → entry log only, willCallSupabase=false
-  //   • !isJwtFresh(token)         → entry log only, willCallSupabase=false
-  //   • Supabase rejects the token → both logs appear, willCallSupabase=true
-  // base64url decode is wrapped in try/catch so a malformed token never
-  // crashes the trace.
-  let tokenAlgClaim: string | null = null
-  let tokenExpClaim: number | null = null
-  if (token && typeof token === 'string') {
-    try {
-      const parts = token.split('.')
-      if (parts.length === 3) {
-        const header = JSON.parse(Buffer.from(parts[0], 'base64url').toString('utf8'))
-        if (typeof header?.alg === 'string') tokenAlgClaim = header.alg
-        const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'))
-        if (typeof payload?.exp === 'number') tokenExpClaim = payload.exp
-      }
-    } catch {
-      // leave alg/exp as null; the log will surface that
-    }
-  }
-  const freshResult = token ? isJwtFresh(token) : null
-  console.log('[voice-auth-trace]', {
-    hasToken: !!token,
-    tokenAlgClaim,
-    tokenExpClaim,
-    nowEpoch: Math.floor(Date.now() / 1000),
-    isJwtFreshResult: freshResult,
-    willCallSupabase: false,
-  })
-  // ───────────────────────────────────────────────────────────────────────
-
   if (!token) return null
-  // Pre-flight: skip the Supabase round trip on obviously stale tokens.
-  // Catches the cookie-staleness case (frontend GoTrueClient races leave
-  // an old access_token in the cookie even after a refresh).
-  if (!isJwtFresh(token)) return null
-
-  console.log('[voice-auth-trace]', {
-    hasToken: true,
-    tokenAlgClaim,
-    tokenExpClaim,
-    nowEpoch: Math.floor(Date.now() / 1000),
-    isJwtFreshResult: true,
-    willCallSupabase: true,
-  })
-
-  // Use the SERVICE ROLE client for token validation. Anon-key validation
-  // returned 401 on this project's ES256-signed access tokens during
-  // Hotfix #6 diagnosis. Service-role keyed client validates against the
-  // auth server unconditionally — same call shape, different key.
+  // Service-role client validates regardless of which key signed the
+  // token (resolves the ES256-vs-anon-key path the diagnostic in PR
+  // #206 surfaced).
   const { data, error } = await supabaseAdmin.auth.getUser(token)
   if (error || !data?.user?.id) return null
   return data.user.id
 }
 
 export async function getUserIdFromRequest(request: Request): Promise<string | null> {
-  // 1. Cookie path — manual extract → fresh-check → auth.getUser
+  // 1. Cookie path
   try {
     const cookieStore = await cookies()
     const accessToken = extractAccessToken(cookieStore.getAll())
