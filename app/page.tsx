@@ -460,6 +460,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 'e.g. People who want more from life, Norwegian and Spanish speakers',
     voice_placeholder_example_post_1: 'Paste a post you wrote that sounds like you',
     voice_placeholder_example_post_2: 'Optional second example',
+    voice_save_button: '💾 Save My Voice',
+    voice_saving: 'Saving…',
+    voice_saved: '✅ Saved',
+    voice_unsaved_changes: 'Unsaved changes',
+    voice_save_failed: '❌ Failed — try again',
   },
   no: {
     leadsTab: 'Leads',
@@ -884,6 +889,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 'f.eks. Folk som vil ha mer ut av livet, norske og spanske talere',
     voice_placeholder_example_post_1: 'Lim inn et innlegg du har skrevet som høres ut som deg',
     voice_placeholder_example_post_2: 'Valgfritt andre eksempel',
+    voice_save_button: '💾 Lagre Min Stemme',
+    voice_saving: 'Lagrer…',
+    voice_saved: '✅ Lagret',
+    voice_unsaved_changes: 'Ulagrede endringer',
+    voice_save_failed: '❌ Feilet — prøv igjen',
   },
   sv: {
     leadsTab: 'Leads',
@@ -1308,6 +1318,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 't.ex. Människor som vill ha mer av livet, svenska och spanska talare',
     voice_placeholder_example_post_1: 'Klistra in ett inlägg du skrivit som låter som du',
     voice_placeholder_example_post_2: 'Valfritt andra exempel',
+    voice_save_button: '💾 Spara Min Röst',
+    voice_saving: 'Sparar…',
+    voice_saved: '✅ Sparat',
+    voice_unsaved_changes: 'Osparade ändringar',
+    voice_save_failed: '❌ Misslyckades — försök igen',
   },
   es: {
     leadsTab: 'Leads',
@@ -1732,6 +1747,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 'ej. Personas que quieren más de la vida, hispanohablantes',
     voice_placeholder_example_post_1: 'Pega una publicación que escribiste y suena como tú',
     voice_placeholder_example_post_2: 'Segundo ejemplo opcional',
+    voice_save_button: '💾 Guardar Mi Voz',
+    voice_saving: 'Guardando…',
+    voice_saved: '✅ Guardado',
+    voice_unsaved_changes: 'Cambios sin guardar',
+    voice_save_failed: '❌ Falló — inténtalo de nuevo',
   },
   ru: {
     leadsTab: 'Лиды',
@@ -2156,6 +2176,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 'напр. Люди, которые хотят большего от жизни, русские трейдеры',
     voice_placeholder_example_post_1: 'Вставьте пост, который вы написали, звучащий как вы',
     voice_placeholder_example_post_2: 'Дополнительный второй пример',
+    voice_save_button: '💾 Сохранить Мой Голос',
+    voice_saving: 'Сохранение…',
+    voice_saved: '✅ Сохранено',
+    voice_unsaved_changes: 'Несохранённые изменения',
+    voice_save_failed: '❌ Ошибка — попробуйте снова',
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
@@ -2580,6 +2605,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 'مثال: الناس الذين يريدون المزيد من الحياة',
     voice_placeholder_example_post_1: 'الصق منشورًا كتبته يبدو وكأنه أنت',
     voice_placeholder_example_post_2: 'مثال ثانٍ اختياري',
+    voice_save_button: '💾 حفظ صوتي',
+    voice_saving: 'جارٍ الحفظ…',
+    voice_saved: '✅ تم الحفظ',
+    voice_unsaved_changes: 'تغييرات غير محفوظة',
+    voice_save_failed: '❌ فشل — حاول مرة أخرى',
   },
   tl: {
     leadsTab: 'Leads',
@@ -3004,6 +3034,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 'hal. Mga taong gustong-gusto ng higit pa sa buhay',
     voice_placeholder_example_post_1: 'I-paste ang isang post na sinulat mo na parang ikaw',
     voice_placeholder_example_post_2: 'Opsyonal na pangalawang halimbawa',
+    voice_save_button: '💾 I-save ang Aking Boses',
+    voice_saving: 'Sino-save…',
+    voice_saved: '✅ Naka-save',
+    voice_unsaved_changes: 'Hindi nai-save na pagbabago',
+    voice_save_failed: '❌ Nabigo — subukang muli',
   },
   pt: {
     leadsTab: 'Leads',
@@ -3428,6 +3463,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 'ex. Pessoas que querem mais da vida, falantes de português',
     voice_placeholder_example_post_1: 'Cole uma publicação que você escreveu e soa como você',
     voice_placeholder_example_post_2: 'Segundo exemplo opcional',
+    voice_save_button: '💾 Salvar Minha Voz',
+    voice_saving: 'Salvando…',
+    voice_saved: '✅ Salvo',
+    voice_unsaved_changes: 'Alterações não salvas',
+    voice_save_failed: '❌ Falhou — tente novamente',
   },
   th: {
     leadsTab: 'ลีด',
@@ -3852,6 +3892,11 @@ const translations: Record<string, Record<string, string>> = {
     voice_placeholder_audience: 'เช่น คนที่ต้องการมากขึ้นจากชีวิต',
     voice_placeholder_example_post_1: 'วางโพสต์ที่คุณเขียนซึ่งฟังดูเหมือนคุณ',
     voice_placeholder_example_post_2: 'ตัวอย่างที่สองตามต้องการ',
+    voice_save_button: '💾 บันทึกเสียงของฉัน',
+    voice_saving: 'กำลังบันทึก…',
+    voice_saved: '✅ บันทึกแล้ว',
+    voice_unsaved_changes: 'การเปลี่ยนแปลงที่ยังไม่ได้บันทึก',
+    voice_save_failed: '❌ ล้มเหลว — ลองอีกครั้ง',
   },
 }
 
@@ -5098,6 +5143,9 @@ export default function Home() {
   const [voiceAudience, setVoiceAudience] = useState('')
   const [voiceExample1, setVoiceExample1] = useState('')
   const [voiceExample2, setVoiceExample2] = useState('')
+  const [savingVoice, setSavingVoice] = useState(false)
+  const [voiceSaved, setVoiceSaved] = useState(false)
+  const [voiceSaveError, setVoiceSaveError] = useState(false)
   const [inboundCopied, setInboundCopied] = useState(false)
   const [fwdVerifCopied, setFwdVerifCopied] = useState(false)
   const [fwdVerifChecking, setFwdVerifChecking] = useState(false)
@@ -6372,6 +6420,41 @@ export default function Home() {
     }
   }
 
+  // Focused save for the My Voice card. Writes ONLY voice_profile so the user
+  // doesn't have to scroll across the profile-grid to the "Update info" button
+  // (the historical UX bug — voice fields and the global save button live in
+  // separate columns, so IBs filled the fields, switched tabs, and lost their
+  // input). Same target column the rest of saveProfile/updateProfile use, so
+  // /api/ai-marketing keeps reading the same shape.
+  const saveMyVoice = async () => {
+    if (!distributor?.id || savingVoice) return
+    setVoiceSaveError(false)
+    setVoiceSaved(false)
+    setSavingVoice(true)
+    const voiceProfileData = {
+      experience: voiceExperience,
+      tone: voiceTone,
+      never_say: voiceNeverSay,
+      audience: voiceAudience,
+      example1: voiceExample1,
+      example2: voiceExample2,
+    }
+    const { error } = await supabase
+      .from('distributors')
+      .update({ voice_profile: voiceProfileData })
+      .eq('id', distributor.id)
+    setSavingVoice(false)
+    if (error) {
+      console.error('[saveMyVoice] update failed:', error.message)
+      setVoiceSaveError(true)
+      setTimeout(() => setVoiceSaveError(false), 4000)
+      return
+    }
+    setDistributor({ ...distributor, voice_profile: voiceProfileData })
+    setVoiceSaved(true)
+    setTimeout(() => setVoiceSaved(false), 2000)
+  }
+
   const saveProfile = async () => {
     if (!profileName.trim()) {
       setNameError('nameRequired')
@@ -7318,24 +7401,62 @@ export default function Home() {
             {/* ─── RIGHT COLUMN: Voice, Bio, AI, Auto-Verify ──────────── */}
             <div>
               {/* ─── My Voice ───────────────────────────────────────────── */}
-              <div className="field-group" style={{ border: '1px solid rgba(201,168,76,0.15)', borderRadius: 14, padding: '1.25rem', background: 'rgba(201,168,76,0.03)' }}>
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>{t.voice_section_title}</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>{t.voice_section_subtitle}</div>
-                </div>
-                <label className="field-label">{t.voice_field_experience_label}</label>
-                <input className="field-input" value={voiceExperience} onChange={e => setVoiceExperience(e.target.value)} placeholder={t.voice_placeholder_experience} />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_tone_label}</label>
-                <input className="field-input" value={voiceTone} onChange={e => setVoiceTone(e.target.value)} placeholder={t.voice_placeholder_tone} />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_never_say_label}</label>
-                <input className="field-input" value={voiceNeverSay} onChange={e => setVoiceNeverSay(e.target.value)} placeholder={t.voice_placeholder_never_say} />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_audience_label}</label>
-                <input className="field-input" value={voiceAudience} onChange={e => setVoiceAudience(e.target.value)} placeholder={t.voice_placeholder_audience} />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_example_post_1_label}</label>
-                <textarea className="field-textarea" rows={4} value={voiceExample1} onChange={e => setVoiceExample1(e.target.value)} placeholder={t.voice_placeholder_example_post_1} />
-                <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_example_post_2_label}</label>
-                <textarea className="field-textarea" rows={4} value={voiceExample2} onChange={e => setVoiceExample2(e.target.value)} placeholder={t.voice_placeholder_example_post_2} />
-              </div>
+              {(() => {
+                const savedVoice = (distributor?.voice_profile || {}) as { experience?: string; tone?: string; never_say?: string; audience?: string; example1?: string; example2?: string }
+                const voiceDirty = (
+                  voiceExperience !== (savedVoice.experience || '') ||
+                  voiceTone !== (savedVoice.tone || '') ||
+                  voiceNeverSay !== (savedVoice.never_say || '') ||
+                  voiceAudience !== (savedVoice.audience || '') ||
+                  voiceExample1 !== (savedVoice.example1 || '') ||
+                  voiceExample2 !== (savedVoice.example2 || '')
+                )
+                return (
+                  <div className="field-group" style={{ border: '1px solid rgba(201,168,76,0.15)', borderRadius: 14, padding: '1.25rem', background: 'rgba(201,168,76,0.03)' }}>
+                    <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem' }}>
+                      <div>
+                        <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>{t.voice_section_title}</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>{t.voice_section_subtitle}</div>
+                      </div>
+                      {voiceDirty && !savingVoice && !voiceSaved && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.72rem', color: 'var(--gold)', whiteSpace: 'nowrap' }}>
+                          <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--gold)', display: 'inline-block' }} aria-hidden="true" />
+                          {t.voice_unsaved_changes}
+                        </div>
+                      )}
+                    </div>
+                    <label className="field-label">{t.voice_field_experience_label}</label>
+                    <input className="field-input" value={voiceExperience} onChange={e => setVoiceExperience(e.target.value)} placeholder={t.voice_placeholder_experience} />
+                    <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_tone_label}</label>
+                    <input className="field-input" value={voiceTone} onChange={e => setVoiceTone(e.target.value)} placeholder={t.voice_placeholder_tone} />
+                    <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_never_say_label}</label>
+                    <input className="field-input" value={voiceNeverSay} onChange={e => setVoiceNeverSay(e.target.value)} placeholder={t.voice_placeholder_never_say} />
+                    <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_audience_label}</label>
+                    <input className="field-input" value={voiceAudience} onChange={e => setVoiceAudience(e.target.value)} placeholder={t.voice_placeholder_audience} />
+                    <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_example_post_1_label}</label>
+                    <textarea className="field-textarea" rows={4} value={voiceExample1} onChange={e => setVoiceExample1(e.target.value)} placeholder={t.voice_placeholder_example_post_1} />
+                    <label className="field-label" style={{ marginTop: '0.75rem' }}>{t.voice_field_example_post_2_label}</label>
+                    <textarea className="field-textarea" rows={4} value={voiceExample2} onChange={e => setVoiceExample2(e.target.value)} placeholder={t.voice_placeholder_example_post_2} />
+                    <button
+                      onClick={saveMyVoice}
+                      disabled={savingVoice || (!voiceDirty && !voiceSaveError)}
+                      aria-busy={savingVoice}
+                      className={voiceSaveError ? 'btn-outline' : 'gold-btn'}
+                      style={{
+                        width: '100%',
+                        marginTop: '1rem',
+                        fontSize: '0.95rem',
+                        padding: '12px',
+                        letterSpacing: '0.04em',
+                        opacity: (!voiceDirty && !savingVoice && !voiceSaved && !voiceSaveError) ? 0.55 : 1,
+                        ...(voiceSaveError ? { borderColor: '#d44a37', color: '#d44a37' } : {}),
+                      }}
+                    >
+                      {savingVoice ? t.voice_saving : voiceSaved ? t.voice_saved : voiceSaveError ? t.voice_save_failed : t.voice_save_button}
+                    </button>
+                  </div>
+                )
+              })()}
 
               {/* ─── Bio + AI helper ────────────────────────────────────── */}
               <div className="field-group">
