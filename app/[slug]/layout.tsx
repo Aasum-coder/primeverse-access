@@ -1,9 +1,19 @@
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
+import { isBot } from '@/lib/analytics/bot-detection'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder'
+)
+
+// Service-role client for fire-and-forget tracking inserts. Bypasses RLS
+// so the visitor doesn't need to be authenticated, and shields the table
+// from drive-by writes via the anon role. Only ever writes — never reads.
+const tracking = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder'
 )
 
 const logoUrl = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/public/assets/1move-logo.png'
@@ -59,6 +69,37 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 }
 
-export default function SlugLayout({ children }: { children: React.ReactNode }) {
+export default async function SlugLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ slug: string }>
+}) {
+  // Anonymous visitor tracking — country only, no IP storage.
+  // Fires once per render of the IB landing page. Fire-and-forget:
+  // never await, never block the page, never throw to the renderer.
+  try {
+    const { slug } = await params
+    const hdrs = await headers()
+    const country = hdrs.get('x-vercel-ip-country') || null
+    const userAgent = hdrs.get('user-agent') || null
+    const bot = isBot(userAgent)
+
+    void tracking
+      .from('landing_visits')
+      .insert({
+        slug,
+        country,
+        user_agent: userAgent ? userAgent.slice(0, 200) : null,
+        is_bot: bot,
+      })
+      .then(({ error }) => {
+        if (error) console.error('[landing-visits] insert failed:', error.message)
+      })
+  } catch (err) {
+    console.error('[landing-visits] tracking skipped:', err)
+  }
+
   return <>{children}</>
 }

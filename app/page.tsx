@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { createClient } from '@supabase/supabase-js'
 import LeadJourneyDrawer from '@/components/LeadJourneyDrawer'
+import VisitorAnalytics from '@/components/dashboard/VisitorAnalytics'
 import { normalizeTelegramHandle, telegramHandleForDisplay } from '@/lib/normalize-telegram'
 import { shouldShowDisclosures, applyDisclosures, DISCLOSURES } from '@/lib/compliance-disclosures'
 
@@ -264,6 +265,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Sending...',
     bugSuccess: 'Thank you! Your report has been sent.',
     bugFillRequired: 'Please fill in all required fields and attach a screenshot.',
+    visitorsTab: 'Visitors',
     betaTestTab: 'Beta Test',
     betaTitle: 'SYSTM8 Beta Test',
     betaSubtitle: 'You are one of 18 selected beta testers. Your feedback shapes the future of SYSTM8.',
@@ -687,6 +689,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Sender...',
     bugSuccess: 'Takk! Din rapport er sendt.',
     bugFillRequired: 'Vennligst fyll inn alle påkrevde felt og legg ved et skjermbilde.',
+    visitorsTab: 'Besøk',
     betaTestTab: 'Beta Test',
     betaTitle: 'SYSTM8 Beta Test',
     betaSubtitle: 'Du er en av 18 utvalgte betatestere. Tilbakemeldingen din former fremtiden til SYSTM8.',
@@ -1110,6 +1113,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Skickar...',
     bugSuccess: 'Tack! Din rapport har skickats.',
     bugFillRequired: 'Fyll i alla obligatoriska fält och bifoga en skärmbild.',
+    visitorsTab: 'Besök',
     betaTestTab: 'Beta Test',
     betaTitle: 'SYSTM8 Beta Test',
     betaSubtitle: 'Du är en av 18 utvalda betatestare. Din feedback formar framtiden för SYSTM8.',
@@ -1533,6 +1537,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Enviando...',
     bugSuccess: '¡Gracias! Tu reporte ha sido enviado.',
     bugFillRequired: 'Por favor completa todos los campos obligatorios y adjunta una captura de pantalla.',
+    visitorsTab: 'Visitas',
     betaTestTab: 'Beta Test',
     betaTitle: 'SYSTM8 Beta Test',
     betaSubtitle: 'Eres uno de los 18 beta testers seleccionados. Tu feedback da forma al futuro de SYSTM8.',
@@ -1956,6 +1961,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Отправка...',
     bugSuccess: 'Спасибо! Ваш отчёт отправлен.',
     bugFillRequired: 'Пожалуйста, заполните все обязательные поля и прикрепите скриншот.',
+    visitorsTab: 'Посетители',
     betaTestTab: 'Бета-тест',
     betaTitle: 'SYSTM8 Бета-тест',
     betaSubtitle: 'Вы один из 18 выбранных бета-тестеров. Ваш отзыв формирует будущее SYSTM8.',
@@ -2379,6 +2385,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'جارٍ الإرسال...',
     bugSuccess: 'شكراً! تم إرسال تقريرك.',
     bugFillRequired: 'يرجى ملء جميع الحقول المطلوبة وإرفاق لقطة شاشة.',
+    visitorsTab: 'الزوار',
     betaTestTab: 'اختبار تجريبي',
     betaTitle: 'اختبار SYSTM8 التجريبي',
     betaSubtitle: 'أنت واحد من 18 مختبر تجريبي مختار. ملاحظاتك تشكّل مستقبل SYSTM8.',
@@ -2802,6 +2809,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Ipinapadala...',
     bugSuccess: 'Salamat! Naipadala na ang iyong report.',
     bugFillRequired: 'Mangyaring punan ang lahat ng kinakailangang field at mag-attach ng screenshot.',
+    visitorsTab: 'Mga Bisita',
     betaTestTab: 'Beta Test',
     betaTitle: 'SYSTM8 Beta Test',
     betaSubtitle: 'Isa ka sa 18 na napiling beta tester. Ang feedback mo ang humuhubog sa kinabukasan ng SYSTM8.',
@@ -3225,6 +3233,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'Enviando...',
     bugSuccess: 'Obrigado! Seu relatório foi enviado.',
     bugFillRequired: 'Por favor preencha todos os campos obrigatórios e anexe uma captura de tela.',
+    visitorsTab: 'Visitantes',
     betaTestTab: 'Beta Test',
     betaTitle: 'SYSTM8 Beta Test',
     betaSubtitle: 'Você é um dos 18 beta testers selecionados. Seu feedback molda o futuro do SYSTM8.',
@@ -3648,6 +3657,7 @@ const translations: Record<string, Record<string, string>> = {
     bugSending: 'กำลังส่ง...',
     bugSuccess: 'ขอบคุณ! รายงานของคุณถูกส่งแล้ว',
     bugFillRequired: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมดและแนบภาพหน้าจอ',
+    visitorsTab: 'ผู้เยี่ยมชม',
     betaTestTab: 'เบต้าเทสต์',
     betaTitle: 'SYSTM8 เบต้าเทสต์',
     betaSubtitle: 'คุณเป็นหนึ่งใน 18 เบต้าเทสเตอร์ที่ได้รับเลือก ความคิดเห็นของคุณกำหนดอนาคตของ SYSTM8',
@@ -5036,7 +5046,7 @@ export default function Home() {
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
   const [disapprovingId, setDisapprovingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources' | 'marketing' | 'beta'>('metrics')
+  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources' | 'marketing' | 'visitors' | 'beta'>('metrics')
   const [isBetaTester, setIsBetaTester] = useState(false)
   const [betaResults, setBetaResults] = useState<Record<string, { status: string; comment: string; id?: string }>>({})
   const [betaOpenSections, setBetaOpenSections] = useState<Set<string>>(new Set())
@@ -6947,6 +6957,17 @@ export default function Home() {
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 4, verticalAlign: '-2px' }}><path d="M3 11V3h4l3 4h10v4H3zm0 2h18l-1.5 8H4.5L3 13z"/></svg>
             {t.marketingTab}
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === 'visitors'}
+            aria-controls="tab-panel-visitors"
+            id="tab-visitors"
+            onClick={() => setActiveTab('visitors')}
+            className={`tab-btn${activeTab === 'visitors' ? ' tab-btn-active' : ''}`}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4, verticalAlign: '-2px' }}><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            {t.visitorsTab}
           </button>
           {isBetaTester && isAdmin && (
           <button
@@ -9014,6 +9035,13 @@ export default function Home() {
             pageViewHistory={pageViewHistory}
             t={t}
           />
+        )}
+
+        {/* VISITORS TAB */}
+        {activeTab === 'visitors' && (
+          <div role="tabpanel" id="tab-panel-visitors" aria-labelledby="tab-visitors" style={{ paddingTop: '0.5rem' }}>
+            <VisitorAnalytics />
+          </div>
         )}
 
         {/* BETA TEST TAB */}
