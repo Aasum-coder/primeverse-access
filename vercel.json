@@ -15,6 +15,10 @@
     {
       "path": "/api/process-workflows",
       "schedule": "0 10 * * *"
+    },
+    {
+      "path": "/api/cron/cleanup-landing-visits",
+      "schedule": "0 3 * * *"
     }
   ]
 }
