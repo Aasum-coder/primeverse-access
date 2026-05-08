@@ -1,3 +1,11 @@
+-- ⚠️  SLEEPING — table is no longer referenced by any application code.
+-- The 5 /api/voice/* routes and the lib/voice/* helpers that read/wrote
+-- this table were removed (see PR closing the auth saga from #200–#210).
+-- Live "My Voice" is the distributors.voice_profile JSONB column instead,
+-- saved by saveMyVoice() in app/page.tsx (added in PR #212). The table
+-- still holds backfilled rows for existing IBs and is left in place
+-- intentionally — drop manually only after confirming no external consumer.
+
 -- Create voice_profiles: central source of truth for IB Voice (V1).
 -- Drives landing-page bios, Post Writer prompts, and (later) auto-posting +
 -- AI-avatar video. Replaces the ad-hoc distributors.voice_profile JSONB.
