@@ -11,6 +11,7 @@ import {
   isForwardingVerification,
   type ForwardingVerification,
 } from '@/lib/forwarding-verification'
+import { buildForwardingVerificationForwardEmail } from '@/lib/email-templates/forwarding-verification-forward'
 import { parseExcelRows, verifyRows } from '@/lib/verify-rows'
 
 const supabaseAdmin = createClient(
@@ -147,6 +148,64 @@ export async function POST(request: Request) {
 
     console.log('[inbound-email] Saved forwarding_verification for distributor:', dist.id)
 
+    // STEP 3.6 — Auto-forward the provider's verification email to the IB's
+    // registered address so they can click the confirmation link without
+    // anyone logging into Resend. Failures here are LOGGED but do NOT fail
+    // the webhook — the JSONB is already saved and Richy can fall back to
+    // manual forwarding if Resend send breaks.
+    let forwardedAt: string | null = null
+    let forwardResendId: string | null = null
+    let forwardError: string | null = null
+    if (!dist.email) {
+      forwardError = 'distributor has no registered email'
+      console.warn(`[inbound-email] Cannot auto-forward verification: ${forwardError} (slug=${dist.slug})`)
+    } else {
+      const { html: forwardHtml, subject: forwardSubject } = buildForwardingVerificationForwardEmail({
+        provider,
+        language,
+        link,
+        code,
+        originalHtml: html,
+        originalText: text,
+      })
+      try {
+        const sendRes = await resend.emails.send({
+          from: '1Move Auto-Verify <noreply@primeverseaccess.com>',
+          to: [dist.email],
+          subject: forwardSubject,
+          html: forwardHtml,
+        })
+        if (sendRes.error) {
+          forwardError = sendRes.error.message || 'unknown resend error'
+          console.error(`[inbound-email] Forward send failed for ${dist.slug}:`, forwardError)
+        } else {
+          forwardedAt = new Date().toISOString()
+          forwardResendId = sendRes.data?.id || null
+          console.info(`[inbound-email] Forwarded verification to ${dist.email} (resendId=${forwardResendId})`)
+        }
+      } catch (sendErr) {
+        forwardError = sendErr instanceof Error ? sendErr.message : String(sendErr)
+        console.error(`[inbound-email] Forward send threw for ${dist.slug}:`, forwardError)
+      }
+    }
+
+    // Persist the forward outcome alongside the verification JSONB so the
+    // dashboard / audit log can show when the IB was emailed.
+    const { error: forwardLogErr } = await supabaseAdmin
+      .from('distributors')
+      .update({
+        forwarding_verification: {
+          ...verification,
+          forwarded_to_ib_at: forwardedAt,
+          forward_resend_id: forwardResendId,
+          forward_error: forwardError,
+        },
+      })
+      .eq('id', dist.id)
+    if (forwardLogErr) {
+      console.error('[inbound-email] Failed to log forward outcome:', forwardLogErr)
+    }
+
     return NextResponse.json({
       ok: true,
       type: 'forwarding_verification',
@@ -154,6 +213,8 @@ export async function POST(request: Request) {
       language,
       has_code: Boolean(code),
       has_link: Boolean(link),
+      forwarded: Boolean(forwardedAt),
+      forward_error: forwardError,
     })
   }
 

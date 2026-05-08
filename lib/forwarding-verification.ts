@@ -21,6 +21,12 @@ export interface ForwardingVerification {
   expires_at: string
   from_address: string
   subject: string
+  // Set by the inbound webhook after auto-forwarding the verification email
+  // to the IB's registered address. Null if the forward failed (see
+  // forward_error). Resend message id is the audit trail.
+  forwarded_to_ib_at?: string | null
+  forward_resend_id?: string | null
+  forward_error?: string | null
 }
 
 function safeLower(input: string | null | undefined): string {
