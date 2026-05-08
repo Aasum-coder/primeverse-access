@@ -6268,7 +6268,27 @@ export default function Home() {
     if (error) { showToast(t.errorPrefix + error.message); setSubmitting(false); return }
     await fetch('/api/send-lead-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'new_registration', leadName, leadEmail, leadUid, distributorName: distributor.name, distributorEmail: distributor.email }) })
     fetch('/api/milestone-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
-    if (insertedLead?.id) { fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId: insertedLead.id, distributorId: distributor.id }) }).catch(() => {}) }
+    if (insertedLead?.id) {
+      fetch('/api/auto-enroll-workflow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadId: insertedLead.id, distributorId: distributor.id }) }).catch(() => {})
+      // Real-time PU Prime gateway verification — happens in <1s for a
+      // valid UID and instantly flips the green Verified pill on the
+      // lead row. The await is intentional so fetchLeads below picks up
+      // the updated state in the same render cycle.
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        await fetch('/api/leads/verify-puprime', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+          },
+          body: JSON.stringify({ leadId: insertedLead.id }),
+        })
+      } catch (err) {
+        console.error('[addLead] puprime verify call failed:', err)
+        // Non-fatal — the legacy auto-verify mail-forwarding path still runs.
+      }
+    }
     setLeadName(''); setLeadEmail(''); setLeadUid('')
     setSubmitting(false)
     await fetchLeads(distributor.id)
@@ -8936,7 +8956,7 @@ export default function Home() {
                             <div style={{ color: 'var(--text-primary)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.name || '—'}</div>
                             <div style={{ color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.email || '—'}</div>
                             <div style={{ color: 'var(--text-secondary)' }}>{countryFlag(lead.country)} {lead.country || ''}</div>
-                            <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                               <span style={{
                                 display: 'inline-block',
                                 padding: '3px 10px',
@@ -8947,6 +8967,43 @@ export default function Home() {
                                 color: color.fg,
                                 border: `1px solid ${color.border}`,
                               }}>{STEP_LABEL[step]}</span>
+                              {/* Real-time PU Prime gateway-verified leads get a small "⚡ API"
+                                  chip next to the verified pill so Richy can tell API-verified
+                                  rows from legacy mail-forwarded ones at a glance. Denials show
+                                  the gateway's reason on hover. */}
+                              {lead.verification_source === 'puprime_api' && lead.uid_verified === true && (
+                                <span
+                                  title={lead.verification_reason || 'Verified via PU Prime API'}
+                                  style={{
+                                    display: 'inline-block',
+                                    padding: '2px 7px',
+                                    borderRadius: 999,
+                                    fontSize: '0.65rem',
+                                    fontWeight: 700,
+                                    background: 'rgba(201,168,76,0.12)',
+                                    color: '#c9a84c',
+                                    border: '1px solid rgba(201,168,76,0.35)',
+                                    letterSpacing: 0.4,
+                                  }}
+                                >⚡ API</span>
+                              )}
+                              {lead.verification_source === 'puprime_api' && lead.uid_verified !== true && lead.verification_reason && (
+                                <span
+                                  title={lead.verification_reason}
+                                  style={{
+                                    display: 'inline-block',
+                                    padding: '2px 7px',
+                                    borderRadius: 999,
+                                    fontSize: '0.65rem',
+                                    fontWeight: 700,
+                                    background: 'rgba(212,74,55,0.10)',
+                                    color: '#d44a37',
+                                    border: '1px solid rgba(212,74,55,0.35)',
+                                    cursor: 'help',
+                                    letterSpacing: 0.4,
+                                  }}
+                                >⚡ API ✕</span>
+                              )}
                             </div>
                             <div>
                               <span
