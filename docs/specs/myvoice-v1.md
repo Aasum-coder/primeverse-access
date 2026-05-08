@@ -1,3 +1,17 @@
+# DEPRECATED — V1 was never shipped
+
+> This spec describes a `voice_profiles` table + 5 `/api/voice/*` endpoints
+> that were attempted in PRs #200–#210. The accompanying auth flow never
+> worked correctly in production and the entire surface was deleted in
+> the cleanup PR after #213. Live "My Voice" uses the
+> `distributors.voice_profile` JSONB column, saved by `saveMyVoice()`
+> in `app/page.tsx` (PR #212). The `voice_profiles` table still exists
+> in the database with backfilled rows but is no longer referenced.
+>
+> Kept for historical reference only.
+
+---
+
 # My Voice V1 — Architecture spec
 
 ## Overview
