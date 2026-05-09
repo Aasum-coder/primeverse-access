@@ -13,12 +13,36 @@ interface VisitorAnalyticsData {
   scope: 'admin' | 'ib'
 }
 
+// Subset of the dashboard translation object that this component needs.
+// Using a structural type so the parent can pass the full `t` object without
+// us having to import the full translation type.
+interface VisitorAnalyticsTranslations {
+  visitorsLoading: string
+  visitorsError: string
+  visitorsTotal90Days: string
+  visitorsUniqueCountries: string
+  visitorsTop10Countries: string
+  visitorsNoneYet: string
+  visitorsPerIB: string
+  visitorsNoIBActivity: string
+  visitorsTableIB: string
+  visitorsTableVisits: string
+  visitorsTableTopCountry: string
+  visitorsLast30Days: string
+  visitorsBarTooltip: string
+  visitorsLocale: string
+}
+
+interface Props {
+  t: VisitorAnalyticsTranslations
+}
+
 const GOLD = '#c9a84c'
 const GOLD_DIM = 'rgba(201,168,76,0.5)'
 const TEXT_DIM = '#888'
 const BORDER = 'rgba(201,168,76,0.18)'
 
-export default function VisitorAnalytics() {
+export default function VisitorAnalytics({ t }: Props) {
   const [data, setData] = useState<VisitorAnalyticsData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -53,31 +77,32 @@ export default function VisitorAnalytics() {
   }, [])
 
   if (loading) {
-    return <div style={{ padding: '2rem', color: TEXT_DIM, fontSize: '0.9rem' }}>Laster…</div>
+    return <div style={{ padding: '2rem', color: TEXT_DIM, fontSize: '0.9rem' }}>{t.visitorsLoading}</div>
   }
   if (error) {
     return (
       <div style={{ padding: '2rem', color: '#ef4444', fontSize: '0.9rem' }}>
-        Kunne ikke laste besøksstatistikk: {error}
+        {t.visitorsError}: {error}
       </div>
     )
   }
   if (!data) return null
 
   const noData = data.totalVisits === 0
+  const fmt = (n: number) => n.toLocaleString(t.visitorsLocale)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Top stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
-        <StatCard label="Totalt besøk (90 dager)" value={data.totalVisits.toLocaleString('nb-NO')} />
-        <StatCard label="Unike land" value={data.uniqueCountries.toString()} />
+        <StatCard label={t.visitorsTotal90Days} value={fmt(data.totalVisits)} />
+        <StatCard label={t.visitorsUniqueCountries} value={data.uniqueCountries.toString()} />
       </div>
 
       {/* Top countries */}
-      <Section title="Topp 10 land">
+      <Section title={t.visitorsTop10Countries}>
         {data.topCountries.length === 0 ? (
-          <p style={{ color: TEXT_DIM, fontSize: '0.85rem', margin: 0 }}>Ingen besøk ennå.</p>
+          <p style={{ color: TEXT_DIM, fontSize: '0.85rem', margin: 0 }}>{t.visitorsNoneYet}</p>
         ) : (
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {data.topCountries.map(({ country, count }) => (
@@ -94,7 +119,7 @@ export default function VisitorAnalytics() {
                 <span style={{ color: '#f0ede8' }}>
                   {getCountryName(country)} <span style={{ color: TEXT_DIM, fontSize: '0.78rem' }}>({country})</span>
                 </span>
-                <span style={{ color: GOLD, fontWeight: 600 }}>{count.toLocaleString('nb-NO')}</span>
+                <span style={{ color: GOLD, fontWeight: 600 }}>{fmt(count)}</span>
               </li>
             ))}
           </ul>
@@ -103,16 +128,16 @@ export default function VisitorAnalytics() {
 
       {/* Per-IB (admin only) */}
       {data.scope === 'admin' && data.perIB && (
-        <Section title="Per IB">
+        <Section title={t.visitorsPerIB}>
           {data.perIB.length === 0 ? (
-            <p style={{ color: TEXT_DIM, fontSize: '0.85rem', margin: 0 }}>Ingen IB-aktivitet ennå.</p>
+            <p style={{ color: TEXT_DIM, fontSize: '0.85rem', margin: 0 }}>{t.visitorsNoIBActivity}</p>
           ) : (
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
               <thead>
                 <tr style={{ borderBottom: `1px solid ${BORDER}`, color: TEXT_DIM }}>
-                  <th style={{ textAlign: 'left', padding: '0.5rem 0', fontWeight: 600 }}>IB</th>
-                  <th style={{ textAlign: 'right', padding: '0.5rem 0', fontWeight: 600 }}>Besøk</th>
-                  <th style={{ textAlign: 'right', padding: '0.5rem 0', fontWeight: 600 }}>Topp land</th>
+                  <th style={{ textAlign: 'left', padding: '0.5rem 0', fontWeight: 600 }}>{t.visitorsTableIB}</th>
+                  <th style={{ textAlign: 'right', padding: '0.5rem 0', fontWeight: 600 }}>{t.visitorsTableVisits}</th>
+                  <th style={{ textAlign: 'right', padding: '0.5rem 0', fontWeight: 600 }}>{t.visitorsTableTopCountry}</th>
                 </tr>
               </thead>
               <tbody>
@@ -120,7 +145,7 @@ export default function VisitorAnalytics() {
                   <tr key={slug} style={{ borderBottom: `1px solid rgba(201,168,76,0.08)` }}>
                     <td style={{ padding: '0.5rem 0', color: '#f0ede8' }}>{slug}</td>
                     <td style={{ padding: '0.5rem 0', textAlign: 'right', color: GOLD, fontWeight: 600 }}>
-                      {visits.toLocaleString('nb-NO')}
+                      {fmt(visits)}
                     </td>
                     <td style={{ padding: '0.5rem 0', textAlign: 'right', color: TEXT_DIM }}>
                       {getCountryName(topCountry)}
@@ -134,11 +159,11 @@ export default function VisitorAnalytics() {
       )}
 
       {/* Time series — last 30 days */}
-      <Section title="Besøk siste 30 dager">
+      <Section title={t.visitorsLast30Days}>
         {noData ? (
-          <p style={{ color: TEXT_DIM, fontSize: '0.85rem', margin: 0 }}>Ingen besøk ennå.</p>
+          <p style={{ color: TEXT_DIM, fontSize: '0.85rem', margin: 0 }}>{t.visitorsNoneYet}</p>
         ) : (
-          <SimpleBarChart data={data.timeSeries} />
+          <SimpleBarChart data={data.timeSeries} locale={t.visitorsLocale} barTooltip={t.visitorsBarTooltip} />
         )}
       </Section>
     </div>
@@ -190,7 +215,15 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   )
 }
 
-function SimpleBarChart({ data }: { data: Array<{ date: string; count: number }> }) {
+function SimpleBarChart({
+  data,
+  locale,
+  barTooltip,
+}: {
+  data: Array<{ date: string; count: number }>
+  locale: string
+  barTooltip: string
+}) {
   const max = Math.max(...data.map(d => d.count), 1)
   return (
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2, height: 140, marginTop: 8 }}>
@@ -199,7 +232,7 @@ function SimpleBarChart({ data }: { data: Array<{ date: string; count: number }>
         return (
           <div
             key={date}
-            title={`${date}: ${count.toLocaleString('nb-NO')} besøk`}
+            title={`${date}: ${count.toLocaleString(locale)} ${barTooltip}`}
             style={{
               flex: 1,
               display: 'flex',
