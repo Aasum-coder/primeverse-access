@@ -132,6 +132,12 @@ export async function verifyPuPrimeClient(
   const url = `${baseUrl}${VERIFY_PATH}`
   const fetchImpl = options.fetchImpl ?? fetch
 
+  // One info log per call so Vercel log search can confirm the route
+  // hit the gateway with the expected URL + that the env var loaded.
+  // The key itself is never logged — only its length, which lets us
+  // distinguish "not configured" from "configured but wrong".
+  console.info(`[puprime/verify] dispatching url=${url} apiKeyConfigured=${apiKey ? 'yes' : 'no'} apiKeyLength=${apiKey?.length ?? 0}`)
+
   // Step 3 — POST with one retry on 429
   for (let attempt = 0; attempt < 2; attempt++) {
     let response: Response
@@ -152,8 +158,23 @@ export async function verifyPuPrimeClient(
         clearTimeout(timer)
       }
     } catch (err) {
-      const reason = err instanceof Error ? err.message : 'network error'
-      console.error(`[puprime/verify] fetch failed email=${redactEmail(email)} uid=${uid}: ${reason}`)
+      const errName = err instanceof Error ? err.name : 'unknown'
+      const errMessage = err instanceof Error ? err.message : 'network error'
+      const errCause = err instanceof Error && 'cause' in err ? String((err as { cause?: unknown }).cause) : 'none'
+      const errCode = err instanceof Error && 'code' in err ? String((err as { code?: unknown }).code) : 'none'
+      const isAbort = err instanceof Error && err.name === 'AbortError'
+      const elapsedMs = Date.now() - startedAt
+      console.error(
+        `[puprime/verify] fetch failed email=${redactEmail(email)} uid=${uid} ` +
+        `url=${url} ` +
+        `errorName=${errName} ` +
+        `errorCode=${errCode} ` +
+        `errorMessage="${errMessage}" ` +
+        `errorCause="${errCause}" ` +
+        `wasTimeout=${isAbort} ` +
+        `elapsedMs=${elapsedMs} ` +
+        `attempt=${attempt}`
+      )
       return { granted: false, reason: 'Verification service unreachable' }
     }
 
