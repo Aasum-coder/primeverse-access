@@ -170,6 +170,7 @@ export async function verifyRows(
         const { html, subject } = buildVerifiedAccessEmail({
           name: lead.name || '',
           referralLink: distributor.referral_link || 'https://www.primeverseaccess.com',
+          telegramDeepLink: 'https://t.me/OneMoveAccessBot',
         })
         await resend.emails.send({
           from: '1Move Academy <noreply@primeverseaccess.com>',
