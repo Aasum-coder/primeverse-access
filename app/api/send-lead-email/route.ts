@@ -12,7 +12,7 @@ const supabaseAdmin = createClient(
 
 export async function POST(request: Request) {
   const body = await request.json()
-  const { type, leadName, leadEmail, distributorName, distributorEmail, referralLink, language, distributorId } = body
+  const { type, leadName, leadEmail, distributorName, distributorEmail, referralLink, language, distributorId, skipLeadWelcome } = body
 
   if (type === 'new_registration') {
     // 1. Send notification to IB (existing behavior)
@@ -27,8 +27,13 @@ export async function POST(request: Request) {
       console.error('[send-lead-email] IB notification failed:', err)
     }
 
-    // 2. Send welcome email to the LEAD (new 3-step KYC narrative)
-    if (leadEmail) {
+    // 2. Send welcome email to the LEAD — unless the caller has already
+    //    triggered /api/send-lead-welcome (the new Phase A flow). The
+    //    public landing page sets skipLeadWelcome=true so we don't send
+    //    two welcome emails per signup. Manual-add (dashboard addLead)
+    //    still sends through this path because that flow doesn't issue
+    //    a verify token.
+    if (leadEmail && !skipLeadWelcome) {
       try {
         const { subject, html } = buildLeadWelcomeEmail({
           leadName: leadName || '',

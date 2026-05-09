@@ -9004,6 +9004,43 @@ export default function Home() {
                                   }}
                                 >⚡ API ✕</span>
                               )}
+                              {/* Phase A status badges — sit alongside the step pill so they
+                                  layer on top of the existing visited→registered→verified
+                                  progression rather than replacing it. */}
+                              {lead.email_1_sent_at && lead.uid_verified !== true && lead.existing_client_flag !== true && (
+                                <span
+                                  title={`Email #1 sent ${fmtDate(lead.email_1_sent_at)}`}
+                                  style={{
+                                    display: 'inline-block',
+                                    padding: '2px 7px',
+                                    borderRadius: 999,
+                                    fontSize: '0.65rem',
+                                    fontWeight: 700,
+                                    background: 'rgba(74,144,226,0.12)',
+                                    color: '#5fa1e0',
+                                    border: '1px solid rgba(74,144,226,0.35)',
+                                    cursor: 'help',
+                                    letterSpacing: 0.4,
+                                  }}
+                                >✉ Email sent</span>
+                              )}
+                              {lead.existing_client_flag === true && (
+                                <span
+                                  title="Lead clicked 'Already a PU Prime client' in Email #1 — manual outreach"
+                                  style={{
+                                    display: 'inline-block',
+                                    padding: '2px 7px',
+                                    borderRadius: 999,
+                                    fontSize: '0.65rem',
+                                    fontWeight: 700,
+                                    background: 'rgba(255,153,51,0.12)',
+                                    color: '#ff9933',
+                                    border: '1px solid rgba(255,153,51,0.35)',
+                                    cursor: 'help',
+                                    letterSpacing: 0.4,
+                                  }}
+                                >👋 Existing client</span>
+                              )}
                             </div>
                             <div>
                               <span
