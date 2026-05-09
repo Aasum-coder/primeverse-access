@@ -2,13 +2,8 @@ import { baseEmailTemplate } from './base'
 
 interface VerifiedAccessOptions {
   name: string
-  /** Per-lead Telegram deep-link to @OneMoveAccessBot (with token in `?start=...`).
-   *  Required for the new PU Prime API flow. The legacy mail-forwarding flow
-   *  (lib/verify-rows.ts) passes the public bot URL — that path bypasses
-   *  token-based linking but still gets the user into the bot. */
+  /** Per-lead Telegram deep-link to @OneMoveAccessBot (with token in `?start=...`). */
   telegramDeepLink: string
-  /** Optional — kept so legacy callers in lib/verify-rows.ts compile. */
-  referralLink?: string
 }
 
 const VIDEO_URL = 'https://youtu.be/7tvGjGndNQU'
