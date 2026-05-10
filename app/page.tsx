@@ -5719,22 +5719,33 @@ export default function Home() {
       // Compute admin status locally (React state isAdmin isn't available inside this init closure)
       const localIsAdmin = dist.is_admin === true || userData.user.email === 'bitaasum@gmail.com'
 
-      // Fetch social connections (Meta OAuth) — admin only
-      if (localIsAdmin) {
-        supabase.from('social_connections').select('*').eq('distributor_id', dist.id).then(({ data, error }) => {
-          console.log('metaConnections loaded:', data, error)
-          if (data) setMetaConnections(data)
-        })
-        // Check URL params for Meta OAuth result — admin only
-        if (typeof window !== 'undefined') {
-          const urlParams = new URLSearchParams(window.location.search)
-          if (urlParams.get('meta_connected') === 'true') {
-            showToast('Facebook & Instagram connected!', 'info')
-            window.history.replaceState({}, '', window.location.pathname)
-          } else if (urlParams.get('meta_error') === 'true') {
-            showToast('Connection failed. Please try again.')
-            window.history.replaceState({}, '', window.location.pathname)
+      // Fetch social connections (Meta OAuth) — every IB needs this for the
+      // Content Calendar Connect Accounts tab; gating to admin was a holdover
+      // from when the OAuth flow only worked for app reviewers.
+      supabase.from('social_connections').select('*').eq('distributor_id', dist.id).then(({ data, error }) => {
+        console.log('metaConnections loaded:', data, error)
+        if (data) setMetaConnections(data)
+      })
+      // Check URL params for Meta OAuth result. Callback redirects with either
+      // ?meta_connected=1 or ?meta_error=<code>; map error codes to friendly
+      // copy here so the toast survives the page reload.
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search)
+        const connectedFlag = urlParams.get('meta_connected')
+        const errorCode = urlParams.get('meta_error')
+        if (connectedFlag === '1' || connectedFlag === 'true') {
+          showToast('Connected! You can now schedule posts to your Facebook Page and Instagram account.', 'info')
+          window.history.replaceState({}, '', window.location.pathname)
+        } else if (errorCode) {
+          const messages: Record<string, string> = {
+            invalid_state: 'Connection link expired. Please try again.',
+            access_denied: 'You denied access. Please try again and approve all permissions.',
+            no_pages: 'No Facebook Page found on your account. Please create a Page first.',
+            missing_permissions: 'Some required permissions were not granted. Please reconnect and approve all permissions.',
+            token_exchange_failed: 'Couldn’t connect to Meta. Please try again.',
           }
+          showToast(messages[errorCode] || 'Couldn’t connect to Meta. Please try again.')
+          window.history.replaceState({}, '', window.location.pathname)
         }
       }
       // Auto-create default pipeline stages if they don't exist yet
@@ -7301,7 +7312,13 @@ export default function Home() {
                 <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
               </div>
               <ContentCalendarModal open={calendarOpen} onClose={() => setCalendarOpen(false)} t={t} lang={lang}
-                distributorId={distributor?.id || null} onOpenPostWriter={(topic) => { setAiToolTopic(topic); setAiToolModal('post') }} isAdmin={isAdmin} />
+                distributorId={distributor?.id || null} onOpenPostWriter={(topic) => { setAiToolTopic(topic); setAiToolModal('post') }} isAdmin={isAdmin}
+                metaConnections={metaConnections}
+                onMetaDisconnect={async (platform) => {
+                  await fetch('/api/social/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform }) })
+                  setMetaConnections(prev => prev.filter((c: any) => c.platform !== platform))
+                }}
+              />
             </div>
 
             {/* Resources Section */}
@@ -8411,7 +8428,7 @@ export default function Home() {
                         </div>
                       </div>
                       <button onClick={async () => {
-                        await fetch('/api/auth/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributor_id: distributor!.id, platform: 'facebook' }) })
+                        await fetch('/api/social/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform: 'facebook' }) })
                         setMetaConnections(prev => prev.filter((c: any) => c.platform !== 'facebook'))
                       }} style={{ background: 'none', border: '1px solid rgba(255,100,100,0.3)', borderRadius: 8, color: '#f87171', fontSize: '0.78rem', padding: '6px 14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Disconnect</button>
                     </div>
@@ -8420,7 +8437,7 @@ export default function Home() {
                         const res = await fetch('/api/social/meta/post', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ distributor_id: distributor!.id, message: 'SYSTM8 er koblet til! \u{1F680} Dette er en testpost fra mitt dashboard.' }),
+                          body: JSON.stringify({ message: 'SYSTM8 er koblet til! \u{1F680} Dette er en testpost fra mitt dashboard.' }),
                         })
                         const data = await res.json()
                         if (data.success) showToast('Posted to Facebook!', 'info')
@@ -8447,7 +8464,7 @@ export default function Home() {
                       </div>
                     </div>
                     <button onClick={async () => {
-                      await fetch('/api/auth/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributor_id: distributor!.id, platform: 'instagram' }) })
+                      await fetch('/api/social/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform: 'instagram' }) })
                       setMetaConnections(prev => prev.filter((c: any) => c.platform !== 'instagram'))
                     }} style={{ background: 'none', border: '1px solid rgba(255,100,100,0.3)', borderRadius: 8, color: '#f87171', fontSize: '0.78rem', padding: '6px 14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>Disconnect</button>
                   </div>
@@ -8457,7 +8474,7 @@ export default function Home() {
 
               {/* Connect button (show if Facebook not connected) */}
               {isAdmin && !metaConnections.find((c: any) => c.platform === 'facebook' && c.is_connected) && (
-                <button className="gold-btn" onClick={() => { if (distributor?.id) window.location.href = `/api/auth/meta/connect?distributor_id=${distributor.id}` }}
+                <button className="gold-btn" onClick={() => { window.location.href = '/api/social/meta/connect' }}
                   style={{ width: '100%', padding: '12px', textTransform: 'none', letterSpacing: 0 }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                   Connect Facebook &amp; Instagram
@@ -9103,10 +9120,12 @@ const PLATFORM_LIST = ['facebook', 'instagram', 'tiktok', 'linkedin', 'twitter',
 const TZ_OPTIONS = ['UTC', 'CET', 'EET', 'GMT', 'EST', 'CST', 'MST', 'PST', 'GST', 'IST', 'SGT', 'JST', 'AEST']
 const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPostWriter, isAdmin }: {
+function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPostWriter, isAdmin, metaConnections, onMetaDisconnect }: {
   open: boolean; onClose: () => void; t: Record<string, string>; lang: string;
   distributorId: string | null; onOpenPostWriter: (topic: string) => void;
   isAdmin: boolean;
+  metaConnections: Array<{ platform: string; platform_username: string | null; is_connected: boolean }>;
+  onMetaDisconnect: (platform: 'facebook' | 'instagram') => Promise<void>;
 }) {
   const [tab, setTab] = useState<'calendar' | 'ai' | 'connect'>('calendar')
   const [posts, setPosts] = useState<any[]>([])
@@ -9240,7 +9259,7 @@ function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPos
           {(([
             ['calendar', `📅 ${t.calendarView}`],
             ['ai', `✨ ${t.aiWeeklyPlan}`],
-            ...(isAdmin ? [['connect', `🔗 ${t.connectAccounts}`]] : []),
+            ['connect', `🔗 ${t.connectAccounts}`],
           ] as [string, string][])).map(([key, label]) => (
             <button key={key} onClick={() => setTab(key as any)} style={{ ...pillBtn(tab === key), fontSize: '0.78rem', padding: '8px 16px' }}>{label}</button>
           ))}
@@ -9427,21 +9446,104 @@ function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPos
           </div>
         )}
 
-        {/* TAB 3 — Connect Accounts (admin only) */}
-        {tab === 'connect' && isAdmin && (
-          <div>
-            <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)', marginBottom: '1.25rem' }}>{t.autoPostingComingSoon}</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
-              {['Facebook', 'Instagram', 'TikTok', 'LinkedIn', 'X / Twitter'].map(name => (
-                <div key={name} style={{ ...cardStyle, textAlign: 'center', padding: '1.25rem 1rem', opacity: 0.6 }}>
-                  <div style={{ fontSize: '2rem', marginBottom: 8 }}>{PLATFORM_ICONS[name.toLowerCase().replace(' / twitter', '').replace('x', 'twitter')] || '🌐'}</div>
-                  <div style={{ fontSize: '0.82rem', color: '#fff', fontWeight: 500, marginBottom: 6 }}>{name}</div>
-                  <span style={{ fontSize: '0.65rem', padding: '3px 10px', borderRadius: 10, background: 'rgba(212,165,55,0.1)', color: '#d4a537' }}>{t.comingSoon}</span>
+        {/* TAB 3 — Connect Accounts (Meta OAuth — FB Pages + IG Business). The
+            isAdmin gate was dropped: Meta App Review is the actual gate, not us.
+            Real-IB rollout still depends on Meta granting Advanced Access. */}
+        {tab === 'connect' && (() => {
+          const fb = metaConnections.find(c => c.platform === 'facebook' && c.is_connected)
+          const ig = metaConnections.find(c => c.platform === 'instagram' && c.is_connected)
+          const rowStyle: React.CSSProperties = {
+            ...cardStyle,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 12,
+            padding: '0.85rem 1rem',
+            marginBottom: 10,
+          }
+          const disconnectBtn: React.CSSProperties = {
+            background: 'none',
+            border: '1px solid rgba(255,100,100,0.3)',
+            borderRadius: 8,
+            color: '#f87171',
+            fontSize: '0.75rem',
+            padding: '5px 12px',
+            cursor: 'pointer',
+            fontFamily: "'Outfit', sans-serif",
+          }
+          return (
+            <div>
+              <button
+                onClick={() => { window.location.href = '/api/social/meta/connect' }}
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  marginBottom: '1.25rem',
+                  background: 'linear-gradient(135deg, #c9a84c 0%, #d4a537 100%)',
+                  color: '#080808',
+                  border: 'none',
+                  borderRadius: 10,
+                  fontSize: '0.95rem',
+                  fontWeight: 700,
+                  letterSpacing: 0.3,
+                  cursor: 'pointer',
+                  fontFamily: "'Outfit', sans-serif",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                Connect Meta (Facebook + Instagram)
+              </button>
+
+              {/* Facebook Page row */}
+              <div style={rowStyle}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+                  <span style={{ fontSize: '1.4rem' }}>{PLATFORM_ICONS.facebook}</span>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fff' }}>Facebook Page</div>
+                    {fb ? (
+                      <div style={{ fontSize: '0.78rem', color: '#22c55e', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        ✅ {fb.platform_username || 'Connected'}
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)' }}>Not connected yet</div>
+                    )}
+                  </div>
                 </div>
-              ))}
+                {fb && (
+                  <button onClick={() => onMetaDisconnect('facebook')} style={disconnectBtn}>Disconnect</button>
+                )}
+              </div>
+
+              {/* Instagram row */}
+              <div style={rowStyle}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+                  <span style={{ fontSize: '1.4rem' }}>{PLATFORM_ICONS.instagram}</span>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fff' }}>Instagram Business Account</div>
+                    {ig ? (
+                      <div style={{ fontSize: '0.78rem', color: '#22c55e', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        ✅ @{ig.platform_username || 'connected'}
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)' }}>Not connected yet</div>
+                    )}
+                  </div>
+                </div>
+                {ig && (
+                  <button onClick={() => onMetaDisconnect('instagram')} style={disconnectBtn}>Disconnect</button>
+                )}
+              </div>
+
+              <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', marginTop: '1rem', lineHeight: 1.5 }}>
+                One Facebook Page + one Instagram Business account per IB. Reconnect anytime to refresh tokens or switch Pages.
+              </p>
             </div>
-          </div>
-        )}
+          )
+        })()}
       </div>
     </div>
   )
