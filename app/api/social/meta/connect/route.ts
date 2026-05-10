@@ -17,8 +17,8 @@ const META_SCOPES = [
   'pages_manage_posts',
   'pages_read_engagement',
   'business_management',
-  'instagram_basic',
-  'instagram_content_publish',
+  'instagram_business_basic',
+  'instagram_business_content_publish',
 ].join(',')
 
 function loginRedirect(): NextResponse {
