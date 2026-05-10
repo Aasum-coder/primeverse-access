@@ -1,25 +1,65 @@
-import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
+// Facebook-only post route. Resolves distributor_id from the cookie session
+// (NOT the request body) so one IB cannot post on another's Page by passing
+// a different uuid. Same auth pattern as /api/social/meta/disconnect.
+//
+// Body shape: { message: string, image_url?: string }
+// Extra fields are ignored silently. distributor_id is server-resolved.
+//
+// Instagram posting is Phase 2; the route still hardcodes platform=facebook.
+
+const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 )
 
 export async function POST(request: NextRequest) {
   try {
-    const { distributor_id, message, image_url } = await request.json()
-    console.log('META POST: received request', { distributor_id, message: message?.substring(0, 50), image_url: !!image_url })
+    const body = await request.json().catch(() => ({}))
+    const message = typeof body?.message === 'string' ? body.message : ''
+    const image_url = typeof body?.image_url === 'string' ? body.image_url : undefined
 
-    if (!distributor_id || !message) {
-      return NextResponse.json({ error: 'Missing distributor_id or message' }, { status: 400 })
+    if (!message) {
+      return NextResponse.json({ error: 'Missing message' }, { status: 400 })
     }
 
-    // Fetch Facebook connection
-    const { data: connection, error: dbError } = await supabase
+    // Resolve session via cookie (matches /api/social/meta/disconnect)
+    const cookieStore = await cookies()
+    const ssr = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll() },
+          setAll() { /* read-only */ },
+        },
+      },
+    )
+    const { data: { user } } = await ssr.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const { data: dist } = await supabaseAdmin
+      .from('distributors')
+      .select('id')
+      .eq('user_id', user.id)
+      .maybeSingle()
+    if (!dist?.id) {
+      return NextResponse.json({ error: 'No distributor for this user' }, { status: 401 })
+    }
+
+    console.log('META POST: received request', { distributor_id: dist.id.slice(0, 12), message: message.substring(0, 50), image_url: !!image_url })
+
+    // Fetch Facebook connection (server-resolved distributor_id)
+    const { data: connection, error: dbError } = await supabaseAdmin
       .from('social_connections')
       .select('access_token, platform_user_id')
-      .eq('distributor_id', distributor_id)
+      .eq('distributor_id', dist.id)
       .eq('platform', 'facebook')
       .eq('is_connected', true)
       .single()

@@ -25,7 +25,7 @@ import { verifyOAuthState, shortId } from '@/lib/meta-oauth'
 const META_API_VERSION = 'v19.0'
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.primeverseaccess.com'
 
-const REQUIRED_SCOPES = ['pages_show_list', 'pages_manage_posts', 'instagram_basic']
+const REQUIRED_SCOPES = ['pages_show_list', 'pages_manage_posts', 'instagram_basic', 'instagram_content_publish']
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

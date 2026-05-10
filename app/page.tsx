@@ -8437,7 +8437,7 @@ export default function Home() {
                         const res = await fetch('/api/social/meta/post', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ distributor_id: distributor!.id, message: 'SYSTM8 er koblet til! \u{1F680} Dette er en testpost fra mitt dashboard.' }),
+                          body: JSON.stringify({ message: 'SYSTM8 er koblet til! \u{1F680} Dette er en testpost fra mitt dashboard.' }),
                         })
                         const data = await res.json()
                         if (data.success) showToast('Posted to Facebook!', 'info')
