@@ -7,7 +7,7 @@
 // process.env.PU_PRIME_GATEWAY_URL with a sensible default. Callers MUST
 // run server-side only.
 
-const DEFAULT_BASE_URL = 'https://puopscenter.com'
+const DEFAULT_BASE_URL = 'https://pvopscenter.com'
 const VERIFY_PATH = '/api/gateway/puprime/verify'
 const CACHE_TTL_MS = 10 * 60 * 1000 // 10 minutes
 const MAX_RETRY_AFTER_MS = 30 * 1000 // cap server-supplied Retry-After
