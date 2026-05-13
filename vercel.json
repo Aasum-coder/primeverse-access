@@ -19,10 +19,6 @@
     {
       "path": "/api/cron/cleanup-landing-visits",
       "schedule": "0 3 * * *"
-    },
-    {
-      "path": "/api/cron/publish-scheduled-posts",
-      "schedule": "*/5 * * * *"
     }
   ]
 }
