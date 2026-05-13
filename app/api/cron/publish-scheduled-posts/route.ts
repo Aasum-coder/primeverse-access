@@ -1,3 +1,15 @@
+// NOTE: This route is NOT scheduled on Vercel as of 2026-05-13.
+//
+// Reason: Vercel Hobby plan rejects sub-daily cron schedules ("*/5 * * * *").
+// Auto-posting feature is parked until launch. When upgrading to Pro, restore
+// the cron entry in vercel.json:
+//   {
+//     "path": "/api/cron/publish-scheduled-posts",
+//     "schedule": "*/5 * * * *"
+//   }
+//
+// The route itself is untouched and can be called manually via the
+// CRON_SECRET bearer token for testing.
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { publishToFacebook, publishToInstagram, type PublishResult } from '@/lib/social/publishers'
