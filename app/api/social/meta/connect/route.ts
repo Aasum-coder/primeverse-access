@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
 import { signOAuthState, shortId } from '@/lib/meta-oauth'
@@ -37,22 +37,38 @@ export async function GET(_request: NextRequest) {
     return NextResponse.json({ error: 'Meta app not configured' }, { status: 500 })
   }
 
-  // Resolve session via cookie (browser GET — no Bearer header available)
+  // Resolve session via cookie (browser GET — no Bearer header available).
+  // setAll captures any Supabase-refreshed cookies so we can propagate them
+  // onto the final redirect response. Without this, a refreshed access /
+  // refresh token pair is discarded and the next request fails with
+  // "Invalid Refresh Token: Refresh Token Not Found", bouncing the user
+  // through /login.
   const cookieStore = await cookies()
+  const refreshedCookies: Array<{ name: string; value: string; options: CookieOptions }> = []
   const ssr = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() { return cookieStore.getAll() },
-        setAll() { /* read-only — no need to write back */ },
+        setAll(cookiesToSet) {
+          for (const c of cookiesToSet) {
+            try { cookieStore.set(c.name, c.value, c.options) } catch { /* cookieStore is readonly in some Next contexts */ }
+            refreshedCookies.push(c)
+          }
+        },
       },
     },
   )
+  const applyCookies = (res: NextResponse): NextResponse => {
+    for (const c of refreshedCookies) res.cookies.set(c.name, c.value, c.options)
+    return res
+  }
+
   const { data: { user }, error: userErr } = await ssr.auth.getUser()
   if (userErr || !user) {
     console.warn('[meta-oauth] event=connect_initiated unauthenticated')
-    return loginRedirect()
+    return applyCookies(loginRedirect())
   }
 
   // Look up distributor_id by user_id (service role bypasses RLS so we
@@ -68,7 +84,7 @@ export async function GET(_request: NextRequest) {
     .maybeSingle()
   if (distErr || !dist?.id) {
     console.error(`[meta-oauth] event=error code=no_distributor user=${shortId(user.id)} details=${distErr?.message ?? 'no row'}`)
-    return loginRedirect()
+    return applyCookies(loginRedirect())
   }
 
   const state = signOAuthState(dist.id)
@@ -81,5 +97,5 @@ export async function GET(_request: NextRequest) {
   url.searchParams.set('scope', META_SCOPES)
   url.searchParams.set('response_type', 'code')
 
-  return NextResponse.redirect(url.toString())
+  return applyCookies(NextResponse.redirect(url.toString()))
 }

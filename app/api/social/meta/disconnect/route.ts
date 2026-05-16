@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
 import { shortId } from '@/lib/meta-oauth'
@@ -27,20 +27,35 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'platform must be facebook or instagram' }, { status: 400 })
   }
 
+  // setAll captures any Supabase-refreshed cookies so we can propagate them
+  // onto the JSON response. Without this, a refreshed access / refresh
+  // token pair is discarded and the next request fails with
+  // "Invalid Refresh Token: Refresh Token Not Found".
   const cookieStore = await cookies()
+  const refreshedCookies: Array<{ name: string; value: string; options: CookieOptions }> = []
   const ssr = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() { return cookieStore.getAll() },
-        setAll() { /* read-only */ },
+        setAll(cookiesToSet) {
+          for (const c of cookiesToSet) {
+            try { cookieStore.set(c.name, c.value, c.options) } catch { /* cookieStore is readonly in some Next contexts */ }
+            refreshedCookies.push(c)
+          }
+        },
       },
     },
   )
+  const applyCookies = (res: NextResponse): NextResponse => {
+    for (const c of refreshedCookies) res.cookies.set(c.name, c.value, c.options)
+    return res
+  }
+
   const { data: { user } } = await ssr.auth.getUser()
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return applyCookies(NextResponse.json({ error: 'Unauthorized' }, { status: 401 }))
   }
 
   const { data: dist } = await supabaseAdmin
@@ -49,7 +64,7 @@ export async function POST(request: NextRequest) {
     .eq('user_id', user.id)
     .maybeSingle()
   if (!dist?.id) {
-    return NextResponse.json({ error: 'No distributor for this user' }, { status: 404 })
+    return applyCookies(NextResponse.json({ error: 'No distributor for this user' }, { status: 404 }))
   }
 
   const { error } = await supabaseAdmin
@@ -60,9 +75,9 @@ export async function POST(request: NextRequest) {
 
   if (error) {
     console.error(`[meta-oauth] event=error code=disconnect_failed platform=${platform} details=${error.message}`)
-    return NextResponse.json({ error: 'Failed to disconnect' }, { status: 500 })
+    return applyCookies(NextResponse.json({ error: 'Failed to disconnect' }, { status: 500 }))
   }
 
   console.info(`[meta-oauth] event=disconnect platform=${platform} distributor_id=${shortId(dist.id)}`)
-  return NextResponse.json({ success: true })
+  return applyCookies(NextResponse.json({ success: true }))
 }
