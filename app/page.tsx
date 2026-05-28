@@ -3,18 +3,13 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase'
 import LeadJourneyDrawer from '@/components/LeadJourneyDrawer'
 import VisitorAnalytics from '@/components/dashboard/VisitorAnalytics'
 import { normalizeTelegramHandle, telegramHandleForDisplay } from '@/lib/normalize-telegram'
 import { shouldShowDisclosures, applyDisclosures, DISCLOSURES } from '@/lib/compliance-disclosures'
 
 const WorkflowCanvas = dynamic(() => import('@/components/WorkflowCanvas'), { ssr: false })
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder'
-)
 
 function parseProfileImage(value: string | null) {
   if (!value) return { url: '', x: 50, y: 50, zoom: 1, brightness: 100 }
@@ -9145,8 +9140,7 @@ function ContentCalendarModal({ open, onClose, t, lang, distributorId, onOpenPos
   const [aiLoading, setAiLoading] = useState(false)
 
   const getToken = async () => {
-    const supabaseClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '')
-    const { data } = await supabaseClient.auth.getSession()
+    const { data } = await supabase.auth.getSession()
     return data?.session?.access_token || ''
   }
 
@@ -9729,11 +9723,7 @@ function TrafficModal({ open, onClose, t, period }: { open: boolean; onClose: ()
   useEffect(() => {
     if (!open) return
     setLoading(true)
-    const supabaseClient = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-    )
-    supabaseClient.auth.getSession().then(({ data: session }) => {
+    supabase.auth.getSession().then(({ data: session }) => {
       const token = session?.session?.access_token
       if (!token) { setLoading(false); return }
       fetch(`/api/page-views-breakdown?period=${encodeURIComponent(period)}`, { headers: { Authorization: `Bearer ${token}` } })
