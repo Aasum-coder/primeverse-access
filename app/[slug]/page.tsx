@@ -75,6 +75,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'This field is required',
     invalidEmail: 'Please enter a valid email address',
     loading: 'Loading…',
+    contactChannelLabel: 'How would you like to be contacted?',
+    channelEmail: 'Email',
+    channelWhatsapp: 'WhatsApp',
+    channelTelegram: 'Telegram',
+    whatsappLabel: 'Phone number (with country code)',
+    whatsappPlaceholder: '+47 99 99 99 99',
+    telegramLabel: 'Telegram username',
+    telegramPlaceholder: '@yourname',
+    telegramHelper: "Make sure you've set a username in Telegram first (Settings → Username).",
+    invalidWhatsapp: 'Please enter a valid phone number with country code.',
+    invalidTelegram: 'Telegram username can only contain letters, numbers, and underscores.',
   },
   no: {
     nav_cta: 'Få tilgang nå',
@@ -118,6 +129,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'Dette feltet er påkrevd',
     invalidEmail: 'Vennligst skriv inn en gyldig e-postadresse',
     loading: 'Laster…',
+    contactChannelLabel: 'Hvordan vil du bli kontaktet?',
+    channelEmail: 'E-post',
+    channelWhatsapp: 'WhatsApp',
+    channelTelegram: 'Telegram',
+    whatsappLabel: 'Telefonnummer (med landskode)',
+    whatsappPlaceholder: '+47 99 99 99 99',
+    telegramLabel: 'Telegram-brukernavn',
+    telegramPlaceholder: '@dittnavn',
+    telegramHelper: 'Sørg for at du har satt opp et brukernavn i Telegram først (Innstillinger → Brukernavn).',
+    invalidWhatsapp: 'Vennligst skriv inn et gyldig telefonnummer med landskode.',
+    invalidTelegram: 'Telegram-brukernavn kan kun inneholde bokstaver, tall og understrek.',
   },
   sv: {
     nav_cta: 'Få tillgång nu',
@@ -161,6 +183,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'Detta fält är obligatoriskt',
     invalidEmail: 'Ange en giltig e-postadress',
     loading: 'Laddar…',
+    contactChannelLabel: 'Hur vill du bli kontaktad?',
+    channelEmail: 'E-post',
+    channelWhatsapp: 'WhatsApp',
+    channelTelegram: 'Telegram',
+    whatsappLabel: 'Telefonnummer (med landskod)',
+    whatsappPlaceholder: '+46 70 123 45 67',
+    telegramLabel: 'Telegram-användarnamn',
+    telegramPlaceholder: '@dittnamn',
+    telegramHelper: 'Se till att du har satt ett användarnamn i Telegram först (Inställningar → Användarnamn).',
+    invalidWhatsapp: 'Ange ett giltigt telefonnummer med landskod.',
+    invalidTelegram: 'Telegram-användarnamnet får endast innehålla bokstäver, siffror och understreck.',
   },
   es: {
     nav_cta: 'Obtener acceso',
@@ -204,6 +237,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'Este campo es obligatorio',
     invalidEmail: 'Ingresa un correo electrónico válido',
     loading: 'Cargando…',
+    contactChannelLabel: '¿Cómo prefieres que te contactemos?',
+    channelEmail: 'Correo electrónico',
+    channelWhatsapp: 'WhatsApp',
+    channelTelegram: 'Telegram',
+    whatsappLabel: 'Número de teléfono (con código de país)',
+    whatsappPlaceholder: '+34 612 34 56 78',
+    telegramLabel: 'Usuario de Telegram',
+    telegramPlaceholder: '@tunombre',
+    telegramHelper: 'Asegúrate de haber configurado un nombre de usuario en Telegram primero (Ajustes → Nombre de usuario).',
+    invalidWhatsapp: 'Por favor, introduce un número de teléfono válido con código de país.',
+    invalidTelegram: 'El usuario de Telegram solo puede contener letras, números y guiones bajos.',
   },
   ru: {
     nav_cta: 'Получить доступ',
@@ -247,6 +291,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'Это поле обязательно',
     invalidEmail: 'Введите действительный адрес электронной почты',
     loading: 'Загрузка…',
+    contactChannelLabel: 'Как с вами связаться?',
+    channelEmail: 'Email',
+    channelWhatsapp: 'WhatsApp',
+    channelTelegram: 'Telegram',
+    whatsappLabel: 'Номер телефона (с кодом страны)',
+    whatsappPlaceholder: '+7 999 123 45 67',
+    telegramLabel: 'Имя пользователя Telegram',
+    telegramPlaceholder: '@вашеимя',
+    telegramHelper: 'Сначала убедитесь, что у вас задано имя пользователя в Telegram (Настройки → Имя пользователя).',
+    invalidWhatsapp: 'Введите корректный номер телефона с кодом страны.',
+    invalidTelegram: 'Имя пользователя Telegram может содержать только буквы, цифры и подчёркивания.',
   },
   ar: {
     nav_cta: 'احصل على الوصول الآن',
@@ -290,6 +345,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'هذا الحقل مطلوب',
     invalidEmail: 'يرجى إدخال بريد إلكتروني صالح',
     loading: '…جاري التحميل',
+    contactChannelLabel: 'كيف تفضل أن نتواصل معك؟',
+    channelEmail: 'البريد الإلكتروني',
+    channelWhatsapp: 'واتساب',
+    channelTelegram: 'تيليجرام',
+    whatsappLabel: 'رقم الهاتف (مع رمز الدولة)',
+    whatsappPlaceholder: '+966 50 123 4567',
+    telegramLabel: 'اسم المستخدم في تيليجرام',
+    telegramPlaceholder: '@اسمك',
+    telegramHelper: 'تأكد من ضبط اسم مستخدم في تيليجرام أولاً (الإعدادات ← اسم المستخدم).',
+    invalidWhatsapp: 'يرجى إدخال رقم هاتف صحيح مع رمز الدولة.',
+    invalidTelegram: 'اسم مستخدم تيليجرام يمكن أن يحتوي فقط على حروف وأرقام وشرطات سفلية.',
   },
   tl: {
     nav_cta: 'Kumuha ng Access Ngayon',
@@ -333,6 +399,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'Kinakailangan ang field na ito',
     invalidEmail: 'Maglagay ng wastong email address',
     loading: 'Naglo-load…',
+    contactChannelLabel: 'Paano mo gustong makontak?',
+    channelEmail: 'Email',
+    channelWhatsapp: 'WhatsApp',
+    channelTelegram: 'Telegram',
+    whatsappLabel: 'Numero ng telepono (na may country code)',
+    whatsappPlaceholder: '+63 917 123 4567',
+    telegramLabel: 'Telegram username',
+    telegramPlaceholder: '@iyongpangalan',
+    telegramHelper: 'Siguraduhin munang nakatakda ang iyong username sa Telegram (Settings → Username).',
+    invalidWhatsapp: 'Mangyaring maglagay ng wastong numero ng telepono na may country code.',
+    invalidTelegram: 'Ang Telegram username ay maaari lamang maglaman ng mga titik, numero, at underscore.',
   },
   pt: {
     nav_cta: 'Obter acesso agora',
@@ -376,6 +453,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'Este campo é obrigatório',
     invalidEmail: 'Insira um endereço de email válido',
     loading: 'Carregando…',
+    contactChannelLabel: 'Como gostaria de ser contactado?',
+    channelEmail: 'E-mail',
+    channelWhatsapp: 'WhatsApp',
+    channelTelegram: 'Telegram',
+    whatsappLabel: 'Número de telefone (com código do país)',
+    whatsappPlaceholder: '+55 11 91234 5678',
+    telegramLabel: 'Usuário do Telegram',
+    telegramPlaceholder: '@seunome',
+    telegramHelper: 'Certifique-se de definir um nome de usuário no Telegram primeiro (Configurações → Nome de usuário).',
+    invalidWhatsapp: 'Insira um número de telefone válido com código do país.',
+    invalidTelegram: 'O usuário do Telegram só pode conter letras, números e underscores.',
   },
   th: {
     nav_cta: 'รับสิทธิ์เข้าถึงตอนนี้',
@@ -419,6 +507,17 @@ const T: Record<LangKey, Record<string, string>> = {
     fieldRequired: 'จำเป็นต้องกรอกช่องนี้',
     invalidEmail: 'กรุณากรอกอีเมลที่ถูกต้อง',
     loading: 'กำลังโหลด…',
+    contactChannelLabel: 'คุณต้องการให้ติดต่อกลับช่องทางไหน?',
+    channelEmail: 'อีเมล',
+    channelWhatsapp: 'WhatsApp',
+    channelTelegram: 'Telegram',
+    whatsappLabel: 'เบอร์โทรศัพท์ (พร้อมรหัสประเทศ)',
+    whatsappPlaceholder: '+66 81 234 5678',
+    telegramLabel: 'ชื่อผู้ใช้ Telegram',
+    telegramPlaceholder: '@ชื่อของคุณ',
+    telegramHelper: 'โปรดตั้งชื่อผู้ใช้ใน Telegram ก่อน (Settings → Username)',
+    invalidWhatsapp: 'กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้องพร้อมรหัสประเทศ',
+    invalidTelegram: 'ชื่อผู้ใช้ Telegram สามารถมีตัวอักษร ตัวเลข และขีดล่างเท่านั้น',
   },
 }
 
@@ -436,11 +535,11 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const [notFound, setNotFound] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '' })
+  const [form, setForm] = useState({ name: '', email: '', preferredChannel: 'email' as 'email' | 'whatsapp' | 'telegram', whatsappNumber: '', telegramHandle: '' })
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string }>({})
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; whatsappNumber?: string; telegramHandle?: string }>({})
   const [lang, setLangState] = useState<LangKey>('en')
   const [langOpen, setLangOpen] = useState(false)
 
@@ -558,15 +657,44 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
   const handleGetAccess = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitError('')
-    const errors: { name?: string; email?: string } = {}
+    const errors: { name?: string; email?: string; whatsappNumber?: string; telegramHandle?: string } = {}
     if (!form.name.trim()) errors.name = t.fieldRequired
     if (!form.email.trim()) errors.email = t.fieldRequired
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = t.invalidEmail
+    // Conditional channel-specific validation
+    let whatsappForStore: string | null = null
+    let telegramForStore: string | null = null
+    if (form.preferredChannel === 'whatsapp') {
+      const raw = form.whatsappNumber.trim()
+      const stripped = raw.replace(/\s+/g, '')
+      const digits = stripped.replace(/^\+/, '').replace(/\D/g, '')
+      if (!stripped) errors.whatsappNumber = t.fieldRequired
+      else if (!stripped.startsWith('+') && digits.length < 8) errors.whatsappNumber = t.invalidWhatsapp
+      else whatsappForStore = stripped.startsWith('+') ? stripped : `+${digits}`
+    }
+    if (form.preferredChannel === 'telegram') {
+      const raw = form.telegramHandle.trim()
+      const handle = raw.replace(/^@+/, '')
+      if (!handle) errors.telegramHandle = t.fieldRequired
+      else if (!/^[A-Za-z0-9_]+$/.test(handle)) errors.telegramHandle = t.invalidTelegram
+      else telegramForStore = handle
+    }
     if (Object.keys(errors).length > 0) { setFieldErrors(errors); return }
     setFieldErrors({})
     setSubmitting(true)
     const leadId = crypto.randomUUID()
-    const { error } = await supabase.from('leads').insert({ id: leadId, distributor_id: distributor.id, name: form.name, email: form.email, uid_verified: false, referral_link_used: slug })
+    const { error } = await supabase.from('leads').insert({
+      id: leadId,
+      distributor_id: distributor.id,
+      name: form.name,
+      email: form.email,
+      uid_verified: false,
+      referral_link_used: slug,
+      preferred_contact_channel: form.preferredChannel,
+      whatsapp_number: whatsappForStore,
+      telegram_handle: telegramForStore,
+      browser_locale: lang,
+    })
     if (error) { console.error('[lead-register] Insert failed:', JSON.stringify(error)); setSubmitError(t.somethingWentWrong); setSubmitting(false); return }
     console.log('[lead-register] Lead inserted successfully, id:', leadId)
     fetch('/api/send-lead-welcome', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leadName: form.name, leadEmail: form.email, distributorName: distributor.name || distributor.slug, distributorSlug: slug, language: lang, leadId, distributorId: distributor.id }) }).catch(() => {})
@@ -960,6 +1088,84 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
               <form onSubmit={handleGetAccess} noValidate>
                 <div className="fg"><label className="fl" htmlFor="modal-name">{t.f_name}</label><input id="modal-name" className="fi" type="text" placeholder={t.f_name_ph} required aria-required="true" value={form.name} onChange={e => { setForm({ ...form, name: e.target.value }); setFieldErrors(prev => ({ ...prev, name: undefined })) }} style={fieldErrors.name ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.name && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.name}</p>}</div>
                 <div className="fg"><label className="fl" htmlFor="modal-email">{t.f_email}</label><input id="modal-email" className="fi" type="email" placeholder={t.f_email_ph} required aria-required="true" value={form.email} onChange={e => { setForm({ ...form, email: e.target.value }); setFieldErrors(prev => ({ ...prev, email: undefined })) }} style={fieldErrors.email ? { borderColor: '#ff6b6b' } : undefined} />{fieldErrors.email && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.email}</p>}</div>
+
+                {/* Preferred contact channel */}
+                <div className="fg" role="radiogroup" aria-label={t.contactChannelLabel}>
+                  <label className="fl">{t.contactChannelLabel}</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.4rem' }}>
+                    {([
+                      { key: 'email' as const, label: t.channelEmail, icon: (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+                      ) },
+                      { key: 'whatsapp' as const, label: t.channelWhatsapp, icon: (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                      ) },
+                      { key: 'telegram' as const, label: t.channelTelegram, icon: (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                      ) },
+                    ]).map(opt => {
+                      const active = form.preferredChannel === opt.key
+                      return (
+                        <button
+                          key={opt.key}
+                          type="button"
+                          role="radio"
+                          aria-checked={active}
+                          onClick={() => setForm(f => ({ ...f, preferredChannel: opt.key }))}
+                          style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                            padding: '0.5rem 0.85rem',
+                            borderRadius: 'var(--r)',
+                            border: `1px solid ${active ? 'var(--gold)' : 'var(--border2)'}`,
+                            background: active ? 'var(--gold-d)' : 'transparent',
+                            color: active ? 'var(--gold)' : 'var(--grey)',
+                            fontFamily: "'DM Sans', sans-serif",
+                            fontSize: '0.82rem',
+                            cursor: 'pointer',
+                            transition: 'border-color .2s, color .2s, background .2s',
+                          }}
+                        >
+                          {opt.icon}
+                          {opt.label}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {form.preferredChannel === 'whatsapp' && (
+                  <div className="fg">
+                    <label className="fl" htmlFor="modal-whatsapp">{t.whatsappLabel}</label>
+                    <input
+                      id="modal-whatsapp"
+                      className="fi"
+                      type="tel"
+                      placeholder={t.whatsappPlaceholder}
+                      value={form.whatsappNumber}
+                      onChange={e => { setForm({ ...form, whatsappNumber: e.target.value }); setFieldErrors(prev => ({ ...prev, whatsappNumber: undefined })) }}
+                      style={fieldErrors.whatsappNumber ? { borderColor: '#ff6b6b' } : undefined}
+                    />
+                    {fieldErrors.whatsappNumber && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.whatsappNumber}</p>}
+                  </div>
+                )}
+
+                {form.preferredChannel === 'telegram' && (
+                  <div className="fg">
+                    <label className="fl" htmlFor="modal-telegram">{t.telegramLabel}</label>
+                    <input
+                      id="modal-telegram"
+                      className="fi"
+                      type="text"
+                      placeholder={t.telegramPlaceholder}
+                      value={form.telegramHandle}
+                      onChange={e => { setForm({ ...form, telegramHandle: e.target.value }); setFieldErrors(prev => ({ ...prev, telegramHandle: undefined })) }}
+                      style={fieldErrors.telegramHandle ? { borderColor: '#ff6b6b' } : undefined}
+                    />
+                    <p style={{ fontSize: '0.72rem', color: 'var(--grey)', margin: '0.25rem 0 0', fontStyle: 'italic' }}>{t.telegramHelper}</p>
+                    {fieldErrors.telegramHandle && <p style={{ color: '#ff6b6b', fontSize: '0.78rem', margin: '0.25rem 0 0' }}>{fieldErrors.telegramHandle}</p>}
+                  </div>
+                )}
+
                 <div style={{ margin: '1.4rem 0 1rem' }}>
                   <div className="fcheck"><input type="checkbox" id="chk1" required aria-required="true" /><label htmlFor="chk1" dangerouslySetInnerHTML={{ __html: t.chk1 }} /></div>
                   <div className="fcheck"><input type="checkbox" id="chk2" required aria-required="true" /><label htmlFor="chk2" dangerouslySetInnerHTML={{ __html: t.chk2 }} /></div>

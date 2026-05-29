@@ -8,6 +8,7 @@ import LeadJourneyDrawer from '@/components/LeadJourneyDrawer'
 import VisitorAnalytics from '@/components/dashboard/VisitorAnalytics'
 import { normalizeTelegramHandle, telegramHandleForDisplay } from '@/lib/normalize-telegram'
 import { shouldShowDisclosures, applyDisclosures, DISCLOSURES } from '@/lib/compliance-disclosures'
+import { REACH_OUT_TEMPLATES, resolveReachOutLang, renderReachOutTemplate, type ReachOutLang } from '@/lib/reach-out-templates'
 
 const WorkflowCanvas = dynamic(() => import('@/components/WorkflowCanvas'), { ssr: false })
 
@@ -280,6 +281,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'Workflows',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'New Broadcast',
@@ -664,6 +682,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'Arbeidsflyter',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Ny utsendelse',
@@ -1048,6 +1083,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'Arbetsflöden',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Nytt utskick',
@@ -1432,6 +1484,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'Flujos de trabajo',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Nueva difusión',
@@ -1816,6 +1885,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'Автоматизации',
     pipelineSubTab: 'Воронка',
     newBroadcast: 'Новая рассылка',
@@ -2200,6 +2286,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'سير العمل',
     pipelineSubTab: 'مسار المبيعات',
     newBroadcast: 'رسالة جماعية جديدة',
@@ -2584,6 +2687,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'Mga Workflow',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Bagong Broadcast',
@@ -2968,6 +3088,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'Fluxos de trabalho',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Nova transmissão',
@@ -3352,6 +3489,23 @@ const translations: Record<string, Record<string, string>> = {
     broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
+    reachOutCta: 'Reach Out',
+    reachOutContactedOn: 'Contacted on',
+    reachOutMarked: 'Marked as contacted',
+    reachOutTitle: 'Reach out to this lead',
+    reachOutPreferred: 'Preferred channel',
+    reachOutChannelEmail: 'Email',
+    reachOutChannelWhatsapp: 'WhatsApp',
+    reachOutChannelTelegram: 'Telegram',
+    reachOutMessageLabel: 'Message',
+    reachOutSendEmail: 'Send via Email',
+    reachOutOpenWhatsapp: 'Open WhatsApp',
+    reachOutOpenTelegram: 'Open Telegram',
+    reachOutCopyMessage: 'Copy message',
+    reachOutCopied: 'Copied!',
+    reachOutTelegramNote: "Telegram doesn't allow pre-filled text in private chats — copy the message above first, then open the chat and paste.",
+    reachOutFallbackEmail: 'Send by email instead',
+    reachOutSending: 'Sending…',
     workflowsSubTab: 'เวิร์กโฟลว์',
     pipelineSubTab: 'ไปป์ไลน์',
     newBroadcast: 'ส่งข้อความใหม่',
@@ -4943,6 +5097,11 @@ export default function Home() {
   const [pipelineHasReferralClicked, setPipelineHasReferralClicked] = useState(false)
   const [pipelineShareCopied, setPipelineShareCopied] = useState(false)
   const [selectedLead, setSelectedLead] = useState<any>(null)
+  // Reach Out modal state — opened from a verified+unreached lead row.
+  const [reachOutLead, setReachOutLead] = useState<any | null>(null)
+  const [reachOutMessage, setReachOutMessage] = useState('')
+  const [reachOutSending, setReachOutSending] = useState(false)
+  const [reachOutCopied, setReachOutCopied] = useState(false)
   const [bcTitle, setBcTitle] = useState('')
   const [bcMessage, setBcMessage] = useState('')
   const [bcChannels, setBcChannels] = useState<Set<string>>(new Set(['email']))
@@ -5587,6 +5746,58 @@ export default function Home() {
       console.error('[pipeline] fetch failed', e)
     } finally {
       setPipelineLoading(false)
+    }
+  }
+
+  // Reach Out — pre-fill the message in the lead's language using the
+  // EMAIL template for email leads and the CHAT template for WhatsApp /
+  // Telegram leads. The IB can freely edit before sending.
+  const openReachOut = (lead: any) => {
+    const channel: 'email' | 'whatsapp' | 'telegram' = (lead?.preferred_contact_channel as any) || 'email'
+    const leadLang: ReachOutLang = resolveReachOutLang(lead?.browser_locale)
+    const tpl = REACH_OUT_TEMPLATES[leadLang]
+    const ibName = distributor?.name || distributor?.email?.split('@')[0] || ''
+    const leadName = lead?.name || ''
+    const initial = channel === 'email'
+      ? renderReachOutTemplate(tpl.email.body, { leadName, ibName })
+      : renderReachOutTemplate(tpl.chat, { leadName, ibName })
+    setReachOutLead(lead)
+    setReachOutMessage(initial)
+    setReachOutCopied(false)
+  }
+
+  const reachOutSubject = (lead: any): string => {
+    const leadLang: ReachOutLang = resolveReachOutLang(lead?.browser_locale)
+    const tpl = REACH_OUT_TEMPLATES[leadLang]
+    return renderReachOutTemplate(tpl.email.subject, { leadName: lead?.name || '', ibName: distributor?.name || '' })
+  }
+
+  const markReachedOut = async (lead: any, channel: 'email' | 'whatsapp' | 'telegram') => {
+    setReachOutSending(true)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const token = session?.access_token
+      if (!token) { showToast('Please sign in again to mark as contacted'); return }
+      const res = await fetch('/api/leads/reach-out', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ lead_id: lead.id, channel, message: reachOutMessage }),
+      })
+      const body = await res.json().catch(() => ({}))
+      if (!res.ok || body?.error) {
+        showToast('Failed to mark as contacted: ' + (body?.error || res.status))
+        return
+      }
+      const nowIso = new Date().toISOString()
+      setPipelineLeads(prev => prev.map(l => l.id === lead.id
+        ? { ...l, reached_out_at: nowIso, reached_out_channel: channel, reached_out_by: distributor?.id }
+        : l))
+      setReachOutLead(null)
+      showToast(t.reachOutMarked || 'Marked as contacted', 'info')
+    } catch (e: any) {
+      showToast('Failed to mark as contacted: ' + (e?.message || String(e)))
+    } finally {
+      setReachOutSending(false)
     }
   }
 
@@ -8021,6 +8232,44 @@ export default function Home() {
                                   }}
                                 >👋 Existing client</span>
                               )}
+                              {/* Reach Out CTA: only shows for verified leads
+                                  that haven't been contacted yet. Once
+                                  reached_out_at is set, the row instead
+                                  shows a static "Contacted" badge. */}
+                              {step === 'verified' && !lead.reached_out_at && (
+                                <button
+                                  onClick={e => { e.stopPropagation(); openReachOut(lead) }}
+                                  style={{
+                                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                                    padding: '3px 10px',
+                                    borderRadius: 999,
+                                    fontSize: '0.72rem',
+                                    fontWeight: 600,
+                                    background: 'rgba(201,168,76,0.18)',
+                                    color: '#c9a84c',
+                                    border: '1px solid rgba(201,168,76,0.5)',
+                                    cursor: 'pointer',
+                                    fontFamily: "'Outfit', sans-serif",
+                                  }}
+                                  title={t.reachOutCta}
+                                >✉ {t.reachOutCta}</button>
+                              )}
+                              {step === 'verified' && lead.reached_out_at && (
+                                <span
+                                  title={`${t.reachOutContactedOn} ${fmtDate(lead.reached_out_at)}`}
+                                  style={{
+                                    display: 'inline-block',
+                                    padding: '2px 7px',
+                                    borderRadius: 999,
+                                    fontSize: '0.65rem',
+                                    fontWeight: 700,
+                                    background: 'rgba(60,180,100,0.12)',
+                                    color: '#4ccf7a',
+                                    border: '1px solid rgba(60,180,100,0.35)',
+                                    letterSpacing: 0.4,
+                                  }}
+                                >✓ {t.reachOutContactedOn} {fmtDate(lead.reached_out_at)}</span>
+                              )}
                             </div>
                             <div>
                               <span
@@ -8176,6 +8425,125 @@ export default function Home() {
         )}
 
         {/* Template modal moved into WorkflowCanvas component */}
+
+        {/* REACH OUT MODAL — opened from the Pipeline table when a verified
+            lead has not yet been contacted. Pre-fills the message in the
+            lead's preferred language using the EMAIL or CHAT template,
+            then surfaces channel-specific deep links (mailto:, wa.me,
+            t.me). The IB can freely edit before sending. */}
+        {reachOutLead && (() => {
+          const ro = reachOutLead
+          const channel: 'email' | 'whatsapp' | 'telegram' = (ro.preferred_contact_channel as any) || 'email'
+          const subject = reachOutSubject(ro)
+          const encMsg = encodeURIComponent(reachOutMessage)
+          const mailtoHref = `mailto:${ro.email || ''}?subject=${encodeURIComponent(subject)}&body=${encMsg}`
+          const waNumber = (ro.whatsapp_number || '').replace(/\D/g, '')
+          const waHref = waNumber ? `https://wa.me/${waNumber}?text=${encMsg}` : ''
+          const tgHandle = (ro.telegram_handle || '').replace(/^@/, '')
+          const tgHref = tgHandle ? `https://t.me/${tgHandle}` : ''
+          const copyMessage = async () => {
+            try { await navigator.clipboard.writeText(reachOutMessage); setReachOutCopied(true); setTimeout(() => setReachOutCopied(false), 2000) } catch {}
+          }
+          return (
+            <div className="bc-confirm-overlay" onClick={e => { if (e.target === e.currentTarget) setReachOutLead(null) }}>
+              <div className="bc-confirm-box" style={{ textAlign: 'left', maxWidth: 560 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                  <h3 style={{ color: 'var(--gold)', margin: 0 }}>{t.reachOutTitle}</h3>
+                  <button onClick={() => setReachOutLead(null)} style={{ background: 'none', border: 'none', color: 'var(--text-dim)', fontSize: '1.5rem', cursor: 'pointer', padding: 0, lineHeight: 1 }} aria-label="Close">&times;</button>
+                </div>
+
+                {/* Lead info card */}
+                <div style={{ padding: '0.75rem 1rem', background: 'rgba(201,168,76,0.05)', border: '1px solid rgba(201,168,76,0.15)', borderRadius: 10, marginBottom: '1rem', fontSize: '0.82rem' }}>
+                  <div style={{ color: 'var(--text-primary)', fontWeight: 600, marginBottom: 4 }}>{ro.name || '—'}</div>
+                  <div style={{ color: 'var(--text-secondary)' }}>{ro.email || '—'}</div>
+                  {ro.country && <div style={{ color: 'var(--text-dim)', fontSize: '0.78rem', marginTop: 2 }}>{ro.country}</div>}
+                  <div style={{ color: 'var(--text-dim)', fontSize: '0.78rem', marginTop: 6 }}>
+                    {t.reachOutPreferred}: <span style={{ color: 'var(--gold)' }}>
+                      {channel === 'email' ? t.reachOutChannelEmail : channel === 'whatsapp' ? t.reachOutChannelWhatsapp : t.reachOutChannelTelegram}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Editable message */}
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.4, marginBottom: 6 }}>{t.reachOutMessageLabel}</label>
+                  <textarea
+                    value={reachOutMessage}
+                    onChange={e => setReachOutMessage(e.target.value)}
+                    rows={channel === 'email' ? 10 : 5}
+                    style={{ width: '100%', background: 'var(--input-bg)', border: '1px solid var(--input-border)', borderRadius: 8, color: 'var(--text-primary)', fontFamily: "'Outfit', sans-serif", fontSize: '0.88rem', padding: '0.6rem 0.8rem', resize: 'vertical', lineHeight: 1.55 }}
+                  />
+                </div>
+
+                {/* Primary action button per preferred channel */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {channel === 'email' && (
+                    <a
+                      href={mailtoHref}
+                      onClick={() => markReachedOut(ro, 'email')}
+                      className="gold-btn"
+                      style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none', padding: '0.65rem 1rem' }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+                      {t.reachOutSendEmail}
+                    </a>
+                  )}
+                  {channel === 'whatsapp' && waHref && (
+                    <a
+                      href={waHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => markReachedOut(ro, 'whatsapp')}
+                      className="gold-btn"
+                      style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none', padding: '0.65rem 1rem' }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                      {t.reachOutOpenWhatsapp}
+                    </a>
+                  )}
+                  {channel === 'telegram' && tgHref && (
+                    <>
+                      <button
+                        onClick={copyMessage}
+                        style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.55rem 1rem', background: 'transparent', border: '1px solid var(--gold)', borderRadius: 8, color: 'var(--gold)', fontFamily: "'Outfit', sans-serif", fontSize: '0.88rem', cursor: 'pointer', fontWeight: 600 }}
+                      >
+                        {reachOutCopied ? t.reachOutCopied : t.reachOutCopyMessage}
+                      </button>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', margin: '0.1rem 0 0.2rem', fontStyle: 'italic', textAlign: 'center' }}>{t.reachOutTelegramNote}</p>
+                      <a
+                        href={tgHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => markReachedOut(ro, 'telegram')}
+                        className="gold-btn"
+                        style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none', padding: '0.65rem 1rem' }}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                        {t.reachOutOpenTelegram}
+                      </a>
+                    </>
+                  )}
+
+                  {/* Email is always available as a secondary fallback when the preferred channel isn't email */}
+                  {channel !== 'email' && ro.email && (
+                    <a
+                      href={mailtoHref}
+                      onClick={() => markReachedOut(ro, 'email')}
+                      style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.55rem 1rem', background: 'transparent', border: '1px solid var(--input-border)', borderRadius: 8, color: 'var(--text-secondary)', fontFamily: "'Outfit', sans-serif", fontSize: '0.85rem', cursor: 'pointer', textDecoration: 'none' }}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+                      {t.reachOutFallbackEmail}
+                    </a>
+                  )}
+
+                  {reachOutSending && (
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-dim)', textAlign: 'center', margin: '0.4rem 0 0' }}>{t.reachOutSending}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        })()}
 
         {/* BROADCAST CONFIRM MODAL */}
         {bcConfirmOpen && (
