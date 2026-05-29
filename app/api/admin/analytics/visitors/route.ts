@@ -98,7 +98,25 @@ export async function GET(request: Request) {
     )
   }
 
-  const rows: VisitRow[] = visits || []
+  // Filter against the set of real distributor slugs. landing_visits
+  // contains historical rows where bots probed paths like /.env,
+  // /xmlrpc.php, /apple-touch-icon.png and got logged under that
+  // pseudo-slug. The Layer A guard in app/[slug]/layout.tsx stops new
+  // junk from being recorded; this filter hides the existing junk from
+  // every aggregation below (totals, countries, perIB, time series) so
+  // all numbers stay consistent with what's visible.
+  const { data: validSlugRows, error: slugErr } = await supabaseAdmin
+    .from('distributors')
+    .select('slug')
+  if (slugErr) {
+    console.error('[analytics/visitors] distributor slug fetch failed:', slugErr.message)
+    return NextResponse.json(
+      { data: null, error: { code: 'db_error', message: slugErr.message } },
+      { status: 500 }
+    )
+  }
+  const validSlugs = new Set((validSlugRows || []).map(r => r.slug).filter((s): s is string => !!s))
+  const rows: VisitRow[] = (visits || []).filter(v => validSlugs.has(v.slug))
 
   // 4. Aggregations
   const totalVisits = rows.length
