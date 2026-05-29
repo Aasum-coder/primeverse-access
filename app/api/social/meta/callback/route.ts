@@ -7,7 +7,7 @@ import { verifyOAuthState, shortId } from '@/lib/meta-oauth'
 // one Page per IB), checks for an attached Instagram Business Account,
 // and upserts both rows into social_connections.
 //
-// All error paths redirect to /?tab=resources&meta_error=<code> so the
+// All error paths redirect to /?tab=marketing&meta_error=<code> so the
 // dashboard can surface a friendly toast. No PII or tokens leak into the
 // URL on failure.
 //
@@ -33,11 +33,11 @@ const supabase = createClient(
 )
 
 function redirectWithError(code: string): NextResponse {
-  return NextResponse.redirect(`${SITE_URL}/?tab=resources&meta_error=${encodeURIComponent(code)}`)
+  return NextResponse.redirect(`${SITE_URL}/?tab=marketing&meta_error=${encodeURIComponent(code)}`)
 }
 
 function redirectSuccess(): NextResponse {
-  return NextResponse.redirect(`${SITE_URL}/?tab=resources&meta_connected=1`)
+  return NextResponse.redirect(`${SITE_URL}/?tab=marketing&meta_connected=1`)
 }
 
 export async function GET(request: NextRequest) {

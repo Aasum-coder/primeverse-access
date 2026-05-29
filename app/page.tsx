@@ -116,8 +116,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Conversion rate',
     pending: 'pending',
     approved: 'approved',
-    ibResourcesTab: 'Marketing Resources',
-    ibResourcesSubtitle: 'Tools and training to help you succeed',
     aiMarketingTools: 'AI Marketing Tools',
     resourcesSection: 'Resources',
     ibTraining: 'IB Training',
@@ -275,39 +273,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'Visits last 30 days',
     visitorsBarTooltip: 'visits',
     visitorsLocale: 'en-US',
-    betaTestTab: 'Beta Test',
-    betaTitle: 'SYSTM8 Beta Test',
-    betaSubtitle: 'You are one of 18 selected beta testers. Your feedback shapes the future of SYSTM8.',
-    betaProgress: 'tests completed',
-    betaPassed: 'Passed',
-    betaFailed: 'Failed',
-    betaRemaining: 'Remaining',
-    betaAddNote: 'Add a note...',
-    betaScreenshot: 'Screenshot',
-    betaUntested: 'Untested',
-    betaPass: 'Pass',
-    betaFail: 'Fail',
-    betaSubmitAll: 'Submit All Results',
-    betaThankYou: 'tests completed. Thank you for your contribution to SYSTM8!',
-    betaFoundingMember: 'Beta Tester — Founding Member',
-    betaBugTitle: 'Bug title',
-    betaBugDesc: 'What went wrong?',
-    betaBugSeverity: 'Severity',
-    betaBugSubmit: 'Submit Bug Report',
-    betaBugCritical: 'Critical',
-    betaBugMajor: 'Major',
-    betaBugMinor: 'Minor',
-    betaBugCosmetic: 'Cosmetic',
-    betaSec1: 'Registration & Verification',
-    betaSec2: 'Profile Setup',
-    betaSec3: 'AI Bio Assistant',
-    betaSec4: 'Landing Page',
-    betaSec5: 'Language Switching',
-    betaSec6: 'Sharing & Leads',
-    betaSec7: 'Automated Emails',
-    betaSec8: 'Dashboard Features',
     marketingTab: 'Marketing',
     broadcastsSubTab: 'Broadcasts',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'Workflows',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'New Broadcast',
@@ -530,8 +502,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Konverteringsrate',
     pending: 'ventende',
     approved: 'godkjent',
-    ibResourcesTab: 'Markedsføringsressurser',
-    ibResourcesSubtitle: 'Verktøy og opplæring for å hjelpe deg å lykkes',
     aiMarketingTools: 'AI Markedsføringsverktøy',
     resourcesSection: 'Ressurser',
     ibTraining: 'IB-opplæring',
@@ -687,39 +657,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'Besøk siste 30 dager',
     visitorsBarTooltip: 'besøk',
     visitorsLocale: 'nb-NO',
-    betaTestTab: 'Beta Test',
-    betaTitle: 'SYSTM8 Beta Test',
-    betaSubtitle: 'Du er en av 18 utvalgte betatestere. Tilbakemeldingen din former fremtiden til SYSTM8.',
-    betaProgress: 'tester fullført',
-    betaPassed: 'Bestått',
-    betaFailed: 'Feilet',
-    betaRemaining: 'Gjenstående',
-    betaAddNote: 'Legg til en merknad...',
-    betaScreenshot: 'Skjermbilde',
-    betaUntested: 'Ikke testet',
-    betaPass: 'Bestått',
-    betaFail: 'Feil',
-    betaSubmitAll: 'Send inn alle resultater',
-    betaThankYou: 'tester fullført. Takk for ditt bidrag til SYSTM8!',
-    betaFoundingMember: 'Betatester — Grunnleggende medlem',
-    betaBugTitle: 'Feiltittel',
-    betaBugDesc: 'Hva gikk galt?',
-    betaBugSeverity: 'Alvorlighetsgrad',
-    betaBugSubmit: 'Send feilrapport',
-    betaBugCritical: 'Kritisk',
-    betaBugMajor: 'Stor',
-    betaBugMinor: 'Liten',
-    betaBugCosmetic: 'Kosmetisk',
-    betaSec1: 'Registrering og verifisering',
-    betaSec2: 'Profiloppsett',
-    betaSec3: 'AI Bio-assistent',
-    betaSec4: 'Landingsside',
-    betaSec5: 'Språkbytte',
-    betaSec6: 'Deling og leads',
-    betaSec7: 'Automatiserte e-poster',
-    betaSec8: 'Dashboard-funksjoner',
     marketingTab: 'Markedsføring',
     broadcastsSubTab: 'Utsendelser',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'Arbeidsflyter',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Ny utsendelse',
@@ -942,8 +886,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Konverteringsgrad',
     pending: 'väntande',
     approved: 'godkända',
-    ibResourcesTab: 'Marknadsföringsresurser',
-    ibResourcesSubtitle: 'Verktyg och utbildning för att hjälpa dig lyckas',
     aiMarketingTools: 'AI Marknadsföringsverktyg',
     resourcesSection: 'Resurser',
     ibTraining: 'IB-utbildning',
@@ -1099,39 +1041,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'Besök senaste 30 dagarna',
     visitorsBarTooltip: 'besök',
     visitorsLocale: 'sv-SE',
-    betaTestTab: 'Beta Test',
-    betaTitle: 'SYSTM8 Beta Test',
-    betaSubtitle: 'Du är en av 18 utvalda betatestare. Din feedback formar framtiden för SYSTM8.',
-    betaProgress: 'tester slutförda',
-    betaPassed: 'Godkänd',
-    betaFailed: 'Underkänd',
-    betaRemaining: 'Återstående',
-    betaAddNote: 'Lägg till en anteckning...',
-    betaScreenshot: 'Skärmbild',
-    betaUntested: 'Ej testad',
-    betaPass: 'Godkänd',
-    betaFail: 'Underkänd',
-    betaSubmitAll: 'Skicka alla resultat',
-    betaThankYou: 'tester slutförda. Tack för ditt bidrag till SYSTM8!',
-    betaFoundingMember: 'Betatestare — Grundande medlem',
-    betaBugTitle: 'Buggtitel',
-    betaBugDesc: 'Vad gick fel?',
-    betaBugSeverity: 'Allvarlighetsgrad',
-    betaBugSubmit: 'Skicka buggrapport',
-    betaBugCritical: 'Kritisk',
-    betaBugMajor: 'Stor',
-    betaBugMinor: 'Liten',
-    betaBugCosmetic: 'Kosmetisk',
-    betaSec1: 'Registrering & verifiering',
-    betaSec2: 'Profilinställning',
-    betaSec3: 'AI Bio-assistent',
-    betaSec4: 'Landningssida',
-    betaSec5: 'Språkbyte',
-    betaSec6: 'Delning & leads',
-    betaSec7: 'Automatiserade e-postmeddelanden',
-    betaSec8: 'Dashboardfunktioner',
     marketingTab: 'Marknadsföring',
     broadcastsSubTab: 'Utskick',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'Arbetsflöden',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Nytt utskick',
@@ -1354,8 +1270,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Tasa de conversión',
     pending: 'pendientes',
     approved: 'aprobados',
-    ibResourcesTab: 'Recursos de Marketing',
-    ibResourcesSubtitle: 'Herramientas y formación para ayudarte a tener éxito',
     aiMarketingTools: 'Herramientas de Marketing IA',
     resourcesSection: 'Recursos',
     ibTraining: 'Formación IB',
@@ -1511,39 +1425,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'Visitas últimos 30 días',
     visitorsBarTooltip: 'visitas',
     visitorsLocale: 'es-ES',
-    betaTestTab: 'Beta Test',
-    betaTitle: 'SYSTM8 Beta Test',
-    betaSubtitle: 'Eres uno de los 18 beta testers seleccionados. Tu feedback da forma al futuro de SYSTM8.',
-    betaProgress: 'pruebas completadas',
-    betaPassed: 'Aprobado',
-    betaFailed: 'Fallido',
-    betaRemaining: 'Restante',
-    betaAddNote: 'Agregar una nota...',
-    betaScreenshot: 'Captura de pantalla',
-    betaUntested: 'Sin probar',
-    betaPass: 'Aprobado',
-    betaFail: 'Fallido',
-    betaSubmitAll: 'Enviar todos los resultados',
-    betaThankYou: 'pruebas completadas. ¡Gracias por tu contribución a SYSTM8!',
-    betaFoundingMember: 'Beta Tester — Miembro fundador',
-    betaBugTitle: 'Título del bug',
-    betaBugDesc: '¿Qué salió mal?',
-    betaBugSeverity: 'Severidad',
-    betaBugSubmit: 'Enviar reporte de bug',
-    betaBugCritical: 'Crítico',
-    betaBugMajor: 'Mayor',
-    betaBugMinor: 'Menor',
-    betaBugCosmetic: 'Cosmético',
-    betaSec1: 'Registro y verificación',
-    betaSec2: 'Configuración de perfil',
-    betaSec3: 'Asistente de bio AI',
-    betaSec4: 'Página de destino',
-    betaSec5: 'Cambio de idioma',
-    betaSec6: 'Compartir y leads',
-    betaSec7: 'Correos automatizados',
-    betaSec8: 'Funciones del panel',
     marketingTab: 'Marketing',
     broadcastsSubTab: 'Difusiones',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'Flujos de trabajo',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Nueva difusión',
@@ -1766,8 +1654,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Коэффициент конверсии',
     pending: 'ожидают',
     approved: 'одобрено',
-    ibResourcesTab: 'Маркетинговые ресурсы',
-    ibResourcesSubtitle: 'Инструменты и обучение для вашего успеха',
     aiMarketingTools: 'AI Маркетинговые инструменты',
     resourcesSection: 'Ресурсы',
     ibTraining: 'Обучение IB',
@@ -1923,39 +1809,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'Посещения за 30 дней',
     visitorsBarTooltip: 'посещений',
     visitorsLocale: 'ru-RU',
-    betaTestTab: 'Бета-тест',
-    betaTitle: 'SYSTM8 Бета-тест',
-    betaSubtitle: 'Вы один из 18 выбранных бета-тестеров. Ваш отзыв формирует будущее SYSTM8.',
-    betaProgress: 'тестов выполнено',
-    betaPassed: 'Пройдено',
-    betaFailed: 'Провал',
-    betaRemaining: 'Осталось',
-    betaAddNote: 'Добавить заметку...',
-    betaScreenshot: 'Скриншот',
-    betaUntested: 'Не проверено',
-    betaPass: 'Пройдено',
-    betaFail: 'Провал',
-    betaSubmitAll: 'Отправить все результаты',
-    betaThankYou: 'тестов выполнено. Спасибо за ваш вклад в SYSTM8!',
-    betaFoundingMember: 'Бета-тестер — Основатель',
-    betaBugTitle: 'Название бага',
-    betaBugDesc: 'Что пошло не так?',
-    betaBugSeverity: 'Серьёзность',
-    betaBugSubmit: 'Отправить баг-репорт',
-    betaBugCritical: 'Критический',
-    betaBugMajor: 'Серьёзный',
-    betaBugMinor: 'Незначительный',
-    betaBugCosmetic: 'Косметический',
-    betaSec1: 'Регистрация и верификация',
-    betaSec2: 'Настройка профиля',
-    betaSec3: 'AI-ассистент био',
-    betaSec4: 'Лендинг-страница',
-    betaSec5: 'Переключение языка',
-    betaSec6: 'Шеринг и лиды',
-    betaSec7: 'Автоматические письма',
-    betaSec8: 'Функции дашборда',
     marketingTab: 'Маркетинг',
     broadcastsSubTab: 'Рассылки',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'Автоматизации',
     pipelineSubTab: 'Воронка',
     newBroadcast: 'Новая рассылка',
@@ -2178,8 +2038,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'معدل التحويل',
     pending: 'معلق',
     approved: 'معتمد',
-    ibResourcesTab: 'موارد التسويق',
-    ibResourcesSubtitle: 'أدوات وتدريب لمساعدتك على النجاح',
     aiMarketingTools: 'أدوات التسويق بالذكاء الاصطناعي',
     resourcesSection: 'الموارد',
     ibTraining: 'تدريب IB',
@@ -2335,39 +2193,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'الزيارات خلال آخر 30 يومًا',
     visitorsBarTooltip: 'زيارة',
     visitorsLocale: 'ar-SA',
-    betaTestTab: 'اختبار تجريبي',
-    betaTitle: 'اختبار SYSTM8 التجريبي',
-    betaSubtitle: 'أنت واحد من 18 مختبر تجريبي مختار. ملاحظاتك تشكّل مستقبل SYSTM8.',
-    betaProgress: 'اختبار مكتمل',
-    betaPassed: 'ناجح',
-    betaFailed: 'فاشل',
-    betaRemaining: 'متبقي',
-    betaAddNote: 'أضف ملاحظة...',
-    betaScreenshot: 'لقطة شاشة',
-    betaUntested: 'لم يُختبر',
-    betaPass: 'ناجح',
-    betaFail: 'فاشل',
-    betaSubmitAll: 'إرسال جميع النتائج',
-    betaThankYou: 'اختبار مكتمل. شكراً لمساهمتك في SYSTM8!',
-    betaFoundingMember: 'مختبر تجريبي — عضو مؤسس',
-    betaBugTitle: 'عنوان الخطأ',
-    betaBugDesc: 'ما الذي حدث خطأ؟',
-    betaBugSeverity: 'الخطورة',
-    betaBugSubmit: 'إرسال تقرير الخطأ',
-    betaBugCritical: 'حرج',
-    betaBugMajor: 'كبير',
-    betaBugMinor: 'صغير',
-    betaBugCosmetic: 'تجميلي',
-    betaSec1: 'التسجيل والتحقق',
-    betaSec2: 'إعداد الملف الشخصي',
-    betaSec3: 'مساعد السيرة الذاتية AI',
-    betaSec4: 'صفحة الهبوط',
-    betaSec5: 'تبديل اللغة',
-    betaSec6: 'المشاركة والعملاء',
-    betaSec7: 'رسائل البريد التلقائية',
-    betaSec8: 'ميزات لوحة التحكم',
     marketingTab: 'التسويق',
     broadcastsSubTab: 'الرسائل الجماعية',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'سير العمل',
     pipelineSubTab: 'مسار المبيعات',
     newBroadcast: 'رسالة جماعية جديدة',
@@ -2590,8 +2422,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Conversion rate',
     pending: 'naghihintay',
     approved: 'na-approve',
-    ibResourcesTab: 'Marketing Resources',
-    ibResourcesSubtitle: 'Mga tool at pagsasanay para makatulong sa iyong tagumpay',
     aiMarketingTools: 'AI Marketing Tools',
     resourcesSection: 'Mga Resource',
     ibTraining: 'IB Training',
@@ -2747,39 +2577,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'Bisita sa nakalipas na 30 araw',
     visitorsBarTooltip: 'bisita',
     visitorsLocale: 'tl-PH',
-    betaTestTab: 'Beta Test',
-    betaTitle: 'SYSTM8 Beta Test',
-    betaSubtitle: 'Isa ka sa 18 na napiling beta tester. Ang feedback mo ang humuhubog sa kinabukasan ng SYSTM8.',
-    betaProgress: 'test na nakumpleto',
-    betaPassed: 'Pumasa',
-    betaFailed: 'Nabigo',
-    betaRemaining: 'Natitira',
-    betaAddNote: 'Magdagdag ng note...',
-    betaScreenshot: 'Screenshot',
-    betaUntested: 'Hindi pa nasubukan',
-    betaPass: 'Pumasa',
-    betaFail: 'Nabigo',
-    betaSubmitAll: 'I-submit lahat ng resulta',
-    betaThankYou: 'test na nakumpleto. Salamat sa iyong kontribusyon sa SYSTM8!',
-    betaFoundingMember: 'Beta Tester — Founding Member',
-    betaBugTitle: 'Pamagat ng bug',
-    betaBugDesc: 'Ano ang nangyaring mali?',
-    betaBugSeverity: 'Kalubhaan',
-    betaBugSubmit: 'I-submit ang bug report',
-    betaBugCritical: 'Kritikal',
-    betaBugMajor: 'Malaki',
-    betaBugMinor: 'Maliit',
-    betaBugCosmetic: 'Kosmetiko',
-    betaSec1: 'Pagpaparehistro at Beripikasyon',
-    betaSec2: 'Pag-setup ng Profile',
-    betaSec3: 'AI Bio Assistant',
-    betaSec4: 'Landing Page',
-    betaSec5: 'Pagpapalit ng Wika',
-    betaSec6: 'Pagbabahagi at Leads',
-    betaSec7: 'Automated na Email',
-    betaSec8: 'Mga Feature ng Dashboard',
     marketingTab: 'Marketing',
     broadcastsSubTab: 'Mga Broadcast',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'Mga Workflow',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Bagong Broadcast',
@@ -3002,8 +2806,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'Taxa de conversão',
     pending: 'pendentes',
     approved: 'aprovados',
-    ibResourcesTab: 'Recursos de Marketing',
-    ibResourcesSubtitle: 'Ferramentas e treinamento para ajudá-lo a ter sucesso',
     aiMarketingTools: 'Ferramentas de Marketing IA',
     resourcesSection: 'Recursos',
     ibTraining: 'Treinamento IB',
@@ -3159,39 +2961,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'Visitas nos últimos 30 dias',
     visitorsBarTooltip: 'visitas',
     visitorsLocale: 'pt-BR',
-    betaTestTab: 'Beta Test',
-    betaTitle: 'SYSTM8 Beta Test',
-    betaSubtitle: 'Você é um dos 18 beta testers selecionados. Seu feedback molda o futuro do SYSTM8.',
-    betaProgress: 'testes concluídos',
-    betaPassed: 'Aprovado',
-    betaFailed: 'Reprovado',
-    betaRemaining: 'Restante',
-    betaAddNote: 'Adicionar uma nota...',
-    betaScreenshot: 'Captura de tela',
-    betaUntested: 'Não testado',
-    betaPass: 'Aprovado',
-    betaFail: 'Reprovado',
-    betaSubmitAll: 'Enviar todos os resultados',
-    betaThankYou: 'testes concluídos. Obrigado pela sua contribuição ao SYSTM8!',
-    betaFoundingMember: 'Beta Tester — Membro Fundador',
-    betaBugTitle: 'Título do bug',
-    betaBugDesc: 'O que deu errado?',
-    betaBugSeverity: 'Severidade',
-    betaBugSubmit: 'Enviar relatório de bug',
-    betaBugCritical: 'Crítico',
-    betaBugMajor: 'Maior',
-    betaBugMinor: 'Menor',
-    betaBugCosmetic: 'Cosmético',
-    betaSec1: 'Registro e verificação',
-    betaSec2: 'Configuração de perfil',
-    betaSec3: 'Assistente de bio AI',
-    betaSec4: 'Página de destino',
-    betaSec5: 'Troca de idioma',
-    betaSec6: 'Compartilhamento e leads',
-    betaSec7: 'E-mails automatizados',
-    betaSec8: 'Recursos do painel',
     marketingTab: 'Marketing',
     broadcastsSubTab: 'Transmissões',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'Fluxos de trabalho',
     pipelineSubTab: 'Pipeline',
     newBroadcast: 'Nova transmissão',
@@ -3414,8 +3190,6 @@ const translations: Record<string, Record<string, string>> = {
     conversionRateLower: 'อัตราการแปลง',
     pending: 'รอดำเนินการ',
     approved: 'อนุมัติแล้ว',
-    ibResourcesTab: 'ทรัพยากรการตลาด',
-    ibResourcesSubtitle: 'เครื่องมือและการฝึกอบรมเพื่อช่วยให้คุณประสบความสำเร็จ',
     aiMarketingTools: 'เครื่องมือการตลาด AI',
     resourcesSection: 'ทรัพยากร',
     ibTraining: 'การฝึกอบรม IB',
@@ -3571,39 +3345,13 @@ const translations: Record<string, Record<string, string>> = {
     visitorsLast30Days: 'การเข้าชม 30 วันที่ผ่านมา',
     visitorsBarTooltip: 'ครั้ง',
     visitorsLocale: 'th-TH',
-    betaTestTab: 'เบต้าเทสต์',
-    betaTitle: 'SYSTM8 เบต้าเทสต์',
-    betaSubtitle: 'คุณเป็นหนึ่งใน 18 เบต้าเทสเตอร์ที่ได้รับเลือก ความคิดเห็นของคุณกำหนดอนาคตของ SYSTM8',
-    betaProgress: 'การทดสอบเสร็จสิ้น',
-    betaPassed: 'ผ่าน',
-    betaFailed: 'ไม่ผ่าน',
-    betaRemaining: 'เหลือ',
-    betaAddNote: 'เพิ่มบันทึก...',
-    betaScreenshot: 'ภาพหน้าจอ',
-    betaUntested: 'ยังไม่ทดสอบ',
-    betaPass: 'ผ่าน',
-    betaFail: 'ไม่ผ่าน',
-    betaSubmitAll: 'ส่งผลลัพธ์ทั้งหมด',
-    betaThankYou: 'การทดสอบเสร็จสิ้น ขอบคุณสำหรับการมีส่วนร่วมใน SYSTM8!',
-    betaFoundingMember: 'เบต้าเทสเตอร์ — สมาชิกผู้ก่อตั้ง',
-    betaBugTitle: 'ชื่อบัก',
-    betaBugDesc: 'เกิดอะไรขึ้น?',
-    betaBugSeverity: 'ความรุนแรง',
-    betaBugSubmit: 'ส่งรายงานบัก',
-    betaBugCritical: 'วิกฤต',
-    betaBugMajor: 'สำคัญ',
-    betaBugMinor: 'เล็กน้อย',
-    betaBugCosmetic: 'เครื่องสำอาง',
-    betaSec1: 'การลงทะเบียนและการยืนยัน',
-    betaSec2: 'การตั้งค่าโปรไฟล์',
-    betaSec3: 'ผู้ช่วย AI Bio',
-    betaSec4: 'แลนดิ้งเพจ',
-    betaSec5: 'การเปลี่ยนภาษา',
-    betaSec6: 'การแชร์และ Lead',
-    betaSec7: 'อีเมลอัตโนมัติ',
-    betaSec8: 'ฟีเจอร์แดชบอร์ด',
     marketingTab: 'การตลาด',
     broadcastsSubTab: 'การส่งข้อความ',
+    marketingHubSubTab: 'Hub',
+    marketingHubOutreachSection: 'Outreach',
+    broadcastsHubDesc: 'Send email or WhatsApp campaigns to your leads.',
+    workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
+    pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     workflowsSubTab: 'เวิร์กโฟลว์',
     pipelineSubTab: 'ไปป์ไลน์',
     newBroadcast: 'ส่งข้อความใหม่',
@@ -4933,14 +4681,7 @@ export default function Home() {
   const [submitting, setSubmitting] = useState(false)
   const [approvingId, setApprovingId] = useState<string | null>(null)
   const [disapprovingId, setDisapprovingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'resources' | 'marketing' | 'visitors' | 'beta'>('metrics')
-  const [isBetaTester, setIsBetaTester] = useState(false)
-  const [betaResults, setBetaResults] = useState<Record<string, { status: string; comment: string; id?: string }>>({})
-  const [betaOpenSections, setBetaOpenSections] = useState<Set<string>>(new Set())
-  const [betaFailItem, setBetaFailItem] = useState<string | null>(null)
-  const [betaBugForm, setBetaBugForm] = useState({ title: '', description: '', severity: 'major' })
-  const [betaSubmitted, setBetaSubmitted] = useState(false)
-  const [betaUploading, setBetaUploading] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'leads' | 'profile' | 'metrics' | 'marketing' | 'visitors'>('metrics')
   const [metricPeriod, setMetricPeriod] = useState<'day' | 'week' | 'month' | 'all'>('week')
   const [pageViews, setPageViews] = useState(0)
   const [metricsLoading, setMetricsLoading] = useState(false)
@@ -5192,7 +4933,7 @@ export default function Home() {
 
   // Broadcast state
   const [broadcasts, setBroadcasts] = useState<any[]>([])
-  const [bcSubTab, setBcSubTab] = useState<'broadcasts' | 'workflows' | 'pipeline'>('broadcasts')
+  const [bcSubTab, setBcSubTab] = useState<'hub' | 'broadcasts' | 'workflows' | 'pipeline'>('hub')
   const [bcView, setBcView] = useState<'list' | 'compose' | 'detail'>('list')
 
   // Pipeline state
@@ -5745,17 +5486,6 @@ export default function Home() {
       }
       // Auto-create default pipeline stages if they don't exist yet
       fetch('/api/create-default-stages', { method: 'POST' }).catch(() => {})
-      // Load beta tester flag and existing test results
-      if (dist.is_beta_tester) {
-        setIsBetaTester(true)
-        supabase.from('test_results').select('id, test_item, status, comment').eq('tester_id', userId).then(({ data }) => {
-          if (data) {
-            const results: Record<string, { status: string; comment: string; id?: string }> = {}
-            for (const r of data) results[r.test_item] = { status: r.status, comment: r.comment || '', id: r.id }
-            setBetaResults(results)
-          }
-        })
-      }
       // Update last_login timestamp
       supabase.from('distributors').update({ last_login: new Date().toISOString() }).eq('id', dist.id).then(() => {})
       // Restore language: Supabase > localStorage > 'en'
@@ -6679,16 +6409,6 @@ export default function Home() {
           </button>
           <button
             role="tab"
-            aria-selected={activeTab === 'resources'}
-            aria-controls="tab-panel-resources"
-            id="tab-resources"
-            onClick={() => setActiveTab('resources')}
-            className={`tab-btn${activeTab === 'resources' ? ' tab-btn-active' : ''}`}
-          >
-            {t.ibResourcesTab}
-          </button>
-          <button
-            role="tab"
             aria-selected={activeTab === 'marketing'}
             aria-controls="tab-panel-marketing"
             id="tab-marketing"
@@ -6709,31 +6429,6 @@ export default function Home() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4, verticalAlign: '-2px' }}><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             {t.visitorsTab}
           </button>
-          {isBetaTester && isAdmin && (
-          <button
-            role="tab"
-            aria-selected={activeTab === 'beta'}
-            aria-controls="tab-panel-beta"
-            id="tab-beta"
-            onClick={() => {
-              setActiveTab('beta')
-              // Re-fetch test results from Supabase to ensure persistence across tab switches
-              if (distributor?.user_id) {
-                supabase.from('test_results').select('id, test_item, status, comment').eq('tester_id', distributor.user_id).then(({ data }) => {
-                  if (data) {
-                    const results: Record<string, { status: string; comment: string; id?: string }> = {}
-                    for (const r of data) results[r.test_item] = { status: r.status, comment: r.comment || '', id: r.id }
-                    setBetaResults(results)
-                  }
-                })
-              }
-            }}
-            className={`tab-btn${activeTab === 'beta' ? ' tab-btn-active' : ''}`}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 4, verticalAlign: '-2px' }}><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
-            {t.betaTestTab}
-          </button>
-          )}
         </div>
 
         {/* LEADS TAB */}
@@ -7221,180 +6916,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* MARKETING RESOURCES TAB */}
-        {activeTab === 'resources' && (
-          <div role="tabpanel" id="tab-panel-resources" aria-labelledby="tab-resources">
-            <div style={{ marginBottom: '1.75rem' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 0.35rem' }}>{t.ibResourcesTab}</h2>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: 0 }}>{t.ibResourcesSubtitle}</p>
-            </div>
-
-            {/* AI Marketing Tools Section */}
-            <div className="ai-section-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z" fill="var(--gold)" stroke="none"/></svg>
-              {t.aiMarketingTools}
-            </div>
-            <div className="ib-resources-grid" style={{ marginBottom: '2.5rem' }}>
-              {/* Post Writer */}
-              <div className="ib-resource-card" onClick={() => setAiToolModal('post')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('post')}>
-                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.postWriter}</div>
-                  <div className="ib-resource-desc">{t.postWriterDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </div>
-              {/* Caption Generator */}
-              <div className="ib-resource-card" onClick={() => setAiToolModal('caption')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('caption')}>
-                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.captionGenerator}</div>
-                  <div className="ib-resource-desc">{t.captionGeneratorDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </div>
-              {/* Hashtag Research */}
-              <div className="ib-resource-card" onClick={() => setAiToolModal('hashtags')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('hashtags')}>
-                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.hashtagResearch}</div>
-                  <div className="ib-resource-desc">{t.hashtagResearchDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </div>
-              {/* Reply Assistant */}
-              <div className="ib-resource-card" onClick={() => { setReplyOpen(true); setReplyLang(lang) }} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setReplyOpen(true)}>
-                <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.replyAssistant}</div>
-                  <div className="ib-resource-desc">{t.replyAssistantDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </div>
-              {/* Content Calendar */}
-              <div className="ib-resource-card" onClick={() => setCalendarOpen(true)} style={{ cursor: 'pointer' }}>
-                <div className="ib-resource-badge" style={{ background: 'rgba(212,165,55,0.15)', color: '#d4a537' }}>{t.aiPowered}</div>
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                    <rect x="7" y="14" width="3" height="3" rx="0.5" fill="var(--gold)" stroke="none" opacity="0.3"/><rect x="14" y="14" width="3" height="3" rx="0.5" fill="var(--gold)" stroke="none" opacity="0.3"/>
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.contentCalendar}</div>
-                  <div className="ib-resource-desc">{t.contentCalendarDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </div>
-              <ContentCalendarModal open={calendarOpen} onClose={() => setCalendarOpen(false)} t={t} lang={lang}
-                distributorId={distributor?.id || null} onOpenPostWriter={(topic) => { setAiToolTopic(topic); setAiToolModal('post') }} isAdmin={isAdmin}
-                metaConnections={metaConnections}
-                onMetaDisconnect={async (platform) => {
-                  await fetch('/api/social/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform }) })
-                  setMetaConnections(prev => prev.filter((c: any) => c.platform !== platform))
-                }}
-              />
-            </div>
-
-            {/* Resources Section */}
-            <div className="ai-section-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-              {t.resourcesSection}
-            </div>
-            <div className="ib-resources-grid">
-              <a
-                href="https://seed-timpani-7f1.notion.site/29eb91acac5281c589cee5eb17a53522?v=29eb91acac5281c18d3a000ca39a21d0&source=copy_link"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ib-resource-card"
-              >
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                    <path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5" />
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.ibTraining}</div>
-                  <div className="ib-resource-desc">{t.ibTrainingDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </a>
-              <div className="ib-resource-card ib-resource-card-disabled">
-                <div className="ib-resource-badge">{t.comingSoon}</div>
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <path d="M21 15l-5-5L5 21" />
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.contentLibrary}</div>
-                  <div className="ib-resource-desc">{t.contentLibraryDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </div>
-              <a
-                href="https://puprimelive.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ib-resource-card"
-              >
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.vipSupport}</div>
-                  <div className="ib-resource-desc">{t.vipSupportDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </a>
-              <a
-                href="https://www.canva.com/design/DAHCjaOppW8/yeLC5W-gz6d_F6hjfkfOqQ/view"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ib-resource-card"
-              >
-                <div className="ib-resource-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2" />
-                    <path d="M8 21h8M12 17v4" />
-                    <polygon points="10,8 10,12 14,10" fill="currentColor" stroke="none" />
-                  </svg>
-                </div>
-                <div className="ib-resource-text">
-                  <div className="ib-resource-title">{t.pvPresentation}</div>
-                  <div className="ib-resource-desc">{t.pvPresentationDesc}</div>
-                </div>
-                <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
-          </div>
-        )}
 
         {/* AI TOOL MODALS */}
         {aiToolModal && (
@@ -7768,6 +7289,16 @@ export default function Home() {
           </div>
         )}
 
+        {/* CONTENT CALENDAR MODAL (mounted at top level so the Marketing Hub card can open it) */}
+        <ContentCalendarModal open={calendarOpen} onClose={() => setCalendarOpen(false)} t={t} lang={lang}
+          distributorId={distributor?.id || null} onOpenPostWriter={(topic) => { setAiToolTopic(topic); setAiToolModal('post') }} isAdmin={isAdmin}
+          metaConnections={metaConnections}
+          onMetaDisconnect={async (platform) => {
+            await fetch('/api/social/meta/disconnect', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform }) })
+            setMetaConnections(prev => prev.filter((c: any) => c.platform !== platform))
+          }}
+        />
+
         {/* MARKETING TAB */}
         {activeTab === 'marketing' && (
           <div role="tabpanel" id="tab-panel-marketing" aria-labelledby="tab-marketing">
@@ -7777,6 +7308,7 @@ export default function Home() {
 
             {/* Sub-tabs */}
             <div className="bc-sub-tabs">
+              <button className={`bc-sub-tab${bcSubTab === 'hub' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('hub')}>{t.marketingHubSubTab}</button>
               <button className={`bc-sub-tab${bcSubTab === 'broadcasts' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('broadcasts')}>{t.broadcastsSubTab}</button>
               <button className={`bc-sub-tab${bcSubTab === 'workflows' ? ' bc-sub-tab-active' : ''}`} onClick={() => setBcSubTab('workflows')}>{t.workflowsSubTab}</button>
               <button
@@ -7786,6 +7318,169 @@ export default function Home() {
                 {t.pipelineSubTab}
               </button>
             </div>
+
+            {/* HUB — default landing grid with all tools and resources */}
+            {bcSubTab === 'hub' && (
+              <div>
+                {/* AI Marketing Tools Section */}
+                <div className="ai-section-header">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z" fill="var(--gold)" stroke="none"/></svg>
+                  {t.aiMarketingTools}
+                </div>
+                <div className="ib-resources-grid" style={{ marginBottom: '2.5rem' }}>
+                  {/* Post Writer */}
+                  <div className="ib-resource-card" onClick={() => setAiToolModal('post')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('post')}>
+                    <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.postWriter}</div>
+                      <div className="ib-resource-desc">{t.postWriterDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                  {/* Caption Generator */}
+                  <div className="ib-resource-card" onClick={() => setAiToolModal('caption')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('caption')}>
+                    <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.captionGenerator}</div>
+                      <div className="ib-resource-desc">{t.captionGeneratorDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                  {/* Hashtag Research */}
+                  <div className="ib-resource-card" onClick={() => setAiToolModal('hashtags')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setAiToolModal('hashtags')}>
+                    <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.hashtagResearch}</div>
+                      <div className="ib-resource-desc">{t.hashtagResearchDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                  {/* Reply Assistant */}
+                  <div className="ib-resource-card" onClick={() => { setReplyOpen(true); setReplyLang(lang) }} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setReplyOpen(true)}>
+                    <span className="ai-tool-badge ai-tool-badge-gold">{t.aiPowered}</span>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.replyAssistant}</div>
+                      <div className="ib-resource-desc">{t.replyAssistantDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                  {/* Content Calendar */}
+                  <div className="ib-resource-card" onClick={() => setCalendarOpen(true)} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setCalendarOpen(true)} style={{ cursor: 'pointer' }}>
+                    <div className="ib-resource-badge" style={{ background: 'rgba(212,165,55,0.15)', color: '#d4a537' }}>{t.aiPowered}</div>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><rect x="7" y="14" width="3" height="3" rx="0.5" fill="var(--gold)" stroke="none" opacity="0.3"/><rect x="14" y="14" width="3" height="3" rx="0.5" fill="var(--gold)" stroke="none" opacity="0.3"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.contentCalendar}</div>
+                      <div className="ib-resource-desc">{t.contentCalendarDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                </div>
+
+                {/* Outreach Section — navigates into existing sub-tabs */}
+                <div className="ai-section-header">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: 'var(--gold)' }}><path d="M3 11V3h4l3 4h10v4H3zm0 2h18l-1.5 8H4.5L3 13z"/></svg>
+                  {t.marketingHubOutreachSection}
+                </div>
+                <div className="ib-resources-grid" style={{ marginBottom: '2.5rem' }}>
+                  {/* Broadcasts */}
+                  <div className="ib-resource-card" onClick={() => setBcSubTab('broadcasts')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setBcSubTab('broadcasts')}>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11V3h4l3 4h10v4H3zm0 2h18l-1.5 8H4.5L3 13z"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.broadcastsSubTab}</div>
+                      <div className="ib-resource-desc">{t.broadcastsHubDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                  {/* Workflows */}
+                  <div className="ib-resource-card" onClick={() => setBcSubTab('workflows')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setBcSubTab('workflows')}>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.workflowsSubTab}</div>
+                      <div className="ib-resource-desc">{t.workflowsHubDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                  {/* Pipeline */}
+                  <div className="ib-resource-card" onClick={() => setBcSubTab('pipeline')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setBcSubTab('pipeline')}>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="9.5" y="4" width="5" height="12" rx="1"/><rect x="16" y="4" width="5" height="8" rx="1"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.pipelineSubTab}</div>
+                      <div className="ib-resource-desc">{t.pipelineHubDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                </div>
+
+                {/* Resources Section — external links + coming soon */}
+                <div className="ai-section-header">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  {t.resourcesSection}
+                </div>
+                <div className="ib-resources-grid">
+                  <a href="https://seed-timpani-7f1.notion.site/29eb91acac5281c589cee5eb17a53522?v=29eb91acac5281c18d3a000ca39a21d0&source=copy_link" target="_blank" rel="noopener noreferrer" className="ib-resource-card">
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.ibTraining}</div>
+                      <div className="ib-resource-desc">{t.ibTrainingDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </a>
+                  <div className="ib-resource-card ib-resource-card-disabled">
+                    <div className="ib-resource-badge">{t.comingSoon}</div>
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.contentLibrary}</div>
+                      <div className="ib-resource-desc">{t.contentLibraryDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </div>
+                  <a href="https://puprimelive.com/" target="_blank" rel="noopener noreferrer" className="ib-resource-card">
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.vipSupport}</div>
+                      <div className="ib-resource-desc">{t.vipSupportDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </a>
+                  <a href="https://www.canva.com/design/DAHCjaOppW8/yeLC5W-gz6d_F6hjfkfOqQ/view" target="_blank" rel="noopener noreferrer" className="ib-resource-card">
+                    <div className="ib-resource-icon">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><polygon points="10,8 10,12 14,10" fill="currentColor" stroke="none"/></svg>
+                    </div>
+                    <div className="ib-resource-text">
+                      <div className="ib-resource-title">{t.pvPresentation}</div>
+                      <div className="ib-resource-desc">{t.pvPresentationDesc}</div>
+                    </div>
+                    <span className="ib-resource-arrow" aria-hidden="true">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+            )}
 
             {bcSubTab === 'broadcasts' && bcView === 'list' && (
               <div style={{ position: 'relative' }}>
@@ -8400,8 +8095,8 @@ export default function Home() {
               )
             })()}
 
-            {/* ─── Social Media Connections — admin only, hidden on Pipeline sub-tab ─── */}
-            {isAdmin && bcSubTab !== 'pipeline' && (
+            {/* ─── Social Media Connections — admin only, only on Broadcasts / Workflows sub-tabs ─── */}
+            {isAdmin && (bcSubTab === 'broadcasts' || bcSubTab === 'workflows') && (
             <div style={{ marginTop: '2.5rem', padding: '1.25rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: 14 }}>
               <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -8548,310 +8243,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* BETA TEST TAB */}
-        {activeTab === 'beta' && isBetaTester && isAdmin && (() => {
-          const betaSections = [
-            { key: 'sec1', label: t.betaSec1, items: [
-              'Homepage loads without errors',
-              'Click Sign Up — registration form appears',
-              'Password hint shows (min 6 characters)',
-              'Submit with valid email — confirmation message appears',
-              'Verification email arrives (from noreply@primeverseaccess.com)',
-              'Email has 1Move branding (dark theme, gold accents, logo)',
-              'Click verification link — redirects to dashboard',
-            ]},
-            { key: 'sec2', label: t.betaSec2, items: [
-              'Dashboard loads with all tabs visible',
-              'Upload profile photo — preview works correctly',
-              'Enter full name, region, niche',
-              'Add referral link (must start with https://puvip.co/la-partners/)',
-              'Invalid referral link shows error message',
-              'Add at least 2 social media links (incl. Telegram and WhatsApp)',
-              'Telegram: full URL accepted (https://t.me/username)',
-              'WhatsApp: phone number with country code accepted',
-              'Select a language using globe icon',
-              'Language persists after page refresh',
-            ]},
-            { key: 'sec3', label: t.betaSec3, items: [
-              'Bio assistant stepper opens correctly',
-              'Answer all 5 questions + choose tone',
-              'Generated bio is in FIRST PERSON (I, my, me)',
-              'Bio uses your REAL NAME (not invented)',
-              'Preview displays correctly',
-              'Bio saves to profile',
-            ]},
-            { key: 'sec4', label: t.betaSec4, items: [
-              'Choose a unique slug — page generates',
-              'Duplicate slug shows inline error',
-              'Landing page loads at primeverseaccess.com/[slug]',
-              'Hero text shows your name correctly',
-              'Profile photo displays',
-              'Bio text appears',
-              'Social media icons show (only filled ones)',
-              'Telegram and WhatsApp icons visible',
-              'Risk disclaimer says "lose all of invested capital"',
-              '"How it works" — all 5 steps visible',
-            ]},
-            { key: 'sec5', label: t.betaSec5, items: [
-              'Globe icon visible in header',
-              'Language modal opens (centered, dark/gold)',
-              'Switch language — content translates',
-              'Bio translates dynamically',
-              'Modal closes on backdrop click',
-            ]},
-            { key: 'sec6', label: t.betaSec6, items: [
-              '"Share My Page" button visible on dashboard',
-              'Share opens modal (WhatsApp, Telegram, Messenger, Email, FB, X, Copy Link)',
-              'Copy link works — paste shows correct URL',
-              'Open landing page in different browser',
-              'Lead signup form works',
-              'Lead appears in Leads tab',
-            ]},
-            { key: 'sec7', label: t.betaSec7, items: [
-              'Email 1: Verification — branded, not Supabase default',
-              'Email 2: Welcome — received after verification',
-              'Email 4: Page Live! — after generating page',
-              'Email 6: New Lead Alert — after test lead signs up',
-              'All emails: 1Move branding, correct language',
-              'No emails say "reply to this email"',
-              'Emails 3 & 5: note for 24h delayed verification',
-            ]},
-            { key: 'sec8', label: t.betaSec8, items: [
-              'Metrics tab — Rolex gauges display correctly',
-              'My Profile — all fields editable',
-              '"Update my details" saves without new page generation',
-              'Leads tab — shows registered leads',
-              'Marketing Resources — AI tools and resource cards visible with working links',
-            ]},
-          ]
-          const allItems = betaSections.flatMap(s => s.items)
-          const totalTests = allItems.length
-          const completed = allItems.filter(i => betaResults[i]?.status === 'pass' || betaResults[i]?.status === 'fail').length
-          const passed = allItems.filter(i => betaResults[i]?.status === 'pass').length
-          const failed = allItems.filter(i => betaResults[i]?.status === 'fail').length
-          const remaining = totalTests - completed
-
-          const cycleStatus = (item: string) => {
-            const current = betaResults[item]?.status || ''
-            const next = current === '' ? 'pass' : current === 'pass' ? 'fail' : ''
-            if (next === '') {
-              // Delete from DB using tester_id + test_item (unique constraint)
-              supabase.from('test_results').delete().eq('tester_id', distributor?.user_id).eq('test_item', item).then(() => {})
-              setBetaResults(prev => { const n = { ...prev }; delete n[item]; return n })
-              setBetaFailItem(null)
-              return
-            }
-            const section = betaSections.find(s => s.items.includes(item))?.label || ''
-            const row = { tester_id: distributor?.user_id, tester_email: distributor?.email, tester_name: distributor?.name, section, test_item: item, status: next, comment: betaResults[item]?.comment || '', platform: 'systm8' as const, updated_at: new Date().toISOString() }
-            // Upsert on (tester_id, test_item) — immediately persists to Supabase
-            supabase.from('test_results').upsert(row, { onConflict: 'tester_id,test_item' }).select('id').single().then(({ data }) => {
-              setBetaResults(prev => ({ ...prev, [item]: { status: next, comment: prev[item]?.comment || '', id: data?.id } }))
-            })
-            // Optimistic UI update
-            setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: next, comment: prev[item]?.comment || '' } }))
-            if (next === 'fail') { setBetaFailItem(item); setBetaBugForm({ title: item, description: '', severity: 'major' }) }
-            else setBetaFailItem(null)
-          }
-
-          const saveComment = (item: string, comment: string) => {
-            setBetaResults(prev => ({ ...prev, [item]: { ...prev[item], status: prev[item]?.status || '', comment } }))
-            // Save comment to Supabase using tester_id + test_item
-            supabase.from('test_results').update({ comment, updated_at: new Date().toISOString() }).eq('tester_id', distributor?.user_id).eq('test_item', item).then(() => {})
-          }
-
-          const uploadScreenshot = async (item: string, file: File) => {
-            setBetaUploading(item)
-            const ext = file.name.split('.').pop() || 'png'
-            const path = `${distributor?.id}/${Date.now()}.${ext}`
-            const { error } = await supabase.storage.from('beta-screenshots').upload(path, file)
-            setBetaUploading(null)
-            if (error) { showToast(t.errorPrefix + error.message); return }
-            const { data: urlData } = supabase.storage.from('beta-screenshots').getPublicUrl(path)
-            const url = urlData?.publicUrl || ''
-            await supabase.from('test_results').update({ screenshot_url: url, updated_at: new Date().toISOString() }).eq('tester_id', distributor?.user_id).eq('test_item', item)
-            showToast('Screenshot uploaded')
-          }
-
-          const submitBugReport = async () => {
-            if (!betaBugForm.title || !betaBugForm.description) return
-            await supabase.from('bug_reports').insert({
-              reporter_id: distributor?.user_id,
-              reporter_email: distributor?.email,
-              reporter_name: distributor?.name,
-              platform: 'systm8',
-              severity: betaBugForm.severity,
-              title: betaBugForm.title,
-              description: betaBugForm.description,
-              language: lang,
-              device_info: navigator.userAgent,
-            })
-            showToast('Bug report submitted')
-            setBetaFailItem(null)
-            setBetaBugForm({ title: '', description: '', severity: 'major' })
-          }
-
-          const toggleSection = (key: string) => {
-            setBetaOpenSections(prev => {
-              const n = new Set(prev)
-              if (n.has(key)) n.delete(key); else n.add(key)
-              return n
-            })
-          }
-
-          const progressPct = totalTests > 0 ? Math.round((completed / totalTests) * 100) : 0
-
-          return (
-          <div role="tabpanel" id="tab-panel-beta" aria-labelledby="tab-beta">
-            {/* Header */}
-            <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-              <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--gold)', margin: '0 0 0.5rem' }}>{t.betaTitle}</h2>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: '0 0 1.25rem' }}>{t.betaSubtitle}</p>
-
-              {/* Progress bar */}
-              <div style={{ background: '#1a1a2e', borderRadius: 8, padding: '12px 16px', marginBottom: '1rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.82rem' }}>
-                  <span style={{ color: '#E0E0E0' }}>{completed}/{totalTests} {t.betaProgress}</span>
-                  <span style={{ color: 'var(--gold)', fontWeight: 700 }}>{progressPct}%</span>
-                </div>
-                <div style={{ height: 8, background: '#2a2a4a', borderRadius: 4, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${progressPct}%`, background: 'linear-gradient(90deg, #D4A843, #e6c468)', borderRadius: 4, transition: 'width 0.3s' }} />
-                </div>
-              </div>
-
-              {/* Stats row */}
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', fontSize: '0.82rem' }}>
-                <span><span style={{ color: '#4ade80', fontWeight: 700 }}>{passed}</span> <span style={{ color: '#888' }}>{t.betaPassed}</span></span>
-                <span><span style={{ color: '#f87171', fontWeight: 700 }}>{failed}</span> <span style={{ color: '#888' }}>{t.betaFailed}</span></span>
-                <span><span style={{ color: '#888', fontWeight: 700 }}>{remaining}</span> <span style={{ color: '#888' }}>{t.betaRemaining}</span></span>
-              </div>
-            </div>
-
-            {/* Test sections */}
-            {betaSections.map(section => {
-              const sectionCompleted = section.items.filter(i => betaResults[i]?.status === 'pass' || betaResults[i]?.status === 'fail').length
-              const isOpen = betaOpenSections.has(section.key)
-              return (
-                <div key={section.key} style={{ marginBottom: '0.75rem', background: '#16213E', borderRadius: 8, border: '1px solid #2a2a4a', overflow: 'hidden' }}>
-                  {/* Section header */}
-                  <button
-                    onClick={() => toggleSection(section.key)}
-                    style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: 'none', border: 'none', cursor: 'pointer', color: '#E0E0E0' }}
-                  >
-                    <span style={{ fontWeight: 600, fontSize: '0.92rem' }}>{section.label}</span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: '0.75rem', background: sectionCompleted === section.items.length ? '#D4A843' : '#2a2a4a', color: sectionCompleted === section.items.length ? '#1A1A2E' : '#888', padding: '2px 8px', borderRadius: 10, fontWeight: 600 }}>
-                        {sectionCompleted}/{section.items.length}
-                      </span>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}><path d="M6 9l6 6 6-6"/></svg>
-                    </span>
-                  </button>
-
-                  {/* Section items */}
-                  {isOpen && (
-                    <div style={{ borderTop: '1px solid #2a2a4a' }}>
-                      {section.items.map(item => {
-                        const result = betaResults[item]
-                        const status = result?.status || ''
-                        return (
-                          <div key={item} style={{ borderBottom: '1px solid #1a1a2e' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px' }}>
-                              {/* Status toggle */}
-                              <button
-                                onClick={() => cycleStatus(item)}
-                                style={{ width: 28, height: 28, minWidth: 28, borderRadius: 6, border: `2px solid ${status === 'pass' ? '#4ade80' : status === 'fail' ? '#f87171' : '#555'}`, background: status === 'pass' ? 'rgba(74,222,128,0.15)' : status === 'fail' ? 'rgba(248,113,113,0.15)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0, color: status === 'pass' ? '#4ade80' : status === 'fail' ? '#f87171' : '#555', fontSize: '14px', fontWeight: 700 }}
-                              >
-                                {status === 'pass' ? '✓' : status === 'fail' ? '✕' : ''}
-                              </button>
-                              {/* Item text */}
-                              <span style={{ flex: 1, fontSize: '0.84rem', color: status ? '#E0E0E0' : '#999', lineHeight: 1.4 }}>{item}</span>
-                              {/* Screenshot button */}
-                              <label style={{ cursor: 'pointer', color: '#666', display: 'flex', alignItems: 'center' }} title={t.betaScreenshot}>
-                                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f && result?.id) uploadScreenshot(item, f) }} />
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={betaUploading === item ? 'var(--gold)' : 'currentColor'} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                              </label>
-                            </div>
-                            {/* Comment field */}
-                            {status && (
-                              <div style={{ padding: '0 16px 8px 54px' }}>
-                                <input
-                                  type="text"
-                                  value={result?.comment || ''}
-                                  onChange={e => saveComment(item, e.target.value)}
-                                  placeholder={t.betaAddNote}
-                                  style={{ width: '100%', background: '#0f0f23', border: '1px solid #2a2a4a', borderRadius: 4, padding: '6px 10px', color: '#E0E0E0', fontSize: '0.78rem', outline: 'none' }}
-                                />
-                              </div>
-                            )}
-                            {/* Bug report slide-down for failed items */}
-                            {betaFailItem === item && status === 'fail' && (
-                              <div style={{ padding: '8px 16px 12px 54px', background: 'rgba(248,113,113,0.05)', borderTop: '1px solid rgba(248,113,113,0.2)' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                                  <input
-                                    type="text"
-                                    value={betaBugForm.title}
-                                    onChange={e => setBetaBugForm(p => ({ ...p, title: e.target.value }))}
-                                    placeholder={t.betaBugTitle}
-                                    style={{ background: '#0f0f23', border: '1px solid #2a2a4a', borderRadius: 4, padding: '6px 10px', color: '#E0E0E0', fontSize: '0.82rem', outline: 'none' }}
-                                  />
-                                  <textarea
-                                    value={betaBugForm.description}
-                                    onChange={e => setBetaBugForm(p => ({ ...p, description: e.target.value }))}
-                                    placeholder={t.betaBugDesc}
-                                    rows={3}
-                                    style={{ background: '#0f0f23', border: '1px solid #2a2a4a', borderRadius: 4, padding: '6px 10px', color: '#E0E0E0', fontSize: '0.82rem', outline: 'none', resize: 'vertical' }}
-                                  />
-                                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                                    <select
-                                      value={betaBugForm.severity}
-                                      onChange={e => setBetaBugForm(p => ({ ...p, severity: e.target.value }))}
-                                      style={{ background: '#0f0f23', border: '1px solid #2a2a4a', borderRadius: 4, padding: '6px 10px', color: '#E0E0E0', fontSize: '0.82rem', outline: 'none', flex: 1 }}
-                                    >
-                                      <option value="critical">{t.betaBugCritical}</option>
-                                      <option value="major">{t.betaBugMajor}</option>
-                                      <option value="minor">{t.betaBugMinor}</option>
-                                      <option value="cosmetic">{t.betaBugCosmetic}</option>
-                                    </select>
-                                    <button
-                                      onClick={submitBugReport}
-                                      style={{ background: '#f87171', color: '#fff', border: 'none', borderRadius: 4, padding: '6px 14px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
-                                    >
-                                      {t.betaBugSubmit}
-                                    </button>
-                                  </div>
-                                  <button onClick={() => setBetaFailItem(null)} style={{ background: 'none', border: 'none', color: '#888', fontSize: '0.75rem', cursor: 'pointer', padding: 0, textAlign: 'left' }}>✕ close</button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-
-            {/* Submit All / Badge */}
-            <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-              {betaSubmitted ? (
-                <div style={{ background: 'linear-gradient(135deg, #1a1a2e 0%, #16213E 100%)', border: '2px solid #D4A843', borderRadius: 12, padding: '24px 20px', display: 'inline-block' }}>
-                  <div style={{ fontSize: '2rem', marginBottom: 8 }}>🏅</div>
-                  <div style={{ color: '#D4A843', fontWeight: 700, fontSize: '1rem', letterSpacing: '0.5px' }}>{t.betaFoundingMember}</div>
-                  <div style={{ color: '#888', fontSize: '0.82rem', marginTop: 6 }}>{completed} {t.betaThankYou}</div>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setBetaSubmitted(true)}
-                  disabled={completed === 0}
-                  style={{ background: completed > 0 ? '#D4A843' : '#333', color: completed > 0 ? '#1A1A2E' : '#666', border: 'none', borderRadius: 6, padding: '14px 32px', fontSize: '1rem', fontWeight: 700, cursor: completed > 0 ? 'pointer' : 'default', letterSpacing: '0.5px' }}
-                >
-                  {t.betaSubmitAll}
-                </button>
-              )}
-            </div>
-          </div>
-          )
-        })()}
 
       </div>
 
