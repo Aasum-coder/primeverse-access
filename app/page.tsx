@@ -282,6 +282,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -683,6 +689,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -1084,6 +1096,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -1485,6 +1503,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -1886,6 +1910,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -2287,6 +2317,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -2688,6 +2724,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -3089,6 +3131,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -3490,6 +3538,12 @@ const translations: Record<string, Record<string, string>> = {
     workflowsHubDesc: 'Automate follow-up sequences when a lead enters or moves stages.',
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
+    clickStatusNotClicked: 'Not clicked',
+    clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
+    clickStatusClicked: 'Clicked',
+    clickStatusClickedAgo: 'clicked {0}h ago',
+    clickStatusNeedsFollowup: 'Needs follow-up',
+    clickStatusEscalated: 'follow-up sent',
     reachOutContactedOn: 'Contacted on',
     reachOutMarked: 'Marked as contacted',
     reachOutTitle: 'Reach out to this lead',
@@ -8232,6 +8286,51 @@ export default function Home() {
                                   }}
                                 >👋 Existing client</span>
                               )}
+                              {/* Click-status pill — reflects whether the lead
+                                  has clicked the broker registration link, and
+                                  how long ago. Hidden once verified (the
+                                  verified step pill already conveys success). */}
+                              {step !== 'verified' && (() => {
+                                if (!lead.broker_click_at) {
+                                  return (
+                                    <span
+                                      title={t.clickStatusNotClickedTitle}
+                                      style={{
+                                        display: 'inline-block',
+                                        padding: '2px 7px',
+                                        borderRadius: 999,
+                                        fontSize: '0.65rem',
+                                        fontWeight: 700,
+                                        background: 'rgba(212,74,55,0.10)',
+                                        color: '#d44a37',
+                                        border: '1px solid rgba(212,74,55,0.35)',
+                                        letterSpacing: 0.4,
+                                      }}
+                                    >🔴 {t.clickStatusNotClicked}</span>
+                                  )
+                                }
+                                const h = Math.max(0, Math.round((Date.now() - new Date(lead.broker_click_at).getTime()) / (60 * 60 * 1000)))
+                                const stale = h >= 24
+                                const label = stale
+                                  ? `⚠️ ${t.clickStatusNeedsFollowup} — ${t.clickStatusClickedAgo.replace('{0}', String(h))}`
+                                  : `🟡 ${t.clickStatusClickedAgo.replace('{0}', String(h))}`
+                                return (
+                                  <span
+                                    title={`${t.clickStatusClicked} ${fmtDate(lead.broker_click_at)}${lead.escalation_sent_at ? ` · ${t.clickStatusEscalated} ${fmtDate(lead.escalation_sent_at)}` : ''}`}
+                                    style={{
+                                      display: 'inline-block',
+                                      padding: '2px 7px',
+                                      borderRadius: 999,
+                                      fontSize: '0.65rem',
+                                      fontWeight: 700,
+                                      background: stale ? 'rgba(245,150,70,0.14)' : 'rgba(201,168,76,0.12)',
+                                      color: stale ? '#f59646' : '#c9a84c',
+                                      border: stale ? '1px solid rgba(245,150,70,0.45)' : '1px solid rgba(201,168,76,0.35)',
+                                      letterSpacing: 0.4,
+                                    }}
+                                  >{label}</span>
+                                )
+                              })()}
                               {/* Reach Out CTA: only shows for verified leads
                                   that haven't been contacted yet. Once
                                   reached_out_at is set, the row instead

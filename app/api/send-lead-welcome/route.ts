@@ -40,6 +40,14 @@ export async function POST(request: Request) {
   const referralLink = dist?.referral_link || 'https://puvip.co/la-partners/Primesync'
   const ibName = distributorName || dist?.name || distributorSlug || 'your representative'
 
+  // Wrap the broker URL through /api/track/broker-click so the first
+  // click stamps leads.broker_click_at. The tracker 302s onward to the
+  // dest URL so the lead still lands on PU Prime. We only wrap when
+  // leadId is present (anonymous test sends still get the raw URL).
+  const trackedAffiliateUrl = leadId
+    ? `${APP_BASE_URL}/api/track/broker-click?lead_id=${encodeURIComponent(leadId)}&dest=${encodeURIComponent(referralLink)}`
+    : referralLink
+
   // Generate the single-use token that gates the verify-uid + existing-
   // client flows. Stamp browser_locale so any later re-send picks the
   // same language. Also stamp the issued-at expiry.
@@ -71,7 +79,7 @@ export async function POST(request: Request) {
       leadName: leadName || '',
       ibName,
       ibEmail: dist?.email,
-      puPrimeAffiliateUrl: referralLink,
+      puPrimeAffiliateUrl: trackedAffiliateUrl,
       uidVerifyUrl,
       existingClientUrl,
       lang,
