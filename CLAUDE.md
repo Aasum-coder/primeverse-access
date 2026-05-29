@@ -63,7 +63,7 @@ The Vercel URL is primeverse-access.vercel.app
 - app/api/admin/ — admin endpoints
 
 ## PAGES
-- app/page.tsx — Main dashboard (leads, profile, metrics, resources, marketing, beta tabs)
+- app/page.tsx — Main dashboard (metrics, profile, leads, marketing, visitors tabs)
 - app/[slug]/page.tsx — Public landing pages for distributors
 - app/reset-password/page.tsx — Full password reset flow
 - app/beta/page.tsx — Beta program signup
