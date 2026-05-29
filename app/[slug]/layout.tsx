@@ -79,8 +79,26 @@ export default async function SlugLayout({
   // Anonymous visitor tracking — country only, no IP storage.
   // Fires once per render of the IB landing page. Fire-and-forget:
   // never await, never block the page, never throw to the renderer.
+  //
+  // Layer A guard: before writing, verify the slug actually maps to a
+  // distributor row. Bots probe paths like /.env, /xmlrpc.php,
+  // /apple-touch-icon.png — without this check, every such probe is
+  // logged with the probe path as the "IB slug" and pollutes the
+  // Visitors tab. The page component (app/[slug]/page.tsx) already
+  // returns a not-found UI when the slug is missing, so all this guard
+  // does is skip the tracking write for those phantom requests.
   try {
     const { slug } = await params
+    const { data: dist } = await tracking
+      .from('distributors')
+      .select('id')
+      .eq('slug', slug)
+      .limit(1)
+      .maybeSingle()
+    if (!dist?.id) {
+      return <>{children}</>
+    }
+
     const hdrs = await headers()
     const country = hdrs.get('x-vercel-ip-country') || null
     const userAgent = hdrs.get('user-agent') || null
