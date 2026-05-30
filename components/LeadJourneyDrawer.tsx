@@ -28,15 +28,15 @@ const EMAIL_LABELS: Record<string, string> = {
 
 const formatDate = (d: string) => new Date(d).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
 
-const StepRow = ({ done, label, date, status, isEmail }: { done:boolean, label:string, date?:string, status?:string, isEmail?:boolean }) => (
-  <div style={{ display:'flex', alignItems:'flex-start', gap:'12px', padding:'12px 16px', background: done ? 'rgba(201,168,76,0.05)' : 'transparent', borderLeft: done ? (isEmail ? '2px solid #4a6fa5' : '2px solid #c9a84c') : '2px solid #333', margin:'0 16px', borderRadius:'0 6px 6px 0' }}>
+const StepRow = ({ done, label, date, status, tooltip, isEmail }: { done:boolean, label:string, date?:string, status?:string, tooltip?:string, isEmail?:boolean }) => (
+  <div title={tooltip} style={{ display:'flex', alignItems:'flex-start', gap:'12px', padding:'12px 16px', background: done ? 'rgba(201,168,76,0.05)' : 'transparent', borderLeft: done ? (isEmail ? '2px solid #4a6fa5' : '2px solid #c9a84c') : '2px solid #333', margin:'0 16px', borderRadius:'0 6px 6px 0', cursor: tooltip ? 'help' : undefined }}>
     <span style={{ fontSize:'16px', marginTop:'1px', color: done ? (isEmail ? '#7a9fd4' : '#c9a84c') : '#555' }}>
       {isEmail ? '✉' : done ? '◆' : '◇'}
     </span>
     <div style={{ flex:1 }}>
       <div style={{ fontFamily:'Outfit', fontSize:'14px', color: done ? '#f8f8ff' : '#666' }}>{label}</div>
       <div style={{ fontFamily:'Outfit', fontSize:'12px', color:'#888', marginTop:'2px', fontStyle: done ? 'normal' : 'italic' }}>
-        {done ? (date ? formatDate(date) : '') : (status || 'Not yet')}
+        {done ? (date ? formatDate(date) : (status || '')) : (status || 'Not yet')}
       </div>
     </div>
     <span style={{ color: done ? '#c9a84c' : '#555', fontSize:'14px' }}>{done ? '✓' : '?'}</span>
@@ -51,6 +51,9 @@ interface Lead {
   uid?: string;
   uid_verified?: boolean;
   referral_link_clicked?: boolean;
+  broker_click_at?: string | null;
+  verified_at?: string | null;
+  registration_status?: string | null;
   email_sends?: Array<{ email_type: string; sent_at: string }>;
 }
 
@@ -75,10 +78,33 @@ export default function LeadJourneyDrawer({ lead, onClose }: Props) {
 
   const emails = (lead.email_sends || []).sort((a, b) => new Date(a.sent_at).getTime() - new Date(b.sent_at).getTime());
 
+  // Broker-click step — prefer the actually-tracked timestamp, then infer
+  // from any downstream signal (a lead can't have a UID or verified
+  // account without having clicked the broker link), then fall back to
+  // "Not yet". The inferred case carries a tooltip so the IB knows the
+  // exact click time wasn't tracked (pre-PR-#233 leads).
+  const inferredFromLater = !!(
+    lead.uid ||
+    lead.uid_verified ||
+    lead.verified_at ||
+    lead.registration_status === 'verified' ||
+    lead.referral_link_clicked
+  );
+  const brokerStep = lead.broker_click_at
+    ? { done: true, label: 'Broker link clicked', date: lead.broker_click_at }
+    : inferredFromLater
+      ? {
+          done: true,
+          label: 'Broker link clicked',
+          status: 'Clicked (inferred from later steps)',
+          tooltip: 'Click time not tracked — this lead clicked before broker-link tracking was added',
+        }
+      : { done: false, label: 'Broker link clicked', status: 'Not yet' };
+
   const steps = [
     { done: true, label: 'Landing page visited', date: lead.created_at },
     { done: !!lead.email, label: 'Lead registered', date: lead.created_at },
-    { done: !!lead.referral_link_clicked, label: 'Broker link clicked', status: 'Not yet' },
+    brokerStep,
     { done: !!lead.uid, label: 'UID submitted', date: lead.created_at, status: 'Waiting for UID' },
     { done: !!lead.uid_verified, label: 'Account verified', status: 'Pending verification' },
   ];
