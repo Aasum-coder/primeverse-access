@@ -283,6 +283,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -690,6 +691,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -1097,6 +1099,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -1504,6 +1507,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -1911,6 +1915,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -2318,6 +2323,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -2725,6 +2731,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -3132,6 +3139,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -3539,6 +3547,7 @@ const translations: Record<string, Record<string, string>> = {
     pipelineHubDesc: 'Track every lead from visit to verified across pipeline stages.',
     reachOutCta: 'Reach Out',
     clickStatusNotClicked: 'Not clicked',
+    clickStatusHeader: 'Click',
     clickStatusNotClickedTitle: 'Lead has not yet clicked the broker registration link',
     clickStatusClicked: 'Clicked',
     clickStatusClickedAgo: 'clicked {0}h ago',
@@ -8104,6 +8113,57 @@ export default function Home() {
               }
               const leadsWithStep = pipelineLeads.map(l => ({ ...l, __step: computeStep(l) as Step }))
 
+              // Click-status badge — shared by Table and Kanban views. Hidden
+              // once verified_at is set (broker registration actually
+              // completed); otherwise shows one of three states based on
+              // broker_click_at. The 24h boundary matches the escalate-stale-
+              // clicks cron, so a 🟡 pill turns ⚠️ at exactly the moment that
+              // cron would pick the lead up.
+              const renderClickStatusBadge = (lead: any) => {
+                if (lead.verified_at) return null
+                if (!lead.broker_click_at) {
+                  return (
+                    <span
+                      title={t.clickStatusNotClickedTitle}
+                      style={{
+                        display: 'inline-block',
+                        padding: '2px 7px',
+                        borderRadius: 999,
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        background: 'rgba(212,74,55,0.10)',
+                        color: '#d44a37',
+                        border: '1px solid rgba(212,74,55,0.35)',
+                        letterSpacing: 0.4,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >🔴 {t.clickStatusNotClicked}</span>
+                  )
+                }
+                const h = Math.max(0, Math.round((Date.now() - new Date(lead.broker_click_at).getTime()) / (60 * 60 * 1000)))
+                const stale = h >= 24
+                const label = stale
+                  ? `⚠️ ${t.clickStatusNeedsFollowup} — ${t.clickStatusClickedAgo.replace('{0}', String(h))}`
+                  : `🟡 ${t.clickStatusClickedAgo.replace('{0}', String(h))}`
+                return (
+                  <span
+                    title={`${t.clickStatusClicked} ${fmtDate(lead.broker_click_at)}${lead.escalation_sent_at ? ` · ${t.clickStatusEscalated} ${fmtDate(lead.escalation_sent_at)}` : ''}`}
+                    style={{
+                      display: 'inline-block',
+                      padding: '2px 7px',
+                      borderRadius: 999,
+                      fontSize: '0.65rem',
+                      fontWeight: 700,
+                      background: stale ? 'rgba(245,150,70,0.14)' : 'rgba(201,168,76,0.12)',
+                      color: stale ? '#f59646' : '#c9a84c',
+                      border: stale ? '1px solid rgba(245,150,70,0.45)' : '1px solid rgba(201,168,76,0.35)',
+                      letterSpacing: 0.4,
+                      whiteSpace: 'nowrap',
+                    }}
+                  >{label}</span>
+                )
+              }
+
               const copyLandingUrl = () => {
                 if (!distributor?.slug) return
                 const url = `${window.location.origin}/${distributor.slug}`
@@ -8173,8 +8233,8 @@ export default function Home() {
                   {/* Table view */}
                   {!pipelineLoading && leadsWithStep.length > 0 && pipelineView === 'table' && (
                     <div style={{ border: '1px solid var(--card-border)', borderRadius: 14, overflow: 'hidden', background: 'var(--card-bg)' }}>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(140px, 1.4fr) minmax(180px, 1.8fr) 110px 150px 120px 130px', padding: '0.75rem 1rem', fontSize: '0.75rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, borderBottom: '1px solid var(--card-border)', background: 'rgba(0,0,0,0.25)' }}>
-                        <div>Name</div><div>Email</div><div>Country</div><div>Step</div><div>Emails sent</div><div>Date</div>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(140px, 1.4fr) minmax(180px, 1.8fr) 110px 150px 160px 120px 130px', padding: '0.75rem 1rem', fontSize: '0.75rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, borderBottom: '1px solid var(--card-border)', background: 'rgba(0,0,0,0.25)' }}>
+                        <div>Name</div><div>Email</div><div>Country</div><div>Step</div><div>{t.clickStatusHeader}</div><div>Emails sent</div><div>Date</div>
                       </div>
                       {leadsWithStep.map((lead: any) => {
                         const step = lead.__step as Step
@@ -8187,7 +8247,7 @@ export default function Home() {
                             onClick={() => setSelectedLead(lead)}
                             style={{
                               display: 'grid',
-                              gridTemplateColumns: 'minmax(140px, 1.4fr) minmax(180px, 1.8fr) 110px 150px 120px 130px',
+                              gridTemplateColumns: 'minmax(140px, 1.4fr) minmax(180px, 1.8fr) 110px 150px 160px 120px 130px',
                               padding: '0.85rem 1rem',
                               alignItems: 'center',
                               cursor: 'pointer',
@@ -8286,51 +8346,6 @@ export default function Home() {
                                   }}
                                 >👋 Existing client</span>
                               )}
-                              {/* Click-status pill — reflects whether the lead
-                                  has clicked the broker registration link, and
-                                  how long ago. Hidden once verified (the
-                                  verified step pill already conveys success). */}
-                              {step !== 'verified' && (() => {
-                                if (!lead.broker_click_at) {
-                                  return (
-                                    <span
-                                      title={t.clickStatusNotClickedTitle}
-                                      style={{
-                                        display: 'inline-block',
-                                        padding: '2px 7px',
-                                        borderRadius: 999,
-                                        fontSize: '0.65rem',
-                                        fontWeight: 700,
-                                        background: 'rgba(212,74,55,0.10)',
-                                        color: '#d44a37',
-                                        border: '1px solid rgba(212,74,55,0.35)',
-                                        letterSpacing: 0.4,
-                                      }}
-                                    >🔴 {t.clickStatusNotClicked}</span>
-                                  )
-                                }
-                                const h = Math.max(0, Math.round((Date.now() - new Date(lead.broker_click_at).getTime()) / (60 * 60 * 1000)))
-                                const stale = h >= 24
-                                const label = stale
-                                  ? `⚠️ ${t.clickStatusNeedsFollowup} — ${t.clickStatusClickedAgo.replace('{0}', String(h))}`
-                                  : `🟡 ${t.clickStatusClickedAgo.replace('{0}', String(h))}`
-                                return (
-                                  <span
-                                    title={`${t.clickStatusClicked} ${fmtDate(lead.broker_click_at)}${lead.escalation_sent_at ? ` · ${t.clickStatusEscalated} ${fmtDate(lead.escalation_sent_at)}` : ''}`}
-                                    style={{
-                                      display: 'inline-block',
-                                      padding: '2px 7px',
-                                      borderRadius: 999,
-                                      fontSize: '0.65rem',
-                                      fontWeight: 700,
-                                      background: stale ? 'rgba(245,150,70,0.14)' : 'rgba(201,168,76,0.12)',
-                                      color: stale ? '#f59646' : '#c9a84c',
-                                      border: stale ? '1px solid rgba(245,150,70,0.45)' : '1px solid rgba(201,168,76,0.35)',
-                                      letterSpacing: 0.4,
-                                    }}
-                                  >{label}</span>
-                                )
-                              })()}
                               {/* Reach Out CTA: only shows for verified leads
                                   that haven't been contacted yet. Once
                                   reached_out_at is set, the row instead
@@ -8369,6 +8384,9 @@ export default function Home() {
                                   }}
                                 >✓ {t.reachOutContactedOn} {fmtDate(lead.reached_out_at)}</span>
                               )}
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                              {renderClickStatusBadge(lead)}
                             </div>
                             <div>
                               <span
@@ -8428,6 +8446,14 @@ export default function Home() {
                                     <span>{countryFlag(lead.country)} {lead.country || ''}</span>
                                     <span>{fmtDate(lead.created_at)}</span>
                                   </div>
+                                  {/* Click-status pill — same render as the
+                                      table view so Kanban cards reflect the
+                                      same broker-engagement signal. */}
+                                  {renderClickStatusBadge(lead) && (
+                                    <div style={{ marginTop: 6 }}>
+                                      {renderClickStatusBadge(lead)}
+                                    </div>
+                                  )}
                                 </div>
                               ))}
                               {items.length === 0 && (
