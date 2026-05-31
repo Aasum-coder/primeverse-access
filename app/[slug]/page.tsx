@@ -4,6 +4,33 @@ import { useEffect, useState, use, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { useRouter, notFound as triggerNotFound } from 'next/navigation'
 
+// Same logic as app/page.tsx::extractYouTubeId — kept inline here so the
+// landing-page bundle doesn't have to import dashboard code. Accepts
+// watch?v=ID, youtu.be/ID, /embed/ID, /shorts/ID, /v/ID, and bare 11-char
+// IDs. Returns null for anything unrecognised so the caller can choose
+// not to render the embed.
+function extractYouTubeId(input: string | null | undefined): string | null {
+  const raw = (input || '').trim()
+  if (!raw) return null
+  if (/^[a-zA-Z0-9_-]{11}$/.test(raw)) return raw
+  let parsed: URL
+  try { parsed = new URL(raw) } catch { return null }
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, '')
+  if (host === 'youtu.be') {
+    const id = parsed.pathname.slice(1)
+    return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null
+  }
+  if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'youtube-nocookie.com') {
+    if (parsed.pathname === '/watch') {
+      const id = parsed.searchParams.get('v') || ''
+      return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null
+    }
+    const m = parsed.pathname.match(/^\/(?:embed|shorts|v)\/([a-zA-Z0-9_-]{11})/)
+    return m ? m[1] : null
+  }
+  return null
+}
+
 function parseProfileImage(value: string | null) {
   if (!value) return { url: '', x: 50, y: 50, zoom: 1, brightness: 100 }
   try {
@@ -716,7 +743,27 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
-        :root{--black:#080808;--deep:#0f0f0f;--card:#141414;--border:#222;--border2:#2c2c2c;--gold:#c9a84c;--gold-l:#dfc278;--gold-d:rgba(201,168,76,.12);--gold-b:rgba(201,168,76,.25);--white:#f0ede8;--grey:#7a7a72;--r:4px}
+        :root{--black:#080808;--deep:#0f0f0f;--card:#141414;--border:#222;--border2:#2c2c2c;--gold:#c9a84c;--gold-l:#dfc278;--gold-d:rgba(201,168,76,.12);--gold-b:rgba(201,168,76,.25);--white:#f0ede8;--grey:#7a7a72;--r:4px;--shadow:none}
+        /* Light-theme override — flips background/text/surface variables to
+           a warm cream palette while keeping the same gold accent. Triggered
+           by data-theme="light" on the page wrapper. Applied as a sibling
+           selector so it cascades down to every var(--*) consumer. */
+        [data-theme="light"]{--black:#fafaf5;--deep:#ffffff;--card:#ffffff;--border:#e8dcb8;--border2:#d8c898;--white:#1a1a1a;--grey:#555555;--shadow:0 2px 12px rgba(0,0,0,.06)}
+        [data-theme="light"] body, [data-theme="light"]{background:#fafaf5;color:#1a1a1a}
+        [data-theme="light"] .hero-bg{background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,168,76,.12) 0%,transparent 70%)}
+        [data-theme="light"] .dist-card{box-shadow:var(--shadow)}
+        [data-theme="light"] .fi{background:#ffffff;color:#1a1a1a;border-color:#e8dcb8}
+        [data-theme="light"] .fi::placeholder{color:#a8a39c}
+        [data-theme="light"] .fcheck label{color:#444}
+        [data-theme="light"] .btn-nav{border-color:#d8c898;color:#555}
+        [data-theme="light"] .btn-nav:hover{border-color:var(--gold);color:var(--gold)}
+        [data-theme="light"] .lang-trigger{border-color:#d8c898;color:#555}
+        [data-theme="light"] .lang-trigger:hover{border-color:var(--gold);color:var(--gold)}
+        [data-theme="light"] .video-frame{box-shadow:var(--shadow)}
+        .video-section{padding:3.5rem 1.25rem 0}
+        .video-wrap{max-width:800px;margin:0 auto}
+        .video-frame{position:relative;width:100%;padding-top:56.25%;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+        .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html{scroll-behavior:smooth}
         body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden}
@@ -839,6 +886,8 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         .btn-gold:focus-visible,.btn-nav:focus-visible,.fsubmit:focus-visible,.lang-trigger:focus-visible,.lang-modal-option:focus-visible,.mclose:focus-visible,.fi:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
       `}</style>
 
+      <div data-theme={dist.landing_theme === 'light' ? 'light' : 'dark'} style={{ background: 'var(--black)', color: 'var(--white)', minHeight: '100vh' }}>
+
       {/* Language modal overlay */}
       {langOpen && (
         <div className="lang-modal-backdrop" onClick={() => setLangOpen(false)} role="dialog" aria-modal="true" aria-label="Select language">
@@ -901,6 +950,29 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
         <button className="btn-gold" onClick={() => setModalOpen(true)}>{t.hero_btn}</button>
         <div className="scroll-hint"><div className="scroll-tick" /><span>{t.scroll}</span></div>
       </section>
+
+      {/* INTRO VIDEO — embedded between hero and about when the IB sets a
+          YouTube URL in My Profile. youtube-nocookie host for privacy.
+          Renders nothing if no valid URL is configured. */}
+      {(() => {
+        const vid = extractYouTubeId(dist.intro_video_url)
+        if (!vid) return null
+        return (
+          <section className="video-section" id="intro-video" dir={isRtl ? 'rtl' : 'ltr'}>
+            <div className="video-wrap">
+              <div className="video-frame">
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${vid}`}
+                  title={`${dist.name || ''} — introduction video`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </section>
+        )
+      })()}
 
       {/* ABOUT */}
       <section className="about" id="about" dir={isRtl ? 'rtl' : 'ltr'}>
@@ -1178,6 +1250,7 @@ export default function DistributorPage({ params }: { params: Promise<{ slug: st
             </>
           )}
         </div>
+      </div>
       </div>
     </>
   )
