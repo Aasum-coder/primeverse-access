@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+// Opt out of Next.js's default route / fetch caching. The Visitors tab
+// must reflect live numbers — DB had 484 visits, dashboard was showing
+// 400 because Next was serving a cached snapshot of the JSON response.
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // Visitor analytics endpoint.
 //
 // Auth: Bearer token in Authorization header → supabase.auth.getUser(token).
