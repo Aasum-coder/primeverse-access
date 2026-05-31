@@ -12,6 +12,34 @@ import { REACH_OUT_TEMPLATES, resolveReachOutLang, renderReachOutTemplate, type 
 
 const WorkflowCanvas = dynamic(() => import('@/components/WorkflowCanvas'), { ssr: false })
 
+// Accepts the three common YouTube URL forms (watch?v=, youtu.be/,
+// /embed/) and returns the 11-char video id, or null if the URL isn't
+// a valid YouTube link. Used both by the My Profile form (to validate
+// what the IB pasted) and by the landing page (to build the
+// youtube-nocookie embed src).
+export function extractYouTubeId(input: string): string | null {
+  const raw = (input || '').trim()
+  if (!raw) return null
+  // Accept bare 11-char IDs (matches "kJQP7kiw5Fk" etc.) for paste-ability.
+  if (/^[a-zA-Z0-9_-]{11}$/.test(raw)) return raw
+  let parsed: URL
+  try { parsed = new URL(raw) } catch { return null }
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, '')
+  if (host === 'youtu.be') {
+    const id = parsed.pathname.slice(1)
+    return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null
+  }
+  if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'youtube-nocookie.com') {
+    if (parsed.pathname === '/watch') {
+      const id = parsed.searchParams.get('v') || ''
+      return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null
+    }
+    const m = parsed.pathname.match(/^\/(?:embed|shorts|v)\/([a-zA-Z0-9_-]{11})/)
+    return m ? m[1] : null
+  }
+  return null
+}
+
 function parseProfileImage(value: string | null) {
   if (!value) return { url: '', x: 50, y: 50, zoom: 1, brightness: 100 }
   try {
@@ -60,6 +88,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'Tell who you are and what your members can expect from you...',
     bioTranslationHint: '✨ Tip: Use the AI Bio Assistant to auto-translate your bio into 9 languages.',
     saveProfile: 'Save profile',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'Saving...',
     saved: 'Saved!',
     yourPage: 'Your page',
@@ -465,6 +501,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'Fortell hvem du er og hva dine members kan forvente av deg...',
     bioTranslationHint: '✨ Tips: Bruk AI-bio-assistenten for å oversette bioen din til 9 språk automatisk.',
     saveProfile: 'Lagre profil',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'Lagrer...',
     saved: 'Lagret!',
     yourPage: 'Din side',
@@ -868,6 +912,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'Berätta vem du är och vad dina members kan förvänta sig...',
     bioTranslationHint: '✨ Tips: Använd AI-bio-assistenten för att översätta din bio till 9 språk automatiskt.',
     saveProfile: 'Spara profil',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'Sparar...',
     saved: 'Sparat!',
     yourPage: 'Din sida',
@@ -1271,6 +1323,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'Cuenta quién eres y qué pueden esperar tus miembros...',
     bioTranslationHint: '✨ Consejo: Usa el asistente de bio con IA para traducir tu biografía a 9 idiomas automáticamente.',
     saveProfile: 'Guardar perfil',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'Guardando...',
     saved: '¡Guardado!',
     yourPage: 'Tu página',
@@ -1674,6 +1734,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'Расскажите, кто вы и чего могут ожидать ваши участники...',
     bioTranslationHint: '✨ Совет: Используйте AI-ассистента для автоматического перевода био на 9 языков.',
     saveProfile: 'Сохранить профиль',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'Сохранение...',
     saved: 'Сохранено!',
     yourPage: 'Ваша страница',
@@ -2077,6 +2145,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'أخبرنا من أنت وماذا يمكن لأعضائك توقعه...',
     bioTranslationHint: '✨ نصيحة: استخدم مساعد السيرة الذاتية بالذكاء الاصطناعي لترجمة سيرتك إلى 9 لغات تلقائيًا.',
     saveProfile: 'حفظ الملف الشخصي',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'جاري الحفظ...',
     saved: 'تم الحفظ!',
     yourPage: 'صفحتك',
@@ -2480,6 +2556,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'Sabihin kung sino ka at ano ang maaasahan ng iyong members...',
     bioTranslationHint: '✨ Tip: Gamitin ang AI Bio Assistant para awtomatikong i-translate ang iyong bio sa 9 na wika.',
     saveProfile: 'I-save ang profile',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'Sine-save...',
     saved: 'Na-save!',
     yourPage: 'Iyong pahina',
@@ -2883,6 +2967,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'Conte quem você é e o que seus membros podem esperar de você...',
     bioTranslationHint: '✨ Dica: Use o assistente de bio com IA para traduzir sua biografia em 9 idiomas automaticamente.',
     saveProfile: 'Salvar perfil',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'Salvando...',
     saved: 'Salvo!',
     yourPage: 'Sua página',
@@ -3286,6 +3378,14 @@ const translations: Record<string, Record<string, string>> = {
     bioPlaceholder: 'บอกว่าคุณเป็นใครและสมาชิกของคุณจะได้อะไร...',
     bioTranslationHint: '✨ เคล็ดลับ: ใช้ผู้ช่วย AI Bio เพื่อแปลประวัติของคุณเป็น 9 ภาษาโดยอัตโนมัติ',
     saveProfile: 'บันทึกโปรไฟล์',
+    introVideoLabel: 'Personal Video (YouTube)',
+    introVideoHelper: "Upload your video to YouTube as 'Unlisted' first. Visitors can watch it on your landing page.",
+    introVideoInvalid: 'Please enter a valid YouTube URL.',
+    themeLabel: 'Page theme',
+    themeDark: 'Dark mode',
+    themeDarkSub: 'Black + gold (default)',
+    themeLight: 'Light mode',
+    themeLightSub: 'Cream + gold',
     saving: 'กำลังบันทึก...',
     saved: 'บันทึกแล้ว!',
     yourPage: 'หน้าของคุณ',
@@ -4892,6 +4992,10 @@ export default function Home() {
   const [socialYoutube, setSocialYoutube] = useState('')
   const [metaConnections, setMetaConnections] = useState<any[]>([])
   const [socialOther, setSocialOther] = useState('')
+  // Landing page theme + personal intro video — controlled by IB in My Profile.
+  const [landingTheme, setLandingTheme] = useState<'dark' | 'light'>('dark')
+  const [introVideoUrl, setIntroVideoUrl] = useState('')
+  const [introVideoError, setIntroVideoError] = useState('')
   const [voiceExperience, setVoiceExperience] = useState('')
   const [voiceTone, setVoiceTone] = useState('')
   const [voiceNeverSay, setVoiceNeverSay] = useState('')
@@ -5580,6 +5684,8 @@ export default function Home() {
           setSocialLinkedin(impDist.social_linkedin || '')
           setSocialYoutube(impDist.social_youtube || '')
           setSocialOther(impDist.social_other || '')
+          setLandingTheme(impDist.landing_theme === 'light' ? 'light' : 'dark')
+          setIntroVideoUrl(impDist.intro_video_url || '')
           const ivp = impDist.voice_profile || {}
           setVoiceExperience(ivp.experience || ''); setVoiceTone(ivp.tone || ''); setVoiceNeverSay(ivp.never_say || '')
           setVoiceAudience(ivp.audience || ''); setVoiceExample1(ivp.example1 || ''); setVoiceExample2(ivp.example2 || '')
@@ -5684,6 +5790,8 @@ export default function Home() {
       setSocialLinkedin(dist.social_linkedin || '')
       setSocialYoutube(dist.social_youtube || '')
       setSocialOther(dist.social_other || '')
+      setLandingTheme(dist.landing_theme === 'light' ? 'light' : 'dark')
+      setIntroVideoUrl(dist.intro_video_url || '')
       // Load voice profile
       const vp = dist.voice_profile || {}
       // Pre-fill Richard's voice profile if slug is 'richard' and voice_profile is empty
@@ -6092,6 +6200,15 @@ export default function Home() {
       return
     }
     setTelegramError('')
+    // Validate intro_video_url: empty is fine (means "no video"); otherwise
+    // must parse as a known YouTube URL form.
+    const videoTrim = introVideoUrl.trim()
+    if (videoTrim && !extractYouTubeId(videoTrim)) {
+      setIntroVideoError(t.introVideoInvalid)
+      return
+    }
+    setIntroVideoError('')
+    const introVideoForStore = videoTrim || null
     const normalizedLink = rv.normalized
     setProfileReferralLink(normalizedLink)
     setReferralError('')
@@ -6113,7 +6230,7 @@ export default function Home() {
     const voiceProfileData = { experience: voiceExperience, tone: voiceTone, never_say: voiceNeverSay, audience: voiceAudience, example1: voiceExample1, example2: voiceExample2 }
     // Auto-translate if the bio text changed since the last save
     const nextBioTranslations = await refreshBioTranslations(profileBio, distributor.bio, profileName)
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData, landing_theme: landingTheme, intro_video_url: introVideoForStore }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -6129,7 +6246,7 @@ export default function Home() {
       fetch('/api/page-live-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ distributorId: distributor.id }) }).catch(() => {})
     }
     if (!wasLive) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData, landing_theme: landingTheme, intro_video_url: introVideoForStore })
     setSavingProfile(false)
     setProfileSaved(true)
     setTimeout(() => setProfileSaved(false), 3000)
@@ -6155,6 +6272,13 @@ export default function Home() {
       return
     }
     setTelegramError('')
+    const videoTrim2 = introVideoUrl.trim()
+    if (videoTrim2 && !extractYouTubeId(videoTrim2)) {
+      setIntroVideoError(t.introVideoInvalid)
+      return
+    }
+    setIntroVideoError('')
+    const introVideoForStore2 = videoTrim2 || null
     const normalizedLink = rv.normalized
     setProfileReferralLink(normalizedLink)
     setReferralError('')
@@ -6175,7 +6299,7 @@ export default function Home() {
     const voiceProfileData2 = { experience: voiceExperience, tone: voiceTone, never_say: voiceNeverSay, audience: voiceAudience, example1: voiceExample1, example2: voiceExample2 }
     // Auto-translate if the bio text changed since the last save
     const nextBioTranslations2 = await refreshBioTranslations(profileBio, distributor.bio, profileName)
-    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 }).eq('id', distributor.id)
+    const { error } = await supabase.from('distributors').update({ name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2, landing_theme: landingTheme, intro_video_url: introVideoForStore2 }).eq('id', distributor.id)
     if (error) {
       if (error.message?.includes('distributors_slug_key') || error.code === '23505') {
         setSlugError(true)
@@ -6187,7 +6311,7 @@ export default function Home() {
       return
     }
     if (!wasLiveUpdate) showToast('\uD83C\uDF89 Your page is now Live!', 'info')
-    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2 })
+    setDistributor({ ...distributor, name: profileName, bio: profileBio, bio_translations: nextBioTranslations2, slug: profileSlug, profile_image: profileImageValue, referral_link: normalizedLink, direction: profileDirection, landing_active: true, social_telegram: normalizeTelegramHandle(socialTelegram), social_whatsapp: socialWhatsapp ? socialWhatsapp.replace(/[^\d]/g, '') : null, social_tiktok: socialTiktok || null, social_instagram: socialInstagram || null, social_facebook: socialFacebook || null, social_snapchat: socialSnapchat || null, social_linkedin: socialLinkedin || null, social_youtube: socialYoutube || null, social_other: socialOther || null, voice_profile: voiceProfileData2, landing_theme: landingTheme, intro_video_url: introVideoForStore2 })
     setUpdatingProfile(false)
     setUpdateSaved(true)
     setTimeout(() => setUpdateSaved(false), 3000)
@@ -6896,6 +7020,83 @@ export default function Home() {
                   <input className="field-input" value={socialLinkedin} onChange={e => setSocialLinkedin(e.target.value)} onBlur={() => { const v = socialLinkedin.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialLinkedin('https://' + v) }} placeholder="LinkedIn URL" />
                   <input className="field-input" value={socialYoutube} onChange={e => setSocialYoutube(e.target.value)} onBlur={() => { const v = socialYoutube.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialYoutube('https://' + v) }} placeholder={t.youtubeUrl || 'YouTube URL'} />
                   <input className="field-input" value={socialOther} onChange={e => setSocialOther(e.target.value)} onBlur={() => { const v = socialOther.trim(); if (v && !/^https?:\/\//i.test(v)) setSocialOther('https://' + v) }} placeholder={t.otherUrl || 'Other URL'} />
+                </div>
+              </div>
+
+              {/* Personal YouTube intro video — embedded on the landing page
+                  between hero and bio when set. Empty = no video. */}
+              <div className="field-group">
+                <label className="field-label" htmlFor="profile-intro-video">🎥 {t.introVideoLabel}</label>
+                <input
+                  id="profile-intro-video"
+                  type="url"
+                  className="field-input"
+                  value={introVideoUrl}
+                  onChange={e => { setIntroVideoUrl(e.target.value); if (introVideoError) setIntroVideoError('') }}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  style={introVideoError ? { borderColor: '#d44a37' } : undefined}
+                  aria-invalid={!!introVideoError}
+                />
+                <p style={{ margin: '0.4rem 0 0', fontSize: '0.75rem', color: 'var(--text-dim)', lineHeight: 1.55 }}>
+                  {t.introVideoHelper}
+                </p>
+                {introVideoError && (
+                  <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: '#d44a37' }}>{introVideoError}</p>
+                )}
+              </div>
+
+              {/* Landing-page theme — only affects the public /[slug] page,
+                  not the dashboard. */}
+              <div className="field-group" role="radiogroup" aria-label={t.themeLabel}>
+                <label className="field-label">🎨 {t.themeLabel}</label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.6rem', marginTop: '0.4rem' }}>
+                  {([
+                    {
+                      key: 'dark' as const,
+                      label: t.themeDark,
+                      sw: { bg: '#0a0a0a', text: '#f8f8ff', border: 'rgba(201,168,76,0.4)' },
+                    },
+                    {
+                      key: 'light' as const,
+                      label: t.themeLight,
+                      sw: { bg: '#fafaf5', text: '#1a1a1a', border: '#e8dcb8' },
+                    },
+                  ]).map(opt => {
+                    const active = landingTheme === opt.key
+                    return (
+                      <button
+                        key={opt.key}
+                        type="button"
+                        role="radio"
+                        aria-checked={active}
+                        onClick={() => setLandingTheme(opt.key)}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '0.6rem',
+                          padding: '0.6rem 0.75rem',
+                          background: active ? 'rgba(201,168,76,0.10)' : 'transparent',
+                          border: `1px solid ${active ? 'var(--gold)' : 'var(--input-border)'}`,
+                          borderRadius: 10,
+                          cursor: 'pointer',
+                          fontFamily: "'Outfit', sans-serif",
+                          color: active ? 'var(--gold)' : 'var(--text-secondary)',
+                          fontSize: '0.88rem',
+                          textAlign: 'left',
+                          transition: 'border-color .2s, background .2s, color .2s',
+                        }}
+                      >
+                        <span aria-hidden="true" style={{
+                          width: 28, height: 28, borderRadius: 6, flex: '0 0 28px',
+                          background: `linear-gradient(135deg, ${opt.sw.bg} 0%, ${opt.sw.bg} 60%, #c9a84c 60%, #c9a84c 100%)`,
+                          border: `1px solid ${opt.sw.border}`,
+                          boxShadow: active ? '0 0 0 2px rgba(201,168,76,0.18)' : 'none',
+                        }} />
+                        <span style={{ display: 'inline-flex', flexDirection: 'column' }}>
+                          <span style={{ fontWeight: 600 }}>{opt.label}</span>
+                          <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)' }}>{opt.key === 'dark' ? t.themeDarkSub : t.themeLightSub}</span>
+                        </span>
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
