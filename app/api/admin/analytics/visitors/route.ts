@@ -69,13 +69,40 @@ export async function GET(request: Request) {
   if (callerDist?.is_admin === true) isAdmin = true
   if (callerDist?.slug) callerSlug = callerDist.slug
 
-  // 3. Build base query — last 90 days, exclude bots
+  // 3. Resolve the set of real distributor slugs FIRST so we can push the
+  //    junk-slug filter down to the database. landing_visits historically
+  //    captured bot probes for /.env, /xmlrpc.php, etc. — without an
+  //    in-DB filter, those rows count toward the supabase-js default
+  //    1000-row select limit, then get dropped client-side and the
+  //    aggregations silently truncate (DB had 492 valid rows in last 90d,
+  //    UI showed 400 because only the first 1000 raw rows arrived and
+  //    104 valid ones were past the cap). Filtering at the DB layer
+  //    means every byte the client receives is already a real visit.
+  const { data: validSlugRows, error: slugErr } = await supabaseAdmin
+    .from('distributors')
+    .select('slug')
+    .not('slug', 'is', null)
+  if (slugErr) {
+    console.error('[analytics/visitors] distributor slug fetch failed:', slugErr.message)
+    return NextResponse.json(
+      { data: null, error: { code: 'db_error', message: slugErr.message } },
+      { status: 500 }
+    )
+  }
+  const validSlugs = (validSlugRows || [])
+    .map(r => r.slug)
+    .filter((s): s is string => !!s)
+
+  // 4. Build the visit query — last 90 days, exclude bots, restricted to
+  //    real distributor slugs. For non-admin callers the additional
+  //    .eq('slug', callerSlug) narrows it further.
   const ninetyDaysAgo = new Date(Date.now() - NINETY_DAYS_MS).toISOString()
   let query = supabaseAdmin
     .from('landing_visits')
     .select('slug, country, created_at')
     .eq('is_bot', false)
     .gte('created_at', ninetyDaysAgo)
+    .in('slug', validSlugs)
 
   if (!isAdmin) {
     if (!callerSlug) {
@@ -104,25 +131,10 @@ export async function GET(request: Request) {
     )
   }
 
-  // Filter against the set of real distributor slugs. landing_visits
-  // contains historical rows where bots probed paths like /.env,
-  // /xmlrpc.php, /apple-touch-icon.png and got logged under that
-  // pseudo-slug. The Layer A guard in app/[slug]/layout.tsx stops new
-  // junk from being recorded; this filter hides the existing junk from
-  // every aggregation below (totals, countries, perIB, time series) so
-  // all numbers stay consistent with what's visible.
-  const { data: validSlugRows, error: slugErr } = await supabaseAdmin
-    .from('distributors')
-    .select('slug')
-  if (slugErr) {
-    console.error('[analytics/visitors] distributor slug fetch failed:', slugErr.message)
-    return NextResponse.json(
-      { data: null, error: { code: 'db_error', message: slugErr.message } },
-      { status: 500 }
-    )
-  }
-  const validSlugs = new Set((validSlugRows || []).map(r => r.slug).filter((s): s is string => !!s))
-  const rows: VisitRow[] = (visits || []).filter(v => validSlugs.has(v.slug))
+  // Edge case: if validSlugs ended up empty (no distributors with slugs
+  // exist, e.g. fresh install), .in('slug', []) returns 0 rows — which
+  // is the correct behaviour. We bail out fast with the empty shape.
+  const rows: VisitRow[] = visits || []
 
   // 4. Aggregations
   const totalVisits = rows.length
