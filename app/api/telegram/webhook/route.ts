@@ -1,5 +1,3 @@
-// SQL: ALTER TABLE distributors ADD COLUMN IF NOT EXISTS telegram_chat_id text;
-
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
@@ -30,6 +28,7 @@ export async function POST(request: Request) {
     }
 
     const chatId = message.from.id
+    const username = message.from.username || null
     const text = message.text.trim()
 
     if (!text.startsWith('/start')) {
@@ -37,19 +36,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true })
     }
 
-    // Extract distributor id from "/start <payload>"
     const payload = text.replace('/start', '').trim()
     if (!payload) {
       await reply(chatId, '❌ Invalid link. Please use the link from your SYSTM8 dashboard.')
       return NextResponse.json({ ok: true })
     }
 
-    // Look up distributor
+    // Look up distributor by id (the deep-link payload)
     const { data: dist, error } = await supabase
       .from('distributors')
       .select('id, name')
       .eq('id', payload)
-      .single()
+      .maybeSingle()
 
     if (error || !dist) {
       console.log('[telegram-webhook] Distributor not found for payload:', payload)
@@ -57,10 +55,30 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true })
     }
 
-    // Save chat_id to distributor
+    // One Telegram account links to ONE IB.
+    // Clear this chat_id from any OTHER distributor first (fixes duplicates).
+    await supabase
+      .from('distributors')
+      .update({
+        telegram_chat_id: null,
+        telegram_user_id: null,
+        telegram_username: null,
+        telegram_status: 'none',
+        telegram_joined_at: null,
+      })
+      .eq('telegram_chat_id', String(chatId))
+      .neq('id', dist.id)
+
+    // Link this distributor.
     const { error: updateError } = await supabase
       .from('distributors')
-      .update({ telegram_chat_id: String(chatId) })
+      .update({
+        telegram_chat_id: String(chatId),
+        telegram_user_id: chatId,
+        telegram_username: username,
+        telegram_status: 'linked',
+        telegram_joined_at: new Date().toISOString(),
+      })
       .eq('id', dist.id)
 
     if (updateError) {
@@ -69,12 +87,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true })
     }
 
-    console.log('[telegram-webhook] Connected chat_id', chatId, 'to distributor', dist.id, dist.name)
-    await reply(chatId, `✅ You're now connected! You'll receive notifications here.`)
+    console.log('[telegram-webhook] Linked chat_id', chatId, 'to distributor', dist.id, dist.name)
+    await reply(
+      chatId,
+      `✅ <b>Connected!</b>\n\nHi ${dist.name || 'there'} — your SYSTM8 notifications are now active. You'll get a message here when a new lead signs up or gets verified.`
+    )
     return NextResponse.json({ ok: true })
   } catch (err: any) {
     console.error('[telegram-webhook] Error:', err?.message)
-    // Always return 200 to Telegram to prevent retries
     return NextResponse.json({ ok: true })
   }
 }
