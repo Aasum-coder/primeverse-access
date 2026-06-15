@@ -1,4 +1,4 @@
-const CACHE_NAME = 'systm8-v1';
+const CACHE_NAME = 'systm8-v2';
 
 // Assets to precache (app shell)
 const PRECACHE_ASSETS = [
