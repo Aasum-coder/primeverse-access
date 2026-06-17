@@ -92,6 +92,27 @@ function contactAddress(lead: {
   }
 }
 
+// Normalize whatever ends up in leads.browser_locale (often a full
+// Accept-Language header like "nb-NO,nb;q=0.9,en-US;q=0.8,en;q=0.7")
+// down to a single readable 2-letter code. Maps Norwegian Bokmål (nb)
+// onto SYSTM8's "no" so the column lines up with the platform's
+// 9 supported languages: en/no/sv/es/ru/ar/tl/pt/th. Unsupported
+// 2-letter codes (e.g. "fr") still pass through so the IB can see them
+// instead of getting an empty cell.
+const SUPPORTED_LANGS = new Set(['en', 'no', 'sv', 'es', 'ru', 'ar', 'tl', 'pt', 'th'])
+function normalizeLanguage(input: string | null | undefined): string {
+  if (!input) return ''
+  const beforeComma = input.split(/[,;]/)[0] || ''
+  const beforeDash = beforeComma.split('-')[0] || ''
+  const lower = beforeDash.toLowerCase().trim()
+  if (!lower) return ''
+  const mapped = lower === 'nb' ? 'no' : lower
+  if (SUPPORTED_LANGS.has(mapped)) return mapped
+  // Unsupported but still a recognizable 2-letter code — return it
+  // so the IB can spot the locale rather than getting an empty cell.
+  return lower
+}
+
 interface LeadRow {
   name: string | null
   email: string | null
@@ -158,7 +179,7 @@ export async function GET(request: Request) {
       verified ? 'Yes' : 'No',
       csvCell(raw.preferred_contact_channel),
       csvCell(contactAddress(raw)),
-      csvCell(raw.browser_locale),
+      csvCell(normalizeLanguage(raw.browser_locale)),
       isoDate(raw.created_at),
       isoDate(raw.uid_verified_at),
       '', // Source — TODO: follow-up PR persists utm_source + referrer at signup
