@@ -61,6 +61,7 @@ const SYSTM8_LOGO = 'https://rzlbpudnorjqgqsonweg.supabase.co/storage/v1/object/
 const translations: Record<string, Record<string, string>> = {
   en: {
     leadsTab: 'Leads',
+    downloadCsv: 'Download CSV',
     profileTab: 'My profile',
     registerLead: 'Register new lead manually',
     fullName: 'Full name',
@@ -474,6 +475,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   no: {
     leadsTab: 'Leads',
+    downloadCsv: 'Last ned CSV',
     profileTab: 'Min profil',
     registerLead: 'Registrer nytt lead manuelt',
     fullName: 'Fullt navn',
@@ -885,6 +887,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   sv: {
     leadsTab: 'Leads',
+    downloadCsv: 'Ladda ner CSV',
     profileTab: 'Min profil',
     registerLead: 'Registrera nytt lead manuellt',
     fullName: 'Fullständigt namn',
@@ -1296,6 +1299,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   es: {
     leadsTab: 'Leads',
+    downloadCsv: 'Descargar CSV',
     profileTab: 'Mi perfil',
     registerLead: 'Registrar nuevo lead manualmente',
     fullName: 'Nombre completo',
@@ -1707,6 +1711,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   ru: {
     leadsTab: 'Лиды',
+    downloadCsv: 'Скачать CSV',
     profileTab: 'Мой профиль',
     registerLead: 'Зарегистрировать лид вручную',
     fullName: 'Полное имя',
@@ -2118,6 +2123,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   ar: {
     leadsTab: 'العملاء المحتملون',
+    downloadCsv: 'تنزيل CSV',
     profileTab: 'ملفي الشخصي',
     registerLead: 'تسجيل عميل محتمل يدوياً',
     fullName: 'الاسم الكامل',
@@ -2529,6 +2535,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   tl: {
     leadsTab: 'Leads',
+    downloadCsv: 'I-download ang CSV',
     profileTab: 'Aking profile',
     registerLead: 'Mag-register ng bagong lead',
     fullName: 'Buong pangalan',
@@ -2940,6 +2947,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   pt: {
     leadsTab: 'Leads',
+    downloadCsv: 'Baixar CSV',
     profileTab: 'Meu perfil',
     registerLead: 'Registrar novo lead manualmente',
     fullName: 'Nome completo',
@@ -3351,6 +3359,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   th: {
     leadsTab: 'ลีด',
+    downloadCsv: 'ดาวน์โหลด CSV',
     profileTab: 'โปรไฟล์ของฉัน',
     registerLead: 'ลงทะเบียนลีดใหม่ด้วยตนเอง',
     fullName: 'ชื่อ-นามสกุล',
@@ -5965,6 +5974,44 @@ export default function Home() {
   }, [distributor?.id, activeTab, chartPeriod])
 
 
+  const [exportingCsv, setExportingCsv] = useState(false)
+  const exportLeadsCsv = async () => {
+    if (exportingCsv) return
+    setExportingCsv(true)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const token = session?.access_token
+      if (!token) { showToast(t.errorPrefix + 'Please sign in again to download'); return }
+      const res = await fetch('/api/leads/export-csv', {
+        headers: { 'Authorization': `Bearer ${token}` },
+      })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        showToast(t.errorPrefix + (body?.error || `HTTP ${res.status}`))
+        return
+      }
+      // Pull the suggested filename out of Content-Disposition; if it
+      // isn't there for any reason, fall back to a sane default.
+      const dispo = res.headers.get('Content-Disposition') || ''
+      const m = dispo.match(/filename="?([^"]+)"?/i)
+      const filename = m?.[1] || `leads-${new Date().toISOString().slice(0, 10)}.csv`
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      showToast(t.errorPrefix + msg)
+    } finally {
+      setExportingCsv(false)
+    }
+  }
+
   const addLead = async () => {
     if (!distributor || !leadName || !leadEmail || !leadUid) { showToast(t.fillAll); return }
     setSubmitting(true)
@@ -6831,6 +6878,27 @@ export default function Home() {
                 </div>
               )
             })()}
+
+            {/* Per-IB CSV export of this distributor's leads. Auth via
+                Bearer; the route resolves the distributor from the session
+                and returns only their rows. */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '0.75rem' }}>
+              <button
+                type="button"
+                onClick={exportLeadsCsv}
+                disabled={exportingCsv || leads.length === 0}
+                aria-busy={exportingCsv}
+                className="gold-btn gold-btn-sm"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                {exportingCsv ? '…' : t.downloadCsv}
+              </button>
+            </div>
 
             <div style={{ marginBottom: '2rem' }}>
               <h3 className="section-header">
